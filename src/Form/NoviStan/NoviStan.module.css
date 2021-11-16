@@ -1,0 +1,10 @@
+.formaStana {
+  display: flex;
+  justify-content: center;
+  margin: 40px;
+  max-width: 100%;
+}
+
+/* .buttonInput {
+  margin: 10px;
+} */

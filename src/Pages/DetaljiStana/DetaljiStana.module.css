@@ -1,0 +1,14 @@
+.flat-details {
+  padding: 32px;
+  display: flex;
+}
+
+.images {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.textLabel {
+  font-weight: bold;
+}

@@ -1,0 +1,44 @@
+.mainlayoutlogo {
+  width: 85px;
+  height: 15px;
+}
+
+.header {
+  position: fixed;
+  width: 100%;
+}
+
+.siteLayoutBackground {
+  background: #fff;
+}
+
+.mainLayoutFooter {
+  text-align: center;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
+
+.mainlayoutlogo {
+  width: 85px;
+  height: 15px;
+}
+
+.layoutHeader {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+}
+
+.headerPages {
+  height: 100%;
+  width: 100%;
+}
+
+.userButton {
+  margin: 5px;
+}
+.logOutButton {
+  margin: 5px;
+}
