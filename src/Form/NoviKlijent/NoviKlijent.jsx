@@ -5,6 +5,7 @@ import { UserOutlined } from '@ant-design/icons';
 import { Option } from 'antd/lib/mentions';
 import { api } from 'api/api';
 import 'antd/dist/antd.css';
+import { toast } from 'react-toastify';
 
 function NoviKlijent(props) {
   const url = '/kupci/kreiraj-kupca/';
@@ -37,6 +38,7 @@ function NoviKlijent(props) {
         console.log(res.data);
         props.closeModal(); ////zatvaranje modala
         props.fetchUsers(); /////upload stranice
+        toast.success('Uspesno ste izmenili podatke');
       });
   }
 

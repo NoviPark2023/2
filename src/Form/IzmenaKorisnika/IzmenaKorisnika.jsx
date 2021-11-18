@@ -5,6 +5,7 @@ import { UserOutlined } from '@ant-design/icons';
 import { Option } from 'antd/lib/mentions';
 import { api } from 'api/api';
 import 'antd/dist/antd.css';
+import { toast } from 'react-toastify';
 
 function IzmenaKorisnika(propskorisnika) {
   const [form] = Form.useForm();
@@ -30,6 +31,7 @@ function IzmenaKorisnika(propskorisnika) {
       .then(res => {
         propskorisnika.closeModal();
         propskorisnika.getData();
+        toast.success('Uspesno ste izmenili podatke');
       })
       .catch(e => {
         propskorisnika.closeModal();

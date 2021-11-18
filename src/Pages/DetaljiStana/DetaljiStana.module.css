@@ -1,6 +1,7 @@
 .flat-details {
   padding: 32px;
   display: flex;
+  margin: 10px;
 }
 
 .images {
@@ -11,4 +12,11 @@
 
 .textLabel {
   font-weight: bold;
+  box-shadow: 10px 10px 10px grey;
+}
+
+.card {
+  width: 50%;
+  margin: 15px;
+  box-shadow: 10px 10px 10px grey;
 }

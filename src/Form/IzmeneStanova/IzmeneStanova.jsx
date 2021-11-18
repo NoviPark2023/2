@@ -4,6 +4,7 @@ import FormItem from 'antd/lib/form/FormItem';
 import { Option } from 'antd/lib/mentions';
 import 'antd/dist/antd.css';
 import { api } from 'api/api';
+import { toast } from 'react-toastify';
 
 function IzmeneStanova(propsstan) {
   const [form] = Form.useForm();
@@ -37,6 +38,7 @@ function IzmeneStanova(propsstan) {
       .then(res => {
         propsstan.closeModal();
         propsstan.getData();
+        toast.success('Uspesno ste izmenili podatke');
       })
       .catch(e => {
         propsstan.closeModal();
