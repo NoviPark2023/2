@@ -246,7 +246,7 @@ function PregledKlijenta() {
             okText="DA"
             cancelText="NE"
           >
-            <p>Da li ste sigurni da želite da obrisete stan?</p>
+            <p>Da li ste sigurni da želite da obrisete klijenta?</p>
           </Modal>
         </>
       ),
