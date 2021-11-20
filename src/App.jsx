@@ -10,7 +10,7 @@ import Stanovi from 'Pages/Stanovi/Stanovi';
 import PregledPonuda from 'Tabele/PregledPonuda/PregledPonuda';
 import NovaPonuda from 'Form/NovaPonuda/NovaPonuda';
 import DetaljiStana from 'Pages/DetaljiStana/DetaljiStana';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const loginContext = createContext(null);
@@ -49,7 +49,7 @@ function App() {
             <Route exact path="/novaponuda" component={NovaPonuda}></Route>
           </Switch>
         </MainLayout>
-        <ToastContainer position="bottom-right" autoClose={3000} />
+        <ToastContainer position="bottom-right" autoClose={2500} />
       </loginContext.Provider>
     </div>
   );

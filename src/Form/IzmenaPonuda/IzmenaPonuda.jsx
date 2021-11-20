@@ -5,7 +5,7 @@ import { UserOutlined } from '@ant-design/icons';
 import { Option } from 'antd/lib/mentions';
 import 'antd/dist/antd.css';
 import { api } from 'api/api';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 function IzmenaPonuda(propsponuda) {
   const [form] = Form.useForm();
@@ -144,7 +144,7 @@ function IzmenaPonuda(propsponuda) {
           rules={[
             {
               required: true,
-              message: 'Unesite datum napomena!',
+              message: ' Napomena!',
             },
           ]}
         >
@@ -186,7 +186,7 @@ function IzmenaPonuda(propsponuda) {
         <Form.Item>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button onClick={updateOffers} type="primary" htmlType="submit">
-              Izmeni ponudu
+              Sacuvaj
             </Button>
 
             <Button type="danger" onClick={() => propsponuda.closeModal()} htmlType="submit">

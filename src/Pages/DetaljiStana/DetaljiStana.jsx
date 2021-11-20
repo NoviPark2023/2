@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Descriptions, Button, Modal } from 'antd';
+import { Card, Descriptions, Button, Modal, Row, Col } from 'antd';
 import { api } from 'api/api';
 import IzmeneStanova from 'Form/IzmeneStanova/IzmeneStanova';
 import styles from './DetaljiStana.module.css';
@@ -79,7 +79,7 @@ function DetaljiStana(props) {
               Izmeni
             </Button>
           }
-          style={{ width: '50%' }}
+          style={{ width: '50%', margin: '15px' }}
         >
           <Descriptions layout="horizontal">
             <Descriptions.Item label="Lamela">{data.lamela}</Descriptions.Item>
@@ -101,7 +101,7 @@ function DetaljiStana(props) {
           </Descriptions>
         </Card>
 
-        <Card title="Slike stana" style={{ width: '50%' }}>
+        <Card className={styles.card} title="Slike stana">
           <div className={styles.images}>
             <h3>Trenutno nema unetih slika za ovaj stan.</h3>
           </div>

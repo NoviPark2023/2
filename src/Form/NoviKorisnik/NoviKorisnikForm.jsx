@@ -5,6 +5,7 @@ import { UserOutlined } from '@ant-design/icons';
 import { Option } from 'antd/lib/mentions';
 import { api } from 'api/api';
 import 'antd/dist/antd.css';
+import { toast } from 'react-toastify';
 
 function NoviKorisnik(props) {
   const url = '/korisnici/kreiraj-korisnika/';
@@ -36,6 +37,7 @@ function NoviKorisnik(props) {
         console.log(res.data);
         props.closeModal(); ////zatvaranje modala
         props.fetchUsers(); /////upload stranice
+        toast.success('Uspesno ste izmenili podatke');
       });
   }
 
