@@ -54,7 +54,7 @@ function DetaljiStana(props) {
   }, []);
 
   if (loading) return <div>Loading...</div>;
-  //test
+
   if (error) {
     return (
       <div>
