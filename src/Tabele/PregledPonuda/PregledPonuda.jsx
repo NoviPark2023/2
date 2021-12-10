@@ -32,7 +32,7 @@ const PregledPonuda = () => {
   const getListaPonuda = () => {
     api.get(`/ponude/lista-ponuda-stana/${id}/`).then(res => {
       console.log({ ...res.data, cena_stana: price });
-      setSelectedPonude(res.data);
+      setSelectedPonude(res.data.results);
     });
   };
   ////api za brisanje ponude

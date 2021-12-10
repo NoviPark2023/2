@@ -45,7 +45,8 @@ function PregledStanova() {
   //// API lista stanova
   const getData = async () => {
     api.get('/stanovi/').then(res => {
-      setData(res.data);
+      // console.log(res);
+      setData(res.data.results);
     });
   };
 
@@ -405,7 +406,7 @@ function PregledStanova() {
         </Button>
       </div>
 
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: [5] }}></Table>
+      <Table columns={columns} dataSource={data} pagination={{ pageSize: [4] }}></Table>
 
       <Modal title="Izmeni" visible={isEditPlaceVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <IzmeneStanova edit propsstan={selectedPlace} getData={getData} closeModal={() => showModal(false)} />
