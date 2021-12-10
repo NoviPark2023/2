@@ -50,7 +50,7 @@ function PregledKorisnika() {
   ////Api Lista Korisnika
   const getData = async () => {
     api.get('/korisnici/').then(res => {
-      setData(res.data);
+      setData(res.data.results);
     });
   };
   //////api detalji korisnika

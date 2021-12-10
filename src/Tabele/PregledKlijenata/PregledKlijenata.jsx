@@ -51,7 +51,7 @@ function PregledKlijenta() {
   //// API lista klijenata
   const getData = async () => {
     api.get('/kupci/').then(res => {
-      setData(res.data);
+      setData(res.data.results);
     });
   };
 

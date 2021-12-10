@@ -4,7 +4,7 @@ import getToken from 'utils/getToken';
 const axiosConfig = {
   baseURL: process.env.REACT_APP_API_PATH,
   timeout: 30000,
-  headers: { Authorization: `Bearer ${getToken()}` },
+  headers: { Authorization: `JWT ${getToken()}` },
 };
 
 export const api = axios.create(axiosConfig);

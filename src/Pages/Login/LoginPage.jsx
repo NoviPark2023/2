@@ -29,7 +29,7 @@ function LoginPage() {
       setErrorMessage('Uneli ste pogrešne podatke!');
       return;
     }
-    sessionStorage.setItem('Token', res.data.token);
+    sessionStorage.setItem('Token', res.data.access);
     setIsLoggedIn(true);
 
     setLoading(false);
