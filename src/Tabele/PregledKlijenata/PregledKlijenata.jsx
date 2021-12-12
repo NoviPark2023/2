@@ -6,6 +6,7 @@ import IzmeneKlijenta from 'Form/IzmeneKlijenta/IzmeneKlijenta';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 import style from './PregledKlijenata.module.css';
+import { Link } from 'react-router-dom';
 
 function PregledKlijenta() {
   const [modalTaskId, setModalTaskId] = useState(null);
@@ -196,11 +197,17 @@ function PregledKlijenta() {
       dataIndex: 'adresa',
       ...getColumnSearchProps('adresa'),
     },
-    // {
-    //   title: 'Detalji',
-    //   key: '9',
-    //   render: (text, record) => <Button onClick={() => getItem(record.id_kupca)}>Detalji</Button>,
-    // },
+    {
+      title: 'Detalji',
+      key: '9',
+      render: (text, record) => (
+        <Link to={`/klijenti/${record.id_kupca}`}>
+          <Button style={{ color: 'blue', border: '1px solid black' }} onClick={() => getItem(record.id_kupca)}>
+            Detalji
+          </Button>
+        </Link>
+      ),
+    },
     {
       key: '8',
       title: 'Izmeni',

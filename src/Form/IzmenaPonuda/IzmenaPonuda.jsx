@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Button, Form, Select, AutoComplete } from 'antd';
+import { Input, Button, Form, Select, AutoComplete, DatePicker, Space } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { UserOutlined } from '@ant-design/icons';
 import { Option } from 'antd/lib/mentions';
@@ -128,18 +128,20 @@ function IzmenaPonuda(propsponuda) {
         </FormItem>
         <FormItem
           label="Datum ugovora"
-          name="datum_ugovora"
+          name="datum"
           rules={[
             {
               required: true,
-              message: 'Unesite datum ugovora!',
+              message: ' Unesite datum!',
             },
           ]}
         >
-          <Input id="datum_ugovora" size="default" placeholder="datum ugovora" />
+          <Space direction="vertical" size={12}>
+            <DatePicker format={'DD.MM.YYYY'} renderExtraFooter={() => 'extra footer'} />
+          </Space>
         </FormItem>
         <FormItem
-          label=" napomena"
+          label=" Napomena"
           name="napomena"
           rules={[
             {

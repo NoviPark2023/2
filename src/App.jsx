@@ -12,6 +12,7 @@ import NovaPonuda from 'Form/NovaPonuda/NovaPonuda';
 import DetaljiStana from 'Pages/DetaljiStana/DetaljiStana';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import DetaljiKlijenta from 'Pages/DetaljiKlijenta/DetaljiKlijenta';
 
 export const loginContext = createContext(null);
 
@@ -44,6 +45,7 @@ function App() {
             <Route exact path="/stanovi" component={PregledStanova}></Route>
             <Route exact path="/stanovi/:id" component={DetaljiStana}></Route>
             <Route exact path="/klijenti" component={PregledKlijenta}></Route>
+            <Route exact path="/klijenti/:id" component={DetaljiKlijenta}></Route>
             <Route exact path="/novistan" component={NoviStan}></Route>
             <Route exact path="/ponude" component={PregledPonuda}></Route>
             <Route exact path="/novaponuda" component={NovaPonuda}></Route>
