@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import style from './MainLayout.module.css';
 import 'antd/dist/antd.css';
 import { Button, Layout, Menu, Modal } from 'antd';
 import logo from 'assets/logo.png';
-import { loginContext } from 'App';
+// import { loginContext } from 'App';
 import { Link, useHistory } from 'react-router-dom';
 
 const { Header, Content, Footer } = Layout;
@@ -68,7 +68,8 @@ const AppFooter = () => (
   </div>
 );
 function MainLayout({ children, isLoggedIn, logOut }) {
-  const { logUser } = useContext(loginContext);
+  // const { logUser } = useContext(loginContext);
+  let logUser = sessionStorage.getItem('user');
 
   return (
     <div>
@@ -78,7 +79,7 @@ function MainLayout({ children, isLoggedIn, logOut }) {
         <div className={style.siteLayout}>
           <Content>{children}</Content>
         </div>
-        <Footer>{isLoggedIn && <AppFooter loggedUser={logUser} />}</Footer>
+        <Footer>{isLoggedIn && <AppFooter />}</Footer>
       </Layout>
     </div>
   );

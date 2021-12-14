@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Button, Form, Select } from 'antd';
+import { Input, Button, Form, Select, Space, DatePicker } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { UserOutlined } from '@ant-design/icons';
 import { Option } from 'antd/lib/mentions';
@@ -70,15 +70,18 @@ function NovaPonuda() {
           <Input size="default" placeholder="Broj ugovora" />
         </FormItem>
         <FormItem
+          label="Datum ugovora"
           name="datum_ugovora"
           rules={[
             {
               required: true,
-              message: 'Unesite datum ugovora',
+              message: ' Unesite datum!',
             },
           ]}
         >
-          <Input size="default" placeholder="Datum ugovora" />
+          <Space direction="vertical" size={12}>
+            <DatePicker format={'DD.MM.YYYY'} renderExtraFooter={() => 'extra footer'} />
+          </Space>
         </FormItem>
 
         <FormItem
