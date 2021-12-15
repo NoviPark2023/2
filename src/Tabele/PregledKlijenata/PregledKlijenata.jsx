@@ -5,7 +5,6 @@ import NoviKlijent from 'Form/NoviKlijent/NoviKlijent';
 import IzmeneKlijenta from 'Form/IzmeneKlijenta/IzmeneKlijenta';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
-import style from './PregledKlijenata.module.css';
 import { Link } from 'react-router-dom';
 
 function PregledKlijenta() {
@@ -267,12 +266,12 @@ function PregledKlijenta() {
 
   return (
     <div>
-      <div className={style.button}>
+      <div style={{ margin: 20 }}>
         <Button type="primary" onClick={() => showModal(true)}>
           Dodaj Novog Klijenta
         </Button>
       </div>
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: [5] }}></Table>
+      <Table columns={columns} dataSource={data} pagination={{ pageSize: [4] }}></Table>
 
       <Modal title="Novi Klijent" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <NoviKlijent closeModal={() => showModal(false)} fetchUsers={getData} />

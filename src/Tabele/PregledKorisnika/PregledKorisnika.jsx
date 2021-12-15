@@ -5,7 +5,6 @@ import NoviKorisnikForm from 'Form/NoviKorisnik/NoviKorisnikForm';
 import IzmenaKorisnika from 'Form/IzmenaKorisnika/IzmenaKorisnika';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
-import style from './PregledKorisnika.module.css';
 
 function PregledKorisnika() {
   const [modalTaskId, setModalTaskId] = useState(null);
@@ -259,12 +258,12 @@ function PregledKorisnika() {
 
   return (
     <div>
-      <div className={style.button}>
+      <div style={{ margin: 20 }}>
         <Button type="primary" onClick={() => showModal(true)}>
           Dodaj Novog Korisnika
         </Button>
       </div>
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: [5] }}></Table>
+      <Table columns={columns} dataSource={data} pagination={{ pageSize: [4] }}></Table>
       <Modal title="Novi Korisnik" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <NoviKorisnikForm closeModal={() => showModal(false)} fetchUsers={() => getData()} />
       </Modal>

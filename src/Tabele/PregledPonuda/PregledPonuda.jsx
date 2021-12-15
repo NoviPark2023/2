@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Popconfirm, Input, Space } from 'antd';
 import IzmenaPonuda from 'Form/IzmenaPonuda/IzmenaPonuda';
-import style from './PregledPonuda.module.css';
 import { useLocation } from 'react-router';
 import { api } from 'api/api';
 import IzmeneKlijenta from 'Form/IzmeneKlijenta/IzmeneKlijenta';
@@ -303,7 +302,7 @@ const PregledPonuda = () => {
 
   return (
     <div>
-      <div className={style.button}>
+      <div style={{ margin: 20 }}>
         <Button type="primary" onClick={() => setIsCreateModalVisible(true)}>
           Dodaj Novu Ponudu
         </Button>

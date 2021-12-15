@@ -29,7 +29,9 @@ function LoginPage() {
       setErrorMessage('Uneli ste pogrešne podatke!');
       return;
     }
+
     sessionStorage.setItem('Token', res.data.access);
+    sessionStorage.setItem('user', values.username);
     setIsLoggedIn(true);
 
     setLoading(false);
@@ -65,6 +67,7 @@ function LoginPage() {
       >
         <FormItem
           name="username"
+          normalize={value => value.trim()}
           rules={[
             {
               required: true,
@@ -72,7 +75,7 @@ function LoginPage() {
             },
           ]}
         >
-          <Input size="default" placeholder="Korisničko ime" prefix={<UserOutlined />} />
+          <Input trim size="default" placeholder="Korisničko ime" prefix={<UserOutlined />} />
         </FormItem>
         <FormItem
           name="password"

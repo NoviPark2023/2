@@ -74,8 +74,10 @@ function IzmenaPonuda(propsponuda) {
 
     const request = propsponuda.edit ? api.put : api.post;
 
+    console.log(form.getFieldValue());
     request(endpoint, {
       ...form.getFieldValue(),
+
       kupac: clientId,
       stan: propsponuda.propsponuda.stan,
     })
@@ -94,14 +96,24 @@ function IzmenaPonuda(propsponuda) {
   return (
     <div>
       <Form layout="vertical" form={form}>
-        <AutoComplete
-          options={clientOptions}
-          style={{ width: 300 }}
-          onSelect={onClientSelect}
-          onChange={value => setClientName(value)}
-          placeholder="Pretrazi klijente"
-          value={clientName}
-        />
+        <FormItem
+          label="Ime kupca"
+          rules={[
+            {
+              required: true,
+              message: 'Unesite kupca!',
+            },
+          ]}
+        >
+          <AutoComplete
+            options={clientOptions}
+            style={{ width: 300 }}
+            onSelect={onClientSelect}
+            onChange={value => setClientName(value)}
+            placeholder="Pretrazi klijente"
+            value={clientName}
+          />
+        </FormItem>
         <FormItem
           label="Cena ponude"
           name="cena_stana_za_kupca"
@@ -128,7 +140,7 @@ function IzmenaPonuda(propsponuda) {
         </FormItem>
         <FormItem
           label="Datum ugovora"
-          name="datum"
+          name="datum_ugovora"
           rules={[
             {
               required: true,
@@ -137,7 +149,14 @@ function IzmenaPonuda(propsponuda) {
           ]}
         >
           <Space direction="vertical" size={12}>
-            <DatePicker format={'DD.MM.YYYY'} renderExtraFooter={() => 'extra footer'} />
+            <DatePicker
+              onChange={(val, string) => {
+                form.setFieldsValue({ datum_ugovora: string });
+              }}
+              // onOK={form.getFieldsValue().datum_ugovora}
+              format={'DD.MM.YYYY'}
+            />
+            {/* {console.log(form.getFieldsValue().datum_ugovora)} */}
           </Space>
         </FormItem>
         <FormItem

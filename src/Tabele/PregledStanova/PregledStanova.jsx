@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { api } from 'api/api';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
-import style from './PregledStanova.module.css';
 
 function PregledStanova() {
   //// modal brisanje
@@ -395,7 +394,7 @@ function PregledStanova() {
 
   return (
     <div>
-      <div className={style.button}>
+      <div style={{ margin: 20 }}>
         <Button
           type="primary"
           onClick={() => {
