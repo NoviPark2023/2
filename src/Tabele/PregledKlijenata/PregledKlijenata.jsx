@@ -271,6 +271,7 @@ function PregledKlijenta() {
           Dodaj Novog Klijenta
         </Button>
       </div>
+
       <Table columns={columns} dataSource={data} pagination={{ pageSize: [4] }}></Table>
 
       <Modal title="Novi Klijent" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>

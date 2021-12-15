@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Popconfirm, Input, Space } from 'antd';
 import IzmenaPonuda from 'Form/IzmenaPonuda/IzmenaPonuda';
@@ -24,13 +25,12 @@ const PregledPonuda = () => {
 
   const [setPonude, setSelectedPonude] = useState('');
   const [isClientVisible, setIsClientVisible] = useState(false);
-  const [selectedBuyer, setSelectedBuyer] = useState(null);
+  const [selectedBuyer] = useState(null);
   const [ponuda, setPonuda] = useState(null);
 
   ///ponude stana
   const getListaPonuda = () => {
     api.get(`/ponude/lista-ponuda-stana/${id}/`).then(res => {
-      console.log({ ...res.data, cena_stana: price });
       setSelectedPonude(res.data.results);
     });
   };
@@ -47,15 +47,15 @@ const PregledPonuda = () => {
   ////modal izmeni
   const [isModalVisible, setIsModalVisible] = useState(false);
   ////popconfirm delete button
-  const [visible, setVisible] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [confirmLoading, setVisible] = useState(false);
+  // const [confirmLoading, setConfirmLoading] = useState(false);
 
-  const previewBuyer = id => {
-    api.get(`/kupci/detalji-kupca/${id}/`).then(response => {
-      setSelectedBuyer(response.data);
-      setIsClientVisible(true);
-    });
-  };
+  // const previewBuyer = id => {
+  //   api.get(`/kupci/detalji-kupca/${id}/`).then(response => {
+  //     setSelectedBuyer(response.data);
+  //     setIsClientVisible(true);
+  //   });
+  // };
 
   // const showPopconfirm = () => {
   //   setVisible(true);
@@ -161,7 +161,7 @@ const PregledPonuda = () => {
       key: '2',
       title: 'Kupac',
       dataIndex: 'kupac',
-      render: (text, record) => <a onClick={() => previewBuyer(record.kupac)}>{record.kupac}</a>,
+      // render: (text, record) => <a onClick={() => previewBuyer(record.kupac)}>{record.kupac}</a>,
       ...getColumnSearchProps('kupac'),
     },
     {

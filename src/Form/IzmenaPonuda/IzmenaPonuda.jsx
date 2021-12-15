@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { Input, Button, Form, Select, AutoComplete, DatePicker, Space } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
@@ -74,7 +75,6 @@ function IzmenaPonuda(propsponuda) {
 
     const request = propsponuda.edit ? api.put : api.post;
 
-    console.log(form.getFieldValue());
     request(endpoint, {
       ...form.getFieldValue(),
 

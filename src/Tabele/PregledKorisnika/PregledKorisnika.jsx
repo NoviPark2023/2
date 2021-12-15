@@ -53,11 +53,11 @@ function PregledKorisnika() {
     });
   };
   //////api detalji korisnika
-  const getDetails = id => {
-    api.get(`/korisnici/detalji-korisnika/${id}/`).then(res => {
-      getData();
-    });
-  };
+  // const getDetails = id => {
+  //   api.get(`/korisnici/detalji-korisnika/${id}/`).then(res => {
+  //     getData();
+  //   });
+  // };
 
   ///api za brisanje korisnika
   const deleteKorisnika = id => {
