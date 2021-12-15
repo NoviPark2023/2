@@ -18,7 +18,7 @@ function PregledStanova() {
   const [selectedPlace, setSelectedPlace] = useState('');
 
   ///api za dovlacenje ponuda
-  const [setPonude, setSelectedPonude] = useState('');
+  const [, setSelectedPonude] = useState('');
 
   ///modal za dodaj
   const showModal = id => {
