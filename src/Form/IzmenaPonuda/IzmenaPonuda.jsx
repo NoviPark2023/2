@@ -45,6 +45,7 @@ function IzmenaPonuda(propsponuda) {
         nacin_placanja: ponuda.nacin_placanja,
         status_ponude: ponuda.status_ponude,
         napomena: ponuda.napomena,
+        stan: ponuda.stan_id,
       });
 
       getSelectedClient(propsponuda.propsponuda.kupac);
@@ -74,7 +75,7 @@ function IzmenaPonuda(propsponuda) {
       : '/ponude/kreiraj-ponudu/';
 
     const request = propsponuda.edit ? api.put : api.post;
-
+    console.log(propsponuda.propsponuda.stan_id, 'ovde');
     request(endpoint, {
       ...form.getFieldValue(),
 

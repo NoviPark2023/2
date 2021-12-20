@@ -32,7 +32,6 @@ function DetaljiKlijenta(props) {
       .get(`/kupci/detalji-kupca/${id}/`)
       .then(response => {
         setData(response.data);
-        console.log(response.data);
       })
       .catch(onFecthError)
       .finally(() => setLoading(false));
