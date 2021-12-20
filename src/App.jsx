@@ -51,6 +51,7 @@ function App() {
             <Route exact path="/novaponuda" component={NovaPonuda}></Route>
           </Switch>
         </MainLayout>
+
         <ToastContainer position="bottom-right" autoClose={2500} />
       </loginContext.Provider>
     </div>
