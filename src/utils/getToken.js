@@ -1,3 +1,3 @@
 export default function getToken() {
-  return `JWT ${sessionStorage.getItem('Token')}`;
+  return `Bearer ${sessionStorage.getItem('Token')}`;
 }

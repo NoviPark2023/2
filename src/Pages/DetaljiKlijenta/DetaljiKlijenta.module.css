@@ -1,6 +1,7 @@
 .flat-details {
   padding: 32px;
   display: flex;
+  justify-content: center;
   margin: 10px;
 }
 
@@ -17,6 +18,6 @@
 
 .card {
   width: 50%;
-  margin: 15px;
+  /* margin: 15px; */
   box-shadow: 10px 10px 10px grey;
 }

@@ -265,16 +265,16 @@ function PregledStanova() {
       dataIndex: 'broj_terasa',
       filters: [
         {
-          text: '1-2',
-          value: [1, 2],
+          text: '0',
+          value: [0],
         },
         {
-          text: '3-4',
-          value: [3, 4],
+          text: '1',
+          value: [1],
         },
         {
-          text: '4-6',
-          value: [4, 6],
+          text: '2',
+          value: [2],
         },
       ],
       onFilter: (value, record) => record.broj_terasa >= value[0] && record.broj_terasa <= value[1],
