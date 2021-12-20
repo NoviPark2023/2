@@ -44,7 +44,6 @@ function PregledStanova() {
   //// API lista stanova
   const getData = async () => {
     api.get('/stanovi/').then(res => {
-      // console.log(res);
       setData(res.data.results);
     });
   };
