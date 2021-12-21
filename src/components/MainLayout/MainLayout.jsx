@@ -3,14 +3,13 @@ import style from './MainLayout.module.css';
 import 'antd/dist/antd.css';
 import { Button, Layout, Menu, Modal } from 'antd';
 import logo from 'assets/logo.png';
-// import { loginContext } from 'App';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, HashRouter } from 'react-router-dom';
 
 const { Header, Content, Footer } = Layout;
 
 const AppHeader = ({ loggedUser, logOut }) => {
   const [visible, setVisible] = useState(false);
-  const history = useHistory();
+  const history = HashRouter;
 
   const confirmSignout = e => {
     logOut();
