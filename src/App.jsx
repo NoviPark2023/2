@@ -41,14 +41,14 @@ function App() {
             <GuardedRoute exact path="/" auth={isLoggedIn} logIn={logIn} component={Stanovi}>
               <LoginPage />
             </GuardedRoute>
-            <Route path="/korisnici" component={PregledKorisnika}/>
-            <Route path="/stanovi" component={PregledStanova}/>
-            <Route path="/stanovi/:id" component={DetaljiStana}/>
-            <Route path="/klijenti" component={PregledKlijenta}/>
-            <Route path="/klijenti/:id" component={DetaljiKlijenta}/>
-            <Route path="/novistan" component={NoviStan}/>
-            <Route path="/ponude" component={PregledPonuda}/>
-            <Route path="/novaponuda" component={NovaPonuda}/>
+            <Route exact path="/korisnici" component={PregledKorisnika}></Route>
+            <Route exact path="/stanovi" component={PregledStanova}></Route>
+            <Route exact path="/stanovi/:id" component={DetaljiStana}></Route>
+            <Route exact path="/klijenti" component={PregledKlijenta}></Route>
+            <Route exact path="/klijenti/:id" component={DetaljiKlijenta}></Route>
+            <Route exact path="/novistan" component={NoviStan}></Route>
+            <Route exact path="/ponude" component={PregledPonuda}></Route>
+            <Route exact path="/novaponuda" component={NovaPonuda}></Route>
           </Switch>
         </MainLayout>
 
