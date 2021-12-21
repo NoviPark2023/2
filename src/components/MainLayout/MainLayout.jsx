@@ -75,7 +75,7 @@ function MainLayout({ children, isLoggedIn, logOut }) {
     <div>
       <Layout>
         {isLoggedIn && <AppHeader logOut={logOut} loggedUser={logUser} />}
-        {isLoggedIn && <div className={style.header}></div>}
+        {isLoggedIn && <div className={style.header}/>}
         <div className={style.siteLayout}>
           <Content>{children}</Content>
         </div>
