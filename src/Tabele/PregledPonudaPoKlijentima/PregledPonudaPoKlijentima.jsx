@@ -5,7 +5,6 @@ import { api } from 'api/api';
 import IzmeneKlijenta from 'Form/IzmeneKlijenta/IzmeneKlijenta';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
-import { getAllJSDocTags } from 'typescript';
 
 const PAYMENT_TYPE_LABELS = {
   ceo_iznos: 'CEO IZNOS',
