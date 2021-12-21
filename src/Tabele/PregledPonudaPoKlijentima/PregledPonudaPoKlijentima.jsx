@@ -21,7 +21,6 @@ const PregledPonudaPoKlijentima = tableItems => {
   //api za brisanje ponude
   const deletePonuda = id_ponude => {
     api.delete(`/ponude/obrisi-ponudu/${id_ponude}/`).then(res => {});
-    console.log(id_ponude, 'pobude');
   };
 
   ////modal izmeni
@@ -119,9 +118,9 @@ const PregledPonudaPoKlijentima = tableItems => {
 
     {
       key: '2',
-      title: 'Stan',
-      dataIndex: 'stan',
-      ...getColumnSearchProps('stan'),
+      title: ' Adresa stana',
+      dataIndex: 'adresa_stana',
+      ...getColumnSearchProps('adresa_stana'),
     },
     {
       key: '3',
@@ -219,7 +218,7 @@ const PregledPonudaPoKlijentima = tableItems => {
             type="primary"
             onClick={() => {
               showModal(true);
-              setPonuda(record);
+              setPonuda({ ...record, stan: record.stan_id });
             }}
           >
             Izmeni
