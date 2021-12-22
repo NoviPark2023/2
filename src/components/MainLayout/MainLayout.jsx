@@ -80,18 +80,26 @@ const AppFooter = () => (
   </div>
 );
 function MainLayout({ children, isLoggedIn, logOut }) {
-  // const { logUser } = useContext(loginContext);
   let logUser = sessionStorage.getItem('user');
 
   return (
     <div>
       <Layout>
         {isLoggedIn && <AppHeader logOut={logOut} loggedUser={logUser} />}
-        {isLoggedIn && <div className={style.header}></div>}
-        <div className={style.siteLayout}>
+        {isLoggedIn && <div className={style.header}/>}
+        <div className={style.header}>
           <Content>{children}</Content>
         </div>
-        <Footer>{isLoggedIn && <AppFooter />}</Footer>
+
+        <Footer style={{
+            borderTop: '1px solid #e8e8e8',
+            position: 'fixed',
+            left: 0,
+            bottom: 0,
+            width: '100%',
+            backgroundColor: '#e8e8e8',
+            textAlign: 'center'}}
+          >{isLoggedIn && <AppFooter />}</Footer>
       </Layout>
     </div>
   );

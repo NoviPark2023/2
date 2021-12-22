@@ -26,16 +26,15 @@ function IzmenaPonuda(propsponuda) {
         });
     };
 
-    const getSelectedClient = id => {
-        api.get(`/kupci/detalji-kupca/${id}/`).then(response => {
-            setClientName(response.data.ime_prezime);
-            setClientId(id);
-        });
-    };
 
     useEffect(() => {
         const {propsponuda: ponuda, edit} = propsponuda;
-
+        const getSelectedClient = id => {
+            api.get(`/kupci/detalji-kupca/${id}/`).then(response => {
+                setClientName(response.data.ime_prezime);
+                setClientId(id);
+            });
+        };
         if (edit) {
             form.setFieldsValue({
                 cena_stana_za_kupca: ponuda.cena_stana_za_kupca,
@@ -50,7 +49,7 @@ function IzmenaPonuda(propsponuda) {
             getSelectedClient(propsponuda.propsponuda.kupac);
         } else {
             form.setFieldsValue({});
-        }
+        }   // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [propsponuda]);
 
     useEffect(() => {
