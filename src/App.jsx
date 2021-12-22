@@ -14,6 +14,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import DetaljiKlijenta from 'Pages/DetaljiKlijenta/DetaljiKlijenta';
 
+import Izvestaj from './Pages/Izvestaji/index';
+
 export const loginContext = createContext(null);
 
 const GuardedRoute = ({ component: Component, auth, ...rest }) => (
@@ -49,6 +51,7 @@ function App() {
             <Route exact path="/novistan" component={NoviStan}></Route>
             <Route exact path="/ponude" component={PregledPonuda}></Route>
             <Route exact path="/novaponuda" component={NovaPonuda}></Route>
+            <Route exact path="/izvestaji" component={Izvestaj}></Route>
           </Switch>
         </MainLayout>
 
