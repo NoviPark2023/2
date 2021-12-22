@@ -176,7 +176,7 @@ function IzmeneStanova(propsstan) {
         <Form.Item>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button onClick={updateApartmenstObj} type="primary" htmlType="submit">
-              {propsstan.edit ? 'Izmeni' : 'Dodaj'}
+              {propsstan.edit ? 'Izmeni' : 'Dodaj'}n
             </Button>
 
             <Button onClick={closeModal2} type="danger" htmlType="submit">

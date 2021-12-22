@@ -13,14 +13,16 @@ const PAYMENT_TYPE_LABELS = {
   ucesce: 'UCESCE',
 };
 
-const PregledPonudaPoKlijentima = tableItems => {
+const PregledPonudaPoKlijentima = props => {
   const [isClientVisible, setIsClientVisible] = useState(false);
   const [selectedBuyer] = useState(null);
   const [ponuda, setPonuda] = useState(null);
 
   //api za brisanje ponude
   const deletePonuda = id_ponude => {
-    api.delete(`/ponude/obrisi-ponudu/${id_ponude}/`).then(res => {});
+    api.delete(`/ponude/obrisi-ponudu/${id_ponude}/`).then(res => {
+      props.updateFunction(props.idKlijenta);
+    });
   };
 
   ////modal izmeni
@@ -217,8 +219,8 @@ const PregledPonudaPoKlijentima = tableItems => {
           <Button
             type="primary"
             onClick={() => {
-              showModal(true);
               setPonuda({ ...record, stan: record.stan_id });
+              showModal(true);
             }}
           >
             Izmeni
@@ -249,7 +251,7 @@ const PregledPonudaPoKlijentima = tableItems => {
 
   return (
     <div>
-      <Table columns={columns} dataSource={tableItems.tableItems} pagination={{ pageSize: [5] }}></Table>
+      <Table columns={columns} dataSource={props.tableItems} pagination={{ pageSize: [5] }}></Table>
 
       <Modal
         title="Pregled Klijenta"
@@ -267,7 +269,15 @@ const PregledPonudaPoKlijentima = tableItems => {
         onCancel={() => setIsModalVisible(false)}
         footer={null}
       >
-        {!!ponuda && <IzmenaPonuda edit propsponuda={ponuda} closeModal={() => setIsModalVisible(false)} />}
+        {!!ponuda && (
+          <IzmenaPonuda
+            edit
+            idKlijenta={props.idKlijenta}
+            onEdit={props.updateFunction}
+            propsponuda={ponuda}
+            closeModal={() => setIsModalVisible(false)}
+          />
+        )}
       </Modal>
     </div>
   );
