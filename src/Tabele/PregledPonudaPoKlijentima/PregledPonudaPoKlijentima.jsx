@@ -1,8 +1,6 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Table, Button, Modal, Popconfirm, Input, Space } from 'antd';
 import IzmenaPonuda from 'Form/IzmenaPonuda/IzmenaPonuda';
-import { useLocation } from 'react-router';
 import { api } from 'api/api';
 import IzmeneKlijenta from 'Form/IzmeneKlijenta/IzmeneKlijenta';
 import Highlighter from 'react-highlight-words';
@@ -15,59 +13,23 @@ const PAYMENT_TYPE_LABELS = {
   ucesce: 'UCESCE',
 };
 
-const PregledPonuda = () => {
-  //////history router
-  const browserLocation = useLocation();
-  const queryParams = new URLSearchParams(browserLocation.search);
-  const id = queryParams.get('id'); ///id stana
-
-  const price = queryParams.get('price'); ///cena stana
-
-  const [setPonude, setSelectedPonude] = useState('');
+const PregledPonudaPoKlijentima = props => {
   const [isClientVisible, setIsClientVisible] = useState(false);
   const [selectedBuyer] = useState(null);
   const [ponuda, setPonuda] = useState(null);
 
-  ///ponude stana
-  const getListaPonuda = () => {
-    api.get(`/ponude/lista-ponuda-stana/${id}/`).then(res => {
-      setSelectedPonude(res.data.results);
-    });
-  };
-  ////api za brisanje ponude
+  //api za brisanje ponude
   const deletePonuda = id_ponude => {
     api.delete(`/ponude/obrisi-ponudu/${id_ponude}/`).then(res => {
-      getListaPonuda();
+      props.updateFunction(props.idKlijenta);
     });
   };
-
-  // modal dodaj
-  const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
 
   ////modal izmeni
   const [isModalVisible, setIsModalVisible] = useState(false);
+
   ////popconfirm delete button
   const [confirmLoading, setVisible] = useState(false);
-  // const [confirmLoading, setConfirmLoading] = useState(false);
-
-  // const previewBuyer = id => {
-  //   api.get(`/kupci/detalji-kupca/${id}/`).then(response => {
-  //     setSelectedBuyer(response.data);
-  //     setIsClientVisible(true);
-  //   });
-  // };
-
-  // const showPopconfirm = () => {
-  //   setVisible(true);
-  // };
-
-  // const handleOk = () => {
-  //   setConfirmLoading(true);
-  //   setTimeout(() => {
-  //     setVisible(false);
-  //     setConfirmLoading(false);
-  //   }, 2000);
-  // };
 
   const handleCancel = () => {
     setVisible(false);
@@ -81,9 +43,6 @@ const PregledPonuda = () => {
     setIsModalVisible(false);
   };
 
-  // const handleCancelModal = () => {
-  //   setIsModalVisible(false);
-  // };
   ////hooks za search u tabeli
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
@@ -150,6 +109,7 @@ const PregledPonuda = () => {
         text
       ),
   });
+
   const columns = [
     {
       key: '1',
@@ -157,47 +117,40 @@ const PregledPonuda = () => {
       dataIndex: 'id_ponude',
       ...getColumnSearchProps('id_ponude'),
     },
+
     {
       key: '2',
-      title: 'Kupac',
-      dataIndex: 'kupac',
-      // render: (text, record) => <a onClick={() => previewBuyer(record.kupac)}>{record.kupac}</a>,
-      ...getColumnSearchProps('kupac'),
+      title: ' Adresa stana',
+      dataIndex: 'adresa_stana',
+      ...getColumnSearchProps('adresa_stana'),
     },
     {
       key: '3',
-      title: 'Stan',
-      dataIndex: 'stan',
-      ...getColumnSearchProps('stan'),
-    },
-    {
-      key: '4',
       title: 'Cena ponude stana',
       dataIndex: 'cena_stana_za_kupca',
       ...getColumnSearchProps('cena_stana_za_kupca'),
     },
     {
-      key: '5',
+      key: '4',
       title: 'Cena stana',
       dataIndex: 'cena_stana',
       ...getColumnSearchProps('cena_stana'),
-      render: () => <span>{price}</span>,
     },
 
     {
-      key: '6',
+      key: '5',
       title: 'Broj ugovora',
       dataIndex: 'broj_ugovora',
       ...getColumnSearchProps('broj_ugovora'),
     },
     {
-      key: '7',
+      key: '6',
       title: 'Datum ugovora',
       dataIndex: 'datum_ugovora',
       ...getColumnSearchProps('datum_ugovora'),
     },
     {
-      key: '8',
+      key: '7',
       title: 'Nacin placanja',
       dataIndex: 'nacin_placanja',
       render: (text, record) => <span>{PAYMENT_TYPE_LABELS[record.nacin_placanja]}</span>,
@@ -223,7 +176,7 @@ const PregledPonuda = () => {
       sorter: (a, b) => a.nacin_placanja - b.nacin_placanja,
     },
     {
-      key: '9',
+      key: '8',
       title: 'Status',
       dataIndex: 'status_ponude',
       filters: [
@@ -243,7 +196,7 @@ const PregledPonuda = () => {
       onFilter: (value, record) => record.status_ponude.indexOf(value) === 0,
     },
     {
-      key: '10',
+      key: '9',
       title: 'Napomena',
       render: (text, record) => (
         <>
@@ -259,15 +212,15 @@ const PregledPonuda = () => {
       ),
     },
     {
-      key: '11',
+      key: '10',
       title: 'Izmeni',
       render: (text, record) => (
         <>
           <Button
             type="primary"
             onClick={() => {
+              setPonuda({ ...record, stan: record.stan_id });
               showModal(true);
-              setPonuda(record);
             }}
           >
             Izmeni
@@ -276,7 +229,7 @@ const PregledPonuda = () => {
       ),
     },
     {
-      key: '12',
+      key: '11',
       title: 'Obrisi',
       render: (text, record) => (
         <>
@@ -296,18 +249,9 @@ const PregledPonuda = () => {
     },
   ];
 
-  useEffect(() => {
-    getListaPonuda();
-  }, []);
-
   return (
     <div>
-      <div style={{ margin: 20 }}>
-        <Button type="primary" onClick={() => setIsCreateModalVisible(true)}>
-          Dodaj Novu Ponudu
-        </Button>
-      </div>
-      <Table columns={columns} dataSource={setPonude} pagination={{ pageSize: [5] }}></Table>
+      <Table columns={columns} dataSource={props.tableItems} pagination={{ pageSize: [5] }}></Table>
 
       <Modal
         title="Pregled Klijenta"
@@ -328,25 +272,10 @@ const PregledPonuda = () => {
         {!!ponuda && (
           <IzmenaPonuda
             edit
+            idKlijenta={props.idKlijenta}
+            onEdit={props.updateFunction}
             propsponuda={ponuda}
-            getData={getListaPonuda}
             closeModal={() => setIsModalVisible(false)}
-          />
-        )}
-      </Modal>
-
-      <Modal
-        title="Dodaj ponudu"
-        visible={isCreateModalVisible}
-        onOk={handleOkModal}
-        onCancel={() => setIsCreateModalVisible(false)}
-        footer={null}
-      >
-        {isCreateModalVisible && (
-          <IzmenaPonuda
-            propsponuda={{ stan: id }}
-            getData={getListaPonuda}
-            closeModal={() => setIsCreateModalVisible(false)}
           />
         )}
       </Modal>
@@ -354,4 +283,4 @@ const PregledPonuda = () => {
   );
 };
 
-export default PregledPonuda;
+export default PregledPonudaPoKlijentima;

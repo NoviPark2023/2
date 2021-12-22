@@ -8,6 +8,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
 function PregledKlijenta() {
+  //// modal brisanje
   const [modalTaskId, setModalTaskId] = useState(null);
   /// state za dodaj
   const [isModalVisible, setIsModalVisible] = useState(null);
@@ -65,8 +66,8 @@ function PregledKlijenta() {
   /// Api za brisanje kupca
   const deleteItem = id_kupca => {
     api.delete(`/kupci/obrisi-kupca/${modalTaskId}/`).then(res => {
-      getData();
       showModalDelete(false);
+      getData();
     });
   };
 
@@ -236,8 +237,8 @@ function PregledKlijenta() {
     },
 
     {
-      title: 'Obrisi',
       key: '10',
+      title: 'Obrisi',
       render: (text, record) => (
         <>
           <Button type="danger" onClick={() => showModalDelete(record.id_kupca)}>
@@ -271,6 +272,7 @@ function PregledKlijenta() {
           Dodaj Novog Klijenta
         </Button>
       </div>
+
       <Table columns={columns} dataSource={data} pagination={{ pageSize: [4] }}></Table>
 
       <Modal title="Novi Klijent" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>

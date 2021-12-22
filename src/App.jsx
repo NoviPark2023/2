@@ -39,10 +39,10 @@ function App() {
     <div className="App">
       <loginContext.Provider value={{ setIsLoggedIn, setLogUser, logUser }}>
         <MainLayout isLoggedIn={isLoggedIn} logOut={logOut}>
-          <GuardedRoute exact path="/" auth={isLoggedIn} logIn={logIn} component={Stanovi}>
-            <LoginPage />
-          </GuardedRoute>
           <Switch>
+            <GuardedRoute exact path="/" auth={isLoggedIn} logIn={logIn} component={Stanovi}>
+              <LoginPage />
+            </GuardedRoute>
             <Route exact path="/korisnici" component={PregledKorisnika}></Route>
             <Route exact path="/stanovi" component={PregledStanova}></Route>
             <Route exact path="/stanovi/:id" component={DetaljiStana}></Route>
@@ -54,6 +54,7 @@ function App() {
             <Route exact path="/izvestaji" component={Izvestaj}></Route>
           </Switch>
         </MainLayout>
+
         <ToastContainer position="bottom-right" autoClose={2500} />
       </loginContext.Provider>
     </div>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { Card, Descriptions, Button, Modal, Image } from 'antd';
 import { api } from 'api/api';

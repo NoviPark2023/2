@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { Input, Button, Form, Select } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
@@ -175,7 +176,7 @@ function IzmeneStanova(propsstan) {
         <Form.Item>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button onClick={updateApartmenstObj} type="primary" htmlType="submit">
-              {propsstan.edit ? 'Izmeni' : 'Dodaj'}
+              {propsstan.edit ? 'Izmeni' : 'Dodaj'}n
             </Button>
 
             <Button onClick={closeModal2} type="danger" htmlType="submit">

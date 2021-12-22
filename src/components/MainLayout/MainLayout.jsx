@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import style from './MainLayout.module.css';
 import 'antd/dist/antd.css';
 import { Button, Layout, Menu, Modal } from 'antd';
@@ -25,7 +25,16 @@ const AppHeader = ({ loggedUser, logOut }) => {
     <Header>
       <div className={style.layoutHeader}>
         <div className={style.headerPages}>
-          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
+          <Menu
+            theme="dark"
+            mode="horizontal"
+            onSelect={item => {
+              localStorage.setItem('navigationIndex', item.key);
+            }}
+            defaultSelectedKeys={
+              localStorage.getItem('navigationIndex') ? localStorage.getItem('navigationIndex') : '1'
+            }
+          >
             <Menu.Item key={1}>
               <Link to="/stanovi">Stanovi</Link>
             </Menu.Item>

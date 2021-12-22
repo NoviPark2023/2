@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Table, Modal, Input, Space } from 'antd';
 import IzmeneStanova from 'Form/IzmeneStanova/IzmeneStanova';
-import { Link } from 'react-router-dom';
 import { api } from 'api/api';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
 function PregledStanova() {
   //// modal brisanje
@@ -18,7 +18,7 @@ function PregledStanova() {
   const [selectedPlace, setSelectedPlace] = useState('');
 
   ///api za dovlacenje ponuda
-  const [setPonude, setSelectedPonude] = useState('');
+  const [, setSelectedPonude] = useState('');
 
   ///modal za dodaj
   const showModal = id => {
@@ -44,16 +44,15 @@ function PregledStanova() {
   //// API lista stanova
   const getData = async () => {
     api.get('/stanovi/').then(res => {
-      // console.log(res);
       setData(res.data.results);
     });
   };
 
   ////Api za brisanje stanova
-  const deleteStan = () => {
+  const deleteStan = id_stana => {
     api.delete(`/stanovi/obrisi-stan/${modalTaskId}`).then(res => {
-      getData();
       showModalDelete(false);
+      getData();
     });
   };
 
@@ -265,16 +264,16 @@ function PregledStanova() {
       dataIndex: 'broj_terasa',
       filters: [
         {
-          text: '1-2',
-          value: [1, 2],
+          text: '0',
+          value: [0],
         },
         {
-          text: '3-4',
-          value: [3, 4],
+          text: '1',
+          value: [1],
         },
         {
-          text: '4-6',
-          value: [4, 6],
+          text: '2',
+          value: [2],
         },
       ],
       onFilter: (value, record) => record.broj_terasa >= value[0] && record.broj_terasa <= value[1],

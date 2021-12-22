@@ -2,12 +2,12 @@
   "name": "prodaja-stanova",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "@typescript-eslint/parser": "^4.33.0",
-    "@vidaq/eslint-config": "git+ssh://git@gitlab.com/sava.vidakovic/eslint-config-fww.git",
     "antd": "^4.16.13",
     "await-to-js": "^3.0.0",
     "axios": "^0.23.0",
@@ -46,5 +46,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "optionalDependencies": {
+    "fsevents": "^2.3.2"
   }
 }
