@@ -7,6 +7,7 @@ import { Option } from 'antd/lib/mentions';
 import 'antd/dist/antd.css';
 import { api } from 'api/api';
 import { toast } from 'react-toastify';
+// import moment from 'moment';
 
 function IzmenaPonuda(propsponuda) {
   const [form] = Form.useForm();
@@ -75,7 +76,7 @@ function IzmenaPonuda(propsponuda) {
       : '/ponude/kreiraj-ponudu/';
 
     const request = propsponuda.edit ? api.put : api.post;
-    console.log(propsponuda.propsponuda.stan_id, 'ovde');
+
     request(endpoint, {
       ...form.getFieldValue(),
 
@@ -85,8 +86,12 @@ function IzmenaPonuda(propsponuda) {
       .then(res => {
         form.setFieldsValue({});
         propsponuda.closeModal();
-        propsponuda.getData();
 
+        if (propsponuda.edit) {
+          propsponuda.onEdit(propsponuda.idKlijenta);
+        } else {
+          propsponuda.getData();
+        }
         toast.success('Uspesno ste izmenili podatke');
       })
       .catch(e => {
@@ -151,13 +156,12 @@ function IzmenaPonuda(propsponuda) {
         >
           <Space direction="vertical" size={12}>
             <DatePicker
+              // defaultValue={moment(form.getFieldsValue().datum_ugovora)}
               onChange={(val, string) => {
                 form.setFieldsValue({ datum_ugovora: string });
               }}
-              // onOK={form.getFieldsValue().datum_ugovora}
               format={'DD.MM.YYYY'}
             />
-            {/* {console.log(form.getFieldsValue().datum_ugovora)} */}
           </Space>
         </FormItem>
         <FormItem

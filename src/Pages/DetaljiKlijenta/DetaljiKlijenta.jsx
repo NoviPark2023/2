@@ -27,21 +27,22 @@ function DetaljiKlijenta(props) {
   };
 
   const fetchData = id => {
-    setLoading(true);
     api
       .get(`/kupci/detalji-kupca/${id}/`)
       .then(response => {
         setData(response.data);
       })
       .catch(onFecthError)
-      .finally(() => setLoading(false));
+      .finally();
   };
-  const onUpdate = () => {
+  const onUpdate = async () => {
     const id = getId();
     setEditModal(false);
 
     if (id) {
-      fetchData(id);
+      setLoading(true);
+      await fetchData(id);
+      setLoading(false);
     }
   };
 
@@ -49,7 +50,9 @@ function DetaljiKlijenta(props) {
     const id = getId();
 
     if (id) {
+      setLoading(true);
       fetchData(id);
+      setLoading(false);
     }
   }, []);
   const tableItems = data && data.lista_ponuda_kupca ? data.lista_ponuda_kupca : null;
@@ -107,7 +110,7 @@ function DetaljiKlijenta(props) {
           </Modal>
         </div>
         <div>
-          <PregledPonudaPoKlijentima tableItems={tableItems} />
+          <PregledPonudaPoKlijentima idKlijenta={data.id_kupca} updateFunction={fetchData} tableItems={tableItems} />
         </div>
       </>
     );
