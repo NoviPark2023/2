@@ -44,6 +44,9 @@ const AppHeader = ({ loggedUser, logOut }) => {
             <Menu.Item key={3}>
               <Link to="/korisnici">Korisnici</Link>
             </Menu.Item>
+            <Menu.Item key={4}>
+              <Link to="/izvestaji">Izveštaji</Link>
+            </Menu.Item>
           </Menu>
         </div>
         <div className={style.userButton}>
