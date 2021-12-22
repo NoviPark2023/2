@@ -3,6 +3,8 @@ import 'antd/dist/antd.css';
 import { Layout, Menu } from 'antd';
 import { PieChartOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
+import IzvestajiStanovi from './IzvestajiStanovi';
+import IzvestajKlijenti from './IzvestajiKlijenti';
 
 function PregledIzvestaja() {
   const { Sider, Content } = Layout;
@@ -26,7 +28,9 @@ function PregledIzvestaja() {
             padding: 24,
             minHeight: 900,
           }}
-        ></Content>
+        >
+          <IzvestajiStanovi /> <IzvestajKlijenti />
+        </Content>
       </Layout>
     </Layout>
   );

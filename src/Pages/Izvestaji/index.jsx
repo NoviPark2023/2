@@ -1,5 +1,5 @@
 import React from 'react';
-import PregledIzvestaja from 'Tabele/PregledIzvestaja';
+import PregledIzvestaja from 'Tabele/PregledIzvestaja/PregledIzvestaja';
 
 function Izvestaj() {
   return (
