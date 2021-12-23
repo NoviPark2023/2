@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {Button, Table, Modal, Input, Space, Row, Col} from 'antd';
+import {Button, Table, Modal, Input, Space, Statistic, Card, Row, Col} from 'antd';
 import IzmeneStanova from 'Form/IzmeneStanova/IzmeneStanova';
 import {api} from 'api/api';
 import Highlighter from 'react-highlight-words';
-import {SearchOutlined} from '@ant-design/icons';
+import {ArrowDownOutlined, ArrowUpOutlined, SearchOutlined} from '@ant-design/icons';
 import {Link} from 'react-router-dom';
 import {
     AreaChart,
@@ -502,18 +502,47 @@ function PregledStanova() {
     }, []);
 
     return (
-        <div>
+        <div className="site-statistic-demo-card">
             {/*Dodaj novi stan BTN*/}
             <div style={{margin: 20}}>
-                <Button
-                    type="primary"
-                    size='large'
-                    onClick={() => {
-                        setIsCreatePlaceVisible(true);
-                    }}
-                >
-                    Dodaj Novi stan
-                </Button>
+
+                <Row gutter={16}>
+                    <Col span={8} align="left">
+                            <Button
+                                type="primary"
+                                size='large'
+                                onClick={() => {
+                                    setIsCreatePlaceVisible(true);
+                                }}
+                            >
+                                Dodaj Novi stan
+                            </Button>
+                    </Col>
+                    <Col span={8}>
+                        <Card>
+                            <Statistic
+                                title="Active"
+                                value={11.28}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<ArrowUpOutlined/>}
+                                suffix="%"
+                            />
+                        </Card>
+                    </Col>
+                    <Col span={8}>
+                        <Card>
+                            <Statistic
+                                title="Idle"
+                                value={9.3}
+                                precision={2}
+                                valueStyle={{color: '#cf1322'}}
+                                prefix={<ArrowDownOutlined/>}
+                                suffix="%"
+                            />
+                        </Card>
+                    </Col>
+                </Row>
             </div>
 
             <Row gutter={[0, 0]}>
