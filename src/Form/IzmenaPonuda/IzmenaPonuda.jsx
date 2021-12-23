@@ -7,17 +7,18 @@ import { Option } from 'antd/lib/mentions';
 import 'antd/dist/antd.css';
 import { api } from 'api/api';
 import { toast } from 'react-toastify';
-// import moment from 'moment';
+import moment from 'moment';
 
 function IzmenaPonuda(propsponuda) {
   const [form] = Form.useForm();
-  const [clients, setClients] = useState([]); // List of clients fetched form server by client name
+  const [clients, setClients] = useState({}); // List of clients fetched form server by client name
   const [clientOptions, setClientOptions] = useState([]); // list of formatted clients
   const [clientName, setClientName] = useState(''); // current selected client name
   const [clientId, setClientId] = useState(null); // current selected client id
 
   const onClientSelect = selected => {
     const option = clientOptions.find(option => option.value === selected);
+    console.log(clientOptions, 'kkkkkkkkk');
     setClientName(option?.label || '');
     setClientId(option?.value || null);
   };
@@ -54,14 +55,15 @@ function IzmenaPonuda(propsponuda) {
       form.setFieldsValue({});
     }
   }, [propsponuda]);
-
   useEffect(() => {
-    setClientOptions(
-      clients.map(client => ({
-        value: client.id_kupca,
-        label: client.ime_prezime,
-      }))
-    );
+    if (clients.hasOwnProperty('results')) {
+      setClientOptions(
+        clients.results.map(client => ({
+          value: client.id_kupca,
+          label: client.ime_prezime,
+        }))
+      );
+    }
   }, [clients]);
 
   useEffect(() => {
@@ -86,7 +88,6 @@ function IzmenaPonuda(propsponuda) {
       .then(res => {
         form.setFieldsValue({});
         propsponuda.closeModal();
-
         if (propsponuda.edit) {
           propsponuda.onEdit(propsponuda.idKlijenta);
         } else {
@@ -156,14 +157,16 @@ function IzmenaPonuda(propsponuda) {
         >
           <Space direction="vertical" size={12}>
             <DatePicker
-              // defaultValue={moment(form.getFieldsValue().datum_ugovora)}
-              onChange={(val, string) => {
-                form.setFieldsValue({ datum_ugovora: string });
+              defaultValue={moment('01.02.2020', 'DD.MM.YYYY')}
+              onChange={(val, newDate) => {
+                console.log('bla bla: ', val, newDate);
+                form.setFieldsValue({ datum_ugovora: newDate });
               }}
               format={'DD.MM.YYYY'}
             />
           </Space>
         </FormItem>
+
         <FormItem
           label=" Napomena"
           name="napomena"

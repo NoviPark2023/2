@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Table, Modal, Input, Space } from 'antd';
+import { Button, Table, Modal, Input, Space, Popconfirm } from 'antd';
 import IzmeneStanova from 'Form/IzmeneStanova/IzmeneStanova';
 import { api } from 'api/api';
 import Highlighter from 'react-highlight-words';
@@ -7,9 +7,6 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
 function PregledStanova() {
-  //// modal brisanje
-  const [modalTaskId, setModalTaskId] = useState(null);
-
   /////state za izmeni
   const [isEditPlaceVisible, setIsEditPlaceVisible] = useState(false);
   const [isCreatePlaceVisible, setIsCreatePlaceVisible] = useState(false);
@@ -33,11 +30,6 @@ function PregledStanova() {
     setIsEditPlaceVisible(false);
   };
 
-  ///modal za brisanje
-  const showModalDelete = id => {
-    setModalTaskId(id);
-  };
-
   ///API state
   const [data, setData] = useState([]);
 
@@ -50,8 +42,7 @@ function PregledStanova() {
 
   ////Api za brisanje stanova
   const deleteStan = id_stana => {
-    api.delete(`/stanovi/obrisi-stan/${modalTaskId}`).then(res => {
-      showModalDelete(false);
+    api.delete(`/stanovi/obrisi-stan/${id_stana}`).then(res => {
       getData();
     });
   };
@@ -367,21 +358,16 @@ function PregledStanova() {
       title: 'Obrisi',
       render: (text, record) => (
         <>
-          <Button type="danger" onClick={() => showModalDelete(record.id_stana)}>
-            Obrisi
-          </Button>
-
-          <Modal
-            centered
-            visible={!!modalTaskId}
-            onOk={() => deleteStan()}
-            onCancel={() => setModalTaskId(null)}
-            width={400}
-            okText="DA"
+          <Popconfirm
+            title="Da li ste sigurni da zelite da izbrisete stan?"
+            placement="left"
+            onCancel={handleCancel}
             cancelText="NE"
+            okText="DA"
+            onConfirm={() => deleteStan(record.id_stana)}
           >
-            <p>Da li ste sigurni da želite da obrisete stan?</p>
-          </Modal>
+            <Button type="danger">Obrisi</Button>
+          </Popconfirm>
         </>
       ),
     },

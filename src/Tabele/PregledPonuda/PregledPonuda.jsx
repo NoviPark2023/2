@@ -29,8 +29,8 @@ const PregledPonuda = () => {
   const [ponuda, setPonuda] = useState(null);
 
   ///ponude stana
-  const getListaPonuda = () => {
-    api.get(`/ponude/lista-ponuda-stana/${id}/`).then(res => {
+  const getListaPonuda = (paramId = id) => {
+    api.get(`/ponude/lista-ponuda-stana/${paramId}/`).then(res => {
       setSelectedPonude(res.data.results);
     });
   };
@@ -48,26 +48,6 @@ const PregledPonuda = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   ////popconfirm delete button
   const [confirmLoading, setVisible] = useState(false);
-  // const [confirmLoading, setConfirmLoading] = useState(false);
-
-  // const previewBuyer = id => {
-  //   api.get(`/kupci/detalji-kupca/${id}/`).then(response => {
-  //     setSelectedBuyer(response.data);
-  //     setIsClientVisible(true);
-  //   });
-  // };
-
-  // const showPopconfirm = () => {
-  //   setVisible(true);
-  // };
-
-  // const handleOk = () => {
-  //   setConfirmLoading(true);
-  //   setTimeout(() => {
-  //     setVisible(false);
-  //     setConfirmLoading(false);
-  //   }, 2000);
-  // };
 
   const handleCancel = () => {
     setVisible(false);
@@ -81,9 +61,6 @@ const PregledPonuda = () => {
     setIsModalVisible(false);
   };
 
-  // const handleCancelModal = () => {
-  //   setIsModalVisible(false);
-  // };
   ////hooks za search u tabeli
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
@@ -161,7 +138,6 @@ const PregledPonuda = () => {
       key: '2',
       title: 'Kupac',
       dataIndex: 'kupac',
-      // render: (text, record) => <a onClick={() => previewBuyer(record.kupac)}>{record.kupac}</a>,
       ...getColumnSearchProps('kupac'),
     },
     {
@@ -328,6 +304,8 @@ const PregledPonuda = () => {
         {!!ponuda && (
           <IzmenaPonuda
             edit
+            onEdit={getListaPonuda}
+            idKlijenta={ponuda.id_kupca}
             propsponuda={ponuda}
             getData={getListaPonuda}
             closeModal={() => setIsModalVisible(false)}
