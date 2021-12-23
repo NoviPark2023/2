@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Table, Modal, Input, Space } from 'antd';
+import { Button, Table, Modal, Input, Space, Popconfirm } from 'antd';
 import { api } from 'api/api';
 import NoviKlijent from 'Form/NoviKlijent/NoviKlijent';
 import IzmeneKlijenta from 'Form/IzmeneKlijenta/IzmeneKlijenta';
@@ -8,12 +8,10 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
 function PregledKlijenta() {
-  //// modal brisanje
-  const [modalTaskId, setModalTaskId] = useState(null);
   /// state za dodaj
   const [isModalVisible, setIsModalVisible] = useState(null);
   //state za izmeni
-  const [isNewClientVisible, setIsNewClientVisible] = useState(false);
+  const [, setIsNewClientVisible] = useState(false);
   /// Api za dovlacenje podataka podataka
   const [selectedUser, setSelectedUser] = useState('');
 
@@ -31,28 +29,27 @@ function PregledKlijenta() {
   };
 
   // modal za izmeni
-  const showModalIzmeni = isShow => {
-    setIsNewClientVisible(isShow);
+  const showModalIzmeni = (id, isVisible) => {
+    const list = data.map(item => {
+      if (+item.id_kupca === +id) return { ...item, modal: isVisible };
+      return item;
+    });
+    setData(list);
+    console.log(list, 'klijenti');
   };
 
   const handleOkIzmeni = () => {
     setIsNewClientVisible(false);
   };
 
-  const handleCancelIzmeni = () => {
-    setIsNewClientVisible(false);
-  };
-  ///modal za brisanje
-  const showModalDelete = id => {
-    setModalTaskId(id);
-  };
   //state za API
   const [data, setData] = useState([]);
 
   //// API lista klijenata
   const getData = async () => {
     api.get('/kupci/').then(res => {
-      setData(res.data.results);
+      const list = res.data.results.map(item => ({ ...item, modal: false }));
+      setData(list);
     });
   };
 
@@ -65,8 +62,7 @@ function PregledKlijenta() {
   //  TODO: napraviti error funkciju za proveru servera
   /// Api za brisanje kupca
   const deleteItem = id_kupca => {
-    api.delete(`/kupci/obrisi-kupca/${modalTaskId}/`).then(res => {
-      showModalDelete(false);
+    api.delete(`/kupci/obrisi-kupca/${id_kupca}/`).then(res => {
       getData();
     });
   };
@@ -216,7 +212,7 @@ function PregledKlijenta() {
           <Button
             type="primary"
             onClick={() => {
-              showModalIzmeni(true);
+              showModalIzmeni(record.id_kupca, true);
               getClientObj(record.id_kupca);
             }}
           >
@@ -225,12 +221,16 @@ function PregledKlijenta() {
 
           <Modal
             title="Izmeni"
-            visible={isNewClientVisible}
+            visible={record.modal}
             onOk={handleOkIzmeni}
-            onCancel={handleCancelIzmeni}
+            onCancel={() => showModalIzmeni(record.id_kupca, false)}
             footer={null}
           >
-            <IzmeneKlijenta propsklijenta={selectedUser} getData={getData} closeModal={() => showModalIzmeni(false)} />
+            <IzmeneKlijenta
+              propsklijenta={selectedUser}
+              getData={getData}
+              closeModal={() => showModalIzmeni(record.id_kupca, false)}
+            />
           </Modal>
         </div>
       ),
@@ -241,20 +241,16 @@ function PregledKlijenta() {
       title: 'Obrisi',
       render: (text, record) => (
         <>
-          <Button type="danger" onClick={() => showModalDelete(record.id_kupca)}>
-            Obrisi
-          </Button>
-          <Modal
-            centered
-            visible={!!modalTaskId}
-            onOk={() => deleteItem()}
-            onCancel={() => setModalTaskId(null)}
-            width={400}
-            okText="DA"
+          <Popconfirm
+            title="Da li ste sigurni da zelite da izbrisete klijenta?"
+            placement="left"
+            onCancel={handleCancel}
             cancelText="NE"
+            okText="DA"
+            onConfirm={() => deleteItem(record.id_kupca)}
           >
-            <p>Da li ste sigurni da želite da obrisete klijenta?</p>
-          </Modal>
+            <Button type="danger">Obrisi</Button>
+          </Popconfirm>
         </>
       ),
     },

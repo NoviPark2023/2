@@ -3,7 +3,7 @@ import MainLayout from 'components/MainLayout/MainLayout';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import LoginPage from 'Pages/Login/LoginPage';
 import PregledStanova from '../src/Tabele/PregledStanova/PregledStanova';
-import NoviStan from 'Form/NoviStan/NoviStan';
+// import NoviStan from 'Form/NoviStan/NoviStan';
 import PregledKlijenta from 'Tabele/PregledKlijenata/PregledKlijenata';
 import PregledKorisnika from 'Tabele/PregledKorisnika/PregledKorisnika';
 import Stanovi from 'Pages/Stanovi/Stanovi';
@@ -43,15 +43,15 @@ function App() {
             <GuardedRoute exact path="/" auth={isLoggedIn} logIn={logIn} component={Stanovi}>
               <LoginPage />
             </GuardedRoute>
-            <Route exact path="/korisnici" component={PregledKorisnika}/>
-            <Route exact path="/stanovi" component={PregledStanova}/>
-            <Route exact path="/stanovi/:id" component={DetaljiStana}/>
-            <Route exact path="/klijenti" component={PregledKlijenta}/>
-            <Route exact path="/klijenti/:id" component={DetaljiKlijenta}/>
-            <Route exact path="/novistan" component={NoviStan}/>
-            <Route exact path="/ponude" component={PregledPonuda}/>
-            <Route exact path="/novaponuda" component={NovaPonuda}/>
-            <Route exact path="/izvestaji" component={Izvestaj}/>
+            <Route exact path="/korisnici" component={PregledKorisnika}></Route>
+            <Route exact path="/stanovi" component={PregledStanova}></Route>
+            <Route exact path="/stanovi/:id" component={DetaljiStana}></Route>
+            <Route exact path="/klijenti" component={PregledKlijenta}></Route>
+            <Route exact path="/klijenti/:id" component={DetaljiKlijenta}></Route>
+            {/* <Route exact path="/novistan" component={NoviStan}></Route> */}
+            <Route exact path="/ponude" component={PregledPonuda}></Route>
+            <Route exact path="/novaponuda" component={NovaPonuda}></Route>
+            <Route exact path="/izvestaji" component={Izvestaj}></Route>
           </Switch>
         </MainLayout>
 
