@@ -1,7 +1,8 @@
-import { InputNumber } from 'antd';
-import 'antd/dist/antd.css';
 import React from 'react';
+import { InputNumber, Row, Col, Typography } from 'antd/lib';
 import { PieChart, Pie, Tooltip, LineChart, Line, XAxis, YAxis, CartesianGrid, BarChart, Bar, Legend } from 'recharts';
+import 'antd/dist/antd.css';
+import styles from './PregledIzvestaja.module.css';
 
 const data01 = [
   { name: 'Group A', value: 150 },
@@ -80,105 +81,155 @@ const data03 = [
 const data04 = [
   {
     name: 'Dostupni',
-    uv: 4000,
+    uv: 234,
     pv: 2400,
     amt: 2400,
   },
   {
     name: 'Rezervisani',
-    uv: 3000,
+    uv: 13,
     pv: 1398,
     amt: 2210,
   },
   {
     name: 'Prodati',
-    uv: 2000,
+    uv: 3,
     pv: 9800,
     amt: 2290,
   },
 ];
+const { Title } = Typography;
 
-export default function IzvestajiStanovi() {
+function IzvestajiStanovi() {
   return (
     <>
-      <h1>1.Ukupan broj stanova</h1>
-      <BarChart width={300} height={300} data={data04}>
-        <Bar dataKey="uv" fill="#e74c3c" />
-      </BarChart>
-      {/* <h4>dostupni rezervisani prodati</h4> */}
-      <h1>2.Prodaja stanova izrazena u procentima</h1>
-      <PieChart width={900} height={400}>
-        <Pie
-          dataKey="value"
-          isAnimationActive={false}
-          data={data01}
-          cx={200}
-          cy={200}
-          outerRadius={150}
-          fill="#1890ff"
-          label
-        />
-        <Tooltip />
-      </PieChart>
-      <h1>3.Tok prodaje po mesecima</h1>
-      <LineChart
-        width={900}
-        height={400}
-        data={data}
-        margin={{
-          top: 10,
-          right: 30,
-          left: 0,
-          bottom: 0,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Line connectNulls type="monotone" dataKey="uv" stroke="#e74c3c" fill="#1890ff" />
-      </LineChart>
-      <h1>4.Ostvaren rezultat prodaje po korisniku</h1>
-      <BarChart
-        width={900}
-        height={400}
-        data={data02}
-        margin={{
-          top: 5,
-          right: 40,
-          left: 30,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="prvi" fill="#e74c3c" />
-        <Bar dataKey="drugi" fill="#1890ff" />
-      </BarChart>
+      <Row>
+        <Col span={12}>
+          <Title className={styles.styleTitle} level={3}>
+            1.Ukupan broj stanova <InputNumber readOnly min={1} max={250} defaultValue={3} />
+          </Title>
 
-      <h1>5.Rast prodaje</h1>
+          <BarChart width={300} height={300} data={data04}>
+            <Bar dataKey="uv" fill="#e74c3c" />
+          </BarChart>
+          <InputNumber className={styles.styleNumber} readOnly min={1} max={250} defaultValue={3} />
+          <InputNumber className={styles.styleNumber} readOnly min={1} max={250} defaultValue={3} />
+          <InputNumber className={styles.styleNumber} readOnly min={1} max={250} defaultValue={3} />
+          <Row>
+            <Col span={6}>
+              <Title style={{ marginLeft: '10px', marginTop: '5px' }} level={5}>
+                Dostupni
+              </Title>
+            </Col>
+            <Col span={6}>
+              <Title style={{ marginLeft: '-10px', marginTop: '5px' }} level={5}>
+                Rezervisani
+              </Title>
+            </Col>
+            <Col span={6}>
+              <Title style={{ marginLeft: '-30px', marginTop: '5px' }} level={5}>
+                Prodati
+              </Title>
+            </Col>
+            <Col span={6} />
+          </Row>
+        </Col>
+        <Col span={12}>
+          <Title className={styles.styleTitle} level={3}>
+            2.Prodaja stanova izrazena u procentima
+          </Title>
+          <PieChart width={900} height={400}>
+            <Pie
+              dataKey="value"
+              isAnimationActive={true}
+              data={data01}
+              cx={180}
+              cy={170}
+              outerRadius={150}
+              fill="#1890ff"
+              label
+            />
+            <Tooltip />
+          </PieChart>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24}>
+          <Title className={styles.styleTitle} level={3}>
+            3.Tok prodaje po mesecima
+          </Title>
+          <LineChart
+            width={900}
+            height={400}
+            data={data}
+            margin={{
+              top: 10,
+              right: 30,
+              left: 0,
+              bottom: 0,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Line connectNulls type="monotone" dataKey="uv" stroke="#e74c3c" fill="#1890ff" />
+          </LineChart>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24}>
+          <Title className={styles.styleTitle} level={3}>
+            4.Ostvaren rezultat prodaje po korisniku
+          </Title>
+          <BarChart
+            width={900}
+            height={400}
+            data={data02}
+            margin={{
+              top: 5,
+              right: 40,
+              left: 30,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="prvi" fill="#e74c3c" />
+            <Bar dataKey="drugi" fill="#1890ff" />
+          </BarChart>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24}>
+          <Title className={styles.styleTitle} level={3}>
+            5.Rast prodaje
+          </Title>
 
-      <LineChart
-        width={900}
-        height={400}
-        data={data03}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
+          <LineChart
+            width={900}
+            height={400}
+            data={data03}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
 
-        <Line type="monotone" dataKey="uv" stroke="#e74c3c" fill="#1890ff" />
-      </LineChart>
+            <Line type="monotone" dataKey="uv" stroke="#e74c3c" fill="#1890ff" />
+          </LineChart>
+        </Col>
+      </Row>
     </>
   );
 }
+export default IzvestajiStanovi;
