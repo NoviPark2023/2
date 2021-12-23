@@ -508,15 +508,15 @@ function PregledStanova() {
 
                 <Row gutter={16}>
                     <Col span={8} align="left">
-                            <Button
-                                type="primary"
-                                size='large'
-                                onClick={() => {
-                                    setIsCreatePlaceVisible(true);
-                                }}
-                            >
-                                Dodaj Novi stan
-                            </Button>
+                        <Button
+                            type="primary"
+                            size='large'
+                            onClick={() => {
+                                setIsCreatePlaceVisible(true);
+                            }}
+                        >
+                            Dodaj Novi stan
+                        </Button>
                     </Col>
                     <Col span={8}>
                         <Card>
@@ -545,11 +545,6 @@ function PregledStanova() {
                 </Row>
             </div>
 
-            <Row gutter={[0, 0]}>
-                <Col span={24}>
-                    <Table columns={columns} dataSource={data} pagination={{pageSize: [5]}}/>
-                </Col>
-            </Row>
             <Row gutter={[0, 0]}>
                 <Col span={8}>
                     <div style={{width: '100%', height: 150}}>
@@ -593,8 +588,6 @@ function PregledStanova() {
                         </ResponsiveContainer>
                     </div>
                 </Col>
-
-
                 <Col span={8}>
                     <div style={{width: '100%', height: 150}}>
                         <ResponsiveContainer>
@@ -616,7 +609,12 @@ function PregledStanova() {
                         </ResponsiveContainer>
                     </div>
                 </Col>
+            </Row>
 
+            <Row gutter={[0, 0]}>
+                <Col span={24}>
+                    <Table columns={columns} dataSource={data} pagination={{pageSize: [5]}}/>
+                </Col>
             </Row>
 
             <Modal title="Izmeni" visible={isEditPlaceVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>

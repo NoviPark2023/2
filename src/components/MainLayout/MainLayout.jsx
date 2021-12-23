@@ -74,11 +74,11 @@ const AppHeader = ({ loggedUser, logOut }) => {
   );
 };
 
-const AppFooter = () => (
-  <div className={style.mainLayoutFooter}>
-    Prodaja Stanova ©2021 Created by <img src={logo} alt="logo" className={style.mainlayoutlogo} />
-  </div>
-);
+// const AppFooter = () => (
+//   <div className={style.mainLayoutFooter}>
+//     Prodaja Stanova ©2021 Created by <img src={logo} alt="logo" className={style.mainlayoutlogo} />
+//   </div>
+// );
 function MainLayout({ children, isLoggedIn, logOut }) {
   let logUser = sessionStorage.getItem('user');
 
@@ -91,15 +91,15 @@ function MainLayout({ children, isLoggedIn, logOut }) {
           <Content>{children}</Content>
         </div>
 
-        <Footer style={{
-            borderTop: '1px solid #e8e8e8',
-            position: 'fixed',
-            left: 0,
-            bottom: 0,
-            width: '100%',
-            backgroundColor: '#e8e8e8',
-            textAlign: 'center'}}
-          >{isLoggedIn && <AppFooter />}</Footer>
+        {/*<Footer style={{*/}
+        {/*    borderTop: '1px solid #e8e8e8',*/}
+        {/*    position: 'fixed',*/}
+        {/*    left: 0,*/}
+        {/*    bottom: 0,*/}
+        {/*    width: '100%',*/}
+        {/*    backgroundColor: '#e8e8e8',*/}
+        {/*    textAlign: 'center'}}*/}
+        {/*  >{isLoggedIn && <AppFooter />}</Footer>*/}
       </Layout>
     </div>
   );
