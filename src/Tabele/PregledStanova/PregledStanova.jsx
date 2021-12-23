@@ -552,7 +552,7 @@ function PregledStanova() {
             </Row>
             <Row gutter={[0, 0]}>
                 <Col span={8}>
-                    <div style={{width: '100%', height: 250}}>
+                    <div style={{width: '100%', height: 150}}>
                         <ResponsiveContainer>
                             <AreaChart
                                 data={data2}
@@ -573,7 +573,7 @@ function PregledStanova() {
                     </div>
                 </Col>
                 <Col span={8}>
-                    <div style={{width: '100%', height: 250}}>
+                    <div style={{width: '100%', height: 150}}>
                         <ResponsiveContainer>
                             <AreaChart
                                 data={data2}
@@ -596,11 +596,25 @@ function PregledStanova() {
 
 
                 <Col span={8}>
-                    <ResponsiveContainer>
-                        <PieChart>
-                            <Pie dataKey="value" data={data3} fill="#8884d8" label/>
-                        </PieChart>
-                    </ResponsiveContainer>
+                    <div style={{width: '100%', height: 150}}>
+                        <ResponsiveContainer>
+                            <AreaChart
+                                data={data2}
+                                margin={{
+                                    top: 10,
+                                    right: 30,
+                                    left: 0,
+                                    bottom: 0,
+                                }}
+                            >
+                                <CartesianGrid strokeDasharray="3 3"/>
+                                <XAxis dataKey="name"/>
+                                <YAxis/>
+                                <Tooltip/>
+                                <Area type="linear" dataKey="uv" stroke="#8884d8" fill="#33C4FF"/>
+                            </AreaChart>
+                        </ResponsiveContainer>
+                    </div>
                 </Col>
 
             </Row>
