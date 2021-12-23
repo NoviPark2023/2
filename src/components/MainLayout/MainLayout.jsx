@@ -4,14 +4,14 @@ import 'antd/dist/antd.css';
 import { Button, Layout, Menu, Modal } from 'antd';
 import logo from 'assets/logo.png';
 // import { loginContext } from 'App';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content } = Layout;
 
 const AppHeader = ({ loggedUser, logOut }) => {
   const [visible, setVisible] = useState(false);
   const history = useHistory();
-
+  console.log(useLocation());
   const confirmSignout = e => {
     logOut();
     sessionStorage.removeItem('Token', 'fakeToken');
@@ -22,10 +22,11 @@ const AppHeader = ({ loggedUser, logOut }) => {
     setVisible(true);
   };
   return (
-    <Header>
+    <Header className={style.headerLayout}>
       <div className={style.layoutHeader}>
         <div className={style.headerPages}>
           <Menu
+            className={style.menuStyle}
             theme="dark"
             mode="horizontal"
             onSelect={item => {
@@ -76,7 +77,8 @@ const AppHeader = ({ loggedUser, logOut }) => {
 
 const AppFooter = () => (
   <div className={style.mainLayoutFooter}>
-    Prodaja Stanova ©2021 Created by <img src={logo} alt="logo" className={style.mainlayoutlogo} />
+    <span style={{ marginRight: '10px' }}>Prodaja Stanova ©2021 Created by</span>{' '}
+    <img src={logo} alt="logo" className={style.mainlayoutlogo} />
   </div>
 );
 function MainLayout({ children, isLoggedIn, logOut }) {
@@ -84,16 +86,16 @@ function MainLayout({ children, isLoggedIn, logOut }) {
   let logUser = sessionStorage.getItem('user');
 
   return (
-    <div>
-      <Layout>
-        {isLoggedIn && <AppHeader logOut={logOut} loggedUser={logUser} />}
-        {isLoggedIn && <div className={style.header}></div>}
-        <div className={style.siteLayout}>
-          <Content>{children}</Content>
-        </div>
-        <Footer>{isLoggedIn && <AppFooter />}</Footer>
-      </Layout>
+    // <Layout>
+    <div style={{ height: '100%' }}>
+      {isLoggedIn && <AppHeader logOut={logOut} loggedUser={logUser} />}
+      <div className={style.siteLayout}>
+        <Content>{children}</Content>
+      </div>
+      {isLoggedIn && <AppFooter />}
     </div>
+
+    // </Layout>
   );
 }
 
