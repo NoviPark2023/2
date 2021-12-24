@@ -3,7 +3,6 @@ import style from './MainLayout.module.css';
 import 'antd/dist/antd.css';
 import { Button, Layout, Menu, Modal } from 'antd';
 import logo from 'assets/logo.png';
-// import { loginContext } from 'App';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 
 const { Header, Content } = Layout;
@@ -11,13 +10,20 @@ const { Header, Content } = Layout;
 const AppHeader = ({ loggedUser, logOut }) => {
   const [visible, setVisible] = useState(false);
   const history = useHistory();
-  console.log(useLocation());
+
   const confirmSignout = e => {
     logOut();
     sessionStorage.removeItem('Token', 'fakeToken');
     history.push('/');
   };
+  const location = useLocation();
 
+  const changeTab = () => {
+    return window.location.pathname;
+  };
+  const selectedTab = item => {
+    return '/klijenti';
+  };
   const showModal = () => {
     setVisible(true);
   };
@@ -29,23 +35,20 @@ const AppHeader = ({ loggedUser, logOut }) => {
             className={style.menuStyle}
             theme="dark"
             mode="horizontal"
-            onSelect={item => {
-              localStorage.setItem('navigationIndex', item.key);
-            }}
-            defaultSelectedKeys={
-              localStorage.getItem('navigationIndex') ? localStorage.getItem('navigationIndex') : '1'
-            }
+            onSelect={selectedTab}
+            selectedKeys={[location.pathname]}
+            defaultSelectedKeys={changeTab}
           >
-            <Menu.Item key={1}>
+            <Menu.Item key={'/stanovi'}>
               <Link to="/stanovi">Stanovi</Link>
             </Menu.Item>
-            <Menu.Item key={2}>
+            <Menu.Item key={'/klijenti'}>
               <Link to="/klijenti">Klijenti</Link>
             </Menu.Item>
-            <Menu.Item key={3}>
+            <Menu.Item key={'/korisnici'}>
               <Link to="/korisnici">Korisnici</Link>
             </Menu.Item>
-            <Menu.Item key={4}>
+            <Menu.Item key={'/izvestaji'}>
               <Link to="/izvestaji">Izveštaji</Link>
             </Menu.Item>
           </Menu>
@@ -82,11 +85,9 @@ const AppFooter = () => (
   </div>
 );
 function MainLayout({ children, isLoggedIn, logOut }) {
-  // const { logUser } = useContext(loginContext);
   let logUser = sessionStorage.getItem('user');
 
   return (
-    // <Layout>
     <div style={{ height: '100%' }}>
       {isLoggedIn && <AppHeader logOut={logOut} loggedUser={logUser} />}
       <div className={style.siteLayout}>
@@ -94,8 +95,6 @@ function MainLayout({ children, isLoggedIn, logOut }) {
       </div>
       {isLoggedIn && <AppFooter />}
     </div>
-
-    // </Layout>
   );
 }
 
