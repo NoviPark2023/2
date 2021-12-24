@@ -241,7 +241,7 @@ function PregledKorisnika() {
 
   return (
     <div>
-      <div style={{ marginBottom: '0.5rem' }}>
+      <div style={{ margin: 20 }}>
         <Button type="primary" onClick={() => showModal(true)}>
           Dodaj Novog Korisnika
         </Button>

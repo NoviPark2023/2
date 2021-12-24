@@ -332,7 +332,14 @@ function PregledStanova() {
       title: 'Detalji',
       render: (text, record) => (
         <Link to={`/stanovi/${record.id_stana}`}>
-          <Button style={{ color: 'blue', border: '1px solid black' }}>Detalji</Button>
+          <Button
+            style={{ color: 'blue', border: '1px solid black' }}
+            onClick={() => {
+              getListaPonuda(record.id_stana);
+            }}
+          >
+            Detalji
+          </Button>
         </Link>
       ),
     },

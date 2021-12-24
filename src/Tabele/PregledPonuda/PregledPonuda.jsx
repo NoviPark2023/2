@@ -244,8 +244,11 @@ const PregledPonuda = () => {
             onClick={() => {
               showModal(true);
               setPonuda(record);
+              {
+              }
             }}
           >
+            {console.log(record, 'record podaci')}
             Izmeni
           </Button>
         </>
