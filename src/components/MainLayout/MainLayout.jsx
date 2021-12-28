@@ -18,12 +18,6 @@ const AppHeader = ({ loggedUser, logOut }) => {
   };
   const location = useLocation();
 
-  const changeTab = () => {
-    return window.location.pathname;
-  };
-  const selectedTab = item => {
-    return '/klijenti';
-  };
   const showModal = () => {
     setVisible(true);
   };
@@ -31,14 +25,7 @@ const AppHeader = ({ loggedUser, logOut }) => {
     <Header className={style.headerLayout}>
       <div className={style.layoutHeader}>
         <div className={style.headerPages}>
-          <Menu
-            className={style.menuStyle}
-            theme="dark"
-            mode="horizontal"
-            onSelect={selectedTab}
-            selectedKeys={[location.pathname]}
-            defaultSelectedKeys={changeTab}
-          >
+          <Menu className={style.menuStyle} theme="dark" mode="horizontal" selectedKeys={[location.pathname]}>
             <Menu.Item key={'/stanovi'}>
               <Link to="/stanovi">Stanovi</Link>
             </Menu.Item>
