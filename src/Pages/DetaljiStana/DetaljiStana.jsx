@@ -5,6 +5,7 @@ import { api } from 'api/api';
 import IzmeneStanova from 'Form/IzmeneStanova/IzmeneStanova';
 import styles from './DetaljiStana.module.css';
 import 'antd/dist/antd.css';
+import Grafikon from 'components/Grafikoni/Grafikon';
 
 function DetaljiStana(props) {
   const [loading, setLoading] = useState(false);
@@ -92,7 +93,6 @@ function DetaljiStana(props) {
               <Descriptions.Item label="Broj soba">{data.broj_soba}</Descriptions.Item>
               <Descriptions.Item label="Broj terasa">{data.broj_terasa}</Descriptions.Item>
               <Descriptions.Item label="Cena stana">{data.cena_stana}</Descriptions.Item>
-              <Descriptions.Item label="Cena stana za kupca">{data.cena_stana_za_kupca}</Descriptions.Item>
               <Descriptions.Item label="Kvadratura">{data.kvadratura}</Descriptions.Item>
               <Descriptions.Item label="Orijentisanost">{data.orijentisanost}</Descriptions.Item>
               <Descriptions.Item label="Sprat">{data.sprat}</Descriptions.Item>
@@ -109,6 +109,9 @@ function DetaljiStana(props) {
           >
             <IzmeneStanova getData={onUpdate} edit propsstan={data} closeModal={() => setEditModal(false)} />
           </Modal>
+          <Card className={styles.textLabel} style={{ width: '50%', margin: '15px' }}>
+            <Grafikon></Grafikon>
+          </Card>
         </div>
       </>
     );
