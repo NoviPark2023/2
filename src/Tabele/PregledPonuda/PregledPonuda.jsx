@@ -137,7 +137,7 @@ const PregledPonuda = () => {
     {
       key: '2',
       title: 'Kupac',
-      dataIndex: 'kupac',
+      dataIndex: 'ime_kupca',
       ...getColumnSearchProps('kupac'),
     },
     {
@@ -244,8 +244,6 @@ const PregledPonuda = () => {
             onClick={() => {
               showModal(true);
               setPonuda(record);
-              {
-              }
             }}
           >
             {console.log(record, 'record podaci')}
