@@ -7,6 +7,16 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
 function PregledStanova() {
+  const [place, setPlace] = useState({});
+
+  const getPlace = async () => {
+    api.get('/reports/').then(res => {
+      setPlace(res.place);
+    });
+  };
+  useEffect(() => {
+    getPlace();
+  }, []);
   /////state za izmeni
   const [isEditPlaceVisible, setIsEditPlaceVisible] = useState(false);
   const [isCreatePlaceVisible, setIsCreatePlaceVisible] = useState(false);
