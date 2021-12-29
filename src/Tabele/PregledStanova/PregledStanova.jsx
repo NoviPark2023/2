@@ -407,7 +407,7 @@ function PregledStanova() {
         </Button>
       </div>
 
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: [4] }}></Table>
+      <Table columns={columns} dataSource={data} pagination={{ pageSize: [6] }}></Table>
 
       <Modal title="Izmeni" visible={isEditPlaceVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <IzmeneStanova edit propsstan={selectedPlace} getData={getData} closeModal={() => showModal(false)} />
