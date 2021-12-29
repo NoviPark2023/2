@@ -8,34 +8,35 @@ import { api } from 'api/api';
 const { Title } = Typography;
 
 function IzvestajKlijenti() {
-  const [data, setData] = useState([]);
+  const [dataReserve, setDataReserve] = useState([]);
+  const [dataSale, setdataSale] = useState([]);
 
   const getData = async () => {
     api.get('/reports/kupci/').then(res => {
-      const list = res.data.map(item => ({ ...item, modal: false }));
-      setData(list);
+      if (res.data && res.data.length) {
+        const dataReserve = res.data.map(item => {
+          return {
+            name: item.ime_prezime,
+            pv: item.rezervisani_stanovi_klijenti,
+            amt: 250,
+          };
+        });
+        const dataSale = res.data.map(item => {
+          return {
+            name: item.ime_prezime,
+            pv: item.prodati_stanovi_klijenti,
+            amt: 250,
+          };
+        });
+        setDataReserve(dataReserve);
+        setdataSale(dataSale);
+      }
     });
   };
   useEffect(() => {
     getData();
   }, []);
-  const data01 = [
-    {
-      name: 'Kupac1',
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: 'Kupac2',
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: 'Kupac3',
-      pv: 9800,
-      amt: 2290,
-    },
-  ];
+
   return (
     <>
       <Row>
@@ -47,7 +48,7 @@ function IzvestajKlijenti() {
           <BarChart
             width={900}
             height={400}
-            data={data01}
+            data={dataReserve}
             margin={{
               top: 5,
               right: 30,
@@ -73,7 +74,7 @@ function IzvestajKlijenti() {
           <BarChart
             width={900}
             height={400}
-            data={data01}
+            data={dataSale}
             margin={{
               top: 5,
               right: 30,
