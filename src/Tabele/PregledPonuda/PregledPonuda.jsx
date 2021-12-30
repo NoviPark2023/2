@@ -41,6 +41,13 @@ const PregledPonuda = () => {
     });
   };
 
+  ////ugovor
+  const Ugovor = id_ponude => {
+    api.get(`/ponude/preuzmi-ugovor/${id_ponude}/`).then(res => {
+      setSelectedPonude(res.data.results);
+    });
+  };
+
   // modal dodaj
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
 
@@ -148,12 +155,18 @@ const PregledPonuda = () => {
     },
     {
       key: '4',
+      title: 'Lamela stana',
+      dataIndex: 'lamela_stana',
+      ...getColumnSearchProps('lamela_stana'),
+    },
+    {
+      key: '5',
       title: 'Cena ponude stana',
       dataIndex: 'cena_stana_za_kupca',
       ...getColumnSearchProps('cena_stana_za_kupca'),
     },
     {
-      key: '5',
+      key: '6',
       title: 'Cena stana',
       dataIndex: 'cena_stana',
       ...getColumnSearchProps('cena_stana'),
@@ -161,19 +174,19 @@ const PregledPonuda = () => {
     },
 
     {
-      key: '6',
+      key: '7',
       title: 'Broj ugovora',
       dataIndex: 'broj_ugovora',
       ...getColumnSearchProps('broj_ugovora'),
     },
     {
-      key: '7',
+      key: '8',
       title: 'Datum ugovora',
       dataIndex: 'datum_ugovora',
       ...getColumnSearchProps('datum_ugovora'),
     },
     {
-      key: '8',
+      key: '9',
       title: 'Nacin placanja',
       dataIndex: 'nacin_placanja',
       render: (text, record) => <span>{PAYMENT_TYPE_LABELS[record.nacin_placanja]}</span>,
@@ -199,7 +212,7 @@ const PregledPonuda = () => {
       sorter: (a, b) => a.nacin_placanja - b.nacin_placanja,
     },
     {
-      key: '9',
+      key: '10',
       title: 'Status',
       dataIndex: 'status_ponude',
       filters: [
@@ -219,23 +232,22 @@ const PregledPonuda = () => {
       onFilter: (value, record) => record.status_ponude.indexOf(value) === 0,
     },
     {
-      key: '10',
-      title: 'Napomena',
+      key: '11',
+      title: 'Ugovor',
       render: (text, record) => (
         <>
           <Button
             onClick={() => {
-              showModal(true);
-              setPonuda(record);
+              Ugovor(record.id_ponude);
             }}
           >
-            Napomena
+            Ugovor
           </Button>
         </>
       ),
     },
     {
-      key: '11',
+      key: '12',
       title: 'Izmeni',
       render: (text, record) => (
         <>
@@ -246,14 +258,13 @@ const PregledPonuda = () => {
               setPonuda(record);
             }}
           >
-            {console.log(record, 'record podaci')}
             Izmeni
           </Button>
         </>
       ),
     },
     {
-      key: '12',
+      key: '13',
       title: 'Obrisi',
       render: (text, record) => (
         <>
