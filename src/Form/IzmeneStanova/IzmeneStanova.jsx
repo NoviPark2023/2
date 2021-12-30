@@ -42,19 +42,13 @@ function IzmeneStanova(propsstan) {
         toast.success('Uspesno ste izmenili podatke');
       })
       .catch(e => {
-        propsstan.closeModal();
+        toast.error('Greskaaa');
       });
   };
 
   return (
     <div>
-      <Form
-        layout="vertical"
-        form={form}
-        initialValues={{
-          remember: true,
-        }}
-      >
+      <Form layout="vertical" form={form}>
         <FormItem
           label="Lamela"
           name="lamela"
@@ -172,12 +166,12 @@ function IzmeneStanova(propsstan) {
           name="cena_stana"
           rules={[
             {
-              required: true,
+              required: false,
               message: 'Unesite cenu stana!',
             },
           ]}
         >
-          <Input size="default" placeholder="Cena stana" />
+          <Input disabled="true" size="default" placeholder="Cena stana" />
         </FormItem>
 
         <FormItem
