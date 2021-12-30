@@ -7,6 +7,16 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
 function PregledStanova() {
+  const [place, setPlace] = useState({});
+
+  const getPlace = async () => {
+    api.get('/reports/').then(res => {
+      setPlace(res.place);
+    });
+  };
+  useEffect(() => {
+    getPlace();
+  }, []);
   /////state za izmeni
   const [isEditPlaceVisible, setIsEditPlaceVisible] = useState(false);
   const [isCreatePlaceVisible, setIsCreatePlaceVisible] = useState(false);
@@ -397,7 +407,7 @@ function PregledStanova() {
         </Button>
       </div>
 
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: [4] }}></Table>
+      <Table columns={columns} dataSource={data} pagination={{ pageSize: [6] }}></Table>
 
       <Modal title="Izmeni" visible={isEditPlaceVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <IzmeneStanova edit propsstan={selectedPlace} getData={getData} closeModal={() => showModal(false)} />

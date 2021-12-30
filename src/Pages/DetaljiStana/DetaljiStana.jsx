@@ -32,7 +32,6 @@ function DetaljiStana(props) {
     api
       .get(`/stanovi/detalji-stana/${id}`)
       .then(response => {
-        console.log(response.data);
         setData(response.data);
       })
       .catch(onFecthError)

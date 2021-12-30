@@ -67,6 +67,7 @@ function NoviKlijent(props) {
         }}
       >
         <FormItem
+          label="Izaberite preduzetnika"
           name="lice"
           rules={[
             {
@@ -75,14 +76,7 @@ function NoviKlijent(props) {
             },
           ]}
         >
-          <Select
-            onChange={handleSelect}
-            id="lice"
-            value={data.lice}
-            labelInValue
-            defaultValue={{ value: 'Preduzetnik' }}
-            style={{ width: 120 }}
-          >
+          <Select onChange={handleSelect} id="lice" value={data.lice} labelInValue style={{ width: 120 }}>
             <Option value="Fizicko">Fizicko Lice</Option>
             <Option value="Pravno">Pravno Lice</Option>
           </Select>

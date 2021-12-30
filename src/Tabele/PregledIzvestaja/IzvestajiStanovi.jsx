@@ -7,6 +7,49 @@ import { api } from 'api/api';
 
 const { Title } = Typography;
 
+// const test = [
+//   {
+//     id: 1,
+//     ime: 'Nikola',
+//     prezime: 'Nikola',
+//     email: 'nikola@nikola.com',
+//     role: 'Administrator',
+//     prodati_stanovi_korisnici: 2,
+//   },
+//   {
+//     id: 18,
+//     ime: 'Nataša',
+//     prezime: 'Pešić',
+//     email: 'natasa.pesic@factoryww.com',
+//     role: 'Prodavac',
+//     prodati_stanovi_korisnici: 1,
+//   },
+//   {
+//     id: 14,
+//     ime: 'Ivana',
+//     prezime: 'Tepavac',
+//     email: 'ivana.tepavac@factoyww.com',
+//     role: 'Prodavac',
+//     prodati_stanovi_korisnici: 5,
+//   },
+//   {
+//     id: 8,
+//     ime: 'Dejan',
+//     prezime: 'Cugalj',
+//     email: 'it@dejan.pro',
+//     role: 'Prodavac',
+//     prodati_stanovi_korisnici: 7,
+//   },
+//   {
+//     id: 19,
+//     ime: 'Bojan',
+//     prezime: 'Bajkovec',
+//     email: 'bojan@gmail.com',
+//     role: 'Prodavac',
+//     prodati_stanovi_korisnici: 3,
+//   },
+// ];
+
 function IzvestajiStanovi() {
   const [data, setData] = useState({});
   const [users, setUsers] = useState([]);
@@ -19,8 +62,12 @@ function IzvestajiStanovi() {
 
   const getUsers = async () => {
     api.get('/reports/korisnici/').then(res => {
-      const list = res.data.map(item => ({ ...item, modal: false }));
-      setUsers(list);
+      if (res.data && res.data.length) {
+        const data = res.data.map(item => {
+          return { name: item.ime, pv: item.prodati_stanovi_korisnici, amt: 250 };
+        });
+        setUsers(data);
+      }
     });
   };
   useEffect(() => {
@@ -71,24 +118,6 @@ function IzvestajiStanovi() {
         { name: 'dec', uv: data.prodaja_po_mesecima[0].dec },
       ]
     : [];
-
-  const users01 = [
-    {
-      name: 'Kupac1',
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: 'Kupac2',
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: 'Kupac3',
-      pv: 9800,
-      amt: 2290,
-    },
-  ];
 
   const data05 = [
     {
@@ -166,7 +195,7 @@ function IzvestajiStanovi() {
   ];
   return (
     <>
-      <Row>
+      <Row style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Col span={12}>
           <Title className={styles.styleTitle} level={3}>
             1.Ukupan broj stanova <InputNumber readOnly min={1} max={250} value={data.ukupno_stanova} />
@@ -175,22 +204,22 @@ function IzvestajiStanovi() {
           <BarChart width={300} height={300} data={data01}>
             <Bar dataKey="uv" fill="#e74c3c" />
           </BarChart>
-          <InputNumber className={styles.styleNumber} readOnly min={1} max={250} value={data.dostupan} />
-          <InputNumber className={styles.styleNumber} readOnly min={1} max={250} value={data.rezervisano} />
-          <InputNumber className={styles.styleNumber} readOnly min={1} max={250} value={data.prodat} />
           <Row>
             <Col span={6}>
-              <Title style={{ marginLeft: '10px', marginTop: '5px' }} level={5}>
+              <InputNumber className={styles.styleNumber} readOnly min={1} max={250} value={data.dostupan} />
+              <Title className={styles.styleSubtitle} level={5}>
                 Dostupni
               </Title>
             </Col>
             <Col span={6}>
-              <Title style={{ marginLeft: '-10px', marginTop: '5px' }} level={5}>
+              <InputNumber className={styles.styleNumber} readOnly min={1} max={250} value={data.rezervisano} />
+              <Title className={styles.styleSubtitle} level={5}>
                 Rezervisani
               </Title>
             </Col>
             <Col span={6}>
-              <Title style={{ marginLeft: '-30px', marginTop: '5px' }} level={5}>
+              <InputNumber className={styles.styleNumber} readOnly min={1} max={250} value={data.prodat} />
+              <Title className={styles.styleSubtitle} level={5}>
                 Prodati
               </Title>
             </Col>
@@ -248,7 +277,7 @@ function IzvestajiStanovi() {
           <BarChart
             width={900}
             height={400}
-            data={users01}
+            data={users}
             margin={{
               top: 5,
               right: 30,
