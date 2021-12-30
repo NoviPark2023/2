@@ -64,7 +64,7 @@ function IzvestajiStanovi() {
     api.get('/reports/korisnici/').then(res => {
       if (res.data && res.data.length) {
         const data = res.data.map(item => {
-          return { name: item.ime, pv: item.prodati_stanovi_korisnici, amt: 250 };
+          return { name: item.ime, pv: item.prodati_stanovi_korisnici };
         });
         setUsers(data);
       }
@@ -119,80 +119,59 @@ function IzvestajiStanovi() {
       ]
     : [];
 
-  const data05 = [
-    {
-      name: 'jan',
-      uv: 0,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: 'feb',
-      uv: 900,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: 'mart',
-      uv: 1000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: 'april',
-      uv: 1780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: 'maj',
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: 'jun',
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: 'jul',
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-    {
-      name: 'avg',
-      uv: 1780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: 'sep',
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: 'okt',
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: 'nov',
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-    {
-      name: 'dec',
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
+  const data05 = data.ukupna_suma_prodatih_stanova
+    ? [
+        {
+          name: 'jan',
+          uv: data.ukupna_suma_prodatih_stanova[0].jan.ukupna_suma_prodatih_stanova,
+        },
+        {
+          name: 'feb',
+          uv: data.ukupna_suma_prodatih_stanova[0].feb.ukupna_suma_prodatih_stanova,
+        },
+        {
+          name: 'mart',
+          uv: data.ukupna_suma_prodatih_stanova[0].mart.ukupna_suma_prodatih_stanova,
+        },
+        {
+          name: 'april',
+          uv: data.ukupna_suma_prodatih_stanova[0].apr.ukupna_suma_prodatih_stanova,
+        },
+        {
+          name: 'maj',
+          uv: data.ukupna_suma_prodatih_stanova[0].maj.ukupna_suma_prodatih_stanova,
+        },
+        {
+          name: 'jun',
+          uv: data.ukupna_suma_prodatih_stanova[0].jun.ukupna_suma_prodatih_stanova,
+        },
+        {
+          name: 'jul',
+          uv: data.ukupna_suma_prodatih_stanova[0].jul.ukupna_suma_prodatih_stanova,
+        },
+        {
+          name: 'avg',
+          uv: data.ukupna_suma_prodatih_stanova[0].avg.ukupna_suma_prodatih_stanova,
+        },
+        {
+          name: 'sep',
+          uv: data.ukupna_suma_prodatih_stanova[0].sep.ukupna_suma_prodatih_stanova,
+        },
+        {
+          name: 'okt',
+          uv: data.ukupna_suma_prodatih_stanova[0].okt.ukupna_suma_prodatih_stanova,
+        },
+        {
+          name: 'nov',
+          uv: data.ukupna_suma_prodatih_stanova[0].nov.ukupna_suma_prodatih_stanova,
+        },
+        {
+          name: 'dec',
+          uv: data.ukupna_suma_prodatih_stanova[0].dec.ukupna_suma_prodatih_stanova,
+        },
+      ]
+    : [];
+
   return (
     <>
       <Row style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -299,25 +278,22 @@ function IzvestajiStanovi() {
           <Title className={styles.styleTitle} level={3}>
             5.Rast prodaje
           </Title>
-
           <LineChart
             width={900}
             height={400}
             data={data05}
             margin={{
-              top: 5,
+              top: 10,
               right: 30,
-              left: 20,
-              bottom: 5,
+              left: 0,
+              bottom: 0,
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-            <Legend />
-
-            <Line type="monotone" dataKey="uv" stroke="#e74c3c" fill="#1890ff" />
+            <Line connectNulls type="monotone" dataKey="uv" stroke="#e74c3c" fill="#1890ff" />
           </LineChart>
         </Col>
       </Row>
