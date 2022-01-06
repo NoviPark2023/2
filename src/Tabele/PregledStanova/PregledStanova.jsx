@@ -6,17 +6,17 @@ import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
-function PregledStanova() {
-  const [place, setPlace] = useState({});
+function PregledStanova(propsID) {
+  // const [place, setPlace] = useState({});
 
-  const getPlace = async () => {
-    api.get('/reports/').then(res => {
-      setPlace(res.place);
-    });
-  };
-  useEffect(() => {
-    getPlace();
-  }, []);
+  // const getPlace = async () => {
+  //   api.get('/reports/').then(res => {
+  //     setPlace(res.place);
+  //   });
+  // };
+  // useEffect(() => {
+  //   getPlace();
+  // }, []);
   /////state za izmeni
   const [isEditPlaceVisible, setIsEditPlaceVisible] = useState(false);
   const [isCreatePlaceVisible, setIsCreatePlaceVisible] = useState(false);
@@ -142,13 +142,12 @@ function PregledStanova() {
       key: '1',
       title: 'ID',
       dataIndex: 'id_stana',
-      ...getColumnSearchProps('id_kupca'), /////pozivanje search-a u tabeli
     },
     {
       key: '2',
       title: 'Lamela',
       dataIndex: 'lamela',
-      ...getColumnSearchProps('lamela'),
+      ...getColumnSearchProps('lamela'), /////pozivanje search-a u tabeli
     },
     {
       key: '3',
@@ -184,6 +183,10 @@ function PregledStanova() {
         {
           text: '80-120',
           value: [80, 120],
+        },
+        {
+          text: '120-170',
+          value: [120, 170],
         },
       ],
       onFilter: (value, record) => record.kvadratura >= value[0] && record.kvadratura <= value[1],
@@ -241,14 +244,6 @@ function PregledStanova() {
       dataIndex: 'orijentisanost',
       filters: [
         {
-          text: 'Istok',
-          value: 'Istok',
-        },
-        {
-          text: 'Zapad',
-          value: 'Zapad',
-        },
-        {
           text: 'Sever',
           value: 'Sever',
         },
@@ -276,6 +271,10 @@ function PregledStanova() {
           text: '2',
           value: [2],
         },
+        {
+          text: '3',
+          value: [3],
+        },
       ],
       onFilter: (value, record) => record.broj_terasa >= value[0] && record.broj_terasa <= value[1],
       sorter: (a, b) => a.broj_terasa - b.broj_terasa,
@@ -286,16 +285,20 @@ function PregledStanova() {
       dataIndex: 'cena_stana',
       filters: [
         {
-          text: '20.000e-40.000e',
-          value: [20000, 40000],
+          text: '50000-70000',
+          value: [50000, 70000],
         },
         {
-          text: '45.000e-65.000e',
-          value: [45000, 65000],
+          text: '75000-100000',
+          value: [75000, 100000],
         },
         {
-          text: '70.000e-120.000e',
-          value: [70000, 120000],
+          text: '100000-150000',
+          value: [100000, 150000],
+        },
+        {
+          text: '150000-200000',
+          value: [150000, 200000],
         },
       ],
       onFilter: (value, record) => record.cena_stana >= value[0] && record.cena_stana <= value[1],

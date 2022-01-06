@@ -22,3 +22,21 @@ api.interceptors.response.use(
     return Promise.reject(error.toJSON());
   }
 );
+
+// api.interceptors.response.use(
+//   response => {
+//     return response;
+//   },
+//   error => {
+//     if (error.response.status === 401) {
+//       return (api.defaults.URL = 'http://192.168.0.30:3000');
+//     }
+//   }
+// );
+
+// http.interceptors.response.use(
+//   (response: any) => response,
+//   function (error) {
+//     return Promise.reject(error.response)
+//   }
+// )

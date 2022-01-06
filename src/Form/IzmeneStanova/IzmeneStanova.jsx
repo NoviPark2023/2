@@ -179,12 +179,12 @@ function IzmeneStanova(propsstan) {
           name="status_prodaje"
           rules={[
             {
-              required: true,
+              required: false,
               message: 'Unesite Status!',
             },
           ]}
         >
-          <Select value={form.getFieldsValue().status_prodaje} style={{ width: 120 }}>
+          <Select disabled="true" value={form.getFieldsValue().status_prodaje} style={{ width: 120 }}>
             <Option value="dostupan">Dostupan</Option>
             <Option value="rezervisan">Rezervisan</Option>
             <Option value="prodat">Prodat</Option>
