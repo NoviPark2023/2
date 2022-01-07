@@ -2,9 +2,17 @@ import React, {useEffect, useState} from 'react';
 import {Row, Col, Typography} from 'antd/lib';
 import 'antd/dist/antd.css';
 import {api} from 'api/api';
-import {Card} from "antd";
+import {Card, Divider} from "antd";
 import {Statistic} from "antd/es";
-import {ArrowDownOutlined, ArrowUpOutlined} from "@ant-design/icons";
+import {
+    ArrowDownOutlined,
+    ArrowUpOutlined,
+    CalculatorOutlined,
+    CaretRightOutlined,
+    LoginOutlined
+} from "@ant-design/icons";
+import styles from "./PregledIzvestaja.module.css";
+import Title from "antd/es/typography/Title";
 
 
 function RoiIzvestaji() {
@@ -17,6 +25,14 @@ function RoiIzvestaji() {
         });
     };
 
+    // Set Ukupan ROI Stanova
+    const [roiStanovi, setRoiStanovi] = useState({});
+    const getRoiStanovi = async () => {
+        api.get('/reports/roi/').then(res => {
+            setRoiStanovi(res.data.ukupan_roi_stanova);
+        });
+    };
+
     // Suma Ukupnih cena Stanova po Lamelama
     const [sumaCenaStanovaLamela, setCenaStanovaLamela] = useState({});
     const getSumaCenaStanovaLamela = async () => {
@@ -25,38 +41,27 @@ function RoiIzvestaji() {
         });
     };
 
-    // const getRoiData = async () => {
-    //     api.get('/reports/roi/').then(res => {
-    //         console.log("############res.data#########")
-    //         console.log(res.data)
-    //         console.log("########res.data.kvadratura_stanova.stanovi_ukupno_kvadrata#############")
-    //         console.log(res.data.kvadratura_stanova.stanovi_ukupno_kvadrata)
-    //         if (res.data && res.data.length) {
-    //             const data = res.data.map(item => {
-    //                 return {name: item.ime, pv: item.stanovi_ukupno_kvadrata};
-    //             });
-    //             setDataRoi(data);
-    //         } else {
-    //             console.log('######## NO NO ##########')
-    //         }
-    //     });
-    // };
-
 
     useEffect(() => {
         getKvadraturaStanovi();
         getSumaCenaStanovaLamela();
+        getRoiStanovi();
 
     }, []);
 
     return (
         <>
-            <div className="site-statistic-demo-card">
-                <Row gutter={16}>
-                    <Col span={12}>
+            {/*Kvadratura Stanova*/}
+            <div className="site-card-wrapper">
+                <Title className={styles.styleTitle} level={5}>
+                    Kvadratura Stanova
+                </Title>
+                <Row gutter={24}>
+
+                    <Col span={8}>
                         <Card>
                             <Statistic
-                                title="Ukupna suma kvadrata bez korekcije 3%"
+                                title="Ukupno kvadrata"
                                 value={kvadraturaStanova.stanovi_ukupno_kvadrata}
 
                                 precision={2}
@@ -66,11 +71,23 @@ function RoiIzvestaji() {
                             />
                         </Card>
                     </Col>
-                    <Col span={12}>
+                    <Col span={8}>
                         <Card>
                             <Statistic
-                                title="Ukupna suma kvadrata sa korekcijom od 3%"
+                                title="Ukupno kvadrata (-3%)"
                                 value={kvadraturaStanova.stanovi_ukupno_korekcija_kvadrata}
+                                precision={2}
+                                valueStyle={{color: '#cf1322'}}
+                                prefix={<ArrowDownOutlined/>}
+                                suffix="m2"
+                            />
+                        </Card>
+                    </Col>
+                    <Col span={8}>
+                        <Card>
+                            <Statistic
+                                title="Razlika (-3%)"
+                                value={kvadraturaStanova.razlika_kvadrati_korekcija}
                                 precision={2}
                                 valueStyle={{color: '#cf1322'}}
                                 prefix={<ArrowDownOutlined/>}
@@ -80,6 +97,87 @@ function RoiIzvestaji() {
                     </Col>
                 </Row>
             </div>
+            <Divider/>
+
+            {/*UKUPNE SUMA I PROSECNA CENA KVADRATA*/}
+            <div className="site-card-wrapper">
+                <Row gutter={24}>
+                    <Col span={12}>
+                        <Card>
+                            <Statistic
+                                title="Ukupna Suma"
+                                value={roiStanovi.ukupna_suma_cena_stanova}
+
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<CaretRightOutlined/>}
+                                suffix="€"
+                            />
+                        </Card>
+                    </Col>
+                    <Col span={12}>
+                        <Card>
+                            <Statistic
+                                title="Prosek cene kvadrata"
+                                value={roiStanovi.prosecna_cena_kvadrata}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<CaretRightOutlined/>}
+                                suffix="€"
+                            />
+                        </Card>
+                    </Col>
+                </Row>
+            </div>
+            <Divider/>
+
+            {/*UKUPNE SUME CENA STANOVA*/}
+            <div className="site-card-wrapper">
+                <Title className={styles.styleTitle} level={5}>
+                    Ukupna suma po lamelama
+                </Title>
+                <Row gutter={24}>
+                    <Col span={8}>
+                        <Card>
+                            <Statistic
+                                title="Lamela L1"
+                                value={roiStanovi.suma_cena_stanova_lamela_l1}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<CaretRightOutlined/>}
+                                suffix="€"
+                            />
+                        </Card>
+                    </Col>
+                    <Col span={8}>
+                        <Card>
+                            <Statistic
+                                title="Lamela L2"
+                                value={roiStanovi.suma_cena_stanova_lamela_l2}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<CaretRightOutlined/>}
+                                suffix="€"
+                            />
+                        </Card>
+                    </Col>
+                    <Col span={8}>
+                        <Card>
+                            <Statistic
+                                title="Lamela L3"
+                                value={roiStanovi.suma_cena_stanova_lamela_l3}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<CaretRightOutlined/>}
+                                suffix="€"
+                            />
+                        </Card>
+                    </Col>
+                </Row>
+            </div>
+            <Divider/>
+
+
             {/*            <Row>
                 <Col span={24}>
                     <Title className={styles.styleTitle} level={3}>

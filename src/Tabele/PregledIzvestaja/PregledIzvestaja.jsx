@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Layout, Menu} from 'antd';
-import {PieChartOutlined} from '@ant-design/icons';
+import {AreaChartOutlined, MenuUnfoldOutlined, PieChartOutlined} from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import IzvestajiStanovi from './IzvestajiStanovi';
 import IzvestajKlijenti from './IzvestajiKlijenti';
@@ -21,7 +21,7 @@ function PregledIzvestaja() {
                     <Menu.Item onClick={() => setMenuItem(2)} icon={<PieChartOutlined/>}>
                         Izvestaj o klijentima
                     </Menu.Item>
-                    <Menu.Item onClick={() => setMenuItem(3)} icon={<PieChartOutlined/>}>
+                    <Menu.Item onClick={() => setMenuItem(3)} icon={<AreaChartOutlined />}>
                         ROI Izeštaji
                     </Menu.Item>
                 </Menu>
