@@ -7,7 +7,7 @@ import {Statistic} from "antd/es";
 import {
     ArrowDownOutlined,
     ArrowUpOutlined,
-    CalculatorOutlined,
+    RightOutlined,
     CaretRightOutlined,
     LoginOutlined
 } from "@ant-design/icons";
@@ -177,33 +177,222 @@ function RoiIzvestaji() {
             </div>
             <Divider/>
 
+            {/*UKUPNE SUME PO LAMELAMA I SPRATOVIMA*/}
+            <div className="site-card-wrapper">
+                <Row gutter={24}>
 
-            {/*            <Row>
-                <Col span={24}>
-                    <Title className={styles.styleTitle} level={3}>
-                        {' '}
-                        2.Broj prodatih stanova po kupcu
-                    </Title>
-                    <BarChart
-                        width={900}
-                        height={400}
-                        data={dataSale}
-                        margin={{
-                            top: 5,
-                            right: 30,
-                            left: 20,
-                            bottom: 5,
-                        }}
-                    >
-                        <CartesianGrid strokeDasharray="3 3"/>
-                        <XAxis dataKey="name"/>
-                        <YAxis/>
-                        <Tooltip/>
-                        <Legend/>
-                        <Bar dataKey="pv" fill="#1890ff"/>
-                    </BarChart>
-                </Col>
-            </Row>*/}
+                    {/*UKUPNE SUME PO LAMELI 1 I SPRATOVIMA*/}
+                    <Col span={8}>
+                        <Card>
+                            <Statistic
+                                title="L1 1 SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l1_1}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                            <Statistic
+                                title="L1 2 SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l1_2}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                            <Statistic
+                                title="L1 3 SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l1_3}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                            <Statistic
+                                title="L1 4 SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l1_4}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                            <Statistic
+                                title="L1 5 SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l1_5}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                            <Statistic
+                                title="L1 6 SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l1_6}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                            <Statistic
+                                title="L1 7 SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l1_7}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                            <Statistic
+                                title="L1 PS SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l1_ps}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                        </Card>
+                    </Col>
+
+                    {/*UKUPNE SUME PO LAMELI 2 I SPRATOVIMA*/}
+                    <Col span={8}>
+                        <Card>
+                            <Statistic
+                                title="L2 1 SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l2_1}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                            <Statistic
+                                title="L2 2 SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l2_2}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                            <Statistic
+                                title="L2 3 SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l2_3}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                            <Statistic
+                                title="L2 4 SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l2_4}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                            <Statistic
+                                title="L2 5 SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l2_5}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                            <Statistic
+                                title="L2 6 SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l2_6}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                            <Statistic
+                                title="L2 7 SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l2_7}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                            <Statistic
+                                title="L2 PS SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l2_ps}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                        </Card>
+                    </Col>
+
+                    {/*UKUPNE SUME PO LAMELI 3 I SPRATOVIMA*/}
+                    <Col span={8}>
+                        <Card>
+                            <Statistic
+                                title="L3 1 SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l3_1}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                            <Statistic
+                                title="L3 2 SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l3_2}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                            <Statistic
+                                title="L3 3 SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l3_3}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                            <Statistic
+                                title="L3 4 SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l3_4}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                            <Statistic
+                                title="L3 5 SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l3_5}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                            <Statistic
+                                title="L3 6 SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l3_6}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                            <Statistic
+                                title="L3 7 SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l3_7}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                            <Statistic
+                                title="L3 PS SPRAT"
+                                value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l3_ps}
+                                precision={2}
+                                valueStyle={{color: '#3f8600'}}
+                                prefix={<RightOutlined/>}
+                                suffix="€"
+                            />
+                        </Card>
+                    </Col>
+                </Row>
+            </div>
+            <Divider/>
         </>
     );
 }
