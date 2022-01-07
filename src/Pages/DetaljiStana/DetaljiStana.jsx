@@ -109,7 +109,7 @@ function DetaljiStana(props) {
             <IzmeneStanova getData={onUpdate} edit propsstan={data} closeModal={() => setEditModal(false)} />
           </Modal>
           <Card className={styles.textLabel} style={{ width: '50%', margin: '15px' }}>
-            <Grafikon></Grafikon>
+            <Grafikon propsstan={data} />
           </Card>
         </div>
       </>

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { api } from 'api/api';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
-function Grafikon() {
+function Grafikon(propsstan) {
   const [data, setData] = useState({});
   const getData = () => {
-    api.get('/reports/').then(res => {
+    api.get(`/stanovi/ponude-stana-meseci/${propsstan.propsstan.id_stana}`).then(res => {
       setData(res.data);
     });
   };
