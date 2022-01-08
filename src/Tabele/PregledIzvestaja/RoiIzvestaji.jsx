@@ -189,7 +189,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l1_1}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                             <Statistic
@@ -197,7 +197,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l1_2}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                             <Statistic
@@ -205,7 +205,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l1_3}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                             <Statistic
@@ -213,7 +213,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l1_4}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                             <Statistic
@@ -221,7 +221,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l1_5}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                             <Statistic
@@ -229,7 +229,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l1_6}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                             <Statistic
@@ -237,7 +237,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l1_7}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                             <Statistic
@@ -245,7 +245,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l1_ps}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                         </Card>
@@ -259,7 +259,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l2_1}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                             <Statistic
@@ -267,7 +267,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l2_2}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                             <Statistic
@@ -275,7 +275,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l2_3}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                             <Statistic
@@ -283,7 +283,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l2_4}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                             <Statistic
@@ -291,7 +291,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l2_5}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                             <Statistic
@@ -299,7 +299,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l2_6}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                             <Statistic
@@ -307,7 +307,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l2_7}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                             <Statistic
@@ -315,7 +315,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l2_ps}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                         </Card>
@@ -329,7 +329,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l3_1}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                             <Statistic
@@ -337,7 +337,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l3_2}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                             <Statistic
@@ -345,7 +345,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l3_3}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                             <Statistic
@@ -353,7 +353,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l3_4}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                             <Statistic
@@ -361,7 +361,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l3_5}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                             <Statistic
@@ -369,7 +369,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l3_6}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                             <Statistic
@@ -377,7 +377,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l3_7}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                             <Statistic
@@ -385,7 +385,7 @@ function RoiIzvestaji() {
                                 value={sumaCenaStanovaLamela.svi_stanovi_po_lameli_l3_ps}
                                 precision={2}
                                 valueStyle={{color: '#3f8600'}}
-                                prefix={<RightOutlined/>}
+                                prefix=""
                                 suffix="€"
                             />
                         </Card>
