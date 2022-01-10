@@ -44,7 +44,10 @@ const PregledPonuda = () => {
   ////ugovor
   const Ugovor = id_ponude => {
     api.get(`/ponude/preuzmi-ugovor/${id_ponude}/`).then(res => {
-      setSelectedPonude(res.data.results);
+      const link = document.createElement('a');
+      link.href = res.data;
+      link.download = 'Ugovor';
+      link.click();
     });
   };
 

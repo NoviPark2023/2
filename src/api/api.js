@@ -23,20 +23,18 @@ api.interceptors.response.use(
   }
 );
 
-// api.interceptors.response.use(
-//   response => {
-//     return response;
-//   },
-//   error => {
-//     if (error.response.status === 401) {
-//       return (api.defaults.URL = 'http://192.168.0.30:3000');
-//     }
-//   }
-// );
+// const urlLogin = {
+//   URL: process.env.REACT_APP_API_URL,
+// };
+// console.log(urlLogin, 'url adresa');
 
-// http.interceptors.response.use(
-//   (response: any) => response,
-//   function (error) {
-//     return Promise.reject(error.response)
-//   }
-// )
+api.interceptors.response.use(
+  response => {
+    return response;
+  },
+  error => {
+    if (error.status === 401) {
+      window.location.replace(process.env.REACT_APP_API_URL);
+    }
+  }
+);
