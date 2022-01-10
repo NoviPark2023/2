@@ -5,8 +5,10 @@ import { api } from 'api/api';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import 'antd/dist/antd.css';
+import { Spin } from 'antd';
 
-function PregledStanova(propsID) {
+function PregledStanova() {
   // const [place, setPlace] = useState({});
 
   // const getPlace = async () => {
@@ -20,6 +22,9 @@ function PregledStanova(propsID) {
   /////state za izmeni
   const [isEditPlaceVisible, setIsEditPlaceVisible] = useState(false);
   const [isCreatePlaceVisible, setIsCreatePlaceVisible] = useState(false);
+
+  ///loader
+  const [loaderPage, setLoaderPage] = useState(false);
 
   /// Api za dovlacenje podataka stana
   const [selectedPlace, setSelectedPlace] = useState('');
@@ -45,9 +50,17 @@ function PregledStanova(propsID) {
 
   //// API lista stanova
   const getData = async () => {
-    api.get('/stanovi/').then(res => {
-      setData(res.data.results);
-    });
+    setLoaderPage(true);
+    api
+      .get('/stanovi/')
+      .then(res => {
+        if (res) {
+          setData(res.data.results);
+        }
+      })
+      .finally(() => {
+        setLoaderPage(false);
+      });
   };
 
   ////Api za brisanje stanova
@@ -293,12 +306,8 @@ function PregledStanova(propsID) {
           value: [75000, 100000],
         },
         {
-          text: '100000-150000',
+          text: '70.000e-120.000e',
           value: [100000, 150000],
-        },
-        {
-          text: '150000-200000',
-          value: [150000, 200000],
         },
       ],
       onFilter: (value, record) => record.cena_stana >= value[0] && record.cena_stana <= value[1],
@@ -425,6 +434,9 @@ function PregledStanova(propsID) {
       >
         <IzmeneStanova propsstan={selectedPlace} getData={getData} closeModal={() => setIsCreatePlaceVisible(false)} />
       </Modal>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {loaderPage && <Spin tip="Loading page" size="large"></Spin>}
+      </div>
     </div>
   );
 }
