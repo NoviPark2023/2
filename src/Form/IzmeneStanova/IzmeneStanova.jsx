@@ -184,7 +184,12 @@ function IzmeneStanova(propsstan) {
             },
           ]}
         >
-          <Select disabled="true" value={form.getFieldsValue().status_prodaje} style={{ width: 120 }}>
+          <Select
+            disabled="true"
+            defaultValue={'Rezervisan'}
+            value={form.getFieldsValue().status_prodaje}
+            style={{ width: 120 }}
+          >
             <Option value="dostupan">Dostupan</Option>
             <Option value="rezervisan">Rezervisan</Option>
             <Option value="prodat">Prodat</Option>

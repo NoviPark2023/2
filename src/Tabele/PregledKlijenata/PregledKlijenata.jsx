@@ -6,6 +6,8 @@ import IzmeneKlijenta from 'Form/IzmeneKlijenta/IzmeneKlijenta';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import 'antd/dist/antd.css';
+import { Spin } from 'antd';
 
 function PregledKlijenta() {
   /// state za dodaj
@@ -14,6 +16,8 @@ function PregledKlijenta() {
   const [, setIsNewClientVisible] = useState(false);
   /// Api za dovlacenje podataka podataka
   const [selectedUser, setSelectedUser] = useState('');
+  ///loader
+  const [loaderPage, setLoaderPage] = useState(false);
 
   ///modal za dodaj
   const showModal = isShow => {
@@ -47,10 +51,16 @@ function PregledKlijenta() {
 
   //// API lista klijenata
   const getData = async () => {
-    api.get('/kupci/').then(res => {
-      const list = res.data.results.map(item => ({ ...item, modal: false }));
-      setData(list);
-    });
+    setLoaderPage(true);
+    api
+      .get('/kupci/')
+      .then(res => {
+        const list = res.data.results.map(item => ({ ...item, modal: false }));
+        setData(list);
+      })
+      .finally(() => {
+        setLoaderPage(false);
+      });
   };
 
   ////Api Lista Korisnika
@@ -274,6 +284,9 @@ function PregledKlijenta() {
       <Modal title="Novi Klijent" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <NoviKlijent closeModal={() => showModal(false)} fetchUsers={getData} />
       </Modal>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {loaderPage && <Spin tip="Loading page" size="large"></Spin>}
+      </div>
     </div>
   );
 }

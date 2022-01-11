@@ -158,9 +158,8 @@ function IzmenaPonuda(propsponuda) {
           <Space direction="vertical" size={12}>
             {form.getFieldsValue().datum_ugovora}
             <DatePicker
-              value={moment(form.getFieldsValue().datum_ugovora)}
+              defaultValue={moment(form.getFieldsValue().datum_ugovora)}
               onChange={(val, newDate) => {
-                console.log('bla bla: ', val, newDate);
                 form.setFieldsValue({ datum_ugovora: newDate });
               }}
               format={'DD.MM.YYYY'}

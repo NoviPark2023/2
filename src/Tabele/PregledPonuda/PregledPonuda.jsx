@@ -240,6 +240,7 @@ const PregledPonuda = () => {
       render: (text, record) => (
         <>
           <Button
+            disabled={record.status_ponude === 'potencijalan'}
             onClick={() => {
               Ugovor(record.id_ponude);
             }}
@@ -255,6 +256,7 @@ const PregledPonuda = () => {
       render: (text, record) => (
         <>
           <Button
+            disabled={record.status_ponude === 'rezervisan' || record.status_ponude === 'kupljen'}
             type="primary"
             onClick={() => {
               showModal(true);
@@ -272,6 +274,7 @@ const PregledPonuda = () => {
       render: (text, record) => (
         <>
           <Popconfirm
+            disabled={record.status_ponude === 'rezervisan' || record.status_ponude === 'kupljen'}
             title="Da li ste sigurni da zelite da izbrisete ponudu?"
             placement="left"
             okButtonProps={{ loading: confirmLoading }}
@@ -280,7 +283,12 @@ const PregledPonuda = () => {
             okText="DA"
             onConfirm={() => deletePonuda(record.id_ponude)}
           >
-            <Button type="danger">Obrisi</Button>
+            <Button
+              disabled={record.status_ponude === 'rezervisan' || record.status_ponude === 'kupljen'}
+              type="danger"
+            >
+              Obrisi
+            </Button>
           </Popconfirm>
         </>
       ),
