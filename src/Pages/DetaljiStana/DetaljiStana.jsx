@@ -74,6 +74,7 @@ function DetaljiStana(props) {
             title="Detalji stana"
             extra={
               <Button
+                disabled={data.status_prodaje === 'rezervisan' || data.status_prodaje === 'prodat'}
                 type="primary"
                 onClick={() => {
                   setEditModal(true);

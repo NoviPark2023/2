@@ -7,49 +7,6 @@ import { api } from 'api/api';
 
 const { Title } = Typography;
 
-// const test = [
-//   {
-//     id: 1,
-//     ime: 'Nikola',
-//     prezime: 'Nikola',
-//     email: 'nikola@nikola.com',
-//     role: 'Administrator',
-//     prodati_stanovi_korisnici: 2,
-//   },
-//   {
-//     id: 18,
-//     ime: 'Nataša',
-//     prezime: 'Pešić',
-//     email: 'natasa.pesic@factoryww.com',
-//     role: 'Prodavac',
-//     prodati_stanovi_korisnici: 1,
-//   },
-//   {
-//     id: 14,
-//     ime: 'Ivana',
-//     prezime: 'Tepavac',
-//     email: 'ivana.tepavac@factoyww.com',
-//     role: 'Prodavac',
-//     prodati_stanovi_korisnici: 5,
-//   },
-//   {
-//     id: 8,
-//     ime: 'Dejan',
-//     prezime: 'Cugalj',
-//     email: 'it@dejan.pro',
-//     role: 'Prodavac',
-//     prodati_stanovi_korisnici: 7,
-//   },
-//   {
-//     id: 19,
-//     ime: 'Bojan',
-//     prezime: 'Bajkovec',
-//     email: 'bojan@gmail.com',
-//     role: 'Prodavac',
-//     prodati_stanovi_korisnici: 3,
-//   },
-// ];
-
 function IzvestajiStanovi() {
   const [data, setData] = useState({});
   const [users, setUsers] = useState([]);
@@ -97,9 +54,9 @@ function IzvestajiStanovi() {
   ];
 
   const data02 = [
-    { name: 'Rezervisani', value: data.procenat_rezervisan },
-    { name: 'Dostupni', value: data.procenat_dostupan },
-    { name: 'Prodati', value: data.procenat_prodat },
+    { name: 'Rezervisani', value: data.procenat_rezervisan, fill: '#47d147' },
+    { name: 'Dostupni', value: data.procenat_dostupan, fill: '#4080bf' },
+    { name: 'Prodati', value: data.procenat_prodat, fill: ' #661400' },
   ];
 
   const data03 = data.prodaja_po_mesecima
@@ -184,19 +141,19 @@ function IzvestajiStanovi() {
             <Bar dataKey="uv" fill="#e74c3c" />
           </BarChart>
           <Row>
-            <Col span={6}>
+            <Col span={4}>
               <InputNumber className={styles.styleNumber} readOnly min={1} max={250} value={data.dostupan} />
               <Title className={styles.styleSubtitle} level={5}>
                 Dostupni
               </Title>
             </Col>
-            <Col span={6}>
+            <Col span={4}>
               <InputNumber className={styles.styleNumber} readOnly min={1} max={250} value={data.rezervisano} />
               <Title className={styles.styleSubtitle} level={5}>
                 Rezervisani
               </Title>
             </Col>
-            <Col span={6}>
+            <Col span={4}>
               <InputNumber className={styles.styleNumber} readOnly min={1} max={250} value={data.prodat} />
               <Title className={styles.styleSubtitle} level={5}>
                 Prodati
@@ -210,16 +167,7 @@ function IzvestajiStanovi() {
             2.Prodaja stanova izrazena u procentima
           </Title>
           <PieChart width={900} height={400}>
-            <Pie
-              dataKey="value"
-              isAnimationActive={true}
-              data={data02}
-              cx={180}
-              cy={170}
-              outerRadius={150}
-              fill="#1890ff"
-              label
-            />
+            <Pie dataKey="value" isAnimationActive={true} data={data02} cx={180} cy={170} outerRadius={150} label />
             <Tooltip />
           </PieChart>
         </Col>

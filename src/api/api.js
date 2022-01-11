@@ -23,11 +23,6 @@ api.interceptors.response.use(
   }
 );
 
-// const urlLogin = {
-//   URL: process.env.REACT_APP_API_URL,
-// };
-// console.log(urlLogin, 'url adresa');
-
 api.interceptors.response.use(
   response => {
     return response;
