@@ -4,11 +4,12 @@
   margin-bottom: 20px;
 }
 .styleNumber {
-  margin-left: 10px;
+  margin-left: 5px;
   margin-top: 10px;
+  text-align: center;
 }
 
 .styleSubtitle {
-  margin-left: 10px;
+  margin-left: 15px;
   margin-top: 5px;
 }

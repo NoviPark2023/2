@@ -5,6 +5,8 @@ import NoviKorisnikForm from 'Form/NoviKorisnik/NoviKorisnikForm';
 import IzmenaKorisnika from 'Form/IzmenaKorisnika/IzmenaKorisnika';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
+import 'antd/dist/antd.css';
+import { Spin } from 'antd';
 
 function PregledKorisnika() {
   ///// modal za dodaj
@@ -13,6 +15,8 @@ function PregledKorisnika() {
   const [, setIsNewClientVisible] = useState(false);
   /// Api za dovlacenje podataka podataka
   const [selectedKorisnika, setSelectedKorisnika] = useState('');
+  ///loader
+  const [loaderPage, setLoaderPage] = useState(false);
 
   /////modal za dodaj
   const showModal = isShow => {
@@ -45,10 +49,16 @@ function PregledKorisnika() {
 
   ////Api Lista Korisnika
   const getData = async () => {
-    api.get('/korisnici/').then(res => {
-      const list = res.data.map(item => ({ ...item, modal: false }));
-      setData(list);
-    });
+    setLoaderPage(true);
+    api
+      .get('/korisnici/')
+      .then(res => {
+        const list = res.data.map(item => ({ ...item, modal: false }));
+        setData(list);
+      })
+      .finally(() => {
+        setLoaderPage(false);
+      });
   };
 
   ///api za brisanje korisnika
@@ -250,6 +260,9 @@ function PregledKorisnika() {
       <Modal title="Novi Korisnik" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <NoviKorisnikForm closeModal={() => showModal(false)} fetchUsers={() => getData()} />
       </Modal>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {loaderPage && <Spin tip="Loading page" size="large"></Spin>}
+      </div>
     </div>
   );
 }
