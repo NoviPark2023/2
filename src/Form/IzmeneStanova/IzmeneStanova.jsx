@@ -30,12 +30,12 @@ function IzmeneStanova(propsstan) {
     propsstan.closeModal();
   };
 
-  const updateApartmenstObj = () => {
+  const updateApartmenstObj = values => {
     const endpoint = propsstan.edit ? `/stanovi/izmeni-stan/${propsstan.propsstan.id_stana}` : '/stanovi/kreiraj-stan';
 
     const request = propsstan.edit ? api.put : api.post;
 
-    request(endpoint, { ...form.getFieldValue() })
+    request(endpoint, values)
       .then(res => {
         propsstan.closeModal();
         propsstan.getData();
@@ -45,10 +45,17 @@ function IzmeneStanova(propsstan) {
         toast.error('Greskaaa');
       });
   };
+  const onFinish = values => {
+    updateApartmenstObj(values);
+  };
+
+  const onFinishFailed = errorInfo => {
+    console.log('Failed:', errorInfo);
+  };
 
   return (
     <div>
-      <Form layout="vertical" form={form}>
+      <Form layout="vertical" form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
         <FormItem
           label="Lamela"
           name="lamela"
@@ -186,7 +193,7 @@ function IzmeneStanova(propsstan) {
         >
           <Select
             disabled="true"
-            defaultValue={'Rezervisan'}
+            defaultValue={'Potencijalan'}
             value={form.getFieldsValue().status_prodaje}
             style={{ width: 120 }}
           >
@@ -197,7 +204,7 @@ function IzmeneStanova(propsstan) {
         </FormItem>
         <Form.Item>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Button onClick={updateApartmenstObj} type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit">
               {propsstan.edit ? 'Izmeni' : 'Dodaj'}
             </Button>
 

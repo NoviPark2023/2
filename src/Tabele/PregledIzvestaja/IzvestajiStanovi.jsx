@@ -80,51 +80,51 @@ function IzvestajiStanovi() {
     ? [
         {
           name: 'jan',
-          uv: data.ukupna_suma_prodatih_stanova[0].jan.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].jan,
         },
         {
           name: 'feb',
-          uv: data.ukupna_suma_prodatih_stanova[0].feb.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].feb,
         },
         {
           name: 'mart',
-          uv: data.ukupna_suma_prodatih_stanova[0].mart.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].mart,
         },
         {
           name: 'april',
-          uv: data.ukupna_suma_prodatih_stanova[0].apr.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].apr,
         },
         {
           name: 'maj',
-          uv: data.ukupna_suma_prodatih_stanova[0].maj.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].maj,
         },
         {
           name: 'jun',
-          uv: data.ukupna_suma_prodatih_stanova[0].jun.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].jun,
         },
         {
           name: 'jul',
-          uv: data.ukupna_suma_prodatih_stanova[0].jul.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].jul,
         },
         {
           name: 'avg',
-          uv: data.ukupna_suma_prodatih_stanova[0].avg.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].avg,
         },
         {
           name: 'sep',
-          uv: data.ukupna_suma_prodatih_stanova[0].sep.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].sep,
         },
         {
           name: 'okt',
-          uv: data.ukupna_suma_prodatih_stanova[0].okt.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].okt,
         },
         {
           name: 'nov',
-          uv: data.ukupna_suma_prodatih_stanova[0].nov.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].nov,
         },
         {
           name: 'dec',
-          uv: data.ukupna_suma_prodatih_stanova[0].dec.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].dec,
         },
       ]
     : [];

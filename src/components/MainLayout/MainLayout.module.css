@@ -5,7 +5,6 @@
 
 .siteLayout {
   min-height: calc(100% - 160px) !important;
-  padding: 1rem 1.5rem;
 }
 
 .siteLayoutBackground {
@@ -20,7 +19,6 @@
   text-align: center;
   width: 100% !important;
   box-shadow: darkgray;
-  height: 80px;
 }
 .menuStyle {
   height: 100%;
@@ -31,11 +29,11 @@
   align-items: center !important;
   justify-content: center !important;
 }
-
 .mainlayoutlogo {
-  width: 85px;
-  height: 15px;
+  width: 120px;
+  height: 60px;
 }
+
 .headerLayout {
   height: 80px !important;
 }

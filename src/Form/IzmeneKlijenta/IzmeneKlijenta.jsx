@@ -36,6 +36,7 @@ function IzmeneKlijenta(propsklijenta) {
       })
       .catch(e => {
         propsklijenta.closeModal();
+        toast.error('Greskaaa');
       });
   };
 

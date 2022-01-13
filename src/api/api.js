@@ -31,5 +31,6 @@ api.interceptors.response.use(
     if (error.status === 401) {
       window.location.replace(process.env.REACT_APP_API_URL);
     }
+    return Promise.reject(error.toJSON());
   }
 );

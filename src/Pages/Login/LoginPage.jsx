@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Input, Button, Form } from 'antd';
 import style from './LoginPage.module.css';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import logo from 'assets/logo.png';
+import logo from 'assets/stanovi-logo.png';
 import FormItem from 'antd/lib/form/FormItem';
 import { loginContext } from 'App';
 import { useHistory } from 'react-router-dom';
