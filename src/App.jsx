@@ -2,6 +2,7 @@ import React, { createContext, useState } from 'react';
 import MainLayout from 'components/MainLayout/MainLayout';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import LoginPage from 'Pages/Login/LoginPage';
+import NotFound from 'Pages/NotFound/NotFound';
 import PregledStanova from '../src/Tabele/PregledStanova/PregledStanova';
 import PregledKlijenta from 'Tabele/PregledKlijenata/PregledKlijenata';
 import PregledKorisnika from 'Tabele/PregledKorisnika/PregledKorisnika';
@@ -13,6 +14,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import DetaljiKlijenta from 'Pages/DetaljiKlijenta/DetaljiKlijenta';
 import Izvestaj from './Pages/Izvestaji/index';
+import ProtectedRoute from 'components/Protected-route/ProtectedRoute';
+import Views from 'components/Views/Views';
 
 export const loginContext = createContext(null);
 
@@ -36,7 +39,12 @@ function App() {
   return (
     <div className="App">
       <loginContext.Provider value={{ setIsLoggedIn, setLogUser, logUser }}>
-        <MainLayout isLoggedIn={isLoggedIn} logOut={logOut}>
+        <Switch>
+          <Route path="/login" component={LoginPage} exact></Route>
+          <ProtectedRoute component={Views} path="/" />
+          <Route path="/**" component={NotFound}></Route>
+        </Switch>
+        {/* <MainLayout isLoggedIn={isLoggedIn} logOut={logOut}>
           <Switch>
             <GuardedRoute exact path="/" auth={isLoggedIn} logIn={logIn} component={Stanovi}>
               <LoginPage />
@@ -51,7 +59,7 @@ function App() {
             <Route exact path="/izvestaji" component={Izvestaj}></Route>
           </Switch>
         </MainLayout>
-        <ToastContainer position="bottom-right" autoClose={2500} />
+        <ToastContainer position="bottom-right" autoClose={2500} /> */}
       </loginContext.Provider>
     </div>
   );

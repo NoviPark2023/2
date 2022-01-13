@@ -15,22 +15,13 @@ api.interceptors.request.use(config => {
 });
 
 api.interceptors.response.use(
-  function (response) {
-    return response;
-  },
-  function (error) {
-    return Promise.reject(error.toJSON());
-  }
-);
-
-api.interceptors.response.use(
   response => {
     return response;
   },
   error => {
-    if (error.status === 401) {
-      window.location.replace(process.env.REACT_APP_API_URL);
-    }
+    // if (error.status === 401) {
+    //   window.location.replace(process.env.REACT_APP_API_URL);
+    // }
     return Promise.reject(error.toJSON());
   }
 );
