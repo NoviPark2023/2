@@ -1,58 +1,17 @@
-import React, { createContext, useState } from 'react';
-import MainLayout from 'components/MainLayout/MainLayout';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import LoginPage from 'Pages/Login/LoginPage';
-import PregledStanova from '../src/Tabele/PregledStanova/PregledStanova';
-import PregledKlijenta from 'Tabele/PregledKlijenata/PregledKlijenata';
-import PregledKorisnika from 'Tabele/PregledKorisnika/PregledKorisnika';
-import Stanovi from 'Pages/Stanovi/Stanovi';
-import PregledPonuda from 'Tabele/PregledPonuda/PregledPonuda';
-import NovaPonuda from 'Form/NovaPonuda/NovaPonuda';
-import DetaljiStana from 'Pages/DetaljiStana/DetaljiStana';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import DetaljiKlijenta from 'Pages/DetaljiKlijenta/DetaljiKlijenta';
-import Izvestaj from './Pages/Izvestaji/index';
 
-export const loginContext = createContext(null);
-
-const GuardedRoute = ({ component: Component, auth, ...rest }) => (
-  <Route {...rest} render={props => (auth === true ? <Component {...props} /> : <Redirect to="/" />)} />
-);
+import ProtectedRoute from 'components/Protected-route/ProtectedRoute';
+import Views from 'components/Views/Views';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(!!sessionStorage.getItem('Token'));
-  const [logUser, setLogUser] = useState('');
-
-  const logOut = () => {
-    setIsLoggedIn(false);
-    setLogUser('');
-  };
-
-  const logIn = () => {
-    setIsLoggedIn(true);
-  };
-
   return (
     <div className="App">
-      <loginContext.Provider value={{ setIsLoggedIn, setLogUser, logUser }}>
-        <MainLayout isLoggedIn={isLoggedIn} logOut={logOut}>
-          <Switch>
-            <GuardedRoute exact path="/" auth={isLoggedIn} logIn={logIn} component={Stanovi}>
-              <LoginPage />
-            </GuardedRoute>
-            <Route exact path="/korisnici" component={PregledKorisnika}></Route>
-            <Route exact path="/stanovi" component={PregledStanova}></Route>
-            <Route exact path="/stanovi/:id" component={DetaljiStana}></Route>
-            <Route exact path="/klijenti" component={PregledKlijenta}></Route>
-            <Route exact path="/klijenti/:id" component={DetaljiKlijenta}></Route>
-            <Route exact path="/ponude" component={PregledPonuda}></Route>
-            <Route exact path="/novaponuda" component={NovaPonuda}></Route>
-            <Route exact path="/izvestaji" component={Izvestaj}></Route>
-          </Switch>
-        </MainLayout>
-        <ToastContainer position="bottom-right" autoClose={2500} />
-      </loginContext.Provider>
+      <Switch>
+        <Route path="/login" component={LoginPage} exact></Route>
+        <ProtectedRoute component={Views} path="/" />
+      </Switch>
     </div>
   );
 }

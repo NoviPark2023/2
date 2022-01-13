@@ -35,9 +35,9 @@ function NoviKlijent(props) {
         adresa: data.adresa,
       })
       .then(res => {
+        toast.success('Uspesno ste izmenili podatke');
         props.closeModal(); ////zatvaranje modala
         props.fetchUsers(); /////upload stranice
-        toast.success('Uspesno ste izmenili podatke');
       })
       .catch(e => {
         toast.error('Greskaaa');

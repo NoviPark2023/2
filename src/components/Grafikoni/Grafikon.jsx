@@ -12,6 +12,7 @@ function Grafikon(propsstan) {
 
   useEffect(() => {
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const ponude = data.broj_ponuda_po_mesecima
