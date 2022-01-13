@@ -35,10 +35,12 @@ function NoviKlijent(props) {
         adresa: data.adresa,
       })
       .then(res => {
-        console.log(res.data);
         props.closeModal(); ////zatvaranje modala
         props.fetchUsers(); /////upload stranice
         toast.success('Uspesno ste izmenili podatke');
+      })
+      .catch(e => {
+        toast.error('Greskaaa');
       });
   }
 
@@ -47,7 +49,6 @@ function NoviKlijent(props) {
     const newdata = { ...data };
     newdata[e.target.id] = e.target.value;
     setData(newdata);
-    console.log(newdata);
   }
 
   //// funkcija za select value
@@ -55,7 +56,6 @@ function NoviKlijent(props) {
     const newdata = { ...data };
     newdata['lice'] = value.value;
     setData(newdata);
-    console.log(value.label);
   }
 
   return (

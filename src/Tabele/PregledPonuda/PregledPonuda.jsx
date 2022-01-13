@@ -7,6 +7,7 @@ import { api } from 'api/api';
 import IzmeneKlijenta from 'Form/IzmeneKlijenta/IzmeneKlijenta';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
+import { Spin } from 'antd';
 
 const PAYMENT_TYPE_LABELS = {
   ceo_iznos: 'CEO IZNOS',
@@ -28,11 +29,20 @@ const PregledPonuda = () => {
   const [selectedBuyer] = useState(null);
   const [ponuda, setPonuda] = useState(null);
 
+  ///loader
+  const [loaderPage, setLoaderPage] = useState(false);
+
   ///ponude stana
   const getListaPonuda = (paramId = id) => {
-    api.get(`/ponude/lista-ponuda-stana/${paramId}/`).then(res => {
-      setSelectedPonude(res.data.results);
-    });
+    setLoaderPage(true);
+    api
+      .get(`/ponude/lista-ponuda-stana/${paramId}/`)
+      .then(res => {
+        setSelectedPonude(res.data.results);
+      })
+      .finally(() => {
+        setLoaderPage(false);
+      });
   };
   ////api za brisanje ponude
   const deletePonuda = id_ponude => {
@@ -351,6 +361,9 @@ const PregledPonuda = () => {
           />
         )}
       </Modal>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {loaderPage && <Spin tip="Loading page" size="large"></Spin>}
+      </div>
     </div>
   );
 };

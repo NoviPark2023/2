@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import style from './MainLayout.module.css';
 import 'antd/dist/antd.css';
 import { Button, Layout, Menu, Modal } from 'antd';
-import logo from 'assets/logo.png';
+import logo from 'assets/stanovi-logo.png';
 import { Link, useHistory, useLocation } from 'react-router-dom';
+import logostanovi from 'assets/stanovi-logo.png';
 
 const { Header, Content } = Layout;
 
@@ -24,6 +25,7 @@ const AppHeader = ({ loggedUser, logOut }) => {
   return (
     <Header className={style.headerLayout}>
       <div className={style.layoutHeader}>
+        <img src={logostanovi} alt="Logo"></img>
         <div className={style.headerPages}>
           <Menu className={style.menuStyle} theme="dark" mode="horizontal" selectedKeys={[location.pathname]}>
             <Menu.Item key={'/stanovi'}>
@@ -75,12 +77,14 @@ function MainLayout({ children, isLoggedIn, logOut }) {
   let logUser = sessionStorage.getItem('user');
 
   return (
-    <div style={{ height: '100%' }}>
-      {isLoggedIn && <AppHeader logOut={logOut} loggedUser={logUser} />}
-      <div className={style.siteLayout}>
-        <Content>{children}</Content>
+    <div style={{ height: '100vh', width: '100vw', display: 'flex', flexDirection: 'column' }}>
+      <div>{isLoggedIn && <AppHeader logOut={logOut} loggedUser={logUser} />}</div>
+      <div>
+        <div className={style.siteLayout}>
+          <Content>{children}</Content>
+        </div>
+        {isLoggedIn && <AppFooter />}
       </div>
-      {isLoggedIn && <AppFooter />}
     </div>
   );
 }

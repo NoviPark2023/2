@@ -9,16 +9,6 @@ import 'antd/dist/antd.css';
 import { Spin } from 'antd';
 
 function PregledStanova() {
-  // const [place, setPlace] = useState({});
-
-  // const getPlace = async () => {
-  //   api.get('/reports/').then(res => {
-  //     setPlace(res.place);
-  //   });
-  // };
-  // useEffect(() => {
-  //   getPlace();
-  // }, []);
   /////state za izmeni
   const [isEditPlaceVisible, setIsEditPlaceVisible] = useState(false);
   const [isCreatePlaceVisible, setIsCreatePlaceVisible] = useState(false);
@@ -417,6 +407,7 @@ function PregledStanova() {
     <div>
       <div style={{ margin: 20 }}>
         <Button
+          // disabled={true}
           type="primary"
           onClick={() => {
             setIsCreatePlaceVisible(true);
@@ -426,8 +417,7 @@ function PregledStanova() {
         </Button>
       </div>
 
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: [6] }}></Table>
-
+      <Table columns={columns} dataSource={data} pagination={{ pageSize: [5] }} rowKey="id_stana"></Table>
       <Modal title="Izmeni" visible={isEditPlaceVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <IzmeneStanova edit propsstan={selectedPlace} getData={getData} closeModal={() => showModal(false)} />
       </Modal>
