@@ -1,24 +1,15 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Input, Button, Form } from 'antd';
 import style from './LoginPage.module.css';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import logo from 'assets/stanovi-logo.png';
 import FormItem from 'antd/lib/form/FormItem';
-import { loginContext } from 'App';
 import { useHistory } from 'react-router-dom';
 import { authService } from 'auth/auth.service';
-import to from 'await-to-js';
 
 function LoginPage() {
   const [form] = Form.useForm();
-  console.log('dsdsds');
   const history = useHistory();
-  ////provera logovanja
-  const { setIsLoggedIn, setLogUser } = useContext(loginContext);
-
-  ////error poruka za pogresne podatke
-  const [errorMessage, setErrorMessage] = useState('');
-  ////logovanje
   const [loading, setLoading] = useState(false);
 
   const loginUser = async values => {
@@ -43,7 +34,6 @@ function LoginPage() {
             errors: ['password nije dobar'],
           },
         ]);
-        // setErrorMessage('Uneli ste pogrešne podatke!');
       }
       console.log(error);
     } finally {
@@ -64,11 +54,6 @@ function LoginPage() {
       <div className={style.logo}>
         <img src={logo} alt="Logo"></img>
       </div>
-      {errorMessage && (
-        <div className={style.textLogo}>
-          <p>{errorMessage}</p>
-        </div>
-      )}
       <Form
         form={form}
         initialValues={{

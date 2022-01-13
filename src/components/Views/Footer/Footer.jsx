@@ -6,7 +6,7 @@ const { Footer } = Layout;
 
 function AppFooter() {
   return (
-    <Footer>
+    <Footer style={{ padding: 0 }}>
       <div className={style.footer}>
         <span style={{ marginRight: '10px' }}></span>
         <img src={logo} alt="logo" className={style.logo} />
