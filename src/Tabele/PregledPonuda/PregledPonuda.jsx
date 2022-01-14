@@ -21,7 +21,7 @@ const PregledPonuda = () => {
   const activeRole = authService.getRole();
   const shouldDisabled = status => {
     if (activeRole === 'Administrator' || activeRole === 'Finansije') return false;
-    if (status === 'rezervisan' || status === 'prodat' || status === 'kupljen') return true;
+    if (status === 'rezervisan' || status === 'kupljen') return true;
     return false;
   };
   //////history router
