@@ -7,6 +7,7 @@ import { Statistic } from 'antd/es';
 import { ArrowDownOutlined, ArrowUpOutlined, CaretRightOutlined } from '@ant-design/icons';
 import styles from './PregledIzvestaja.module.css';
 import Title from 'antd/es/typography/Title';
+import Scroll from 'components/Scroll/Scroll';
 
 function RoiIzvestaji() {
   // Set Ukupnu kvadraturu za sve Stanove
@@ -40,7 +41,7 @@ function RoiIzvestaji() {
   }, []);
 
   return (
-    <>
+    <Scroll>
       {/*Kvadratura Stanova*/}
       <div className="site-card-wrapper">
         <Title className={styles.styleTitle} level={5}>
@@ -379,7 +380,7 @@ function RoiIzvestaji() {
         </Row>
       </div>
       <Divider />
-    </>
+    </Scroll>
   );
 }
 

@@ -18,6 +18,7 @@ function LoginPage() {
       const user = await authService.loginUser(values);
       authService.setToken(user.data.access);
       authService.setUser(values.username);
+      authService.setRole(user.data.role);
       history.push('/');
       console.log(user);
     } catch (error) {

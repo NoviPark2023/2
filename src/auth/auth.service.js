@@ -2,7 +2,7 @@ import { authRepo } from './auth.repo';
 
 const TOKEN = 'Token';
 const USERNAME = 'User';
-
+const ROLE = 'Role';
 class AuthService {
   loginUser(payload) {
     return authRepo.loginUser(payload);
@@ -18,6 +18,15 @@ class AuthService {
   }
   removeUser() {
     sessionStorage.removeItem(USERNAME);
+  }
+  setRole(role) {
+    sessionStorage.setItem(ROLE, role);
+  }
+  getRole() {
+    return sessionStorage.getItem(ROLE);
+  }
+  removeRole() {
+    sessionStorage.removeItem(ROLE);
   }
   setToken(token) {
     sessionStorage.setItem(TOKEN, token);
