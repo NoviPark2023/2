@@ -6,16 +6,15 @@ import styles from './DetaljiKlijenta.module.css';
 import 'antd/dist/antd.css';
 import IzmeneKlijenta from 'Form/IzmeneKlijenta/IzmeneKlijenta';
 import PregledPonudaPoKlijentima from 'Tabele/PregledPonudaPoKlijentima/PregledPonudaPoKlijentima';
+import { useParams } from 'react-router-dom';
+import Scroll from 'components/Scroll/Scroll';
 
 function DetaljiKlijenta(props) {
+  const x = useParams().id;
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
   const [error, setError] = useState('');
   const [showEditModal, setEditModal] = useState(false);
-
-  const getId = () => {
-    return props.match?.params?.id;
-  };
 
   const onFecthError = error => {
     const errorMessage =
@@ -30,30 +29,26 @@ function DetaljiKlijenta(props) {
     api
       .get(`/kupci/detalji-kupca/${id}/`)
       .then(response => {
+        console.log('ssssssss');
         setData(response.data);
       })
       .catch(onFecthError)
       .finally();
   };
   const onUpdate = async () => {
-    const id = getId();
     setEditModal(false);
 
-    if (id) {
+    if (x) {
       setLoading(true);
-      await fetchData(id);
+      await fetchData(x);
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    const id = getId();
-
-    if (id) {
-      setLoading(true);
-      fetchData(id);
-      setLoading(false);
-    }
+    setLoading(true);
+    fetchData(x);
+    setLoading(false);
   }, []);
   const tableItems = data && data.lista_ponuda_kupca ? data.lista_ponuda_kupca : null;
 
@@ -69,7 +64,7 @@ function DetaljiKlijenta(props) {
 
   if (data) {
     return (
-      <>
+      <Scroll>
         <div className={styles['flat-details']}>
           <Card
             className={styles.textLabel}
@@ -112,7 +107,7 @@ function DetaljiKlijenta(props) {
         <div>
           <PregledPonudaPoKlijentima idKlijenta={data.id_kupca} updateFunction={fetchData} tableItems={tableItems} />
         </div>
-      </>
+      </Scroll>
     );
   }
 

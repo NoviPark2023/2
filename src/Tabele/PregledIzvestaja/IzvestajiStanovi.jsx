@@ -4,6 +4,7 @@ import { PieChart, Pie, Tooltip, LineChart, Line, XAxis, YAxis, CartesianGrid, B
 import 'antd/dist/antd.css';
 import styles from './PregledIzvestaja.module.css';
 import { api } from 'api/api';
+import Scroll from 'components/Scroll/Scroll';
 
 const { Title } = Typography;
 
@@ -130,7 +131,7 @@ function IzvestajiStanovi() {
     : [];
 
   return (
-    <>
+    <Scroll>
       <Row style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Col span={12}>
           <Title className={styles.styleTitle} level={3}>
@@ -166,7 +167,7 @@ function IzvestajiStanovi() {
           <Title className={styles.styleTitle} level={3}>
             2.Prodaja stanova izrazena u procentima
           </Title>
-          <PieChart width={900} height={400}>
+          <PieChart label="false" width={900} height={400}>
             <Pie dataKey="value" isAnimationActive={true} data={data02} cx={180} cy={170} outerRadius={150} label />
             <Tooltip />
           </PieChart>
@@ -245,7 +246,7 @@ function IzvestajiStanovi() {
           </LineChart>
         </Col>
       </Row>
-    </>
+    </Scroll>
   );
 }
 export default IzvestajiStanovi;

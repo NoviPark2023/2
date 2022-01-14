@@ -6,16 +6,25 @@ import IzmeneStanova from 'Form/IzmeneStanova/IzmeneStanova';
 import styles from './DetaljiStana.module.css';
 import 'antd/dist/antd.css';
 import Grafikon from 'components/Grafikoni/Grafikon';
+import { useParams } from 'react-router-dom';
+import { authService } from 'auth/auth.service';
 
 function DetaljiStana(props) {
+  const activeRole = authService.getRole();
+  const x = useParams().id;
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
   const [error, setError] = useState('');
   const [showEditModal, setEditModal] = useState(false);
-
-  const getId = () => {
-    return props.match?.params?.id;
+  const shouldDisabled = status => {
+    if (activeRole === 'Administrator' || activeRole === 'Finansije') return false;
+    if (status === 'rezervisan' || status === 'prodat') return true;
+    return false;
   };
+
+  // const getId = () => {
+  //   return props.match?.params?.id;
+  // };
 
   const onFecthError = error => {
     const errorMessage =
@@ -39,19 +48,17 @@ function DetaljiStana(props) {
   };
 
   const onUpdate = () => {
-    const id = getId();
+    // const id = getId();
     setEditModal(false);
 
-    if (id) {
-      fetchData(id);
+    if (x) {
+      fetchData(x);
     }
   };
 
   useEffect(() => {
-    const id = getId();
-
-    if (id) {
-      fetchData(id);
+    if (x) {
+      fetchData(x);
     }
   }, []);
 
@@ -74,7 +81,7 @@ function DetaljiStana(props) {
             title="Detalji stana"
             extra={
               <Button
-                disabled={data.status_prodaje === 'rezervisan' || data.status_prodaje === 'prodat'}
+                disabled={shouldDisabled(data.status_prodaje)}
                 type="primary"
                 onClick={() => {
                   setEditModal(true);

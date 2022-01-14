@@ -8,6 +8,7 @@ import IzmeneKlijenta from 'Form/IzmeneKlijenta/IzmeneKlijenta';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
+import { authService } from 'auth/auth.service';
 
 const PAYMENT_TYPE_LABELS = {
   ceo_iznos: 'CEO IZNOS',
@@ -17,6 +18,12 @@ const PAYMENT_TYPE_LABELS = {
 };
 
 const PregledPonuda = () => {
+  const activeRole = authService.getRole();
+  const shouldDisabled = status => {
+    if (activeRole === 'Administrator' || activeRole === 'Finansije') return false;
+    if (status === 'rezervisan' || status === 'prodat' || status === 'kupljen') return true;
+    return false;
+  };
   //////history router
   const browserLocation = useLocation();
   const queryParams = new URLSearchParams(browserLocation.search);
@@ -266,7 +273,11 @@ const PregledPonuda = () => {
       render: (text, record) => (
         <>
           <Button
-            disabled={record.status_ponude === 'rezervisan' || record.status_ponude === 'kupljen'}
+            disabled={
+              record.status_ponude === 'rezervisan' ||
+              record.status_ponude === 'kupljen' ||
+              shouldDisabled(record.status_prodaje)
+            }
             type="primary"
             onClick={() => {
               showModal(true);
@@ -284,7 +295,11 @@ const PregledPonuda = () => {
       render: (text, record) => (
         <>
           <Popconfirm
-            disabled={record.status_ponude === 'rezervisan' || record.status_ponude === 'kupljen'}
+            disabled={
+              record.status_ponude === 'rezervisan' ||
+              record.status_ponude === 'kupljen' ||
+              shouldDisabled(record.status_prodaje)
+            }
             title="Da li ste sigurni da zelite da izbrisete ponudu?"
             placement="left"
             okButtonProps={{ loading: confirmLoading }}
@@ -294,7 +309,11 @@ const PregledPonuda = () => {
             onConfirm={() => deletePonuda(record.id_ponude)}
           >
             <Button
-              disabled={record.status_ponude === 'rezervisan' || record.status_ponude === 'kupljen'}
+              disabled={
+                record.status_ponude === 'rezervisan' ||
+                record.status_ponude === 'kupljen' ||
+                shouldDisabled(record.status_prodaje)
+              }
               type="danger"
             >
               Obrisi
