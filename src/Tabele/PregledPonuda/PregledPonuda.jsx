@@ -270,7 +270,7 @@ const PregledPonuda = () => {
         <>
           <Button
             disabled={
-              (record.status_ponude === 'rezervisan', record.status_ponude === 'kupljen' && activeRole === 'Prodavac')
+              (record.status_ponude === 'rezervisan' || record.status_ponude === 'kupljen') && activeRole === 'Prodavac'
             }
             type="primary"
             onClick={() => {
@@ -290,7 +290,7 @@ const PregledPonuda = () => {
         <>
           <Popconfirm
             disabled={
-              (record.status_ponude === 'rezervisan', record.status_ponude === 'kupljen' && activeRole === 'Prodavac')
+              (record.status_ponude === 'rezervisan' || record.status_ponude === 'kupljen') && activeRole === 'Prodavac'
             }
             title="Da li ste sigurni da zelite da izbrisete ponudu?"
             placement="left"
@@ -302,7 +302,8 @@ const PregledPonuda = () => {
           >
             <Button
               disabled={
-                (record.status_ponude === 'rezervisan', record.status_ponude === 'kupljen' && activeRole === 'Prodavac')
+                (record.status_ponude === 'rezervisan' || record.status_ponude === 'kupljen') &&
+                activeRole === 'Prodavac'
               }
               type="danger"
             >
