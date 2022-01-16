@@ -8,6 +8,7 @@ import 'antd/dist/antd.css';
 import { api } from 'api/api';
 import { toast } from 'react-toastify';
 import moment from 'moment';
+import { Spin } from 'antd';
 
 function IzmenaPonuda(propsponuda) {
   const [form] = Form.useForm();
@@ -15,6 +16,9 @@ function IzmenaPonuda(propsponuda) {
   const [clientOptions, setClientOptions] = useState([]); // list of formatted clients
   const [clientName, setClientName] = useState(''); // current selected client name
   const [clientId, setClientId] = useState(null); // current selected client id
+
+  ///loader
+  const [loaderPage, setLoaderPage] = useState(false);
 
   const onClientSelect = selected => {
     const option = clientOptions.find(option => option.value === selected);
@@ -73,6 +77,7 @@ function IzmenaPonuda(propsponuda) {
   }, [clientName]);
 
   const updateOffers = () => {
+    setLoaderPage(true);
     const endpoint = propsponuda.edit
       ? `/ponude/izmeni-ponudu/${propsponuda.propsponuda.id_ponude}/`
       : '/ponude/kreiraj-ponudu/';
@@ -97,6 +102,9 @@ function IzmenaPonuda(propsponuda) {
       })
       .catch(e => {
         toast.error('Greskaaa');
+      })
+      .finally(() => {
+        setLoaderPage(false);
       });
   };
 
@@ -223,6 +231,9 @@ function IzmenaPonuda(propsponuda) {
             </Button>
           </div>
         </Form.Item>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {loaderPage && <Spin tip="Loading page" size="large"></Spin>}
+        </div>
       </Form>
     </div>
   );

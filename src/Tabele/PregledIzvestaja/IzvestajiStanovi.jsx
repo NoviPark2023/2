@@ -4,6 +4,7 @@ import { PieChart, Pie, Tooltip, LineChart, Line, XAxis, YAxis, CartesianGrid, B
 import 'antd/dist/antd.css';
 import styles from './PregledIzvestaja.module.css';
 import { api } from 'api/api';
+import Scroll from 'components/Scroll/Scroll';
 
 const { Title } = Typography;
 
@@ -80,57 +81,57 @@ function IzvestajiStanovi() {
     ? [
         {
           name: 'jan',
-          uv: data.ukupna_suma_prodatih_stanova[0].jan.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].jan,
         },
         {
           name: 'feb',
-          uv: data.ukupna_suma_prodatih_stanova[0].feb.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].feb,
         },
         {
           name: 'mart',
-          uv: data.ukupna_suma_prodatih_stanova[0].mart.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].mart,
         },
         {
           name: 'april',
-          uv: data.ukupna_suma_prodatih_stanova[0].apr.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].apr,
         },
         {
           name: 'maj',
-          uv: data.ukupna_suma_prodatih_stanova[0].maj.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].maj,
         },
         {
           name: 'jun',
-          uv: data.ukupna_suma_prodatih_stanova[0].jun.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].jun,
         },
         {
           name: 'jul',
-          uv: data.ukupna_suma_prodatih_stanova[0].jul.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].jul,
         },
         {
           name: 'avg',
-          uv: data.ukupna_suma_prodatih_stanova[0].avg.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].avg,
         },
         {
           name: 'sep',
-          uv: data.ukupna_suma_prodatih_stanova[0].sep.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].sep,
         },
         {
           name: 'okt',
-          uv: data.ukupna_suma_prodatih_stanova[0].okt.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].okt,
         },
         {
           name: 'nov',
-          uv: data.ukupna_suma_prodatih_stanova[0].nov.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].nov,
         },
         {
           name: 'dec',
-          uv: data.ukupna_suma_prodatih_stanova[0].dec.ukupna_suma_prodatih_stanova,
+          uv: data.ukupna_suma_prodatih_stanova[0].dec,
         },
       ]
     : [];
 
   return (
-    <>
+    <Scroll>
       <Row style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Col span={12}>
           <Title className={styles.styleTitle} level={3}>
@@ -166,7 +167,7 @@ function IzvestajiStanovi() {
           <Title className={styles.styleTitle} level={3}>
             2.Prodaja stanova izrazena u procentima
           </Title>
-          <PieChart width={900} height={400}>
+          <PieChart label="false" width={900} height={400}>
             <Pie dataKey="value" isAnimationActive={true} data={data02} cx={180} cy={170} outerRadius={150} label />
             <Tooltip />
           </PieChart>
@@ -245,7 +246,7 @@ function IzvestajiStanovi() {
           </LineChart>
         </Col>
       </Row>
-    </>
+    </Scroll>
   );
 }
 export default IzvestajiStanovi;

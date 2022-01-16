@@ -8,6 +8,7 @@ import 'antd/dist/antd.css';
 import { toast } from 'react-toastify';
 
 function NoviKorisnik(props) {
+  const [form] = Form.useForm();
   const url = '/korisnici/kreiraj-korisnika/';
   const [data, setData] = useState({
     ime: '',
@@ -34,10 +35,12 @@ function NoviKorisnik(props) {
         role: data.role,
       })
       .then(res => {
-        console.log(res.data);
         props.closeModal(); ////zatvaranje modala
         props.fetchUsers(); /////upload stranice
         toast.success('Uspesno ste izmenili podatke');
+      })
+      .catch(e => {
+        toast.error('Greskaaa');
       });
   }
 
@@ -46,19 +49,18 @@ function NoviKorisnik(props) {
     const newdata = { ...data };
     newdata[e.target.id] = e.target.value;
     setData(newdata);
-    console.log(newdata);
   }
   //// funkcija za pozivanje select-a
   function handleSelect(value) {
     const newdata = { ...data };
     newdata['role'] = value.value;
     setData(newdata);
-    console.log(value.label);
   }
 
   return (
     <div>
       <Form
+        form={form}
         layout="vertical"
         initialValues={{
           remember: true,

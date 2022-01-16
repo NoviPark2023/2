@@ -7,18 +7,11 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import { Spin } from 'antd';
+import { authService } from 'auth/auth.service';
 
 function PregledStanova() {
-  // const [place, setPlace] = useState({});
+  const activeRole = authService.getRole();
 
-  // const getPlace = async () => {
-  //   api.get('/reports/').then(res => {
-  //     setPlace(res.place);
-  //   });
-  // };
-  // useEffect(() => {
-  //   getPlace();
-  // }, []);
   /////state za izmeni
   const [isEditPlaceVisible, setIsEditPlaceVisible] = useState(false);
   const [isCreatePlaceVisible, setIsCreatePlaceVisible] = useState(false);
@@ -31,6 +24,12 @@ function PregledStanova() {
 
   ///api za dovlacenje ponuda
   const [, setSelectedPonude] = useState('');
+  const shouldDisabled = status => {
+    if (activeRole === 'Administrator' || activeRole === 'Finansije') return false;
+    if (status === 'rezervisan' || status === 'prodat') return true;
+
+    return false;
+  };
 
   ///modal za dodaj
   const showModal = id => {
@@ -371,7 +370,7 @@ function PregledStanova() {
       render: (text, record) => (
         <div>
           <Button
-            disabled={record.status_prodaje === 'rezervisan' || record.status_prodaje === 'prodat'}
+            disabled={activeRole === 'Prodavac'}
             type="primary"
             onClick={() => {
               showModal(true);
@@ -389,7 +388,7 @@ function PregledStanova() {
       render: (text, record) => (
         <>
           <Popconfirm
-            disabled={record.status_prodaje === 'rezervisan' || record.status_prodaje === 'prodat'}
+            disabled={activeRole === 'Prodavac'}
             title="Da li ste sigurni da zelite da izbrisete stan?"
             placement="left"
             onCancel={handleCancel}
@@ -397,10 +396,7 @@ function PregledStanova() {
             okText="DA"
             onConfirm={() => deleteStan(record.id_stana)}
           >
-            <Button
-              disabled={record.status_prodaje === 'rezervisan' || record.status_prodaje === 'prodat'}
-              type="danger"
-            >
+            <Button disabled={activeRole === 'Prodavac'} type="danger">
               Obrisi
             </Button>
           </Popconfirm>
@@ -417,6 +413,7 @@ function PregledStanova() {
     <div>
       <div style={{ margin: 20 }}>
         <Button
+          disabled={activeRole === 'Prodavac'}
           type="primary"
           onClick={() => {
             setIsCreatePlaceVisible(true);
@@ -426,8 +423,7 @@ function PregledStanova() {
         </Button>
       </div>
 
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: [6] }}></Table>
-
+      <Table columns={columns} dataSource={data} pagination={{ pageSize: [5] }} rowKey="id_stana"></Table>
       <Modal title="Izmeni" visible={isEditPlaceVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <IzmeneStanova edit propsstan={selectedPlace} getData={getData} closeModal={() => showModal(false)} />
       </Modal>

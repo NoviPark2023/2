@@ -4,6 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'rec
 import 'antd/dist/antd.css';
 import styles from './PregledIzvestaja.module.css';
 import { api } from 'api/api';
+import Scroll from 'components/Scroll/Scroll';
 
 const { Title } = Typography;
 
@@ -38,7 +39,7 @@ function IzvestajKlijenti() {
   }, []);
 
   return (
-    <>
+    <Scroll>
       <Row>
         <Col span={24}>
           <Title className={styles.styleTitle} level={3}>
@@ -91,7 +92,7 @@ function IzvestajKlijenti() {
           </BarChart>
         </Col>
       </Row>
-    </>
+    </Scroll>
   );
 }
 export default IzvestajKlijenti;

@@ -7,6 +7,8 @@ import { api } from 'api/api';
 import IzmeneKlijenta from 'Form/IzmeneKlijenta/IzmeneKlijenta';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
+import { Spin } from 'antd';
+import { authService } from 'auth/auth.service';
 
 const PAYMENT_TYPE_LABELS = {
   ceo_iznos: 'CEO IZNOS',
@@ -16,6 +18,8 @@ const PAYMENT_TYPE_LABELS = {
 };
 
 const PregledPonuda = () => {
+  const activeRole = authService.getRole();
+
   //////history router
   const browserLocation = useLocation();
   const queryParams = new URLSearchParams(browserLocation.search);
@@ -28,11 +32,20 @@ const PregledPonuda = () => {
   const [selectedBuyer] = useState(null);
   const [ponuda, setPonuda] = useState(null);
 
+  ///loader
+  const [loaderPage, setLoaderPage] = useState(false);
+
   ///ponude stana
   const getListaPonuda = (paramId = id) => {
-    api.get(`/ponude/lista-ponuda-stana/${paramId}/`).then(res => {
-      setSelectedPonude(res.data.results);
-    });
+    setLoaderPage(true);
+    api
+      .get(`/ponude/lista-ponuda-stana/${paramId}/`)
+      .then(res => {
+        setSelectedPonude(res.data.results);
+      })
+      .finally(() => {
+        setLoaderPage(false);
+      });
   };
   ////api za brisanje ponude
   const deletePonuda = id_ponude => {
@@ -256,7 +269,9 @@ const PregledPonuda = () => {
       render: (text, record) => (
         <>
           <Button
-            disabled={record.status_ponude === 'rezervisan' || record.status_ponude === 'kupljen'}
+            disabled={
+              (record.status_ponude === 'rezervisan' || record.status_ponude === 'kupljen') && activeRole === 'Prodavac'
+            }
             type="primary"
             onClick={() => {
               showModal(true);
@@ -274,7 +289,9 @@ const PregledPonuda = () => {
       render: (text, record) => (
         <>
           <Popconfirm
-            disabled={record.status_ponude === 'rezervisan' || record.status_ponude === 'kupljen'}
+            disabled={
+              (record.status_ponude === 'rezervisan' || record.status_ponude === 'kupljen') && activeRole === 'Prodavac'
+            }
             title="Da li ste sigurni da zelite da izbrisete ponudu?"
             placement="left"
             okButtonProps={{ loading: confirmLoading }}
@@ -284,7 +301,10 @@ const PregledPonuda = () => {
             onConfirm={() => deletePonuda(record.id_ponude)}
           >
             <Button
-              disabled={record.status_ponude === 'rezervisan' || record.status_ponude === 'kupljen'}
+              disabled={
+                (record.status_ponude === 'rezervisan' || record.status_ponude === 'kupljen') &&
+                activeRole === 'Prodavac'
+              }
               type="danger"
             >
               Obrisi
@@ -351,6 +371,9 @@ const PregledPonuda = () => {
           />
         )}
       </Modal>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {loaderPage && <Spin tip="Loading page" size="large"></Spin>}
+      </div>
     </div>
   );
 };
