@@ -370,7 +370,7 @@ function PregledStanova() {
       render: (text, record) => (
         <div>
           <Button
-            disabled={shouldDisabled(record.status_prodaje)}
+            disabled={activeRole === 'Prodavac'}
             type="primary"
             onClick={() => {
               showModal(true);
@@ -388,7 +388,7 @@ function PregledStanova() {
       render: (text, record) => (
         <>
           <Popconfirm
-            disabled={shouldDisabled(record.status_prodaje)}
+            disabled={activeRole === 'Prodavac'}
             title="Da li ste sigurni da zelite da izbrisete stan?"
             placement="left"
             onCancel={handleCancel}
@@ -396,7 +396,7 @@ function PregledStanova() {
             okText="DA"
             onConfirm={() => deleteStan(record.id_stana)}
           >
-            <Button disabled={shouldDisabled(record.status_prodaje)} type="danger">
+            <Button disabled={activeRole === 'Prodavac'} type="danger">
               Obrisi
             </Button>
           </Popconfirm>
