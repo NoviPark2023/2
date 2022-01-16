@@ -9,8 +9,8 @@ import DetaljiStana from 'Pages/DetaljiStana/DetaljiStana';
 import DetaljiKlijenta from 'Pages/DetaljiKlijenta/DetaljiKlijenta';
 import Izvestaj from ' ../../Pages/Izvestaji/index';
 import { Layout } from 'antd';
-import AppFooter from './Footer/Footer';
-import AppHeader from './Header/Header';
+import AppFooter from 'components/Footer/Footer';
+import AppHeader from 'components/Header/Header';
 import NotFound from 'Pages/NotFound/NotFound';
 import style from './Views.module.css';
 import ViewPermisionGate from 'components/ViewPermisionGate/ViewPermisionGate';
@@ -20,7 +20,7 @@ const { Content } = Layout;
 
 function Views() {
   const activeRole = authService.getRole();
-  console.log(activeRole);
+
   return (
     <Layout className={style.layout}>
       <AppHeader />

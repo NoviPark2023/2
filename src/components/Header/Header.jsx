@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Modal, Layout, Space } from 'antd';
-import { Link, useHistory } from 'react-router-dom';
+import { Button, Modal, Layout, Space, Menu } from 'antd';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { authService } from 'auth/auth.service';
 import logostanovi from 'assets/stanovi-logo-header.png';
+import 'antd/dist/antd.css';
 
 const { Header } = Layout;
 function AppHeader() {
@@ -16,6 +17,8 @@ function AppHeader() {
     authService.removeRole();
     history.push('/login');
   };
+
+  const location = useLocation();
   const showModal = () => {
     setVisible(true);
   };
@@ -24,19 +27,26 @@ function AppHeader() {
     <Header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
       <div>
         <img style={{ width: '8rem', height: '3rem', marginRight: '22px' }} src={logostanovi} alt="Logo"></img>
-        <Space size={'large'}>
-          <span>
-            <Link to="/">Stanovi</Link>
-          </span>
-          <Link to="/klijenti">Klijenti</Link>
-          {activeRole !== 'Prodavac' && (
-            <>
-              <Link to="/korisnici">Korisnici</Link>
-              <Link to="/izvestaji">Izveštaji</Link>
-            </>
-          )}
-        </Space>
       </div>
+      <Menu style={{ width: '100%' }} theme="dark" mode="horizontal" selectedKeys={[location.pathname]}>
+        <Menu.Item key={'/'}>
+          <Link to="/">Stanovi</Link>
+        </Menu.Item>
+
+        <Menu.Item key={'/klijenti'}>
+          <Link to="/klijenti">Klijenti</Link>
+        </Menu.Item>
+        {activeRole !== 'Prodavac' && (
+          <>
+            <Menu.Item key={'/korisnici'}>
+              <Link to="/korisnici">Korisnici</Link>
+            </Menu.Item>
+            <Menu.Item key={'/izvestaji'}>
+              <Link to="/izvestaji">Izveštaji</Link>
+            </Menu.Item>
+          </>
+        )}
+      </Menu>
 
       <div>
         <Space>

@@ -19,11 +19,7 @@ const PAYMENT_TYPE_LABELS = {
 
 const PregledPonuda = () => {
   const activeRole = authService.getRole();
-  const shouldDisabled = status => {
-    if (activeRole === 'Administrator' || activeRole === 'Finansije') return false;
-    if (status === 'rezervisan' || status === 'kupljen') return true;
-    return false;
-  };
+
   //////history router
   const browserLocation = useLocation();
   const queryParams = new URLSearchParams(browserLocation.search);
@@ -274,9 +270,7 @@ const PregledPonuda = () => {
         <>
           <Button
             disabled={
-              record.status_ponude === 'rezervisan' ||
-              record.status_ponude === 'kupljen' ||
-              shouldDisabled(record.status_prodaje)
+              (record.status_ponude === 'rezervisan', record.status_ponude === 'kupljen' && activeRole === 'Prodavac')
             }
             type="primary"
             onClick={() => {
@@ -296,9 +290,7 @@ const PregledPonuda = () => {
         <>
           <Popconfirm
             disabled={
-              record.status_ponude === 'rezervisan' ||
-              record.status_ponude === 'kupljen' ||
-              shouldDisabled(record.status_prodaje)
+              (record.status_ponude === 'rezervisan', record.status_ponude === 'kupljen' && activeRole === 'Prodavac')
             }
             title="Da li ste sigurni da zelite da izbrisete ponudu?"
             placement="left"
@@ -310,9 +302,7 @@ const PregledPonuda = () => {
           >
             <Button
               disabled={
-                record.status_ponude === 'rezervisan' ||
-                record.status_ponude === 'kupljen' ||
-                shouldDisabled(record.status_prodaje)
+                (record.status_ponude === 'rezervisan', record.status_ponude === 'kupljen' && activeRole === 'Prodavac')
               }
               type="danger"
             >
