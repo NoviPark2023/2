@@ -8,6 +8,7 @@ import 'antd/dist/antd.css';
 import { toast } from 'react-toastify';
 
 function NoviKlijent(props) {
+  const [form] = Form.useForm();
   const url = '/kupci/kreiraj-kupca/';
   const [data, setData] = useState({
     lice: '',
@@ -61,6 +62,7 @@ function NoviKlijent(props) {
   return (
     <div>
       <Form
+        form={form}
         layout="vertical"
         initialValues={{
           remember: true,

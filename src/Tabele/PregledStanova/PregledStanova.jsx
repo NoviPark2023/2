@@ -9,7 +9,7 @@ import 'antd/dist/antd.css';
 import { Spin } from 'antd';
 import { authService } from 'auth/auth.service';
 
-function PregledStanova(props) {
+function PregledStanova() {
   const activeRole = authService.getRole();
 
   /////state za izmeni
@@ -27,8 +27,10 @@ function PregledStanova(props) {
   const shouldDisabled = status => {
     if (activeRole === 'Administrator' || activeRole === 'Finansije') return false;
     if (status === 'rezervisan' || status === 'prodat') return true;
+
     return false;
   };
+
   ///modal za dodaj
   const showModal = id => {
     setIsEditPlaceVisible(id);
@@ -411,7 +413,7 @@ function PregledStanova(props) {
     <div>
       <div style={{ margin: 20 }}>
         <Button
-          disabled={activeRole !== 'Prodavac' ? false : true}
+          disabled={activeRole === 'Prodavac'}
           type="primary"
           onClick={() => {
             setIsCreatePlaceVisible(true);

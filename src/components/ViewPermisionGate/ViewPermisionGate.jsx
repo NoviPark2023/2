@@ -32,7 +32,7 @@ const ForbidenError = () => {
 function ViewPermisionGate({ role, routeName, component: Component }) {
   const permisionGranted = validateViewPassword({ role, routeName });
   if (!permisionGranted) return <ForbidenError />;
-  console.log('ddddd');
+
   return <Component />;
 }
 
