@@ -81,7 +81,7 @@ function DetaljiStana(props) {
             title="Detalji stana"
             extra={
               <Button
-                disabled={shouldDisabled(data.status_prodaje)}
+                disabled={activeRole === 'Prodavac'}
                 type="primary"
                 onClick={() => {
                   setEditModal(true);
