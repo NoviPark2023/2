@@ -7,6 +7,7 @@ const ROLES = {
 };
 
 const ROUTE_PASSPORT = {
+  cenaStana: [ROLES.admin, ROLES.finansije],
   izvestaji: [ROLES.admin, ROLES.finansije],
   pregledStanova: [ROLES.admin, ROLES.finansije, ROLES.prodavac],
   stanovi: [ROLES.admin, ROLES.finansije, ROLES.prodavac],

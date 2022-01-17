@@ -256,7 +256,7 @@ function PregledKorisnika() {
           Dodaj Novog Korisnika
         </Button>
       </div>
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: [4] }} rowKey="id"></Table>
+      <Table columns={columns} dataSource={data} pagination={{ pageSize: [6] }} rowKey="id"></Table>
       <Modal title="Novi Korisnik" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <NoviKorisnikForm closeModal={() => showModal(false)} fetchUsers={() => getData()} />
       </Modal>

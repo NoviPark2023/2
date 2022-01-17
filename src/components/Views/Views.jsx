@@ -15,6 +15,7 @@ import NotFound from 'Pages/NotFound/NotFound';
 import style from './Views.module.css';
 import ViewPermisionGate from 'components/ViewPermisionGate/ViewPermisionGate';
 import { authService } from 'auth/auth.service';
+import PregledCenaStana from 'Tabele/PregledCenaStana/PregledCenaStana';
 
 const { Content } = Layout;
 
@@ -49,6 +50,9 @@ function Views() {
           </Route>
           <Route exact path="/izvestaji">
             <ViewPermisionGate role={activeRole} routeName="izvestaji" component={Izvestaj} />
+          </Route>
+          <Route exact path="/cenaStana">
+            <ViewPermisionGate role={activeRole} routeName="cenaStana" component={PregledCenaStana} />
           </Route>
           <Route path="/*" component={NotFound}></Route>
         </Switch>
