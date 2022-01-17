@@ -24,12 +24,12 @@ function PregledStanova() {
 
   ///api za dovlacenje ponuda
   const [, setSelectedPonude] = useState('');
-  const shouldDisabled = status => {
-    if (activeRole === 'Administrator' || activeRole === 'Finansije') return false;
-    if (status === 'rezervisan' || status === 'prodat') return true;
+  // const shouldDisabled = status => {
+  //   if (activeRole === 'Administrator' || activeRole === 'Finansije') return false;
+  //   if (status === 'rezervisan' || status === 'prodat') return true;
 
-    return false;
-  };
+  //   return false;
+  // };
 
   ///modal za dodaj
   const showModal = id => {
