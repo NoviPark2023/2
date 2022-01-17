@@ -5,6 +5,7 @@ import 'antd/dist/antd.css';
 import styles from './PregledIzvestaja.module.css';
 import { api } from 'api/api';
 import Scroll from 'components/Scroll/Scroll';
+import { Divider } from 'antd';
 
 const { Title } = Typography;
 
@@ -167,12 +168,13 @@ function IzvestajiStanovi() {
           <Title className={styles.styleTitle} level={3}>
             2.Prodaja stanova izrazena u procentima
           </Title>
-          <PieChart label="false" width={900} height={400}>
+          <PieChart label="false" width={600} height={400}>
             <Pie dataKey="value" isAnimationActive={true} data={data02} cx={180} cy={170} outerRadius={150} label />
             <Tooltip />
           </PieChart>
         </Col>
       </Row>
+      <Divider />
       <Row>
         <Col span={24}>
           <Title className={styles.styleTitle} level={3}>
