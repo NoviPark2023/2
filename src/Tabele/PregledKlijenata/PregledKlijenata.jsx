@@ -279,7 +279,7 @@ function PregledKlijenta() {
         </Button>
       </div>
 
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: [4] }} rowKey="id_kupca"></Table>
+      <Table columns={columns} dataSource={data} pagination={{ pageSize: [6] }} rowKey="id_kupca"></Table>
 
       <Modal title="Novi Klijent" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <NoviKlijent closeModal={() => showModal(false)} fetchUsers={getData} />
