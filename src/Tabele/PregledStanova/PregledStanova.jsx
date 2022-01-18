@@ -24,12 +24,12 @@ function PregledStanova() {
 
   ///api za dovlacenje ponuda
   const [, setSelectedPonude] = useState('');
-  const shouldDisabled = status => {
-    if (activeRole === 'Administrator' || activeRole === 'Finansije') return false;
-    if (status === 'rezervisan' || status === 'prodat') return true;
+  // const shouldDisabled = status => {
+  //   if (activeRole === 'Administrator' || activeRole === 'Finansije') return false;
+  //   if (status === 'rezervisan' || status === 'prodat') return true;
 
-    return false;
-  };
+  //   return false;
+  // };
 
   ///modal za dodaj
   const showModal = id => {
@@ -423,7 +423,7 @@ function PregledStanova() {
         </Button>
       </div>
 
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: [5] }} rowKey="id_stana"></Table>
+      <Table columns={columns} dataSource={data} pagination={{ pageSize: [6] }} rowKey="id_stana"></Table>
       <Modal title="Izmeni" visible={isEditPlaceVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <IzmeneStanova edit propsstan={selectedPlace} getData={getData} closeModal={() => showModal(false)} />
       </Modal>

@@ -20,10 +20,7 @@ function LoginPage() {
       authService.setUser(values.username);
       authService.setRole(user.data.role);
       history.push('/');
-      console.log(user);
     } catch (error) {
-      console.log(form);
-
       if (error.status === 401) {
         form.setFields([
           {
@@ -36,7 +33,6 @@ function LoginPage() {
           },
         ]);
       }
-      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -75,7 +71,7 @@ function LoginPage() {
             },
           ]}
         >
-          <Input trim size="default" placeholder="Korisničko ime" prefix={<UserOutlined />} />
+          <Input trim={true} size="default" placeholder="Korisničko ime" prefix={<UserOutlined />} />
         </FormItem>
         <FormItem
           name="password"

@@ -34,3 +34,7 @@ code {
   background: gray;
   scrollbar-background: gray;
 } */
+
+div.ant-row {
+  overflow: hidden;
+}
