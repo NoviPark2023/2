@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Table, Button, Modal, Popconfirm, Input, Space } from 'antd';
-import IzmenaPonuda from 'Form/IzmenaPonuda/IzmenaPonuda';
+import Ponuda from 'Modal/Ponuda/Ponuda';
 import { api } from 'api/api';
-import IzmeneKlijenta from 'Form/IzmeneKlijenta/IzmeneKlijenta';
+import Klijenta from 'Modal/Klijenta/Klijenta';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 
@@ -13,13 +13,13 @@ const PAYMENT_TYPE_LABELS = {
   ucesce: 'UCESCE',
 };
 
-const PregledPonudaPoKlijentima = props => {
+const ClientOffersReview = props => {
   const [isClientVisible, setIsClientVisible] = useState(false);
   const [selectedBuyer] = useState(null);
-  const [ponuda, setPonuda] = useState(null);
+  const [offers, setOffers] = useState(null);
 
   //api za brisanje ponude
-  const deletePonuda = id_ponude => {
+  const deleteOffers = id_ponude => {
     api.delete(`/ponude/obrisi-ponudu/${id_ponude}/`).then(res => {
       props.updateFunction(props.idKlijenta);
     });
@@ -203,7 +203,7 @@ const PregledPonudaPoKlijentima = props => {
           <Button
             onClick={() => {
               showModal(true);
-              setPonuda(record);
+              setOffers(record);
             }}
           >
             Napomena
@@ -219,7 +219,7 @@ const PregledPonudaPoKlijentima = props => {
           <Button
             type="primary"
             onClick={() => {
-              setPonuda({ ...record, stan: record.stan_id });
+              setOffers({ ...record, stan: record.stan_id });
               showModal(true);
             }}
           >
@@ -240,7 +240,7 @@ const PregledPonudaPoKlijentima = props => {
             onCancel={handleCancel}
             cancelText="NE"
             okText="DA"
-            onConfirm={() => deletePonuda(record.id_ponude)}
+            onConfirm={() => deleteOffers(record.id_ponude)}
           >
             <Button type="danger">Obrisi</Button>
           </Popconfirm>
@@ -259,7 +259,7 @@ const PregledPonudaPoKlijentima = props => {
         onCancel={() => setIsClientVisible(false)}
         footer={null}
       >
-        <IzmeneKlijenta preview propsklijenta={selectedBuyer} closeModal={() => setIsClientVisible(false)} />
+        <Klijenta preview propsklijenta={selectedBuyer} closeModal={() => setIsClientVisible(false)} />
       </Modal>
 
       <Modal
@@ -269,12 +269,12 @@ const PregledPonudaPoKlijentima = props => {
         onCancel={() => setIsModalVisible(false)}
         footer={null}
       >
-        {!!ponuda && (
-          <IzmenaPonuda
+        {!!offers && (
+          <Ponuda
             edit
             idKlijenta={props.idKlijenta}
             onEdit={props.updateFunction}
-            propsponuda={ponuda}
+            propsponuda={offers}
             closeModal={() => setIsModalVisible(false)}
           />
         )}
@@ -283,4 +283,4 @@ const PregledPonudaPoKlijentima = props => {
   );
 };
 
-export default PregledPonudaPoKlijentima;
+export default ClientOffersReview;

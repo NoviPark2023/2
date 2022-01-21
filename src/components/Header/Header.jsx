@@ -25,9 +25,8 @@ function AppHeader() {
 
   return (
     <Header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <div>
-        <img style={{ width: '8rem', height: '3rem', marginRight: '22px' }} src={logostanovi} alt="Logo"></img>
-      </div>
+      <img style={{ width: '8rem', height: '3rem', marginRight: '22px' }} src={logostanovi} alt="Logo"></img>
+
       <Menu style={{ width: '100%' }} theme="dark" mode="horizontal" selectedKeys={[location.pathname]}>
         <Menu.Item key={'/'}>
           <Link to="/">Stanovi</Link>

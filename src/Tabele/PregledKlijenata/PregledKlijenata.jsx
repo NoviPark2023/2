@@ -1,49 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Table, Modal, Input, Space, Popconfirm } from 'antd';
 import { api } from 'api/api';
-import NoviKlijent from 'Form/NoviKlijent/NoviKlijent';
-import IzmeneKlijenta from 'Form/IzmeneKlijenta/IzmeneKlijenta';
+import Klijenta from 'Modal/Klijenta/Klijenta';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import { Spin } from 'antd';
 
-function PregledKlijenta() {
-  /// state za dodaj
-  const [isModalVisible, setIsModalVisible] = useState(null);
-  //state za izmeni
-  const [, setIsNewClientVisible] = useState(false);
-  /// Api za dovlacenje podataka podataka
-  const [selectedUser, setSelectedUser] = useState('');
+function ClientsReview() {
+  const [client, setClient] = useState('');
+  const [editClient, setEditClient] = useState(false);
+  const [createClient, setCreateClient] = useState(false);
   ///loader
   const [loaderPage, setLoaderPage] = useState(false);
 
-  ///modal za dodaj
-  const showModal = isShow => {
-    setIsModalVisible(isShow);
+  /////modal za dodaj
+  const showModal = id => {
+    setEditClient(id);
   };
 
   const handleOk = () => {
-    setIsModalVisible(false);
+    setEditClient(false);
   };
 
   const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
-  // modal za izmeni
-  const showModalIzmeni = (id, isVisible) => {
-    const list = data.map(item => {
-      if (+item.id_kupca === +id) return { ...item, modal: isVisible };
-      return item;
-    });
-    setData(list);
-    console.log(list, 'klijenti');
-  };
-
-  const handleOkIzmeni = () => {
-    setIsNewClientVisible(false);
+    setEditClient(false);
   };
 
   //state za API
@@ -55,34 +37,27 @@ function PregledKlijenta() {
     api
       .get('/kupci/')
       .then(res => {
-        const list = res.data.results.map(item => ({ ...item, modal: false }));
-        setData(list);
+        setData(res.data.results);
       })
       .finally(() => {
         setLoaderPage(false);
       });
   };
 
-  ////Api Lista Korisnika
-  const getItem = id_kupca => {
-    api.get(`/kupci/detalji-kupca/${id_kupca}/`).then(res => {
-      getData();
-    });
-  };
-  //  TODO: napraviti error funkciju za proveru servera
   /// Api za brisanje kupca
-  const deleteItem = id_kupca => {
+  const deleteClient = id_kupca => {
     api.delete(`/kupci/obrisi-kupca/${id_kupca}/`).then(res => {
       getData();
     });
   };
 
-  /// Api za dovlacenje podataka
-  const getClientObj = id_kupca => {
+  ////Api Lista Korisnika
+  const getDetailClient = id_kupca => {
     api.get(`/kupci/detalji-kupca/${id_kupca}/`).then(res => {
-      setSelectedUser(res.data);
+      getData();
     });
   };
+
   ////hooks za search u tabeli
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
@@ -208,7 +183,7 @@ function PregledKlijenta() {
       key: '9',
       render: (text, record) => (
         <Link to={`/klijenti/${record.id_kupca}`}>
-          <Button style={{ color: 'blue', border: '1px solid black' }} onClick={() => getItem(record.id_kupca)}>
+          <Button style={{ color: 'blue', border: '1px solid black' }} onClick={() => getDetailClient(record.id_kupca)}>
             Detalji
           </Button>
         </Link>
@@ -222,26 +197,12 @@ function PregledKlijenta() {
           <Button
             type="primary"
             onClick={() => {
-              showModalIzmeni(record.id_kupca, true);
-              getClientObj(record.id_kupca);
+              showModal(true);
+              setClient(record);
             }}
           >
             Izmeni
           </Button>
-
-          <Modal
-            title="Izmeni"
-            visible={record.modal}
-            onOk={handleOkIzmeni}
-            onCancel={() => showModalIzmeni(record.id_kupca, false)}
-            footer={null}
-          >
-            <IzmeneKlijenta
-              propsklijenta={selectedUser}
-              getData={getData}
-              closeModal={() => showModalIzmeni(record.id_kupca, false)}
-            />
-          </Modal>
         </div>
       ),
     },
@@ -257,7 +218,7 @@ function PregledKlijenta() {
             onCancel={handleCancel}
             cancelText="NE"
             okText="DA"
-            onConfirm={() => deleteItem(record.id_kupca)}
+            onConfirm={() => deleteClient(record.id_kupca)}
           >
             <Button type="danger">Obrisi</Button>
           </Popconfirm>
@@ -266,7 +227,6 @@ function PregledKlijenta() {
     },
   ];
 
-  /// proveri USEeffeect
   useEffect(() => {
     getData();
   }, []);
@@ -274,15 +234,29 @@ function PregledKlijenta() {
   return (
     <div>
       <div style={{ margin: 20 }}>
-        <Button type="primary" onClick={() => showModal(true)}>
+        <Button
+          type="primary"
+          onClick={() => {
+            setCreateClient(true);
+          }}
+        >
           Dodaj Novog Klijenta
         </Button>
       </div>
 
       <Table columns={columns} dataSource={data} pagination={{ pageSize: [6] }} rowKey="id_kupca"></Table>
 
-      <Modal title="Novi Klijent" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
-        <NoviKlijent closeModal={() => showModal(false)} fetchUsers={getData} />
+      <Modal title="Izmeni klijenta" visible={editClient} onOk={handleOk} onCancel={handleCancel} footer={null}>
+        <Klijenta edit propsklijenta={client} getData={getData} closeModal={() => showModal(false)} />
+      </Modal>
+      <Modal
+        title="Kreiranje klijenta"
+        visible={createClient}
+        onOk={handleOk}
+        onCancel={() => setCreateClient(false)}
+        footer={null}
+      >
+        <Klijenta propsklijenta={client} getData={getData} closeModal={() => setCreateClient(false)} />
       </Modal>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {loaderPage && <Spin tip="Loading page" size="large"></Spin>}
@@ -291,4 +265,4 @@ function PregledKlijenta() {
   );
 }
 
-export default PregledKlijenta;
+export default ClientsReview;

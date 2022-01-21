@@ -1,7 +1,7 @@
 import React from 'react';
 import PregledKlijenta from 'Tabele/PregledKlijenata/PregledKlijenata';
 
-function Klijenti() {
+function Clients() {
   return (
     <div>
       <PregledKlijenta />
@@ -9,4 +9,4 @@ function Klijenti() {
   );
 }
 
-export default Klijenti;
+export default Clients;

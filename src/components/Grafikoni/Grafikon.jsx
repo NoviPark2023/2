@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { api } from 'api/api';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
-function Grafikon(propsstan) {
+function Graph(propsstan) {
   const [data, setData] = useState({});
   const getData = () => {
     api.get(`/stanovi/ponude-stana-meseci/${propsstan.propsstan.id_stana}`).then(res => {
@@ -15,7 +15,7 @@ function Grafikon(propsstan) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const ponude = data.broj_ponuda_po_mesecima
+  const offerByMonths = data.broj_ponuda_po_mesecima
     ? [
         { name: 'jan', pv: data.broj_ponuda_po_mesecima[0].jan },
         { name: 'feb', pv: data.broj_ponuda_po_mesecima[0].feb },
@@ -37,7 +37,7 @@ function Grafikon(propsstan) {
       <BarChart
         width={600}
         height={300}
-        data={ponude}
+        data={offerByMonths}
         margin={{
           top: 5,
           right: 5,
@@ -57,4 +57,4 @@ function Grafikon(propsstan) {
   );
 }
 
-export default Grafikon;
+export default Graph;

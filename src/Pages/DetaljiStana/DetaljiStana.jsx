@@ -2,35 +2,29 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Descriptions, Button, Modal } from 'antd';
 import { api } from 'api/api';
-import IzmeneStanova from 'Form/IzmeneStanova/IzmeneStanova';
+import Stanova from 'Modal/Stanova/Stanova';
 import styles from './DetaljiStana.module.css';
 import 'antd/dist/antd.css';
 import Grafikon from 'components/Grafikoni/Grafikon';
 import { useParams } from 'react-router-dom';
 import { authService } from 'auth/auth.service';
+import NotFound from 'Pages/NotFound/NotFound';
 
-function DetaljiStana(props) {
+function DetailsApartments() {
   const activeRole = authService.getRole();
   const x = useParams().id;
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
   const [error, setError] = useState('');
   const [showEditModal, setEditModal] = useState(false);
-  const shouldDisabled = status => {
-    if (activeRole === 'Administrator' || activeRole === 'Finansije') return false;
-    if (status === 'rezervisan' || status === 'prodat') return true;
-    return false;
-  };
-
-  // const getId = () => {
-  //   return props.match?.params?.id;
-  // };
 
   const onFecthError = error => {
     const errorMessage =
-      error.status === 404
-        ? 'Stan nije pronadjen'
-        : 'Doslo je do greske. Molimo Vas pokusajte ponovo ili kontaktirajte podrsku.';
+      error.status === 404 ? (
+        <NotFound />
+      ) : (
+        'Doslo je do greske. Molimo Vas pokusajte ponovo ili kontaktirajte podrsku.'
+      );
 
     setError(errorMessage);
   };
@@ -114,7 +108,7 @@ function DetaljiStana(props) {
             onCancel={() => setEditModal(false)}
             footer={null}
           >
-            <IzmeneStanova getData={onUpdate} edit propsstan={data} closeModal={() => setEditModal(false)} />
+            <Stanova getData={onUpdate} edit propsstan={data} closeModal={() => setEditModal(false)} />
           </Modal>
           <Card className={styles.textLabel} style={{ width: '50%', margin: '15px' }}>
             <Grafikon propsstan={data} />
@@ -127,4 +121,4 @@ function DetaljiStana(props) {
   return null;
 }
 
-export default DetaljiStana;
+export default DetailsApartments;

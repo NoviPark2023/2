@@ -4,10 +4,12 @@ import { Card, Descriptions, Button, Modal } from 'antd';
 import { api } from 'api/api';
 import styles from './DetaljiKlijenta.module.css';
 import 'antd/dist/antd.css';
-import IzmeneKlijenta from 'Form/IzmeneKlijenta/IzmeneKlijenta';
+import Klijenta from 'Modal/Klijenta/Klijenta';
 import PregledPonudaPoKlijentima from 'Tabele/PregledPonudaPoKlijentima/PregledPonudaPoKlijentima';
 import { useParams } from 'react-router-dom';
 import Scroll from 'components/Scroll/Scroll';
+import { Spin } from 'antd';
+import NotFound from 'Pages/NotFound/NotFound';
 
 function DetaljiKlijenta(props) {
   const x = useParams().id;
@@ -16,24 +18,31 @@ function DetaljiKlijenta(props) {
   const [error, setError] = useState('');
   const [showEditModal, setEditModal] = useState(false);
 
+  ///loader
+  const [loaderPage, setLoaderPage] = useState(false);
+
   const onFecthError = error => {
     const errorMessage =
-      error.status === 404
-        ? 'Stan nije pronadjen'
-        : 'Doslo je do greske. Molimo Vas pokusajte ponovo ili kontaktirajte podrsku.';
+      error.status === 404 ? (
+        <NotFound></NotFound>
+      ) : (
+        'Doslo je do greske. Molimo Vas pokusajte ponovo ili kontaktirajte podrsku.'
+      );
 
     setError(errorMessage);
   };
 
   const fetchData = id => {
+    setLoaderPage(true);
     api
       .get(`/kupci/detalji-kupca/${id}/`)
       .then(response => {
-        console.log('ssssssss');
         setData(response.data);
       })
       .catch(onFecthError)
-      .finally();
+      .finally(() => {
+        setLoaderPage(false);
+      });
   };
   const onUpdate = async () => {
     setEditModal(false);
@@ -101,8 +110,11 @@ function DetaljiKlijenta(props) {
             onCancel={() => setEditModal(false)}
             footer={null}
           >
-            <IzmeneKlijenta getData={onUpdate} edit propsklijenta={data} closeModal={() => setEditModal(false)} />
+            <Klijenta getData={onUpdate} edit propsklijenta={data} closeModal={() => setEditModal(false)} />
           </Modal>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            {loaderPage && <Spin tip="Loading page" size="large"></Spin>}
+          </div>
         </div>
         <div>
           <PregledPonudaPoKlijentima idKlijenta={data.id_kupca} updateFunction={fetchData} tableItems={tableItems} />

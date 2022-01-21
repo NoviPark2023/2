@@ -7,7 +7,7 @@ import 'antd/dist/antd.css';
 import { api } from 'api/api';
 import { toast } from 'react-toastify';
 
-function IzmeneStanova(propsstan) {
+function ChangeApartments(propsstan) {
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -29,21 +29,46 @@ function IzmeneStanova(propsstan) {
   const closeModal2 = () => {
     propsstan.closeModal();
   };
+  const succses = () => {
+    propsstan.closeModal();
+    propsstan.getData();
+  };
 
-  const updateApartmenstObj = values => {
-    const endpoint = propsstan.edit ? `/stanovi/izmeni-stan/${propsstan.propsstan.id_stana}` : '/stanovi/kreiraj-stan';
+  const sucsessMessages = value => {
+    toast.success(value);
+  };
 
-    const request = propsstan.edit ? api.put : api.post;
+  const errorMessages = value => {
+    toast.error(value);
+  };
 
-    request(endpoint, values)
+  const editStanova = (id, values) => {
+    const endpoint = `/stanovi/izmeni-stan/${id}`;
+    api
+      .put(endpoint, values)
       .then(res => {
-        propsstan.closeModal();
-        propsstan.getData();
-        toast.success('Uspesno ste izmenili podatke');
+        succses();
+        sucsessMessages('uspesno');
       })
       .catch(e => {
-        toast.error('Greskaaa');
+        errorMessages('greska');
       });
+  };
+  const kreiranjeStana = values => {
+    const endpoint = '/stanovi/kreiraj-stan';
+    api
+      .post(endpoint, values)
+      .then(res => {
+        succses();
+        sucsessMessages('uspesno');
+      })
+      .catch(e => {
+        errorMessages('greska');
+      });
+  };
+
+  const updateApartmenstObj = values => {
+    propsstan.edit ? editStanova(propsstan.propsstan.id_stana, values) : kreiranjeStana(values);
   };
   const onFinish = values => {
     updateApartmenstObj(values);
@@ -218,4 +243,4 @@ function IzmeneStanova(propsstan) {
   );
 }
 
-export default IzmeneStanova;
+export default ChangeApartments;

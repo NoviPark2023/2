@@ -1,7 +1,7 @@
 import React from 'react';
 import PregledStanova from 'Tabele/PregledStanova/PregledStanova';
 
-function Stanovi() {
+function Apartments() {
   return (
     <div>
       <PregledStanova />
@@ -9,4 +9,4 @@ function Stanovi() {
   );
 }
 
-export default Stanovi;
+export default Apartments;

@@ -1,8 +1,8 @@
 import React from 'react';
 import PregledCenaStana from 'Tabele/PregledCenaStana/PregledCenaStana';
 
-function AzuriranjeCenaStana() {
+function UpdatePriceOfApartment() {
   return <PregledCenaStana />;
 }
 
-export default AzuriranjeCenaStana;
+export default UpdatePriceOfApartment;
