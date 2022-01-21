@@ -16,11 +16,11 @@ function DetaljiStana(props) {
   const [data, setData] = useState(null);
   const [error, setError] = useState('');
   const [showEditModal, setEditModal] = useState(false);
-  const shouldDisabled = status => {
-    if (activeRole === 'Administrator' || activeRole === 'Finansije') return false;
-    if (status === 'rezervisan' || status === 'prodat') return true;
-    return false;
-  };
+  // const shouldDisabled = status => {
+  //   if (activeRole === 'Administrator' || activeRole === 'Finansije') return false;
+  //   if (status === 'rezervisan' || status === 'prodat') return true;
+  //   return false;
+  // };
 
   // const getId = () => {
   //   return props.match?.params?.id;

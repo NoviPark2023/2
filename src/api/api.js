@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import getToken from 'utils/getToken';
 
 const axiosConfig = {
@@ -16,9 +17,18 @@ api.interceptors.request.use(config => {
 
 api.interceptors.response.use(
   response => {
+    console.log(response);
+    if (response && response.status && response.status === 200) {
+      toast.success('sss');
+      if (response && response.data && response.data.message) {
+        toast.success('sss');
+      }
+    }
+    //
     return response;
   },
   error => {
+    console.log(error, 'ssssssssss');
     return Promise.reject(error.toJSON());
   }
 );

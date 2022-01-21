@@ -9,7 +9,7 @@ import { Col, Row } from 'antd/lib';
 
 const { Sider, Content } = Layout;
 
-function PregledIzvestaja() {
+function ReportReview() {
   const [menuItem, setMenuItem] = useState(1);
   return (
     <Layout style={{ height: '100%', position: 'relative', backgroundColor: 'red' }}>
@@ -26,14 +26,13 @@ function PregledIzvestaja() {
           </Menu.Item>
         </Menu>
       </Sider>
-      <Layout className="site-layout">
+      <Layout>
         {menuItem === 1 && (
           <Content
             className="site-layout-background"
             style={{
               margin: '24px 16px',
               padding: 24,
-              // minHeight: 900,
               position: 'relative',
             }}
           >
@@ -42,11 +41,9 @@ function PregledIzvestaja() {
         )}
         {menuItem === 2 && (
           <Content
-            className="site-layout-background"
             style={{
               margin: '24px 16px',
               padding: 24,
-              // minHeight: 900,
               position: 'relative',
             }}
           >
@@ -57,12 +54,10 @@ function PregledIzvestaja() {
           <Row style={{ height: '100%' }}>
             <Col span={24}>
               <Content
-                className="site-layout-background"
                 style={{
                   height: '100%',
                   margin: '24px 16px',
                   padding: 24,
-                  // minHeight: 900,
                   position: 'relative',
                 }}
               >
@@ -76,4 +71,4 @@ function PregledIzvestaja() {
   );
 }
 
-export default PregledIzvestaja;
+export default ReportReview;
