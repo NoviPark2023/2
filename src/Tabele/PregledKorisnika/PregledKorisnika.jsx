@@ -1,60 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Table, Modal, Input, Space, Popconfirm } from 'antd';
 import { api } from 'api/api';
-import NoviKorisnikForm from 'Form/NoviKorisnik/NoviKorisnikForm';
-import IzmenaKorisnika from 'Form/IzmenaKorisnika/IzmenaKorisnika';
+import Korisnika from 'Modal/Korisnika/Korisnika';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import { Spin } from 'antd';
 
-function UserReview() {
-  ///// modal za dodaj
-  const [isModalVisible, setIsModalVisible] = useState(null);
-  //// state za izmeni
-  const [, setIsNewClientVisible] = useState(false);
-  /// Api za dovlacenje podataka podataka
-  const [selectedUser, setSelectedUser] = useState('');
+function ReviewUser() {
+  const [user, setUser] = useState('');
+  const [editUser, setEditUser] = useState(false);
+  const [createUser, setCreateUser] = useState(false);
+
   ///loader
   const [loaderPage, setLoaderPage] = useState(false);
 
   /////modal za dodaj
   const showModal = id => {
-    setIsModalVisible(id);
+    setEditUser(id);
   };
 
   const handleOk = () => {
-    setIsModalVisible(false);
+    setEditUser(false);
   };
 
   const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
-  ///modal za izmeni
-  const showModalChange = (id, isVisible) => {
-    const list = data.map(item => {
-      if (+item.id === +id) return { ...item, modal: isVisible };
-      return item;
-    });
-    setData(list);
-  };
-
-  const handleOkIzmeni = () => {
-    setIsNewClientVisible(false);
+    setEditUser(false);
   };
 
   //state za API
   const [data, setData] = useState([]);
 
   ////Api Lista Korisnika
-  const getData = async () => {
+  const getData = () => {
     setLoaderPage(true);
     api
       .get('/korisnici/')
       .then(res => {
-        const list = res.data.map(item => ({ ...item, modal: false }));
-        setData(list);
+        setData(res.data);
       })
       .finally(() => {
         setLoaderPage(false);
@@ -65,13 +48,6 @@ function UserReview() {
   const deleteUser = id => {
     api.delete(`/korisnici/obrisi-korisnika/${id}/`).then(res => {
       getData();
-    });
-  };
-
-  /// Api za dovlacenje podataka
-  const getUserObj = id => {
-    api.get(`/korisnici/detalji-korisnika/${id}/`).then(res => {
-      setSelectedUser(res.data);
     });
   };
 
@@ -202,25 +178,12 @@ function UserReview() {
           <Button
             type="primary"
             onClick={() => {
-              showModalChange(record.id, true);
-              getUserObj(record.id);
+              showModal(true);
+              setUser(record);
             }}
           >
             Izmeni
           </Button>
-          <Modal
-            title="Izmeni"
-            visible={record.modal}
-            onOk={handleOkIzmeni}
-            onCancel={() => showModalChange(record.id, false)}
-            footer={null}
-          >
-            <IzmenaKorisnika
-              propskorisnika={selectedUser}
-              getData={getData}
-              closeModal={() => showModalChange(record.id, false)}
-            />
-          </Modal>
         </div>
       ),
     },
@@ -252,13 +215,27 @@ function UserReview() {
   return (
     <div>
       <div style={{ margin: 20 }}>
-        <Button type="primary" onClick={() => showModal(true)}>
+        <Button
+          type="primary"
+          onClick={() => {
+            setCreateUser(true);
+          }}
+        >
           Dodaj Novog Korisnika
         </Button>
       </div>
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: [6] }} rowKey="id"></Table>
-      <Modal title="Novi Korisnik" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
-        <NoviKorisnikForm closeModal={() => showModal(false)} fetchUsers={() => getData()} />
+      <Table columns={columns} dataSource={data} pagination={{ pageSize: [7] }} rowKey="id"></Table>
+      <Modal title="Izmeni korisnika" visible={editUser} onOk={handleOk} onCancel={handleCancel} footer={null}>
+        <Korisnika edit propskorisnika={user} getData={getData} closeModal={() => showModal(false)} />
+      </Modal>
+      <Modal
+        title="Kreiranje korisnika"
+        visible={createUser}
+        onOk={handleOk}
+        onCancel={() => setCreateUser(false)}
+        footer={null}
+      >
+        <Korisnika propskorisnika={user} getData={getData} closeModal={() => setCreateUser(false)} />
       </Modal>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {loaderPage && <Spin tip="Loading page" size="large"></Spin>}
@@ -267,4 +244,4 @@ function UserReview() {
   );
 }
 
-export default UserReview;
+export default ReviewUser;

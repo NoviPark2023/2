@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Popconfirm, Input, Space } from 'antd';
-import IzmenaPonuda from 'Form/IzmenaPonuda/IzmenaPonuda';
+import Ponuda from 'Modal/Ponuda/Ponuda';
 import { useLocation } from 'react-router';
 import { api } from 'api/api';
-import IzmeneKlijenta from 'Form/IzmeneKlijenta/IzmeneKlijenta';
+import Klijenta from 'Modal/Klijenta/Klijenta';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
@@ -24,7 +24,7 @@ const OffersReview = () => {
   const browserLocation = useLocation();
   const queryParams = new URLSearchParams(browserLocation.search);
   const id = queryParams.get('id'); ///id stana
-  const price = queryParams.get('price'); ///cena stana
+  // const price = queryParams.get('price'); ///cena stana
   const [setPonude, setSelectedOffers] = useState('');
   const [isClientVisible, setIsClientVisible] = useState(false);
   const [selectedBuyer] = useState(null);
@@ -184,7 +184,7 @@ const OffersReview = () => {
       title: 'Cena stana',
       dataIndex: 'cena_stana',
       ...getColumnSearchProps('cena_stana'),
-      render: () => <span>{price}</span>,
+      // render: () => <span>{price}</span>,
     },
 
     {
@@ -332,7 +332,7 @@ const OffersReview = () => {
         onCancel={() => setIsClientVisible(false)}
         footer={null}
       >
-        <IzmeneKlijenta preview propsklijenta={selectedBuyer} closeModal={() => setIsClientVisible(false)} />
+        <Klijenta preview propsklijenta={selectedBuyer} closeModal={() => setIsClientVisible(false)} />
       </Modal>
 
       <Modal
@@ -343,7 +343,7 @@ const OffersReview = () => {
         footer={null}
       >
         {!!offers && (
-          <IzmenaPonuda
+          <Ponuda
             edit
             onEdit={getListOffers}
             idKlijenta={offers.id_kupca}
@@ -362,7 +362,7 @@ const OffersReview = () => {
         footer={null}
       >
         {isCreateModalVisible && (
-          <IzmenaPonuda
+          <Ponuda
             propsponuda={{ stan: id }}
             getData={getListOffers}
             closeModal={() => setIsCreateModalVisible(false)}

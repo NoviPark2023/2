@@ -8,46 +8,79 @@ import { api } from 'api/api';
 import 'antd/dist/antd.css';
 import { toast } from 'react-toastify';
 
-function IzmenaKorisnika(propskorisnika) {
+function ChangeUser(propskorisnika) {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    form.setFieldsValue({
-      ime: propskorisnika.propskorisnika.ime,
-      prezime: propskorisnika.propskorisnika.prezime,
-      email: propskorisnika.propskorisnika.email,
-      username: propskorisnika.propskorisnika.username,
-      password: propskorisnika.propskorisnika.password,
-      role: propskorisnika.propskorisnika.role,
-    });
+    if (propskorisnika.edit) {
+      form.setFieldsValue({
+        ime: propskorisnika.propskorisnika.ime,
+        prezime: propskorisnika.propskorisnika.prezime,
+        email: propskorisnika.propskorisnika.email,
+        username: propskorisnika.propskorisnika.username,
+        password: propskorisnika.propskorisnika.password,
+        role: propskorisnika.propskorisnika.role,
+      });
+    }
   }, [propskorisnika]);
 
-  const closeModal2 = () => {
+  const Modal = () => {
     propskorisnika.closeModal();
   };
 
-  const newUser = () => {
+  const succses = () => {
+    propskorisnika.closeModal();
+    propskorisnika.getData();
+  };
+
+  const sucsessMessages = value => {
+    toast.success(value);
+  };
+
+  const errorMessages = value => {
+    toast.error(value);
+  };
+
+  const createUser = values => {
+    const endpoint = '/korisnici/kreiraj-korisnika/';
     api
-      .put(`/korisnici/izmeni-korisnika/${propskorisnika.propskorisnika.id}/`, { ...form.getFieldValue() })
+      .post(endpoint, values)
       .then(res => {
-        propskorisnika.closeModal();
-        propskorisnika.getData();
-        toast.success('Uspesno ste izmenili podatke');
+        succses();
+        sucsessMessages('uspesno');
       })
       .catch(e => {
-        propskorisnika.closeModal();
+        errorMessages('greska');
       });
+  };
+
+  const changeUser = (id, values) => {
+    const endpoint = `/korisnici/izmeni-korisnika/${id}/`;
+    api
+      .put(endpoint, values)
+      .then(res => {
+        succses();
+        sucsessMessages('uspesno');
+      })
+      .catch(e => {
+        errorMessages('greska');
+      });
+  };
+
+  const changeUsers = values => {
+    propskorisnika.edit ? changeUser(propskorisnika.propskorisnika.id, values) : createUser(values);
+  };
+  const onFinish = values => {
+    changeUsers(values);
+  };
+
+  const onFinishFailed = errorInfo => {
+    console.log('Failed:', errorInfo);
   };
 
   return (
     <div>
-      <Form
-        layout="vertical"
-        form={form}
-        initialValues={{
-          remember: true,
-        }}
-      >
+      <Form onFinish={onFinish} onFinishFailed={onFinishFailed} layout="vertical" form={form}>
         <FormItem
           label="Ime"
           name="ime"
@@ -110,6 +143,7 @@ function IzmenaKorisnika(propskorisnika) {
         </FormItem>
 
         <FormItem
+          label="Korisnik"
           name="role"
           rules={[
             {
@@ -126,11 +160,11 @@ function IzmenaKorisnika(propskorisnika) {
         </FormItem>
         <Form.Item>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Button onClick={newUser} type="primary" htmlType="submit">
-              Izmeni Korisnika
+            <Button type="primary" htmlType="submit">
+              {propskorisnika.edit ? 'Izmeni' : 'Dodaj'}
             </Button>
 
-            <Button onClick={closeModal2} type="danger" htmlType="submit">
+            <Button onClick={Modal} type="danger" htmlType="submit">
               Otkazi
             </Button>
           </div>
@@ -140,4 +174,4 @@ function IzmenaKorisnika(propskorisnika) {
   );
 }
 
-export default IzmenaKorisnika;
+export default ChangeUser;

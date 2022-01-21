@@ -8,27 +8,56 @@ import { api } from 'api/api';
 import 'antd/dist/antd.css';
 import { toast } from 'react-toastify';
 
-function IzmeneKlijenta(propsklijenta) {
+function ChangeClients(propsklijenta) {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    form.setFieldsValue({
-      lice: propsklijenta.propsklijenta.lice,
-      ime_prezime: propsklijenta.propsklijenta.ime_prezime,
-      email: propsklijenta.propsklijenta.email,
-      broj_telefona: propsklijenta.propsklijenta.broj_telefona,
-      Jmbg_Pib: propsklijenta.propsklijenta.Jmbg_Pib,
-      adresa: propsklijenta.propsklijenta.adresa,
-    });
+    if (propsklijenta.edit) {
+      form.setFieldsValue({
+        lice: propsklijenta.propsklijenta.lice,
+        ime_prezime: propsklijenta.propsklijenta.ime_prezime,
+        email: propsklijenta.propsklijenta.email,
+        broj_telefona: propsklijenta.propsklijenta.broj_telefona,
+        Jmbg_Pib: propsklijenta.propsklijenta.Jmbg_Pib,
+        adresa: propsklijenta.propsklijenta.adresa,
+      });
+    }
   }, [propsklijenta]);
 
-  const closeModal2 = () => {
+  const Modal = () => {
     propsklijenta.closeModal();
   };
 
-  const changeCustomer = () => {
+  const succses = () => {
+    propsklijenta.closeModal();
+    propsklijenta.getData();
+  };
+
+  const sucsessMessages = value => {
+    toast.success(value);
+  };
+
+  const errorMessages = value => {
+    toast.error(value);
+  };
+
+  const createClient = values => {
+    const endpoint = '/kupci/kreiraj-kupca/';
     api
-      .put(`/kupci/izmeni-kupca/${propsklijenta.propsklijenta.id_kupca}/`, { ...form.getFieldValue() })
+      .post(endpoint, values)
+      .then(res => {
+        succses();
+        sucsessMessages('uspesno');
+      })
+      .catch(e => {
+        errorMessages('greska');
+      });
+  };
+
+  const changeClients = (id_kupca, values) => {
+    const endpoint = `/kupci/izmeni-kupca/${id_kupca}/`;
+    api
+      .put(endpoint, values)
       .then(res => {
         propsklijenta.closeModal();
         propsklijenta.getData();
@@ -40,15 +69,20 @@ function IzmeneKlijenta(propsklijenta) {
       });
   };
 
+  const changeUsers = values => {
+    propsklijenta.edit ? changeClients(propsklijenta.propsklijenta.id_kupca, values) : createClient(values);
+  };
+  const onFinish = values => {
+    changeUsers(values);
+  };
+
+  const onFinishFailed = errorInfo => {
+    console.log('Failed:', errorInfo);
+  };
+
   return (
     <div>
-      <Form
-        layout="vertical"
-        form={form}
-        initialValues={{
-          remember: true,
-        }}
-      >
+      <Form onFinish={onFinish} onFinishFailed={onFinishFailed} layout="vertical" form={form}>
         <FormItem
           label="Lice"
           name="lice"
@@ -138,12 +172,12 @@ function IzmeneKlijenta(propsklijenta) {
         <Form.Item>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             {!propsklijenta.preview && (
-              <Button onClick={changeCustomer} type="primary" htmlType="submit">
-                Sacuvaj Izmene
+              <Button type="primary" htmlType="submit">
+                {propsklijenta.edit ? 'Izmeni' : 'Dodaj'}
               </Button>
             )}
 
-            <Button onClick={closeModal2} type="danger" htmlType="submit">
+            <Button onClick={Modal} type="danger" htmlType="submit">
               {propsklijenta.preview ? 'Zatvori' : 'Otkazi'}
             </Button>
           </div>
@@ -153,4 +187,4 @@ function IzmeneKlijenta(propsklijenta) {
   );
 }
 
-export default IzmeneKlijenta;
+export default ChangeClients;

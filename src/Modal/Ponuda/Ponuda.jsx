@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import moment from 'moment';
 import { Spin } from 'antd';
 
-function IzmenaPonuda(propsponuda) {
+function ChangeOffers(propsponuda) {
   const [form] = Form.useForm();
   const [clients, setClients] = useState({}); // List of clients fetched form server by client name
   const [clientOptions, setClientOptions] = useState([]); // list of formatted clients
@@ -239,4 +239,4 @@ function IzmenaPonuda(propsponuda) {
   );
 }
 
-export default IzmenaPonuda;
+export default ChangeOffers;

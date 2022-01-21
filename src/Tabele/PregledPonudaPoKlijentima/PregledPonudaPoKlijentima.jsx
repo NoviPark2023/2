@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Table, Button, Modal, Popconfirm, Input, Space } from 'antd';
-import IzmenaPonuda from 'Form/IzmenaPonuda/IzmenaPonuda';
+import Ponuda from 'Modal/Ponuda/Ponuda';
 import { api } from 'api/api';
-import IzmeneKlijenta from 'Form/IzmeneKlijenta/IzmeneKlijenta';
+import Klijenta from 'Modal/Klijenta/Klijenta';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 
@@ -259,7 +259,7 @@ const ClientOffersReview = props => {
         onCancel={() => setIsClientVisible(false)}
         footer={null}
       >
-        <IzmeneKlijenta preview propsklijenta={selectedBuyer} closeModal={() => setIsClientVisible(false)} />
+        <Klijenta preview propsklijenta={selectedBuyer} closeModal={() => setIsClientVisible(false)} />
       </Modal>
 
       <Modal
@@ -270,7 +270,7 @@ const ClientOffersReview = props => {
         footer={null}
       >
         {!!offers && (
-          <IzmenaPonuda
+          <Ponuda
             edit
             idKlijenta={props.idKlijenta}
             onEdit={props.updateFunction}

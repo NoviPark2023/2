@@ -7,12 +7,11 @@ import { Option } from 'antd/lib/mentions';
 import 'antd/dist/antd.css';
 import { toast } from 'react-toastify';
 
-function IzmenaCeneKvadrata(propscenakvadrata) {
+function ChanngePricePerSquare(propscenakvadrata) {
   const [form] = Form.useForm();
 
   useEffect(() => {
     if (propscenakvadrata.edit) {
-      console.log(propscenakvadrata, 'aleksa');
       form.setFieldsValue({
         sprat: propscenakvadrata.propscenakvadrata.sprat,
         broj_soba: propscenakvadrata.propscenakvadrata.broj_soba,
@@ -22,7 +21,7 @@ function IzmenaCeneKvadrata(propscenakvadrata) {
     }
   }, [propscenakvadrata]);
 
-  const closeModal2 = () => {
+  const Modal = () => {
     propscenakvadrata.closeModal();
   };
 
@@ -39,20 +38,7 @@ function IzmenaCeneKvadrata(propscenakvadrata) {
     toast.error(value);
   };
 
-  const editCenaStanova = (id_azur_cene, values) => {
-    const endpoint = `/stanovi/promeni-cenu-kvadrata/${id_azur_cene}`;
-    api
-      .put(endpoint, values)
-      .then(res => {
-        succses();
-        sucsessMessages('uspesno');
-      })
-      .catch(e => {
-        errorMessages('greska');
-      });
-  };
-
-  const kreiranjeCeneStana = values => {
+  const createPrice = values => {
     const endpoint = '/stanovi/kreiraj-cenu-kvadrata';
     api
       .post(endpoint, values)
@@ -65,13 +51,26 @@ function IzmenaCeneKvadrata(propscenakvadrata) {
       });
   };
 
-  const izmeniCenuStana = values => {
+  const editPricePerSquare = (id_azur_cene, values) => {
+    const endpoint = `/stanovi/promeni-cenu-kvadrata/${id_azur_cene}`;
+    api
+      .put(endpoint, values)
+      .then(res => {
+        succses();
+        sucsessMessages('uspesno');
+      })
+      .catch(e => {
+        errorMessages('greska');
+      });
+  };
+
+  const changePricePerApartmants = values => {
     propscenakvadrata.edit
-      ? editCenaStanova(propscenakvadrata.propscenakvadrata.id_azur_cene, values)
-      : kreiranjeCeneStana(values);
+      ? editPricePerSquare(propscenakvadrata.propscenakvadrata.id_azur_cene, values)
+      : createPrice(values);
   };
   const onFinish = values => {
-    izmeniCenuStana(values);
+    changePricePerApartmants(values);
   };
 
   const onFinishFailed = errorInfo => {
@@ -160,7 +159,7 @@ function IzmenaCeneKvadrata(propscenakvadrata) {
               {propscenakvadrata.edit ? 'Izmeni' : 'Dodaj'}
             </Button>
 
-            <Button onClick={closeModal2} type="danger" htmlType="submit">
+            <Button onClick={Modal} type="danger" htmlType="submit">
               Otkazi
             </Button>
           </div>
@@ -170,4 +169,4 @@ function IzmenaCeneKvadrata(propscenakvadrata) {
   );
 }
 
-export default IzmenaCeneKvadrata;
+export default ChanngePricePerSquare;
