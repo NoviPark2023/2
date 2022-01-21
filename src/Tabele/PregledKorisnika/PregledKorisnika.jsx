@@ -8,19 +8,19 @@ import { SearchOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import { Spin } from 'antd';
 
-function PregledKorisnika() {
+function UserReview() {
   ///// modal za dodaj
   const [isModalVisible, setIsModalVisible] = useState(null);
   //// state za izmeni
   const [, setIsNewClientVisible] = useState(false);
   /// Api za dovlacenje podataka podataka
-  const [selectedKorisnika, setSelectedKorisnika] = useState('');
+  const [selectedUser, setSelectedUser] = useState('');
   ///loader
   const [loaderPage, setLoaderPage] = useState(false);
 
   /////modal za dodaj
-  const showModal = isShow => {
-    setIsModalVisible(isShow);
+  const showModal = id => {
+    setIsModalVisible(id);
   };
 
   const handleOk = () => {
@@ -32,7 +32,7 @@ function PregledKorisnika() {
   };
 
   ///modal za izmeni
-  const showModalIzmeni = (id, isVisible) => {
+  const showModalChange = (id, isVisible) => {
     const list = data.map(item => {
       if (+item.id === +id) return { ...item, modal: isVisible };
       return item;
@@ -62,16 +62,16 @@ function PregledKorisnika() {
   };
 
   ///api za brisanje korisnika
-  const deleteKorisnika = id => {
+  const deleteUser = id => {
     api.delete(`/korisnici/obrisi-korisnika/${id}/`).then(res => {
       getData();
     });
   };
 
   /// Api za dovlacenje podataka
-  const getKorisnikaObj = id => {
+  const getUserObj = id => {
     api.get(`/korisnici/detalji-korisnika/${id}/`).then(res => {
-      setSelectedKorisnika(res.data);
+      setSelectedUser(res.data);
     });
   };
 
@@ -202,8 +202,8 @@ function PregledKorisnika() {
           <Button
             type="primary"
             onClick={() => {
-              showModalIzmeni(record.id, true);
-              getKorisnikaObj(record.id);
+              showModalChange(record.id, true);
+              getUserObj(record.id);
             }}
           >
             Izmeni
@@ -212,13 +212,13 @@ function PregledKorisnika() {
             title="Izmeni"
             visible={record.modal}
             onOk={handleOkIzmeni}
-            onCancel={() => showModalIzmeni(record.id, false)}
+            onCancel={() => showModalChange(record.id, false)}
             footer={null}
           >
             <IzmenaKorisnika
-              propskorisnika={selectedKorisnika}
+              propskorisnika={selectedUser}
               getData={getData}
-              closeModal={() => showModalIzmeni(record.id, false)}
+              closeModal={() => showModalChange(record.id, false)}
             />
           </Modal>
         </div>
@@ -236,7 +236,7 @@ function PregledKorisnika() {
             onCancel={handleCancel}
             cancelText="NE"
             okText="DA"
-            onConfirm={() => deleteKorisnika(record.id)}
+            onConfirm={() => deleteUser(record.id)}
           >
             <Button type="danger">Obrisi</Button>
           </Popconfirm>
@@ -267,4 +267,4 @@ function PregledKorisnika() {
   );
 }
 
-export default PregledKorisnika;
+export default UserReview;

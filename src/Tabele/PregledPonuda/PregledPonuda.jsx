@@ -17,45 +17,43 @@ const PAYMENT_TYPE_LABELS = {
   ucesce: 'UCESCE',
 };
 
-const PregledPonuda = () => {
+const OffersReview = () => {
   const activeRole = authService.getRole();
 
   //////history router
   const browserLocation = useLocation();
   const queryParams = new URLSearchParams(browserLocation.search);
   const id = queryParams.get('id'); ///id stana
-
   const price = queryParams.get('price'); ///cena stana
-
-  const [setPonude, setSelectedPonude] = useState('');
+  const [setPonude, setSelectedOffers] = useState('');
   const [isClientVisible, setIsClientVisible] = useState(false);
   const [selectedBuyer] = useState(null);
-  const [ponuda, setPonuda] = useState(null);
+  const [offers, setOffers] = useState(null);
 
   ///loader
   const [loaderPage, setLoaderPage] = useState(false);
 
   ///ponude stana
-  const getListaPonuda = (paramId = id) => {
+  const getListOffers = (paramId = id) => {
     setLoaderPage(true);
     api
       .get(`/ponude/lista-ponuda-stana/${paramId}/`)
       .then(res => {
-        setSelectedPonude(res.data.results);
+        setSelectedOffers(res.data.results);
       })
       .finally(() => {
         setLoaderPage(false);
       });
   };
   ////api za brisanje ponude
-  const deletePonuda = id_ponude => {
+  const deleteOffers = id_ponude => {
     api.delete(`/ponude/obrisi-ponudu/${id_ponude}/`).then(res => {
-      getListaPonuda();
+      getListOffers();
     });
   };
 
   ////ugovor
-  const Ugovor = id_ponude => {
+  const Contract = id_ponude => {
     api.get(`/ponude/preuzmi-ugovor/${id_ponude}/`).then(res => {
       const link = document.createElement('a');
       link.href = res.data;
@@ -255,7 +253,7 @@ const PregledPonuda = () => {
           <Button
             disabled={record.status_ponude === 'potencijalan'}
             onClick={() => {
-              Ugovor(record.id_ponude);
+              Contract(record.id_ponude);
             }}
           >
             Ugovor
@@ -275,7 +273,7 @@ const PregledPonuda = () => {
             type="primary"
             onClick={() => {
               showModal(true);
-              setPonuda(record);
+              setOffers(record);
             }}
           >
             Izmeni
@@ -298,7 +296,7 @@ const PregledPonuda = () => {
             onCancel={handleCancel}
             cancelText="NE"
             okText="DA"
-            onConfirm={() => deletePonuda(record.id_ponude)}
+            onConfirm={() => deleteOffers(record.id_ponude)}
           >
             <Button
               disabled={
@@ -316,7 +314,7 @@ const PregledPonuda = () => {
   ];
 
   useEffect(() => {
-    getListaPonuda();
+    getListOffers();
   }, []);
 
   return (
@@ -344,13 +342,13 @@ const PregledPonuda = () => {
         onCancel={() => setIsModalVisible(false)}
         footer={null}
       >
-        {!!ponuda && (
+        {!!offers && (
           <IzmenaPonuda
             edit
-            onEdit={getListaPonuda}
-            idKlijenta={ponuda.id_kupca}
-            propsponuda={ponuda}
-            getData={getListaPonuda}
+            onEdit={getListOffers}
+            idKlijenta={offers.id_kupca}
+            propsponuda={offers}
+            getData={getListOffers}
             closeModal={() => setIsModalVisible(false)}
           />
         )}
@@ -366,7 +364,7 @@ const PregledPonuda = () => {
         {isCreateModalVisible && (
           <IzmenaPonuda
             propsponuda={{ stan: id }}
-            getData={getListaPonuda}
+            getData={getListOffers}
             closeModal={() => setIsCreateModalVisible(false)}
           />
         )}
@@ -378,4 +376,4 @@ const PregledPonuda = () => {
   );
 };
 
-export default PregledPonuda;
+export default OffersReview;

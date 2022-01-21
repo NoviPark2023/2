@@ -41,6 +41,7 @@ function NoviKlijent(props) {
         props.fetchUsers(); /////upload stranice
       })
       .catch(e => {
+        console.log(e, 'pppppppp');
         toast.error('Greskaaa');
       });
   }

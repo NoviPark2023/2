@@ -2,36 +2,33 @@
 import React, { useEffect } from 'react';
 import { Input, Button, Form, Select } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
+import { api } from 'api/api';
 import { Option } from 'antd/lib/mentions';
 import 'antd/dist/antd.css';
-import { api } from 'api/api';
 import { toast } from 'react-toastify';
 
-function IzmeneStanova(propsstan) {
+function IzmenaCeneKvadrata(propscenakvadrata) {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    if (propsstan.edit) {
+    if (propscenakvadrata.edit) {
+      console.log(propscenakvadrata, 'aleksa');
       form.setFieldsValue({
-        lamela: propsstan.propsstan.lamela,
-        adresa_stana: propsstan.propsstan.adresa_stana,
-        kvadratura: propsstan.propsstan.kvadratura,
-        sprat: propsstan.propsstan.sprat,
-        broj_soba: propsstan.propsstan.broj_soba,
-        orijentisanost: propsstan.propsstan.orijentisanost,
-        broj_terasa: propsstan.propsstan.broj_terasa,
-        cena_stana: propsstan.propsstan.cena_stana,
-        status_prodaje: propsstan.propsstan.status_prodaje,
+        sprat: propscenakvadrata.propscenakvadrata.sprat,
+        broj_soba: propscenakvadrata.propscenakvadrata.broj_soba,
+        orijentisanost: propscenakvadrata.propscenakvadrata.orijentisanost,
+        cena_kvadrata: propscenakvadrata.propscenakvadrata.cena_kvadrata,
       });
     }
-  }, [propsstan]);
+  }, [propscenakvadrata]);
 
   const closeModal2 = () => {
-    propsstan.closeModal();
+    propscenakvadrata.closeModal();
   };
+
   const succses = () => {
-    propsstan.closeModal();
-    propsstan.getData();
+    propscenakvadrata.closeModal();
+    propscenakvadrata.listOfPrice();
   };
 
   const sucsessMessages = value => {
@@ -42,8 +39,8 @@ function IzmeneStanova(propsstan) {
     toast.error(value);
   };
 
-  const editStanova = (id, values) => {
-    const endpoint = `/stanovi/izmeni-stan/${id}`;
+  const editCenaStanova = (id_azur_cene, values) => {
+    const endpoint = `/stanovi/promeni-cenu-kvadrata/${id_azur_cene}`;
     api
       .put(endpoint, values)
       .then(res => {
@@ -54,8 +51,9 @@ function IzmeneStanova(propsstan) {
         errorMessages('greska');
       });
   };
-  const kreiranjeStana = values => {
-    const endpoint = '/stanovi/kreiraj-stan';
+
+  const kreiranjeCeneStana = values => {
+    const endpoint = '/stanovi/kreiraj-cenu-kvadrata';
     api
       .post(endpoint, values)
       .then(res => {
@@ -67,11 +65,13 @@ function IzmeneStanova(propsstan) {
       });
   };
 
-  const updateApartmenstObj = values => {
-    propsstan.edit ? editStanova(propsstan.propsstan.id_stana, values) : kreiranjeStana(values);
+  const izmeniCenuStana = values => {
+    propscenakvadrata.edit
+      ? editCenaStanova(propscenakvadrata.propscenakvadrata.id_azur_cene, values)
+      : kreiranjeCeneStana(values);
   };
   const onFinish = values => {
-    updateApartmenstObj(values);
+    izmeniCenuStana(values);
   };
 
   const onFinishFailed = errorInfo => {
@@ -80,50 +80,14 @@ function IzmeneStanova(propsstan) {
 
   return (
     <div>
-      <Form layout="vertical" form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
-        <FormItem
-          label="Lamela"
-          name="lamela"
-          rules={[
-            {
-              required: true,
-              message: 'Unesite Lamelu!',
-            },
-          ]}
-        >
-          <Input size="default" placeholder="Lamela" />
-        </FormItem>
-        <FormItem
-          label="Adresa stana"
-          name="adresa_stana"
-          rules={[
-            {
-              required: true,
-              message: 'Unesite adresu stana!',
-            },
-          ]}
-        >
-          <Input size="default" placeholder="Adresa stana" />
-        </FormItem>
-        <FormItem
-          label="Kvadratura"
-          name="kvadratura"
-          rules={[
-            {
-              required: true,
-              message: 'Unesite Kvadraturu!',
-            },
-          ]}
-        >
-          <Input size="default" placeholder="Kvadratura" />
-        </FormItem>
+      <Form form={form} onFinish={onFinish} onFinishFailed={onFinishFailed} layout="vertical">
         <FormItem
           label="Sprat"
           name="sprat"
           rules={[
             {
               required: true,
-              message: 'Unesite Sprat!',
+              message: 'Izaberite Sprat!',
             },
           ]}
         >
@@ -177,60 +141,23 @@ function IzmeneStanova(propsstan) {
             <Option value="Jug">Jug</Option>
           </Select>
         </FormItem>
+
         <FormItem
-          label="Broj terasa"
-          name="broj_terasa"
+          label="Cena Kvadrata"
+          name="cena_kvadrata"
           rules={[
             {
               required: true,
-              message: 'Unesite Broj terasa!',
+              message: 'Unesite cenu kvadrata!',
             },
           ]}
         >
-          <Select value={form.getFieldsValue().broj_terasa} style={{ width: 120 }}>
-            <Option value="0">0</Option>
-            <Option value="1">1</Option>
-            <Option value="2">2</Option>
-          </Select>
-        </FormItem>
-        <FormItem
-          label="Cena stana"
-          name="cena_stana"
-          rules={[
-            {
-              required: false,
-              message: 'Unesite cenu stana!',
-            },
-          ]}
-        >
-          <Input disabled="true" size="default" placeholder="Cena stana" />
-        </FormItem>
-
-        <FormItem
-          label="Status"
-          name="status_prodaje"
-          rules={[
-            {
-              required: false,
-              message: 'Unesite Status!',
-            },
-          ]}
-        >
-          <Select
-            disabled="true"
-            defaultValue={'Potencijalan'}
-            value={form.getFieldsValue().status_prodaje}
-            style={{ width: 120 }}
-          >
-            <Option value="dostupan">Dostupan</Option>
-            <Option value="rezervisan">Rezervisan</Option>
-            <Option value="prodat">Prodat</Option>
-          </Select>
+          <Input size="default" placeholder="Cena kvadrata" />
         </FormItem>
         <Form.Item>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button type="primary" htmlType="submit">
-              {propsstan.edit ? 'Izmeni' : 'Dodaj'}
+              {propscenakvadrata.edit ? 'Izmeni' : 'Dodaj'}
             </Button>
 
             <Button onClick={closeModal2} type="danger" htmlType="submit">
@@ -243,4 +170,4 @@ function IzmeneStanova(propsstan) {
   );
 }
 
-export default IzmeneStanova;
+export default IzmenaCeneKvadrata;

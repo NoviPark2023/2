@@ -7,7 +7,7 @@ import PregledPonuda from 'Tabele/PregledPonuda/PregledPonuda';
 import NovaPonuda from 'Form/NovaPonuda/NovaPonuda';
 import DetaljiStana from 'Pages/DetaljiStana/DetaljiStana';
 import DetaljiKlijenta from 'Pages/DetaljiKlijenta/DetaljiKlijenta';
-import Izvestaj from ' ../../Pages/Izvestaji/index';
+import Izvestaj from ' ../../Pages/Izvestaji/Izvestaji';
 import { Layout } from 'antd';
 import AppFooter from 'components/Footer/Footer';
 import AppHeader from 'components/Header/Header';

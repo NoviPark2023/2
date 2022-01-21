@@ -1,8 +1,8 @@
 import React from 'react';
 import PregledIzvestaja from 'Tabele/PregledIzvestaja/PregledIzvestaja';
 
-function Izvestaj() {
+function Reports() {
   return <PregledIzvestaja />;
 }
 
-export default Izvestaj;
+export default Reports;

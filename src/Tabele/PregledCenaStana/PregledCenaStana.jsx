@@ -1,29 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Table, Modal } from 'antd';
-import KreiranjeNoveCene from 'Form/KreiranjeNoveCene/KreiranjeNoveCene';
+import { Button, Table, Modal, Popconfirm } from 'antd';
 import { api } from 'api/api';
+import IzmenaCeneKvadrata from 'Form/IzmenaCeneKvadrata/IzmenaCeneKvadrata';
 
-function PregledCenaStana() {
+function ApartmentsPriceReview() {
+  const [selectedPlace, setSelectedPlace] = useState('');
+  const [isEditPlaceVisible, setIsEditPlaceVisible] = useState(false);
+  const [isCreatePlaceVisible, setIsCreatePlaceVisible] = useState(false);
   ///modal za dodaj
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const showModal = isShow => {
-    setIsModalVisible(isShow);
+  // const [isModalVisible, setIsModalVisible] = useState(false);
+  const showModal = id => {
+    setIsEditPlaceVisible(id);
   };
 
   const handleOk = () => {
-    setIsModalVisible(false);
+    setIsEditPlaceVisible(false);
   };
 
   const handleCancel = () => {
-    setIsModalVisible(false);
+    setIsEditPlaceVisible(false);
   };
 
   //state za API
   const [data, setData] = useState([]);
-
-  const listaCeneKvadrata = () => {
+  /// lista (tabela) cene kvadrata
+  const listOfPrice = () => {
     api.get(`/stanovi/listing-cena-kvadrata`).then(res => {
       setData(res.data);
+    });
+  };
+  ////brisanje cene kvadrata
+  const deletePrice = id_azur_cene => {
+    api.delete(`/stanovi/izbrisi-cenu-kvadrata/${id_azur_cene}`).then(res => {
+      listOfPrice();
     });
   };
 
@@ -59,46 +68,79 @@ function PregledCenaStana() {
       title: 'Izmeni',
       render: (text, record) => (
         <div>
-          <Button type="primary">Izmeni</Button>
+          <Button
+            type="primary"
+            onClick={() => {
+              showModal(true);
+              setSelectedPlace(record);
+            }}
+          >
+            Izmeni
+          </Button>
         </div>
       ),
     },
-
     {
-      title: 'Akcija',
       key: '7',
+      title: 'Obrisi',
       render: (text, record) => (
         <>
-          <Button style={{ color: 'black', borderColor: 'black', backgroundColor: 'lime' }}>Potvrdi Novu Cenu</Button>
+          <Popconfirm
+            title="Da li ste sigurni da zelite da izbrisete cenu stana?"
+            placement="left"
+            onCancel={handleCancel}
+            cancelText="NE"
+            okText="DA"
+            onConfirm={() => deletePrice(record.id_azur_cene)}
+          >
+            <Button type="danger">Obrisi</Button>
+          </Popconfirm>
         </>
       ),
     },
   ];
 
   useEffect(() => {
-    listaCeneKvadrata();
+    listOfPrice();
   }, []);
   return (
     <>
       <div>
         <div style={{ margin: 20 }}>
-          <Button type="primary" onClick={() => showModal(true)}>
+          <Button
+            type="primary"
+            onClick={() => {
+              setIsCreatePlaceVisible(true);
+            }}
+          >
             Kreiraj Novu Cenu
           </Button>
         </div>
         <Table dataSource={data} columns={columns} pagination={{ pageSize: [5] }} rowKey="id"></Table>
+        <Modal title="Izmeni" visible={isEditPlaceVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
+          <IzmenaCeneKvadrata
+            edit
+            propscenakvadrata={selectedPlace}
+            listOfPrice={listOfPrice}
+            closeModal={() => showModal(false)}
+          />
+        </Modal>
         <Modal
           title="Kreiranje Nove Cene"
-          visible={isModalVisible}
+          visible={isCreatePlaceVisible}
           onOk={handleOk}
-          onCancel={handleCancel}
+          onCancel={() => setIsCreatePlaceVisible(false)}
           footer={null}
         >
-          <KreiranjeNoveCene closeModal={() => showModal(false)} />
+          <IzmenaCeneKvadrata
+            propscenakvadrata={selectedPlace}
+            listOfPrice={listOfPrice}
+            closeModal={() => setIsCreatePlaceVisible(false)}
+          />
         </Modal>
       </div>
     </>
   );
 }
 
-export default PregledCenaStana;
+export default ApartmentsPriceReview;

@@ -22,7 +22,7 @@ function IzmenaPonuda(propsponuda) {
 
   const onClientSelect = selected => {
     const option = clientOptions.find(option => option.value === selected);
-    console.log(clientOptions, 'kkkkkkkkk');
+
     setClientName(option?.label || '');
     setClientId(option?.value || null);
   };

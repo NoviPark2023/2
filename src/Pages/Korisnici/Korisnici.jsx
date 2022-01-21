@@ -1,7 +1,7 @@
 import React from 'react';
 import PregledKorisnika from 'Tabele/PregledKorisnika/PregledKorisnika';
 
-function Korisnici() {
+function Users() {
   return (
     <div>
       <PregledKorisnika />
@@ -9,4 +9,4 @@ function Korisnici() {
   );
 }
 
-export default Korisnici;
+export default Users;

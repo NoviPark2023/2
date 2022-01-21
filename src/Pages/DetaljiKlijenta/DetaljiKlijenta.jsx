@@ -29,7 +29,6 @@ function DetaljiKlijenta(props) {
     api
       .get(`/kupci/detalji-kupca/${id}/`)
       .then(response => {
-        console.log('ssssssss');
         setData(response.data);
       })
       .catch(onFecthError)

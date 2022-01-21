@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import { Spin } from 'antd';
 
-function PregledKlijenta() {
+function ClientsReview() {
   /// state za dodaj
   const [isModalVisible, setIsModalVisible] = useState(null);
   //state za izmeni
@@ -20,8 +20,8 @@ function PregledKlijenta() {
   const [loaderPage, setLoaderPage] = useState(false);
 
   ///modal za dodaj
-  const showModal = isShow => {
-    setIsModalVisible(isShow);
+  const showModal = id => {
+    setIsModalVisible(id);
   };
 
   const handleOk = () => {
@@ -33,13 +33,12 @@ function PregledKlijenta() {
   };
 
   // modal za izmeni
-  const showModalIzmeni = (id, isVisible) => {
+  const showModalChange = (id, isVisible) => {
     const list = data.map(item => {
       if (+item.id_kupca === +id) return { ...item, modal: isVisible };
       return item;
     });
     setData(list);
-    console.log(list, 'klijenti');
   };
 
   const handleOkIzmeni = () => {
@@ -222,7 +221,7 @@ function PregledKlijenta() {
           <Button
             type="primary"
             onClick={() => {
-              showModalIzmeni(record.id_kupca, true);
+              showModalChange(record.id_kupca, true);
               getClientObj(record.id_kupca);
             }}
           >
@@ -233,13 +232,13 @@ function PregledKlijenta() {
             title="Izmeni"
             visible={record.modal}
             onOk={handleOkIzmeni}
-            onCancel={() => showModalIzmeni(record.id_kupca, false)}
+            onCancel={() => showModalChange(record.id_kupca, false)}
             footer={null}
           >
             <IzmeneKlijenta
               propsklijenta={selectedUser}
               getData={getData}
-              closeModal={() => showModalIzmeni(record.id_kupca, false)}
+              closeModal={() => showModalChange(record.id_kupca, false)}
             />
           </Modal>
         </div>
@@ -291,4 +290,4 @@ function PregledKlijenta() {
   );
 }
 
-export default PregledKlijenta;
+export default ClientsReview;

@@ -9,7 +9,7 @@ import 'antd/dist/antd.css';
 import { Spin } from 'antd';
 import { authService } from 'auth/auth.service';
 
-function PregledStanova() {
+function ApartmentsReview() {
   const activeRole = authService.getRole();
 
   /////state za izmeni
@@ -23,13 +23,7 @@ function PregledStanova() {
   const [selectedPlace, setSelectedPlace] = useState('');
 
   ///api za dovlacenje ponuda
-  const [, setSelectedPonude] = useState('');
-  // const shouldDisabled = status => {
-  //   if (activeRole === 'Administrator' || activeRole === 'Finansije') return false;
-  //   if (status === 'rezervisan' || status === 'prodat') return true;
-
-  //   return false;
-  // };
+  const [, setSelectedOffers] = useState('');
 
   ///modal za dodaj
   const showModal = id => {
@@ -63,23 +57,23 @@ function PregledStanova() {
   };
 
   ////Api za brisanje stanova
-  const deleteStan = id_stana => {
+  const deleteApartment = id_stana => {
     api.delete(`/stanovi/obrisi-stan/${id_stana}`).then(res => {
       getData();
     });
   };
 
   ////izmene stana
-  const getStanaObj = id_stana => {
+  const getApartmentObj = id_stana => {
     api.get(`/stanovi/detalji-stana/${id_stana}`).then(res => {
       setSelectedPlace(res.data);
     });
   };
 
   ///ponude stana
-  const getListaPonuda = id_stana => {
+  const getListOffers = id_stana => {
     api.get(`/ponude/lista-ponuda-stana/${id_stana}/`).then(res => {
-      setSelectedPonude(res.data);
+      setSelectedOffers(res.data);
     });
   };
   ////hooks za search u tabeli
@@ -340,7 +334,7 @@ function PregledStanova() {
           <Button
             style={{ color: '#092b00', border: '1px solid green' }}
             onClick={() => {
-              getListaPonuda(record.id_stana);
+              getListOffers(record.id_stana);
             }}
           >
             Ponude
@@ -356,7 +350,7 @@ function PregledStanova() {
           <Button
             style={{ color: 'blue', border: '1px solid black' }}
             onClick={() => {
-              getListaPonuda(record.id_stana);
+              getListOffers(record.id_stana);
             }}
           >
             Detalji
@@ -374,7 +368,7 @@ function PregledStanova() {
             type="primary"
             onClick={() => {
               showModal(true);
-              getStanaObj(record.id_stana);
+              getApartmentObj(record.id_stana);
             }}
           >
             Izmeni
@@ -394,7 +388,7 @@ function PregledStanova() {
             onCancel={handleCancel}
             cancelText="NE"
             okText="DA"
-            onConfirm={() => deleteStan(record.id_stana)}
+            onConfirm={() => deleteApartment(record.id_stana)}
           >
             <Button disabled={activeRole === 'Prodavac'} type="danger">
               Obrisi
@@ -444,4 +438,4 @@ function PregledStanova() {
   );
 }
 
-export default PregledStanova;
+export default ApartmentsReview;

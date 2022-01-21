@@ -13,7 +13,7 @@
 
 .textLabel {
   font-weight: bold;
-  box-shadow: 10px 10px 10px grey;
+  box-shadow: 5px 5px 5px rgb(209, 195, 195);
 }
 
 .card {

@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { InputNumber, Row, Col, Typography } from 'antd/lib';
-import { PieChart, Pie, Tooltip, LineChart, Line, XAxis, YAxis, CartesianGrid, BarChart, Bar, Legend } from 'recharts';
+import { Row, Col, Typography } from 'antd/lib';
+import { Tooltip, LineChart, Line, XAxis, YAxis, CartesianGrid, BarChart, Bar, Legend } from 'recharts';
 import 'antd/dist/antd.css';
-import styles from './PregledIzvestaja.module.css';
+import { Card, Divider } from 'antd';
+import { Statistic } from 'antd/es';
 import { api } from 'api/api';
 import Scroll from 'components/Scroll/Scroll';
-import { Divider } from 'antd';
 
 const { Title } = Typography;
 
-function IzvestajiStanovi() {
+function ReportsApartments() {
   const [data, setData] = useState({});
   const [users, setUsers] = useState([]);
 
@@ -34,34 +34,7 @@ function IzvestajiStanovi() {
     getUsers();
   }, []);
 
-  const data01 = [
-    {
-      name: 'Dostupni',
-      uv: data.dostupan,
-      pv: 2400,
-      amt: 2290,
-    },
-    {
-      name: 'Rezervisani',
-      uv: data.rezervisano,
-      pv: 2400,
-      amt: 2290,
-    },
-    {
-      name: 'Prodati',
-      uv: data.prodat,
-      pv: 2400,
-      amt: 2290,
-    },
-  ];
-
-  const data02 = [
-    { name: 'Rezervisani', value: data.procenat_rezervisan, fill: '#47d147' },
-    { name: 'Dostupni', value: data.procenat_dostupan, fill: '#4080bf' },
-    { name: 'Prodati', value: data.procenat_prodat, fill: ' #661400' },
-  ];
-
-  const data03 = data.prodaja_po_mesecima
+  const dataSalesByMonths = data.prodaja_po_mesecima
     ? [
         { name: 'jan', uv: data.prodaja_po_mesecima[0].jan },
         { name: 'feb', uv: data.prodaja_po_mesecima[0].feb },
@@ -78,7 +51,7 @@ function IzvestajiStanovi() {
       ]
     : [];
 
-  const data05 = data.ukupna_suma_prodatih_stanova
+  const dataAmountOfApartmentsSold = data.ukupna_suma_prodatih_stanova
     ? [
         {
           name: 'jan',
@@ -133,57 +106,110 @@ function IzvestajiStanovi() {
 
   return (
     <Scroll>
-      <Row style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <Row>
         <Col span={12}>
-          <Title className={styles.styleTitle} level={3}>
-            1.Ukupan broj stanova <InputNumber readOnly min={1} max={250} value={data.ukupno_stanova} />
-          </Title>
+          <Title level={3}>1.Ukupan broj stanova</Title>
 
-          <BarChart width={300} height={300} data={data01}>
-            <Bar dataKey="uv" fill="#e74c3c" />
-          </BarChart>
+          <Card
+            style={{
+              width: '77%',
+              margin: '15px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Statistic
+              title="UKUPAN BROJ STANOVA"
+              value={data.ukupno_stanova}
+              valueStyle={{ color: '#3f8600', textAlign: 'center' }}
+              s
+            />
+          </Card>
+
           <Row>
-            <Col span={4}>
-              <InputNumber className={styles.styleNumber} readOnly min={1} max={250} value={data.dostupan} />
-              <Title className={styles.styleSubtitle} level={5}>
-                Dostupni
-              </Title>
+            <Col span={6}>
+              <Card style={{ margin: '10px' }}>
+                <Statistic
+                  style={{ textAlign: 'center' }}
+                  title="Dostupni"
+                  value={data.dostupan}
+                  valueStyle={{ color: '#3f8600', textAlign: 'center' }}
+                />
+              </Card>
             </Col>
-            <Col span={4}>
-              <InputNumber className={styles.styleNumber} readOnly min={1} max={250} value={data.rezervisano} />
-              <Title className={styles.styleSubtitle} level={5}>
-                Rezervisani
-              </Title>
+            <Col style={{ margin: '10px' }} span={6}>
+              <Card>
+                <Statistic
+                  style={{ textAlign: 'center' }}
+                  title="Rezervisani"
+                  value={data.rezervisano}
+                  valueStyle={{ color: '#3f8600', textAlign: 'center' }}
+                />
+              </Card>
             </Col>
-            <Col span={4}>
-              <InputNumber className={styles.styleNumber} readOnly min={1} max={250} value={data.prodat} />
-              <Title className={styles.styleSubtitle} level={5}>
-                Prodati
-              </Title>
+            <Col style={{ margin: '10px' }} span={6}>
+              <Card>
+                <Statistic
+                  style={{ textAlign: 'center' }}
+                  title="Prodati"
+                  value={data.prodat}
+                  valueStyle={{ color: '#3f8600' }}
+                />
+              </Card>
             </Col>
             <Col span={6} />
           </Row>
         </Col>
         <Col span={12}>
-          <Title className={styles.styleTitle} level={3}>
+          <Title style={{ textAlign: 'center' }} level={3}>
             2.Prodaja stanova izrazena u procentima
           </Title>
-          <PieChart label="false" width={600} height={400}>
-            <Pie dataKey="value" isAnimationActive={true} data={data02} cx={180} cy={170} outerRadius={150} label />
-            <Tooltip />
-          </PieChart>
+
+          <Row gutter={24} style={{ padding: '5px', marginTop: '100px', marginRight: '30px' }}>
+            <Col span={8}>
+              <Card>
+                <Statistic
+                  title="Dostupni"
+                  value={data.procenat_dostupan}
+                  valueStyle={{ color: '#3f8600' }}
+                  suffix="%"
+                />
+              </Card>
+            </Col>
+            <Col span={8}>
+              <Card>
+                <Statistic
+                  title="Rezervisani"
+                  value={data.procenat_rezervisan}
+                  precision={2}
+                  valueStyle={{ color: '#4d4dff' }}
+                  suffix="%"
+                />
+              </Card>
+            </Col>
+            <Col span={8}>
+              <Card>
+                <Statistic
+                  title="Prodati"
+                  value={data.procenat_prodat}
+                  precision={2}
+                  valueStyle={{ color: '#cf1322' }}
+                  suffix="%"
+                />
+              </Card>
+            </Col>
+          </Row>
         </Col>
       </Row>
       <Divider />
       <Row>
         <Col span={24}>
-          <Title className={styles.styleTitle} level={3}>
-            3.Tok prodaje po mesecima
-          </Title>
+          <Title level={3}>3.Tok prodaje po mesecima</Title>
           <LineChart
             width={900}
             height={400}
-            data={data03}
+            data={dataSalesByMonths}
             margin={{
               top: 10,
               right: 30,
@@ -201,9 +227,7 @@ function IzvestajiStanovi() {
       </Row>
       <Row>
         <Col span={24}>
-          <Title className={styles.styleTitle} level={3}>
-            4.Ostvaren rezultat prodaje po korisniku
-          </Title>
+          <Title level={3}>4.Ostvaren rezultat prodaje po korisniku</Title>
           <BarChart
             width={900}
             height={400}
@@ -226,13 +250,11 @@ function IzvestajiStanovi() {
       </Row>
       <Row>
         <Col span={24}>
-          <Title className={styles.styleTitle} level={3}>
-            5.Rast prodaje
-          </Title>
+          <Title level={3}>5.Rast prodaje</Title>
           <LineChart
             width={900}
             height={400}
-            data={data05}
+            data={dataAmountOfApartmentsSold}
             margin={{
               top: 10,
               right: 30,
@@ -251,4 +273,4 @@ function IzvestajiStanovi() {
     </Scroll>
   );
 }
-export default IzvestajiStanovi;
+export default ReportsApartments;
