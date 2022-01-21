@@ -7,7 +7,7 @@ import 'antd/dist/antd.css';
 import { api } from 'api/api';
 import { toast } from 'react-toastify';
 
-function IzmeneStanova(propsstan) {
+function ChangeApartments(propsstan) {
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -243,4 +243,4 @@ function IzmeneStanova(propsstan) {
   );
 }
 
-export default IzmeneStanova;
+export default ChangeApartments;

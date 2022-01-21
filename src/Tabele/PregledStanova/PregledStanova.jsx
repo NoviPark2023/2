@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Table, Modal, Input, Space, Popconfirm } from 'antd';
-import IzmeneStanova from 'Form/IzmeneStanova/IzmeneStanova';
+import Stanova from 'Modal/Stanova/Stanova';
 import { api } from 'api/api';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
@@ -204,20 +204,36 @@ function ApartmentsReview() {
       dataIndex: 'sprat',
       filters: [
         {
-          text: '0-3',
-          value: [0, 3],
+          text: '1',
+          value: [0, 1],
         },
         {
-          text: '4-6',
-          value: [4, 6],
+          text: '2',
+          value: [2, 2],
         },
         {
-          text: '7-10',
-          value: [7, 10],
+          text: '3',
+          value: [3, 3],
         },
         {
-          text: '11-20',
-          value: [11, 20],
+          text: '4',
+          value: [4, 4],
+        },
+        {
+          text: '5',
+          value: [5, 5],
+        },
+        {
+          text: '6',
+          value: [6, 6],
+        },
+        {
+          text: '7',
+          value: [7, 7],
+        },
+        {
+          text: 'PS',
+          value: 'PS',
         },
       ],
       onFilter: (value, record) => record.sprat >= value[0] && record.sprat <= value[1],
@@ -227,22 +243,7 @@ function ApartmentsReview() {
       key: '6',
       title: 'Broj soba',
       dataIndex: 'broj_soba',
-      filters: [
-        {
-          text: '1-3',
-          value: [1, 3],
-        },
-        {
-          text: '3-5',
-          value: [5, 5],
-        },
-        {
-          text: '5-8',
-          value: [5, 8],
-        },
-      ],
-      onFilter: (value, record) => record.broj_soba >= value[0] && record.broj_soba <= value[1],
-      sorter: (a, b) => a.broj_soba - b.broj_soba,
+      ...getColumnSearchProps('broj_soba'),
     },
     {
       key: '7',
@@ -419,7 +420,7 @@ function ApartmentsReview() {
 
       <Table columns={columns} dataSource={data} pagination={{ pageSize: [6] }} rowKey="id_stana"></Table>
       <Modal title="Izmeni" visible={isEditPlaceVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
-        <IzmeneStanova edit propsstan={selectedPlace} getData={getData} closeModal={() => showModal(false)} />
+        <Stanova edit propsstan={selectedPlace} getData={getData} closeModal={() => showModal(false)} />
       </Modal>
 
       <Modal
@@ -429,7 +430,7 @@ function ApartmentsReview() {
         onCancel={() => setIsCreatePlaceVisible(false)}
         footer={null}
       >
-        <IzmeneStanova propsstan={selectedPlace} getData={getData} closeModal={() => setIsCreatePlaceVisible(false)} />
+        <Stanova propsstan={selectedPlace} getData={getData} closeModal={() => setIsCreatePlaceVisible(false)} />
       </Modal>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {loaderPage && <Spin tip="Loading page" size="large"></Spin>}

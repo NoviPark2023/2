@@ -4,7 +4,6 @@ import PregledStanova from 'Tabele/PregledStanova/PregledStanova';
 import PregledKlijenta from 'Tabele/PregledKlijenata/PregledKlijenata';
 import PregledKorisnika from 'Tabele/PregledKorisnika/PregledKorisnika';
 import PregledPonuda from 'Tabele/PregledPonuda/PregledPonuda';
-import NovaPonuda from 'Form/NovaPonuda/NovaPonuda';
 import DetaljiStana from 'Pages/DetaljiStana/DetaljiStana';
 import DetaljiKlijenta from 'Pages/DetaljiKlijenta/DetaljiKlijenta';
 import Izvestaj from ' ../../Pages/Izvestaji/Izvestaji';
@@ -44,9 +43,6 @@ function Views() {
           </Route>
           <Route exact path="/ponude">
             <ViewPermisionGate role={activeRole} routeName="ponude" component={PregledPonuda} />
-          </Route>
-          <Route exact path="/novaponuda">
-            <ViewPermisionGate role={activeRole} routeName="novaponuda" component={NovaPonuda} />
           </Route>
           <Route exact path="/izvestaji">
             <ViewPermisionGate role={activeRole} routeName="izvestaji" component={Izvestaj} />
