@@ -110,7 +110,7 @@ function ChangeOffers(propsponuda) {
 
   return (
     <div>
-      <Form layout="vertical" form={form}>
+      <Form autoComplete="off" layout="vertical" form={form}>
         <FormItem
           label="Ime kupca"
           rules={[
