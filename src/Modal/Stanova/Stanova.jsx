@@ -80,7 +80,7 @@ function ChangeApartments(propsstan) {
 
   return (
     <div>
-      <Form layout="vertical" form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
+      <Form autoComplete="off" layout="vertical" form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
         <FormItem
           label="Lamela"
           name="lamela"

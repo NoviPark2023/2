@@ -79,7 +79,7 @@ function ChanngePricePerSquare(propscenakvadrata) {
 
   return (
     <div>
-      <Form form={form} onFinish={onFinish} onFinishFailed={onFinishFailed} layout="vertical">
+      <Form autoComplete="off" form={form} onFinish={onFinish} onFinishFailed={onFinishFailed} layout="vertical">
         <FormItem
           label="Sprat"
           name="sprat"

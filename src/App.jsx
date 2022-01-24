@@ -8,15 +8,17 @@ import Views from 'components/Views/Views';
 
 function App() {
   // const notify = () => {
-  //   toast('Wow so easy!', {});
+  //   toast('Wow so easy!', {
+  //     position: toast.POSITION.BOTTOM_RIGHT,
+  //   });
   // };
+  // <button onClick={notify}>Notify!</button>;
 
   return (
     <div className="App">
       <Switch>
         <Route path="/login" component={LoginPage} exact></Route>
         <ProtectedRoute component={Views} path="/" />
-        {/* <button onClick={notify}>Notify!</button> */}
       </Switch>
       {/* <ToastContainer /> */}
     </div>
