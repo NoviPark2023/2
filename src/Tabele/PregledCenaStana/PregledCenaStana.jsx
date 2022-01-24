@@ -166,12 +166,53 @@ function ApartmentsPriceReview() {
       onFilter: (value, record) => record.sprat >= value[0] && record.sprat <= value[1],
       sorter: (a, b) => a.sprat - b.sprat,
     },
+
     {
       key: '3',
-      title: 'Broj Soba',
+      title: 'Broj soba',
       dataIndex: 'broj_soba',
-      ...getColumnSearchProps('broj_soba'),
+      filters: [
+        {
+          text: '1',
+          value: [1, 1],
+        },
+        {
+          text: '1.5',
+          value: [1.5, 1.5],
+        },
+        {
+          text: '2',
+          value: [2, 2],
+        },
+        {
+          text: '2.5',
+          value: [2.5, 2.5],
+        },
+        {
+          text: '3',
+          value: [3, 3],
+        },
+        {
+          text: '3.5',
+          value: [3.5, 3.5],
+        },
+        {
+          text: '4',
+          value: [4, 4],
+        },
+        {
+          text: '4.5',
+          value: [4.5, 4.5],
+        },
+        {
+          text: '5',
+          value: [5, 5],
+        },
+      ],
+      onFilter: (value, record) => record.broj_soba >= value[0] && record.broj_soba <= value[1],
+      sorter: (a, b) => a.broj_soba - b.broj_soba,
     },
+
     {
       key: '4',
       title: 'Orijentacija',
@@ -192,7 +233,30 @@ function ApartmentsPriceReview() {
       key: '5',
       title: 'Cena Kvadrata',
       dataIndex: 'cena_kvadrata',
-      ...getColumnSearchProps('cena_kvadrata'),
+      filters: [
+        {
+          text: '1500-1600',
+          value: [1500, 1600],
+        },
+        {
+          text: '1600-1700',
+          value: [1600, 1700],
+        },
+        {
+          text: '1700-1800',
+          value: [1700, 1800],
+        },
+        {
+          text: '1800-1900',
+          value: [1800, 1900],
+        },
+        {
+          text: '1900-2000',
+          value: [1900, 2000],
+        },
+      ],
+      onFilter: (value, record) => record.cena_kvadrata >= value[0] && record.cena_kvadrata <= value[1],
+      sorter: (a, b) => a.cena_kvadrata - b.cena_kvadrata,
     },
 
     {
@@ -248,8 +312,11 @@ function ApartmentsPriceReview() {
           >
             Kreiraj Novu Cenu
           </Button>
+          <Button style={{ backgroundColor: ' #adad85', color: 'white', marginLeft: '20px' }}>
+            Globalno azuriranje cena
+          </Button>
         </div>
-        <Table dataSource={data} columns={columns} pagination={{ pageSize: [5] }} rowKey="id"></Table>
+        <Table dataSource={data} columns={columns} pagination={{ pageSize: [5] }} rowKey="id_azur_cene"></Table>
         <Modal
           title="Izmeni cenu kvadrata"
           visible={isEditPriceVisible}

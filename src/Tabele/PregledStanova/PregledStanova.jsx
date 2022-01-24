@@ -243,7 +243,46 @@ function ApartmentsReview() {
       key: '6',
       title: 'Broj soba',
       dataIndex: 'broj_soba',
-      ...getColumnSearchProps('broj_soba'),
+      filters: [
+        {
+          text: '1',
+          value: [1, 1],
+        },
+        {
+          text: '1.5',
+          value: [1.5, 1.5],
+        },
+        {
+          text: '2',
+          value: [2, 2],
+        },
+        {
+          text: '2.5',
+          value: [2.5, 2.5],
+        },
+        {
+          text: '3',
+          value: [3, 3],
+        },
+        {
+          text: '3.5',
+          value: [3.5, 3.5],
+        },
+        {
+          text: '4',
+          value: [4, 4],
+        },
+        {
+          text: '4.5',
+          value: [4.5, 4.5],
+        },
+        {
+          text: '5',
+          value: [5, 5],
+        },
+      ],
+      onFilter: (value, record) => record.broj_soba >= value[0] && record.broj_soba <= value[1],
+      sorter: (a, b) => a.broj_soba - b.broj_soba,
     },
     {
       key: '7',
@@ -268,19 +307,19 @@ function ApartmentsReview() {
       filters: [
         {
           text: '0',
-          value: [0],
+          value: [0, 0],
         },
         {
           text: '1',
-          value: [1],
+          value: [1, 1],
         },
         {
           text: '2',
-          value: [2],
+          value: [2, 2],
         },
         {
           text: '3',
-          value: [3],
+          value: [3, 3],
         },
       ],
       onFilter: (value, record) => record.broj_terasa >= value[0] && record.broj_terasa <= value[1],
@@ -296,12 +335,28 @@ function ApartmentsReview() {
           value: [50000, 70000],
         },
         {
-          text: '75000-100000',
-          value: [75000, 100000],
+          text: '70000-85000',
+          value: [70000, 85000],
         },
         {
-          text: '70.000e-120.000e',
-          value: [100000, 150000],
+          text: '85000-95000',
+          value: [85000, 95000],
+        },
+        {
+          text: '95000-105000',
+          value: [95000, 105000],
+        },
+        {
+          text: '105000-120000',
+          value: [105000, 120000],
+        },
+        {
+          text: '120000-150000',
+          value: [120000, 150000],
+        },
+        {
+          text: '150000-200000',
+          value: [150000, 200000],
         },
       ],
       onFilter: (value, record) => record.cena_stana >= value[0] && record.cena_stana <= value[1],

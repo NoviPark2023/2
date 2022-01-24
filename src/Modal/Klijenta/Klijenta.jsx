@@ -82,7 +82,7 @@ function ChangeClients(propsklijenta) {
 
   return (
     <div>
-      <Form onFinish={onFinish} onFinishFailed={onFinishFailed} layout="vertical" form={form}>
+      <Form autoComplete="off" onFinish={onFinish} onFinishFailed={onFinishFailed} layout="vertical" form={form}>
         <FormItem
           label="Lice"
           name="lice"
