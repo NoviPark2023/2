@@ -19,6 +19,6 @@ api.interceptors.response.use(
     return response;
   },
   error => {
-    return Promise.reject(error.toJSON());
+    return Promise.reject(error.response);
   }
 );
