@@ -224,7 +224,7 @@ function ReviewUser() {
           Dodaj Novog Korisnika
         </Button>
       </div>
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: [7] }} rowKey="id"></Table>
+      <Table columns={columns} dataSource={data} pagination={{ pageSize: [5] }} rowKey="id"></Table>
       <Modal title="Izmeni korisnika" visible={editUser} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <Korisnika edit propskorisnika={user} getData={getData} closeModal={() => showModal(false)} />
       </Modal>

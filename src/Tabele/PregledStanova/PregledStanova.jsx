@@ -148,6 +148,7 @@ function ApartmentsReview() {
       key: '1',
       title: 'ID',
       dataIndex: 'id_stana',
+      ...getColumnSearchProps('id_stana'),
     },
     {
       key: '2',
@@ -420,7 +421,7 @@ function ApartmentsReview() {
       render: (text, record) => (
         <div>
           <Button
-            disabled={activeRole === 'Prodavac'}
+            editable={activeRole === 'Prodavac'}
             type="primary"
             onClick={() => {
               showModal(true);
@@ -473,7 +474,12 @@ function ApartmentsReview() {
         </Button>
       </div>
 
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: [6] }} rowKey="id_stana"></Table>
+      <Table
+        columns={columns}
+        dataSource={data}
+        pagination={{ pageSize: [6], showSizeChanger: 'false' }}
+        rowKey="id_stana"
+      ></Table>
       <Modal title="Izmeni" visible={isEditPlaceVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <Stanova edit propsstan={selectedPlace} getData={getData} closeModal={() => showModal(false)} />
       </Modal>
