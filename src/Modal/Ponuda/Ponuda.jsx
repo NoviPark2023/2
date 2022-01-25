@@ -166,7 +166,7 @@ function ChangeOffers(propsponuda) {
           <Space direction="vertical" size={12}>
             {form.getFieldsValue().datum_ugovora}
             <DatePicker
-              defaultValue={moment(form.getFieldsValue().datum_ugovora)}
+              // defaultValue={moment(form.getFieldsValue().datum_ugovora)}
               onChange={(val, newDate) => {
                 form.setFieldsValue({ datum_ugovora: newDate });
               }}
@@ -193,7 +193,7 @@ function ChangeOffers(propsponuda) {
           rules={[
             {
               required: true,
-              message: 'Izaberite nacin_placanja!',
+              message: 'Izaberite nacin placanja!',
             },
           ]}
         >
@@ -210,7 +210,7 @@ function ChangeOffers(propsponuda) {
           rules={[
             {
               required: true,
-              message: 'Izaberite status_ponude!',
+              message: 'Izaberite status ponude!',
             },
           ]}
         >

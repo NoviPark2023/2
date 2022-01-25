@@ -49,7 +49,8 @@ function ChangeUser(propskorisnika) {
         succses();
         sucsessMessages('uspesno');
       })
-      .catch(e => {
+      .catch(res => {
+        console.log(res, 'greska');
         errorMessages('greska');
       });
   };
@@ -62,7 +63,7 @@ function ChangeUser(propskorisnika) {
         succses();
         sucsessMessages('uspesno');
       })
-      .catch(e => {
+      .catch(res => {
         errorMessages('greska');
       });
   };
@@ -111,7 +112,11 @@ function ChangeUser(propskorisnika) {
           rules={[
             {
               required: true,
-              message: 'Unesite E-mail!',
+              message: 'Unesite  E-mail!',
+            },
+            {
+              type: 'email',
+              message: 'Unesite ispravan E-mail!',
             },
           ]}
         >

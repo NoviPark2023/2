@@ -44,7 +44,7 @@ function AppHeader() {
               <Link to="/izvestaji">Izveštaji</Link>
             </Menu.Item>
             <Menu.Item style={{ backgroundColor: '#003380' }} key={'/cenaStana'}>
-              <Link to="/cenaStana">Azuriranje cena stana</Link>
+              <Link to="/cenaStana">Azuriranje cene stana</Link>
             </Menu.Item>
           </>
         )}

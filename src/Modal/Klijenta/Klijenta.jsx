@@ -116,12 +116,12 @@ function ChangeClients(propsklijenta) {
           name="email"
           rules={[
             {
-              type: 'email',
-              message: 'Unesite ispravan E-mail!',
-            },
-            {
               required: true,
               message: 'Unesite  E-mail!',
+            },
+            {
+              type: 'email',
+              message: 'Unesite ispravan E-mail!',
             },
           ]}
         >

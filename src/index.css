@@ -17,3 +17,7 @@ code {
 div.ant-row {
   overflow: hidden;
 }
+
+li.ant-pagination-options {
+  display: none;
+}
