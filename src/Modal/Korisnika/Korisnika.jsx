@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { Input, Button, Form, Select } from 'antd';
+import { Input, Button, Form, Select, message } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { UserOutlined } from '@ant-design/icons';
 import { Option } from 'antd/lib/mentions';
@@ -47,11 +47,32 @@ function ChangeUser(propskorisnika) {
       .post(endpoint, values)
       .then(res => {
         succses();
-        sucsessMessages('uspesno');
+        message.success({
+                content: 'Uspesno kreiran Korisnik !',
+                className: 'custom-class',
+                style: {
+                    marginTop: '30vh',
+                },
+            });
       })
-      .catch(res => {
-        console.log(res, 'greska');
-        errorMessages('greska');
+      .catch(error => {
+        if(error.data.email){
+            message.error({
+                content: 'Korisnik sa ovim Emailom je vec registrovan u sistemu !',
+                className: 'custom-class',
+                style: {
+                    marginTop: '0vh',
+                },
+            });
+        } else if (error.data.username){
+            message.error({
+                content: 'Korisnik sa ovim Korisnickim Imenom je vec registrovan u sistemu !',
+                className: 'custom-class',
+                style: {
+                    marginTop: '0vh',
+                },
+            });
+        }
       });
   };
 
@@ -119,6 +140,7 @@ function ChangeUser(propskorisnika) {
               message: 'Unesite ispravan E-mail!',
             },
           ]}
+          hasFeedback
         >
           <Input id="email" size="default" placeholder="E-mail" prefix={<UserOutlined />} />
         </FormItem>
