@@ -151,7 +151,7 @@ const ClientOffersReview = props => {
     },
     {
       key: '7',
-      title: 'Nacin placanja',
+      title: 'Nacin plaćanja',
       dataIndex: 'nacin_placanja',
       render: (text, record) => <span>{PAYMENT_TYPE_LABELS[record.nacin_placanja]}</span>,
       filters: [
@@ -230,11 +230,11 @@ const ClientOffersReview = props => {
     },
     {
       key: '11',
-      title: 'Obrisi',
+      title: 'Obriši',
       render: (text, record) => (
         <>
           <Popconfirm
-            title="Da li ste sigurni da zelite da izbrisete ponudu?"
+            title="Da li ste sigurni da želite da izbrišete ponudu?"
             placement="left"
             okButtonProps={{ loading: confirmLoading }}
             onCancel={handleCancel}
@@ -242,7 +242,7 @@ const ClientOffersReview = props => {
             okText="DA"
             onConfirm={() => deleteOffers(record.id_ponude)}
           >
-            <Button type="danger">Obrisi</Button>
+            <Button type="danger">Obriši</Button>
           </Popconfirm>
         </>
       ),

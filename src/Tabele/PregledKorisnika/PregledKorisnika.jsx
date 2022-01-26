@@ -139,13 +139,13 @@ function ReviewUser() {
     },
     {
       key: '4',
-      title: 'Email',
+      title: 'E-mail',
       dataIndex: 'email',
       ...getColumnSearchProps('email'),
     },
     {
       key: '5',
-      title: 'Korisnicko ime',
+      title: 'Korisničko ime',
       dataIndex: 'username',
       ...getColumnSearchProps('username'),
     },
@@ -189,19 +189,19 @@ function ReviewUser() {
     },
 
     {
-      title: 'Obrisi',
+      title: 'Obriši',
       key: '9',
       render: (text, record) => (
         <>
           <Popconfirm
-            title="Da li ste sigurni da zelite da izbrisete korisnika?"
+            title="Da li ste sigurni da želite da izbrišete korisnika?"
             placement="left"
             onCancel={handleCancel}
             cancelText="NE"
             okText="DA"
             onConfirm={() => deleteUser(record.id)}
           >
-            <Button type="danger">Obrisi</Button>
+            <Button type="danger">Obriši</Button>
           </Popconfirm>
         </>
       ),
@@ -221,7 +221,7 @@ function ReviewUser() {
             setCreateUser(true);
           }}
         >
-          Dodaj Novog Korisnika
+          Dodaj novog korisnika
         </Button>
       </div>
       <Table columns={columns} dataSource={data} pagination={{ pageSize: [5] }} rowKey="id"></Table>
@@ -229,6 +229,7 @@ function ReviewUser() {
         <Korisnika edit propskorisnika={user} getData={getData} closeModal={() => showModal(false)} />
       </Modal>
       <Modal
+        destroyOnClose={true}
         title="Kreiranje korisnika"
         visible={createUser}
         onOk={handleOk}

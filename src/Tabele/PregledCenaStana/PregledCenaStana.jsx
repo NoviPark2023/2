@@ -278,18 +278,18 @@ function ApartmentsPriceReview() {
     },
     {
       key: '7',
-      title: 'Obrisi',
+      title: 'Obriši',
       render: (text, record) => (
         <>
           <Popconfirm
-            title="Da li ste sigurni da zelite da izbrisete cenu stana?"
+            title="Da li ste sigurni da želite da izbrišete cenu stana?"
             placement="left"
             onCancel={handleCancel}
             cancelText="NE"
             okText="DA"
             onConfirm={() => deletePrice(record.id_azur_cene)}
           >
-            <Button type="danger">Obrisi</Button>
+            <Button type="danger">Obriši</Button>
           </Popconfirm>
         </>
       ),
@@ -310,7 +310,7 @@ function ApartmentsPriceReview() {
               setIsCreatePriceVisible(true);
             }}
           >
-            Kreiraj Novu Cenu
+            Kreiraj novu cenu
           </Button>
           <Button style={{ backgroundColor: ' #adad85', color: 'white', marginLeft: '20px' }}>
             Globalno azuriranje cena
@@ -332,6 +332,7 @@ function ApartmentsPriceReview() {
           />
         </Modal>
         <Modal
+          destroyOnClose={true}
           title="Kreiranje nove cene kvadrata"
           visible={isCreatePriceVisible}
           onOk={handleOk}
