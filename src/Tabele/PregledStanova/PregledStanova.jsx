@@ -480,6 +480,7 @@ function ApartmentsReview() {
       </Modal>
 
       <Modal
+        destroyOnClose={true}
         title="Kreiraj novi stan"
         visible={isCreatePlaceVisible}
         onOk={handleOk}

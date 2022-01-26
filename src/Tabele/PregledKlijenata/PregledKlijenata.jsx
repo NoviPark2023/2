@@ -250,6 +250,7 @@ function ClientsReview() {
         <Klijenta edit propsklijenta={client} getData={getData} closeModal={() => showModal(false)} />
       </Modal>
       <Modal
+        destroyOnClose={true}
         title="Kreiranje klijenta"
         visible={createClient}
         onOk={handleOk}
