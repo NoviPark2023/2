@@ -156,7 +156,7 @@ function ClientsReview() {
     },
     {
       key: '4',
-      title: 'Email',
+      title: 'E-mail',
       dataIndex: 'email',
       ...getColumnSearchProps('email'),
     },
@@ -209,18 +209,18 @@ function ClientsReview() {
 
     {
       key: '10',
-      title: 'Obrisi',
+      title: 'Obriši',
       render: (text, record) => (
         <>
           <Popconfirm
-            title="Da li ste sigurni da zelite da izbrisete klijenta?"
+            title="Da li ste sigurni da želite da izbrišete klijenta?"
             placement="left"
             onCancel={handleCancel}
             cancelText="NE"
             okText="DA"
             onConfirm={() => deleteClient(record.id_kupca)}
           >
-            <Button type="danger">Obrisi</Button>
+            <Button type="danger">Obriši</Button>
           </Popconfirm>
         </>
       ),
@@ -240,7 +240,7 @@ function ClientsReview() {
             setCreateClient(true);
           }}
         >
-          Dodaj Novog Klijenta
+          Dodaj novog klijenta
         </Button>
       </div>
 

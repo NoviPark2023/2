@@ -163,7 +163,7 @@ function ReportsApartments() {
         </Col>
         <Col span={12}>
           <Title style={{ textAlign: 'center' }} level={3}>
-            2.Prodaja stanova izrazena u procentima
+            2.Prodaja stanova izražena u procentima
           </Title>
 
           <Row gutter={24} style={{ padding: '5px', marginTop: '100px', marginRight: '30px' }}>

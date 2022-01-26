@@ -201,7 +201,7 @@ const OffersReview = () => {
     },
     {
       key: '9',
-      title: 'Nacin placanja',
+      title: 'Nacin plaćanja',
       dataIndex: 'nacin_placanja',
       render: (text, record) => <span>{PAYMENT_TYPE_LABELS[record.nacin_placanja]}</span>,
       filters: [
@@ -223,7 +223,6 @@ const OffersReview = () => {
         },
       ],
       onFilter: (value, record) => record.nacin_placanja.indexOf(value) === 0,
-      sorter: (a, b) => a.nacin_placanja - b.nacin_placanja,
     },
     {
       key: '10',
@@ -283,14 +282,14 @@ const OffersReview = () => {
     },
     {
       key: '13',
-      title: 'Obrisi',
+      title: 'Obriši',
       render: (text, record) => (
         <>
           <Popconfirm
             disabled={
               (record.status_ponude === 'rezervisan' || record.status_ponude === 'kupljen') && activeRole === 'Prodavac'
             }
-            title="Da li ste sigurni da zelite da izbrisete ponudu?"
+            title="Da li ste sigurni da želite da izbrišete ponudu?"
             placement="left"
             okButtonProps={{ loading: confirmLoading }}
             onCancel={handleCancel}
@@ -305,7 +304,7 @@ const OffersReview = () => {
               }
               type="danger"
             >
-              Obrisi
+              Obriši
             </Button>
           </Popconfirm>
         </>
@@ -321,7 +320,7 @@ const OffersReview = () => {
     <div>
       <div style={{ margin: 20 }}>
         <Button type="primary" onClick={() => setIsCreateModalVisible(true)}>
-          Dodaj Novu Ponudu
+          Dodaj novu ponudu
         </Button>
       </div>
       <Table columns={columns} dataSource={setPonude} pagination={{ pageSize: [5] }} rowKey="id_ponude"></Table>
@@ -355,6 +354,7 @@ const OffersReview = () => {
       </Modal>
 
       <Modal
+        destroyOnClose={true}
         title="Dodaj ponudu"
         visible={isCreateModalVisible}
         onOk={handleOkModal}

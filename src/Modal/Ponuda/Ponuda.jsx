@@ -232,7 +232,7 @@ function ChangeOffers(propsponuda) {
               Sacuvaj
             </Button>
 
-            <Button type="danger" onClick={() => propsponuda.closeModal()} htmlType="submit">
+            <Button type="danger" onClick={() => propsponuda.closeModal()}>
               Otkazi
             </Button>
           </div>

@@ -435,12 +435,12 @@ function ApartmentsReview() {
     },
     {
       key: '14',
-      title: 'Obrisi',
+      title: 'Obriši',
       render: (text, record) => (
         <>
           <Popconfirm
             disabled={activeRole === 'Prodavac'}
-            title="Da li ste sigurni da zelite da izbrisete stan?"
+            title="Da li ste sigurni da želite da izbrišete stan?"
             placement="left"
             onCancel={handleCancel}
             cancelText="NE"
@@ -448,7 +448,7 @@ function ApartmentsReview() {
             onConfirm={() => deleteApartment(record.id_stana)}
           >
             <Button disabled={activeRole === 'Prodavac'} type="danger">
-              Obrisi
+              Obriši
             </Button>
           </Popconfirm>
         </>
@@ -470,16 +470,11 @@ function ApartmentsReview() {
             setIsCreatePlaceVisible(true);
           }}
         >
-          Dodaj Novi stan
+          Dodaj novi stan
         </Button>
       </div>
 
-      <Table
-        columns={columns}
-        dataSource={data}
-        pagination={{ pageSize: [6], showSizeChanger: 'false' }}
-        rowKey="id_stana"
-      ></Table>
+      <Table columns={columns} dataSource={data} pagination={{ pageSize: [6] }} rowKey="id_stana"></Table>
       <Modal title="Izmeni" visible={isEditPlaceVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <Stanova edit propsstan={selectedPlace} getData={getData} closeModal={() => showModal(false)} />
       </Modal>

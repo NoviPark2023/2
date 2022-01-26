@@ -16,10 +16,10 @@ function ReportReview() {
       <Sider trigger={null}>
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
           <Menu.Item key={1} onClick={() => setMenuItem(1)} icon={<PieChartOutlined />}>
-            Izvestaj o stanovima
+            Izveštaj o stanovima
           </Menu.Item>
           <Menu.Item key={2} onClick={() => setMenuItem(2)} icon={<PieChartOutlined />}>
-            Izvestaj o klijentima
+            Izveštaj o klijentima
           </Menu.Item>
           <Menu.Item key={3} onClick={() => setMenuItem(3)} icon={<AreaChartOutlined />}>
             ROI Izeštaji
