@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { Input, Form, Select, Button } from 'antd';
+import {Input, Form, Select, Button, message} from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { UserOutlined } from '@ant-design/icons';
 import { Option } from 'antd/lib/mentions';
@@ -49,8 +49,33 @@ function ChangeClients(propsklijenta) {
         succses();
         sucsessMessages('uspesno');
       })
-      .catch(e => {
-        errorMessages('greska');
+      .catch(error => {
+        console.log(error)
+        if(error.data.email){
+            message.error({
+                content: 'Klijent sa ovim Emailom je vec registrovan u sistemu !',
+                className: 'custom-class',
+                style: {
+                    marginTop: '0vh',
+                },
+            });
+        } else if (error.data.broj_telefona){
+            message.error({
+                content: 'Klijent sa ovim Telefonskim brojem je vec registrovan u sistemu !',
+                className: 'custom-class',
+                style: {
+                    marginTop: '0vh',
+                },
+            });
+        } else if (error.data.Jmbg_Pib){
+            message.error({
+                content: 'Klijent sa unetim (JMBG / PIB) je vec registrovan u sistemu !',
+                className: 'custom-class',
+                style: {
+                    marginTop: '0vh',
+                },
+            });
+        }
       });
   };
 
@@ -65,7 +90,7 @@ function ChangeClients(propsklijenta) {
       })
       .catch(e => {
         propsklijenta.closeModal();
-        toast.error('Greskaaa');
+        toast.error('Greska!');
       });
   };
 
