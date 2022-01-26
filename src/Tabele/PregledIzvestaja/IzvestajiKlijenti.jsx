@@ -17,14 +17,14 @@ function ReportsClients() {
         const dataReserve = res.data.map(item => {
           return {
             name: item.ime_prezime,
-            pv: item.rezervisani_stanovi_klijenti,
+            stanovi: item.rezervisani_stanovi_klijenti,
             amt: 250,
           };
         });
         const dataSale = res.data.map(item => {
           return {
             name: item.ime_prezime,
-            pv: item.prodati_stanovi_klijenti,
+            stanovi: item.prodati_stanovi_klijenti,
             amt: 250,
           };
         });
@@ -58,7 +58,7 @@ function ReportsClients() {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="pv" fill="#e74c3c" />
+            <Bar dataKey="stanovi" fill="#e74c3c" />
           </BarChart>
         </Col>
       </Row>
@@ -81,7 +81,7 @@ function ReportsClients() {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="pv" fill="#1890ff" />
+            <Bar dataKey="stanovi" fill="#1890ff" />
           </BarChart>
         </Col>
       </Row>

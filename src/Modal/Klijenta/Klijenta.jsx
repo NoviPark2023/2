@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import {Input, Form, Select, Button, message} from 'antd';
+import { Input, Form, Select, Button, message } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { UserOutlined } from '@ant-design/icons';
 import { Option } from 'antd/lib/mentions';
@@ -37,9 +37,9 @@ function ChangeClients(propsklijenta) {
     toast.success(value);
   };
 
-  const errorMessages = value => {
-    toast.error(value);
-  };
+  // const errorMessages = value => {
+  //   toast.error(value);
+  // };
 
   const createClient = values => {
     const endpoint = '/kupci/kreiraj-kupca/';
@@ -50,31 +50,30 @@ function ChangeClients(propsklijenta) {
         sucsessMessages('uspesno');
       })
       .catch(error => {
-        console.log(error)
-        if(error.data.email){
-            message.error({
-                content: 'Klijent sa ovim Emailom je vec registrovan u sistemu !',
-                className: 'custom-class',
-                style: {
-                    marginTop: '0vh',
-                },
-            });
-        } else if (error.data.broj_telefona){
-            message.error({
-                content: 'Klijent sa ovim Telefonskim brojem je vec registrovan u sistemu !',
-                className: 'custom-class',
-                style: {
-                    marginTop: '0vh',
-                },
-            });
-        } else if (error.data.Jmbg_Pib){
-            message.error({
-                content: 'Klijent sa unetim (JMBG / PIB) je vec registrovan u sistemu !',
-                className: 'custom-class',
-                style: {
-                    marginTop: '0vh',
-                },
-            });
+        if (error.data.email) {
+          message.error({
+            content: 'Klijent sa ovim E-mailom je vec registrovan u sistemu !',
+            className: 'custom-class',
+            style: { fontSize: 20, marginTop: '0vh' },
+          });
+        } else if (error.data.broj_telefona) {
+          message.error({
+            content: 'Klijent sa ovim Telefonskim brojem je vec registrovan u sistemu !',
+            className: 'custom-class',
+            style: { fontSize: 20, marginTop: '0vh' },
+          });
+        } else if (error.data.Jmbg_Pib) {
+          message.error({
+            content: 'Klijent sa unetim (JMBG / PIB) je vec registrovan u sistemu !',
+            className: 'custom-class',
+            style: { fontSize: 20, marginTop: '0vh' },
+          });
+        } else if (error.data.ime_prezime) {
+          message.error({
+            content: 'Klijent sa ovim podacima vec postoji u sistemu, unesite ime oca !',
+            className: 'custom-class',
+            style: { fontSize: 20 },
+          });
         }
       });
   };
@@ -167,6 +166,7 @@ function ChangeClients(propsklijenta) {
               message: 'Broj telefona!',
             },
           ]}
+          hasFeedback
         >
           <Input id="broj_telefona" disabled={propsklijenta.preview} size="default" placeholder="Broj telefona" />
         </FormItem>
@@ -202,7 +202,7 @@ function ChangeClients(propsklijenta) {
               </Button>
             )}
 
-            <Button onClick={Modal} type="danger" htmlType="submit">
+            <Button onClick={Modal} type="danger">
               {propsklijenta.preview ? 'Zatvori' : 'Otkazi'}
             </Button>
           </div>

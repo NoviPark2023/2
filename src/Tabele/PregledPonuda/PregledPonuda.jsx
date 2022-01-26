@@ -324,7 +324,7 @@ const OffersReview = () => {
           Dodaj Novu Ponudu
         </Button>
       </div>
-      <Table columns={columns} dataSource={setPonude} pagination={{ pageSize: [5] }}></Table>
+      <Table columns={columns} dataSource={setPonude} pagination={{ pageSize: [5] }} rowKey="id_ponude"></Table>
 
       <Modal
         title="Pregled Klijenta"

@@ -23,7 +23,7 @@ function ReportsApartments() {
     api.get('/reports/korisnici/').then(res => {
       if (res.data && res.data.length) {
         const data = res.data.map(item => {
-          return { name: item.ime, pv: item.prodati_stanovi_korisnici };
+          return { name: item.ime, Prodaja: item.prodati_stanovi_korisnici };
         });
         setUsers(data);
       }
@@ -36,18 +36,18 @@ function ReportsApartments() {
 
   const dataSalesByMonths = data.prodaja_po_mesecima
     ? [
-        { name: 'jan', uv: data.prodaja_po_mesecima[0].jan },
-        { name: 'feb', uv: data.prodaja_po_mesecima[0].feb },
-        { name: 'mart', uv: data.prodaja_po_mesecima[0].mart },
-        { name: 'april', uv: data.prodaja_po_mesecima[0].apr },
-        { name: 'maj', uv: data.prodaja_po_mesecima[0].maj },
-        { name: 'jun', uv: data.prodaja_po_mesecima[0].jun },
-        { name: 'jul', uv: data.prodaja_po_mesecima[0].jul },
-        { name: 'avgust', uv: data.prodaja_po_mesecima[0].avg },
-        { name: 'sep', uv: data.prodaja_po_mesecima[0].sep },
-        { name: 'okt', uv: data.prodaja_po_mesecima[0].okt },
-        { name: 'nov', uv: data.prodaja_po_mesecima[0].nov },
-        { name: 'dec', uv: data.prodaja_po_mesecima[0].dec },
+        { name: 'jan', stanovi: data.prodaja_po_mesecima[0].jan },
+        { name: 'feb', stanovi: data.prodaja_po_mesecima[0].feb },
+        { name: 'mart', stanovi: data.prodaja_po_mesecima[0].mart },
+        { name: 'april', stanovi: data.prodaja_po_mesecima[0].apr },
+        { name: 'maj', stanovi: data.prodaja_po_mesecima[0].maj },
+        { name: 'jun', stanovi: data.prodaja_po_mesecima[0].jun },
+        { name: 'jul', stanovi: data.prodaja_po_mesecima[0].jul },
+        { name: 'avgust', stanovi: data.prodaja_po_mesecima[0].avg },
+        { name: 'sep', stanovi: data.prodaja_po_mesecima[0].sep },
+        { name: 'okt', stanovi: data.prodaja_po_mesecima[0].okt },
+        { name: 'nov', stanovi: data.prodaja_po_mesecima[0].nov },
+        { name: 'dec', stanovi: data.prodaja_po_mesecima[0].dec },
       ]
     : [];
 
@@ -55,51 +55,51 @@ function ReportsApartments() {
     ? [
         {
           name: 'jan',
-          uv: data.ukupna_suma_prodatih_stanova[0].jan,
+          prihod: data.ukupna_suma_prodatih_stanova[0].jan,
         },
         {
           name: 'feb',
-          uv: data.ukupna_suma_prodatih_stanova[0].feb,
+          prihod: data.ukupna_suma_prodatih_stanova[0].feb,
         },
         {
           name: 'mart',
-          uv: data.ukupna_suma_prodatih_stanova[0].mart,
+          prihod: data.ukupna_suma_prodatih_stanova[0].mart,
         },
         {
           name: 'april',
-          uv: data.ukupna_suma_prodatih_stanova[0].apr,
+          prihod: data.ukupna_suma_prodatih_stanova[0].apr,
         },
         {
           name: 'maj',
-          uv: data.ukupna_suma_prodatih_stanova[0].maj,
+          prihod: data.ukupna_suma_prodatih_stanova[0].maj,
         },
         {
           name: 'jun',
-          uv: data.ukupna_suma_prodatih_stanova[0].jun,
+          prihod: data.ukupna_suma_prodatih_stanova[0].jun,
         },
         {
           name: 'jul',
-          uv: data.ukupna_suma_prodatih_stanova[0].jul,
+          prihod: data.ukupna_suma_prodatih_stanova[0].jul,
         },
         {
           name: 'avg',
-          uv: data.ukupna_suma_prodatih_stanova[0].avg,
+          prihod: data.ukupna_suma_prodatih_stanova[0].avg,
         },
         {
           name: 'sep',
-          uv: data.ukupna_suma_prodatih_stanova[0].sep,
+          prihod: data.ukupna_suma_prodatih_stanova[0].sep,
         },
         {
           name: 'okt',
-          uv: data.ukupna_suma_prodatih_stanova[0].okt,
+          prihod: data.ukupna_suma_prodatih_stanova[0].okt,
         },
         {
           name: 'nov',
-          uv: data.ukupna_suma_prodatih_stanova[0].nov,
+          prihod: data.ukupna_suma_prodatih_stanova[0].nov,
         },
         {
           name: 'dec',
-          uv: data.ukupna_suma_prodatih_stanova[0].dec,
+          prihod: data.ukupna_suma_prodatih_stanova[0].dec,
         },
       ]
     : [];
@@ -221,7 +221,7 @@ function ReportsApartments() {
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-            <Line connectNulls type="monotone" dataKey="uv" stroke="#e74c3c" fill="#1890ff" />
+            <Line connectNulls type="monotone" dataKey="stanovi" stroke="#e74c3c" fill="#1890ff" />
           </LineChart>
         </Col>
       </Row>
@@ -244,7 +244,7 @@ function ReportsApartments() {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="pv" fill="#e74c3c" />
+            <Bar dataKey="Prodaja" fill="#e74c3c" />
           </BarChart>
         </Col>
       </Row>
@@ -266,7 +266,7 @@ function ReportsApartments() {
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-            <Line connectNulls type="monotone" dataKey="uv" stroke="#e74c3c" fill="#1890ff" />
+            <Line connectNulls type="monotone" dataKey="prihod" stroke="#e74c3c" fill="#1890ff" />
           </LineChart>
         </Col>
       </Row>

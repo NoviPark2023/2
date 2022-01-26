@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import { Input, Button, Form, Select, AutoComplete, DatePicker, Space } from 'antd';
+import { Input, Button, Form, Select, AutoComplete, DatePicker, Space, message } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { UserOutlined } from '@ant-design/icons';
 import { Option } from 'antd/lib/mentions';
 import 'antd/dist/antd.css';
 import { api } from 'api/api';
 import { toast } from 'react-toastify';
-import moment from 'moment';
+// import moment from 'moment';
 import { Spin } from 'antd';
 
 function ChangeOffers(propsponuda) {
@@ -100,8 +100,14 @@ function ChangeOffers(propsponuda) {
         }
         toast.success('Uspesno ste izmenili podatke');
       })
-      .catch(e => {
-        toast.error('Greskaaa');
+      .catch(error => {
+        if (error.data.broj_ugovora) {
+          message.error({
+            content: 'Ponuda sa ovim brojem ugovora vec postoji u sistemu !',
+            className: 'custom-class',
+            style: { fontSize: 20, marginTop: '0vh' },
+          });
+        }
       })
       .finally(() => {
         setLoaderPage(false);

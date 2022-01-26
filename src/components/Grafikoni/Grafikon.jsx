@@ -17,18 +17,18 @@ function Graph(propsstan) {
 
   const offerByMonths = data.broj_ponuda_po_mesecima
     ? [
-        { name: 'jan', pv: data.broj_ponuda_po_mesecima[0].jan },
-        { name: 'feb', pv: data.broj_ponuda_po_mesecima[0].feb },
-        { name: 'mar', pv: data.broj_ponuda_po_mesecima[0].mart },
-        { name: 'apr', pv: data.broj_ponuda_po_mesecima[0].apr },
-        { name: 'maj', pv: data.broj_ponuda_po_mesecima[0].maj },
-        { name: 'jun', pv: data.broj_ponuda_po_mesecima[0].jun },
-        { name: 'jul', pv: data.broj_ponuda_po_mesecima[0].jul },
-        { name: 'avg', pv: data.broj_ponuda_po_mesecima[0].avg },
-        { name: 'sep', pv: data.broj_ponuda_po_mesecima[0].sep },
-        { name: 'okt', pv: data.broj_ponuda_po_mesecima[0].okt },
-        { name: 'nov', pv: data.broj_ponuda_po_mesecima[0].nov },
-        { name: 'dec', pv: data.broj_ponuda_po_mesecima[0].dec },
+        { name: 'jan', Ponude: data.broj_ponuda_po_mesecima[0].jan },
+        { name: 'feb', Ponude: data.broj_ponuda_po_mesecima[0].feb },
+        { name: 'mar', Ponude: data.broj_ponuda_po_mesecima[0].mart },
+        { name: 'apr', Ponude: data.broj_ponuda_po_mesecima[0].apr },
+        { name: 'maj', Ponude: data.broj_ponuda_po_mesecima[0].maj },
+        { name: 'jun', Ponude: data.broj_ponuda_po_mesecima[0].jun },
+        { name: 'jul', Ponude: data.broj_ponuda_po_mesecima[0].jul },
+        { name: 'avg', Ponude: data.broj_ponuda_po_mesecima[0].avg },
+        { name: 'sep', Ponude: data.broj_ponuda_po_mesecima[0].sep },
+        { name: 'okt', Ponude: data.broj_ponuda_po_mesecima[0].okt },
+        { name: 'nov', Ponude: data.broj_ponuda_po_mesecima[0].nov },
+        { name: 'dec', Ponude: data.broj_ponuda_po_mesecima[0].dec },
       ]
     : [];
   return (
@@ -51,7 +51,7 @@ function Graph(propsstan) {
         <Tooltip />
         <Legend />
         <CartesianGrid strokeDasharray="3 3" />
-        <Bar dataKey="pv" fill="#0A5474" background={{ fill: '#eee' }} />
+        <Bar dataKey="Ponude" fill="#0A5474" background={{ fill: '#eee' }} />
       </BarChart>
     </div>
   );

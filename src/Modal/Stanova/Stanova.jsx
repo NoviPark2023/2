@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { Input, Button, Form, Select } from 'antd';
+import { Input, Button, Form, Select, message } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { Option } from 'antd/lib/mentions';
 import 'antd/dist/antd.css';
@@ -62,8 +62,17 @@ function ChangeApartments(propsstan) {
         succses();
         sucsessMessages('uspesno');
       })
-      .catch(e => {
-        errorMessages('greska');
+      .catch(error => {
+        if (error.data.lamela) {
+          message.error({
+            content: 'Stan sa ovom Lamelom je vec registrovan u sistemu !',
+            className: 'custom-class',
+            style: {
+              marginTop: '0vh',
+              fontSize: 20,
+            },
+          });
+        }
       });
   };
 
@@ -233,7 +242,7 @@ function ChangeApartments(propsstan) {
               {propsstan.edit ? 'Izmeni' : 'Dodaj'}
             </Button>
 
-            <Button onClick={closeModal2} type="danger" htmlType="submit">
+            <Button onClick={closeModal2} type="danger">
               Otkazi
             </Button>
           </div>

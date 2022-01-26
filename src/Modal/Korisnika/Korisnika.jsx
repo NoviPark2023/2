@@ -48,30 +48,30 @@ function ChangeUser(propskorisnika) {
       .then(res => {
         succses();
         message.success({
-                content: 'Uspesno kreiran Korisnik !',
-                className: 'custom-class',
-                style: {
-                    marginTop: '30vh',
-                },
-            });
+          content: 'Uspesno kreiran Korisnik !',
+          className: 'custom-class',
+          style: {},
+        });
       })
       .catch(error => {
-        if(error.data.email){
-            message.error({
-                content: 'Korisnik sa ovim Emailom je vec registrovan u sistemu !',
-                className: 'custom-class',
-                style: {
-                    marginTop: '0vh',
-                },
-            });
-        } else if (error.data.username){
-            message.error({
-                content: 'Korisnik sa ovim Korisnickim Imenom je vec registrovan u sistemu !',
-                className: 'custom-class',
-                style: {
-                    marginTop: '0vh',
-                },
-            });
+        if (error.data.email) {
+          message.error({
+            content: 'Korisnik sa ovim E-mailom je vec registrovan u sistemu !',
+            className: 'custom-class',
+            style: {
+              marginTop: '0vh',
+              fontSize: 20,
+            },
+          });
+        } else if (error.data.username) {
+          message.error({
+            content: 'Korisnik sa ovim Korisnickim Imenom je vec registrovan u sistemu !',
+            className: 'custom-class',
+            style: {
+              marginTop: '0vh',
+              fontSize: 20,
+            },
+          });
         }
       });
   };
@@ -191,7 +191,7 @@ function ChangeUser(propskorisnika) {
               {propskorisnika.edit ? 'Izmeni' : 'Dodaj'}
             </Button>
 
-            <Button onClick={Modal} type="danger" htmlType="submit">
+            <Button onClick={Modal} type="danger">
               Otkazi
             </Button>
           </div>

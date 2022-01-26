@@ -421,7 +421,7 @@ function ApartmentsReview() {
       render: (text, record) => (
         <div>
           <Button
-            editable={activeRole === 'Prodavac'}
+            disabled={activeRole === 'Prodavac'}
             type="primary"
             onClick={() => {
               showModal(true);
