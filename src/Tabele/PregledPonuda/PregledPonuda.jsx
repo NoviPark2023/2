@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Modal, Popconfirm, Input, Space } from 'antd';
+import {Table, Button, Modal, Popconfirm, Input, Space, Tag} from 'antd';
 import Ponuda from 'Modal/Ponuda/Ponuda';
 import { useLocation } from 'react-router';
 import { api } from 'api/api';
@@ -228,6 +228,21 @@ const OffersReview = () => {
       key: '10',
       title: 'Status',
       dataIndex: 'status_ponude',
+      render(text) {
+        let color = text === 'potencijalan' ? 'geekblue' : 'green';
+        if (text === 'potencijalan') {
+          color = 'green';
+        } else if (text === 'rezervisan') {
+          color = 'blue';
+        } else if (text === 'kupljen') {
+          color = 'red';
+        }
+        return (
+            <Tag color={color} key={text}>
+              {text.toUpperCase()}
+            </Tag>
+        );
+      },
       filters: [
         {
           text: 'potencijalan',

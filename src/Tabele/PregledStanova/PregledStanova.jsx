@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Table, Modal, Input, Space, Popconfirm } from 'antd';
+import {Button, Table, Modal, Input, Space, Popconfirm, Tag} from 'antd';
 import Stanova from 'Modal/Stanova/Stanova';
 import { api } from 'api/api';
 import Highlighter from 'react-highlight-words';
@@ -367,6 +367,21 @@ function ApartmentsReview() {
       key: '10',
       title: 'Status',
       dataIndex: 'status_prodaje',
+      render(text) {
+        let color = text === 'dostupan' ? 'geekblue' : 'green';
+        if (text === 'dostupan') {
+          color = 'green';
+        } else if (text === 'rezervisan') {
+          color = 'blue';
+        } else if (text === 'prodat') {
+          color = 'red';
+        }
+        return (
+            <Tag color={color} key={text}>
+              {text.toUpperCase()}
+            </Tag>
+        );
+      },
       filters: [
         {
           text: 'prodat',
