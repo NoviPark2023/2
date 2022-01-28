@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Button, Table, Modal, Input, Space, Popconfirm, Tag} from 'antd';
+import { Button, Table, Modal, Input, Space, Popconfirm, Tag } from 'antd';
 import Stanova from 'Modal/Stanova/Stanova';
 import { api } from 'api/api';
 import Highlighter from 'react-highlight-words';
@@ -377,9 +377,9 @@ function ApartmentsReview() {
           color = 'red';
         }
         return (
-            <Tag color={color} key={text}>
-              {text.toUpperCase()}
-            </Tag>
+          <Tag color={color} style={{ width: '100%', textAlign: 'center' }} key={text}>
+            {text.toUpperCase()}
+          </Tag>
         );
       },
       filters: [
@@ -493,7 +493,6 @@ function ApartmentsReview() {
       <Modal title="Izmeni" visible={isEditPlaceVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <Stanova edit propsstan={selectedPlace} getData={getData} closeModal={() => showModal(false)} />
       </Modal>
-
       <Modal
         destroyOnClose={true}
         title="Kreiraj novi stan"
