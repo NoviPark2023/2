@@ -152,7 +152,7 @@ function ChangeOffers(propsponuda) {
           name="broj_ugovora"
           rules={[
             {
-              required: true,
+              required: false,
               message: 'Unesite broj ugovora!',
             },
           ]}
@@ -186,7 +186,7 @@ function ChangeOffers(propsponuda) {
           name="napomena"
           rules={[
             {
-              required: true,
+              required: false,
               message: ' Napomena!',
             },
           ]}
