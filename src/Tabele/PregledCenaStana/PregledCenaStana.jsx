@@ -312,9 +312,6 @@ function ApartmentsPriceReview() {
           >
             Kreiraj novu cenu
           </Button>
-          <Button style={{ backgroundColor: ' #adad85', color: 'white', marginLeft: '20px' }}>
-            Globalno azuriranje cena
-          </Button>
         </div>
         <Table dataSource={data} columns={columns} pagination={{ pageSize: [5] }} rowKey="id_azur_cene"></Table>
         <Modal

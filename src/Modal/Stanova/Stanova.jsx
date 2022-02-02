@@ -54,7 +54,7 @@ function ChangeApartments(propsstan) {
         errorMessages('greska');
       });
   };
-  const kreiranjeStana = values => {
+  const createApartmens = values => {
     const endpoint = '/stanovi/kreiraj-stan';
     api
       .post(endpoint, values)
@@ -77,7 +77,7 @@ function ChangeApartments(propsstan) {
   };
 
   const updateApartmenstObj = values => {
-    propsstan.edit ? editStanova(propsstan.propsstan.id_stana, values) : kreiranjeStana(values);
+    propsstan.edit ? editStanova(propsstan.propsstan.id_stana, values) : createApartmens(values);
   };
   const onFinish = values => {
     updateApartmenstObj(values);

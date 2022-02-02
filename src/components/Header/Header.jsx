@@ -31,6 +31,12 @@ function AppHeader() {
         <Menu.Item key={'/'}>
           <Link to="/">Stanovi</Link>
         </Menu.Item>
+        <Menu.Item key={'/lokali'}>
+          <Link to="/lokali">Lokali</Link>
+        </Menu.Item>
+        <Menu.Item key={'/garaze'}>
+          <Link to="/garaze">Garaže</Link>
+        </Menu.Item>
 
         <Menu.Item key={'/klijenti'}>
           <Link to="/klijenti">Klijenti</Link>
