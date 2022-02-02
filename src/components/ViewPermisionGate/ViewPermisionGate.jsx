@@ -9,6 +9,8 @@ const ROLES = {
 const ROUTE_PASSPORT = {
   cenaStana: [ROLES.admin, ROLES.finansije],
   izvestaji: [ROLES.admin, ROLES.finansije],
+  pregledLokala: [ROLES.admin, ROLES.finansije, ROLES.prodavac],
+  pregledGaraza: [ROLES.admin, ROLES.finansije, ROLES.prodavac],
   pregledStanova: [ROLES.admin, ROLES.finansije, ROLES.prodavac],
   stanovi: [ROLES.admin, ROLES.finansije, ROLES.prodavac],
   korisnici: [ROLES.admin, ROLES.finansije],

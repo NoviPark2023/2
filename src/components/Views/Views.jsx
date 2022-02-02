@@ -15,6 +15,8 @@ import style from './Views.module.css';
 import ViewPermisionGate from 'components/ViewPermisionGate/ViewPermisionGate';
 import { authService } from 'auth/auth.service';
 import PregledCenaStana from 'Tabele/PregledCenaStana/PregledCenaStana';
+import PregledLokala from 'Tabele/PregledLokala/PregledLokala';
+import PregledGaraza from 'Tabele/PregledGaraza/PregledGaraza';
 
 const { Content } = Layout;
 
@@ -31,6 +33,12 @@ function Views() {
           </Route>
           <Route exact path="/stanovi/:id">
             <ViewPermisionGate role={activeRole} routeName="stanovi" component={DetaljiStana} />
+          </Route>
+          <Route exact path="/lokali">
+            <ViewPermisionGate role={activeRole} routeName="pregledLokala" component={PregledLokala} />
+          </Route>
+          <Route exact path="/garaze">
+            <ViewPermisionGate role={activeRole} routeName="pregledGaraza" component={PregledGaraza} />
           </Route>
           <Route exact path="/korisnici">
             <ViewPermisionGate role={activeRole} routeName="korisnici" component={PregledKorisnika} />
