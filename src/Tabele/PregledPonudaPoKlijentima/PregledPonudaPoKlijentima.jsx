@@ -185,7 +185,7 @@ const ClientOffersReview = props => {
           color = 'green';
         } else if (text === 'rezervisan') {
           color = 'blue';
-        } else if (text === 'prodat') {
+        } else if (text === 'kupljen') {
           color = 'red';
         }
         return (
