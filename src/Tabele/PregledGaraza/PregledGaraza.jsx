@@ -147,7 +147,9 @@ function PregledGaraza() {
           color = 'green';
         } else if (text === 'prodata') {
           color = 'red';
-        }
+        } else if (text === 'rezervisana') {
+          color = 'blue';
+          }
         return (
           <Tag color={color} style={{ width: '70%', textAlign: 'center' }} key={text}>
             {text.toUpperCase()}

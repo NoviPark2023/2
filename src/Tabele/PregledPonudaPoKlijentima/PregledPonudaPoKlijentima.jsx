@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, Button, Modal, Popconfirm, Input, Space } from 'antd';
+import {Table, Button, Modal, Popconfirm, Input, Space, Tag} from 'antd';
 import Ponuda from 'Modal/Ponuda/Ponuda';
 import { api } from 'api/api';
 import Klijenta from 'Modal/Klijenta/Klijenta';
@@ -179,6 +179,21 @@ const ClientOffersReview = props => {
       key: '8',
       title: 'Status',
       dataIndex: 'status_ponude',
+      render(text) {
+        let color = text === 'dostupan' ? 'geekblue' : 'green';
+        if (text === 'dostupan') {
+          color = 'green';
+        } else if (text === 'rezervisan') {
+          color = 'blue';
+        } else if (text === 'prodat') {
+          color = 'red';
+        }
+        return (
+          <Tag color={color} style={{ width: '100%', textAlign: 'center' }} key={text}>
+            {text.toUpperCase()}
+          </Tag>
+        );
+      },
       filters: [
         {
           text: 'potencijalan',
