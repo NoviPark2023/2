@@ -5,11 +5,15 @@ import { SearchOutlined } from '@ant-design/icons';
 import Garaze from 'Modal/Garaze/Garaze';
 import { api } from 'api/api';
 import 'antd/dist/antd.css';
+import { Spin } from 'antd';
 
 function PregledGaraza() {
   const [client, setClient] = useState('');
   const [editClient, setEditClient] = useState(false);
   const [createClient, setCreateClient] = useState(false);
+
+  ///loader
+  const [loaderPage, setLoaderPage] = useState(false);
 
   /////modal za dodaj
   const showModal = id => {
@@ -28,18 +32,31 @@ function PregledGaraza() {
 
   //// API lista klijenata
   const getData = async () => {
+    setLoaderPage(true);
     api
       .get('/garaze/')
       .then(res => {
         setData(res.data.results);
       })
-      .finally(() => {});
+      .finally(() => {
+        setLoaderPage(false);
+      });
   };
 
   /// Api za brisanje kupca
-  const obrisiGarazu = id_garaze => {
+  const deleteGarage = id_garaze => {
     api.delete(`/garaze/obrisi-garazu/${id_garaze}/`).then(res => {
       getData();
+    });
+  };
+
+  ////ugovor
+  const Contract = id_garaze => {
+    api.get(`/ponude/preuzmi-ugovor/${id_garaze}/`).then(res => {
+      const link = document.createElement('a');
+      link.href = res.data;
+      link.download = 'Ugovor';
+      link.click();
     });
   };
 
@@ -130,6 +147,7 @@ function PregledGaraza() {
       title: 'Cena',
       dataIndex: 'cena_garaze',
       ...getColumnSearchProps('cena_garaze'),
+      sorter: (a, b) => a.cena_garaze - b.cena_garaze,
     },
     {
       key: '4',
@@ -149,7 +167,7 @@ function PregledGaraza() {
           color = 'red';
         } else if (text === 'rezervisana') {
           color = 'blue';
-          }
+        }
         return (
           <Tag color={color} style={{ width: '70%', textAlign: 'center' }} key={text}>
             {text.toUpperCase()}
@@ -165,6 +183,10 @@ function PregledGaraza() {
           text: 'dostupna',
           value: ['dostupna'],
         },
+        {
+          text: 'rezervisana',
+          value: ['rezervisana'],
+        },
       ],
       onFilter: (value, record) => record.status_prodaje_garaze.indexOf(value) === 0,
     },
@@ -174,10 +196,10 @@ function PregledGaraza() {
       render: (text, record) => (
         <>
           <Button
-          // disabled={record.status_prodaje_garaze === 'dostupna'}
-          // onClick={() => {
-          //   Contract(record.id_garaze);
-          // }}
+            disabled={record.status_prodaje_garaze === 'dostupna' || record.status_prodaje_garaze === 'rezervisana'}
+            onClick={() => {
+              Contract(record.id_garaze);
+            }}
           >
             Ugovor
           </Button>
@@ -212,7 +234,7 @@ function PregledGaraza() {
             onCancel={handleCancel}
             cancelText="NE"
             okText="DA"
-            onConfirm={() => obrisiGarazu(record.id_garaze)}
+            onConfirm={() => deleteGarage(record.id_garaze)}
           >
             <Button type="danger">Obriši</Button>
           </Popconfirm>
@@ -224,6 +246,7 @@ function PregledGaraza() {
   useEffect(() => {
     getData();
   }, []);
+
   return (
     <div>
       <div style={{ margin: 20 }}>
@@ -237,7 +260,7 @@ function PregledGaraza() {
           Dodaj novu garažu
         </Button>
       </div>
-      <Table dataSource={data} columns={columns} pagination={{ pageSize: [5] }} rowKey="id_lokala"></Table>
+      <Table dataSource={data} columns={columns} pagination={{ pageSize: [5] }} rowKey="id_garaze"></Table>
 
       <Modal title="Izmeni podatke garaže" visible={editClient} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <Garaze edit propsgaraze={client} getData={getData} closeModal={() => showModal(false)} />
@@ -252,6 +275,9 @@ function PregledGaraza() {
       >
         <Garaze propsgaraze={client} getData={getData} closeModal={() => setCreateClient(false)} />
       </Modal>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {loaderPage && <Spin tip="Loading page" size="large"></Spin>}
+      </div>
     </div>
   );
 }

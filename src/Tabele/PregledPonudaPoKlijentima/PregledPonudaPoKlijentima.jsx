@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Table, Button, Modal, Popconfirm, Input, Space, Tag} from 'antd';
+import { Table, Button, Modal, Popconfirm, Input, Space, Tag } from 'antd';
 import Ponuda from 'Modal/Ponuda/Ponuda';
 import { api } from 'api/api';
 import Klijenta from 'Modal/Klijenta/Klijenta';
@@ -41,6 +41,16 @@ const ClientOffersReview = props => {
 
   const handleOkModal = () => {
     setIsModalVisible(false);
+  };
+
+  ////ugovor
+  const Contract = id_ponude => {
+    api.get(`/ponude/preuzmi-ugovor/${id_ponude}/`).then(res => {
+      const link = document.createElement('a');
+      link.href = res.data;
+      link.download = 'Ugovor';
+      link.click();
+    });
   };
 
   ////hooks za search u tabeli
@@ -212,16 +222,16 @@ const ClientOffersReview = props => {
     },
     {
       key: '9',
-      title: 'Napomena',
+      title: 'Ugovor',
       render: (text, record) => (
         <>
           <Button
+            disabled={record.status_ponude === 'potencijalan'}
             onClick={() => {
-              showModal(true);
-              setOffers(record);
+              Contract(record.id_ponude);
             }}
           >
-            Napomena
+            Ugovor
           </Button>
         </>
       ),

@@ -5,8 +5,9 @@ import FormItem from 'antd/lib/form/FormItem';
 import { Option } from 'antd/lib/mentions';
 import 'antd/dist/antd.css';
 import { api } from 'api/api';
+import { toast } from 'react-toastify';
 
-function Garaze(propsgaraze) {
+function Garages(propsgaraze) {
   const [form] = Form.useForm();
   const [clients, setClients] = useState({}); // List of clients fetched form server by client name
   const [clientOptions, setClientOptions] = useState([]); // list of formatted clients
@@ -66,7 +67,7 @@ function Garaze(propsgaraze) {
     }
   }, [clientName]);
 
-  const updateOffers = () => {
+  const updateGarages = () => {
     const endpoint = propsgaraze.edit
       ? `/garaze/izmeni-garazu/${propsgaraze.propsgaraze.id_garaze}/`
       : '/garaze/kreiraj-garazu/';
@@ -86,6 +87,7 @@ function Garaze(propsgaraze) {
         } else {
           propsgaraze.getData();
         }
+        toast.success('Uspesno ste izmenili podatke');
       })
       .catch(error => {
         if (error.data) {
@@ -122,7 +124,7 @@ function Garaze(propsgaraze) {
           rules={[
             {
               required: false,
-              message: 'Unesite Cenu garaže!',
+              message: 'Unesite broj garaže!',
             },
           ]}
         >
@@ -179,11 +181,11 @@ function Garaze(propsgaraze) {
         </FormItem>
         <Form.Item>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Button onClick={updateOffers} type="primary" htmlType="submit">
-              Sacuvaj
+            <Button onClick={updateGarages} type="primary" htmlType="submit">
+              Sačuvaj
             </Button>
             <Button type="danger" onClick={() => propsgaraze.closeModal()}>
-              Otkazi
+              Otkaži
             </Button>
           </div>
         </Form.Item>
@@ -192,4 +194,4 @@ function Garaze(propsgaraze) {
   );
 }
 
-export default Garaze;
+export default Garages;

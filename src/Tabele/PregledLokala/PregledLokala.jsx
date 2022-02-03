@@ -1,114 +1,162 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Table, Modal, Input, Space, Popconfirm, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 import Lokali from 'Modal/Lokali/Lokali';
+import { api } from 'api/api';
+import 'antd/dist/antd.css';
+import { Spin } from 'antd';
+import { authService } from 'auth/auth.service';
 
-function PregledLokala() {
-  const [isCreatePlaceVisible, setIsCreatePlaceVisible] = useState(false);
-  const [isEditPlaceVisible, setIsEditPlaceVisible] = useState(false);
+function ReviewLocal() {
+  const activeRole = authService.getRole();
+
+  const [createLocal, setCreateLocal] = useState(false);
+  const [editLocal, setEditLocal] = useState(false);
+
+  ///loader
+  const [loaderPage, setLoaderPage] = useState(false);
+
+  /// Api za dovlacenje podataka stana
+  const [selectedLocal, setSelectedLocal] = useState('');
 
   ///modal za dodaj
   const showModal = id => {
-    setIsEditPlaceVisible(id);
+    setEditLocal(id);
   };
 
   const handleOk = () => {
-    setIsEditPlaceVisible(false);
+    setEditLocal(false);
   };
 
   const handleCancel = () => {
-    setIsEditPlaceVisible(false);
+    setEditLocal(false);
   };
 
-  // ////hooks za search u tabeli
-  // const [searchText, setSearchText] = useState(); ////proveri ovde state na drugim tabelama ('')
-  // const [searchedColumn, setSearchedColumn] = useState();
+  ///API state
+  const [data, setData] = useState([]);
 
-  // ////funkcionanost za search u tabeli
-  // const handleSearch = (selectedKeys, confirm, dataIndex) => {
-  //   confirm();
-  //   setSearchText(selectedKeys[0]);
-  //   setSearchedColumn(dataIndex);
-  // };
+  //// API lista lokala
+  const getData = async () => {
+    setLoaderPage(true);
+    api
+      .get('/lokali/')
+      .then(res => {
+        if (res) {
+          setData(res.data.results);
+          setSelectedLocal(res.data.results);
+        }
+      })
+      .finally(() => {
+        setLoaderPage(false);
+      });
+  };
 
-  // const handleReset = clearFilters => {
-  //   clearFilters();
-  // };
+  ////Api za brisanje stanova
+  const deleteLocal = id_lokala => {
+    api.delete(`/lokali/obrisi-lokal/${id_lokala}/`).then(res => {
+      getData();
+    });
+  };
 
-  // let searchInput;
+  ////izmene i detalji stana
+  const getLocalObj = id_lokala => {
+    api.get(`/lokali/detalji-lokala/${id_lokala}/`).then(res => {
+      setSelectedLocal(res.data);
+    });
+  };
 
-  // const getColumnSearchProps = dataIndex => ({
-  //   filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-  //     <div style={{ padding: 8 }}>
-  //       <Input
-  //         ref={node => {
-  //           searchInput = node;
-  //         }}
-  //         placeholder={`Search ${dataIndex}`}
-  //         value={selectedKeys[0]}
-  //         onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-  //         onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-  //         style={{ marginBottom: 8, display: 'block' }}
-  //       />
-  //       <Space>
-  //         <Button
-  //           type="primary"
-  //           onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-  //           icon={<SearchOutlined />}
-  //           size="small"
-  //           style={{ width: 100 }}
-  //         >
-  //           Search
-  //         </Button>
-  //         <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 100 }}>
-  //           Reset
-  //         </Button>
-  //       </Space>
-  //     </div>
-  //   ),
-  //   filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
-  //   onFilter: (value, record) =>
-  //     record[dataIndex] ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()) : '',
-  //   onFilterDropdownVisibleChange: visible => {
-  //     if (visible) {
-  //       setTimeout(() => searchInput.select(), 100);
-  //     }
-  //   },
-  //   render: text =>
-  //     searchedColumn === dataIndex ? (
-  //       <Highlighter
-  //         highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-  //         searchWords={[searchText]}
-  //         autoEscape
-  //         textToHighlight={text ? text.toString() : ''}
-  //       />
-  //     ) : (
-  //       text
-  //     ),
-  // });
+  ////hooks za search u tabeli
+  const [searchText, setSearchText] = useState();
+  const [searchedColumn, setSearchedColumn] = useState();
+
+  ////funkcionanost za search u tabeli
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+
+  const handleReset = clearFilters => {
+    clearFilters();
+  };
+
+  let searchInput;
+
+  const getColumnSearchProps = dataIndex => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={node => {
+            searchInput = node;
+          }}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{ marginBottom: 8, display: 'block' }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 100 }}
+          >
+            Search
+          </Button>
+          <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 100 }}>
+            Reset
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
+    onFilter: (value, record) =>
+      record[dataIndex] ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()) : '',
+    onFilterDropdownVisibleChange: visible => {
+      if (visible) {
+        setTimeout(() => searchInput.select(), 100);
+      }
+    },
+    render: text =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ''}
+        />
+      ) : (
+        text
+      ),
+  });
 
   const columns = [
     {
       key: '1',
       title: 'ID',
       dataIndex: 'id_lokala',
+      ...getColumnSearchProps('id_lokala'),
     },
     {
       key: '2',
       title: 'Lamela',
-      dataIndex: 'lamela',
+      dataIndex: 'lamela_lokala',
+      ...getColumnSearchProps('lamela_lokala'),
     },
     {
       key: '3',
       title: 'Adresa',
       dataIndex: 'adresa_lokala',
+      ...getColumnSearchProps('adresa_lokala'),
     },
     {
       key: '4',
       title: 'Kvadratura',
-      dataIndex: 'kvadratura',
+      dataIndex: 'kvadratura_lokala',
       filters: [
         {
           text: '10-30',
@@ -139,14 +187,14 @@ function PregledLokala() {
           value: [120, 170],
         },
       ],
-      onFilter: (value, record) => record.kvadratura >= value[0] && record.kvadratura <= value[1],
-      sorter: (a, b) => a.kvadratura - b.kvadratura,
+      onFilter: (value, record) => record.kvadratura_lokala >= value[0] && record.kvadratura_lokala <= value[1],
+      sorter: (a, b) => a.kvadratura_lokala - b.kvadratura_lokala,
     },
 
     {
       key: '5',
-      title: 'Broj soba',
-      dataIndex: 'broj_soba',
+      title: 'Broj prostorija',
+      dataIndex: 'broj_prostorija',
       filters: [
         {
           text: '1',
@@ -185,13 +233,13 @@ function PregledLokala() {
           value: [5, 5],
         },
       ],
-      onFilter: (value, record) => record.broj_soba >= value[0] && record.broj_soba <= value[1],
-      sorter: (a, b) => a.broj_soba - b.broj_soba,
+      onFilter: (value, record) => record.broj_prostorija >= value[0] && record.broj_prostorija <= value[1],
+      sorter: (a, b) => a.broj_prostorija - b.broj_prostorija,
     },
     {
       key: '6',
       title: 'Orijentisanost',
-      dataIndex: 'orijentisanost',
+      dataIndex: 'orijentisanost_lokala',
       filters: [
         {
           text: 'Sever',
@@ -202,7 +250,7 @@ function PregledLokala() {
           value: 'Jug',
         },
       ],
-      onFilter: (value, record) => record.orijentisanost.indexOf(value) === 0,
+      onFilter: (value, record) => record.orijentisanost_lokala.indexOf(value) === 0,
     },
 
     {
@@ -245,7 +293,7 @@ function PregledLokala() {
     {
       key: '8',
       title: 'Status',
-      dataIndex: 'status_prodaje',
+      dataIndex: 'status_prodaje_lokala',
       render(text) {
         let color = text === 'dostupan' ? 'geekblue' : 'green';
         if (text === 'dostupan') {
@@ -275,23 +323,30 @@ function PregledLokala() {
           value: ['dostupan'],
         },
       ],
-      onFilter: (value, record) => record.status_prodaje.indexOf(value) === 0,
+      onFilter: (value, record) => record.status_prodaje_lokala.indexOf(value) === 0,
     },
     {
       key: '9',
       title: 'Ponude',
       render: (text, record) => (
-        <Link>
-          <Button style={{ color: '#092b00', border: '1px solid green' }}>Ponude</Button>
-        </Link>
+        // <Link>
+        <Button style={{ color: '#092b00', border: '1px solid green' }}>Ponude</Button>
+        // </Link>
       ),
     },
     {
       key: '10',
       title: 'Detalji',
       render: (text, record) => (
-        <Link>
-          <Button style={{ color: 'blue', border: '1px solid black' }}>Detalji</Button>
+        <Link to={`/lokali/${record.id_lokala}`}>
+          <Button
+            style={{ color: 'blue', border: '1px solid black' }}
+            // onClick={() => {
+            //   getListOffers(record.id_stana);
+            // }}
+          >
+            Detalji
+          </Button>
         </Link>
       ),
     },
@@ -300,7 +355,16 @@ function PregledLokala() {
       title: 'Izmeni',
       render: (text, record) => (
         <div>
-          <Button type="primary">Izmeni</Button>
+          <Button
+            disabled={activeRole === 'Prodavac'}
+            type="primary"
+            onClick={() => {
+              showModal(true);
+              getLocalObj(record.id_lokala);
+            }}
+          >
+            Izmeni
+          </Button>
         </div>
       ),
     },
@@ -310,48 +374,59 @@ function PregledLokala() {
       render: (text, record) => (
         <>
           <Popconfirm
+            disabled={activeRole === 'Prodavac'}
             title="Da li ste sigurni da želite da izbrišete lokal?"
             placement="left"
-            //   onCancel={handleCancel}
+            onCancel={handleCancel}
             cancelText="NE"
             okText="DA"
-            //   onConfirm={() => deleteApartment(record.id_stana)}
+            onConfirm={() => deleteLocal(record.id_lokala)}
           >
-            <Button type="danger">Obriši</Button>
+            <Button disabled={activeRole === 'Prodavac'} type="danger">
+              Obriši
+            </Button>
           </Popconfirm>
         </>
       ),
     },
   ];
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <div>
       <div style={{ margin: 20 }}>
         <Button
-          //   disabled={activeRole === 'Prodavac'}
+          disabled={activeRole === 'Prodavac'}
           type="primary"
           onClick={() => {
-            setIsCreatePlaceVisible(true);
+            setCreateLocal(true);
           }}
         >
           Dodaj novi lokal
         </Button>
       </div>
-      <Table columns={columns} pagination={{ pageSize: [5] }} rowKey="id_lokala"></Table>
-      {/* <Modal title="Izmeni" visible={isEditPlaceVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
-        <Lokali edit propsstan={selectedPlace} getData={getData} closeModal={() => showModal(false)} />
-      </Modal> */}
+      <Table columns={columns} dataSource={data} pagination={{ pageSize: [5] }} rowKey="id_lokala"></Table>
+      <Modal title="Izmeni podatke lokala" visible={editLocal} onOk={handleOk} onCancel={handleCancel} footer={null}>
+        <Lokali edit propslokala={selectedLocal} getData={getData} closeModal={() => showModal(false)} />
+      </Modal>
       <Modal
         destroyOnClose={true}
         title="Kreiraj novi lokal"
-        visible={isCreatePlaceVisible}
+        visible={createLocal}
         onOk={handleOk}
-        onCancel={() => setIsCreatePlaceVisible(false)}
+        onCancel={() => setCreateLocal(false)}
         footer={null}
       >
-        <Lokali closeModal={() => setIsCreatePlaceVisible(false)} />
+        <Lokali propslokala={selectedLocal} getData={getData} closeModal={() => setCreateLocal(false)} />
       </Modal>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {loaderPage && <Spin tip="Loading page" size="large"></Spin>}
+      </div>
     </div>
   );
 }
 
-export default PregledLokala;
+export default ReviewLocal;
