@@ -5,6 +5,7 @@ import PregledKlijenta from 'Tabele/PregledKlijenata/PregledKlijenata';
 import PregledKorisnika from 'Tabele/PregledKorisnika/PregledKorisnika';
 import PregledPonuda from 'Tabele/PregledPonuda/PregledPonuda';
 import DetaljiStana from 'Pages/DetaljiStana/DetaljiStana';
+import DetaljiLokala from 'Pages/DetaljiLokala/DetaljiLokala';
 import DetaljiKlijenta from 'Pages/DetaljiKlijenta/DetaljiKlijenta';
 import Izvestaj from ' ../../Pages/Izvestaji/Izvestaji';
 import { Layout } from 'antd';
@@ -36,6 +37,9 @@ function Views() {
           </Route>
           <Route exact path="/lokali">
             <ViewPermisionGate role={activeRole} routeName="pregledLokala" component={PregledLokala} />
+          </Route>
+          <Route exact path="/lokali/:id">
+            <ViewPermisionGate role={activeRole} routeName="stanovi" component={DetaljiLokala} />
           </Route>
           <Route exact path="/garaze">
             <ViewPermisionGate role={activeRole} routeName="pregledGaraza" component={PregledGaraza} />

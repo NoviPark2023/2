@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { Input, Button, Form, Select, message } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
@@ -6,14 +7,91 @@ import 'antd/dist/antd.css';
 import { api } from 'api/api';
 import { toast } from 'react-toastify';
 
-function Lokali() {
+function Local(propslokala) {
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (propslokala.edit) {
+      form.setFieldsValue({
+        lamela_lokala: propslokala.propslokala.lamela_lokala,
+        adresa_lokala: propslokala.propslokala.adresa_lokala,
+        kvadratura_lokala: propslokala.propslokala.kvadratura_lokala,
+        broj_prostorija: propslokala.propslokala.broj_prostorija,
+        orijentisanost_lokala: propslokala.propslokala.orijentisanost_lokala,
+        cena_lokala: propslokala.propslokala.cena_lokala,
+        status_prodaje_lokala: propslokala.propslokala.status_prodaje_lokala,
+      });
+    }
+  }, [propslokala]);
+
+  const closeModal2 = () => {
+    propslokala.closeModal();
+  };
+  const succses = () => {
+    propslokala.closeModal();
+    propslokala.getData();
+  };
+
+  const sucsessMessages = value => {
+    toast.success(value);
+  };
+
+  const errorMessages = value => {
+    toast.error(value);
+  };
+
+  const editLocal = (id_lokala, values) => {
+    const endpoint = `/lokali/izmeni-lokal/${id_lokala}/`;
+    api
+      .put(endpoint, values)
+      .then(res => {
+        succses();
+        sucsessMessages('uspesno');
+      })
+      .catch(e => {
+        errorMessages('greska');
+      });
+  };
+
+  const createLocal = values => {
+    const endpoint = '/lokali/kreiraj-lokal/';
+    api
+      .post(endpoint, values)
+      .then(res => {
+        succses();
+        sucsessMessages('uspesno');
+      })
+      .catch(error => {
+        if (error.data.lamela_lokala) {
+          message.error({
+            content: 'Lokal sa ovom Lamelom je vec registrovan u sistemu !',
+            className: 'custom-class',
+            style: {
+              marginTop: '0vh',
+              fontSize: 20,
+            },
+          });
+        }
+      });
+  };
+
+  const updateLocalObj = values => {
+    propslokala.edit ? editLocal(propslokala.propslokala.id_lokala, values) : createLocal(values);
+  };
+  const onFinish = values => {
+    updateLocalObj(values);
+  };
+
+  const onFinishFailed = errorInfo => {
+    console.log('Failed:', errorInfo);
+  };
+
   return (
     <div>
-      <Form autoComplete="off" layout="vertical" form={form}>
+      <Form autoComplete="off" layout="vertical" form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
         <FormItem
           label="Lamela"
-          name="lamela"
+          name="lamela_lokala"
           rules={[
             {
               required: true,
@@ -37,7 +115,7 @@ function Lokali() {
         </FormItem>
         <FormItem
           label="Kvadratura"
-          name="kvadratura"
+          name="kvadratura_lokala"
           rules={[
             {
               required: true,
@@ -48,8 +126,8 @@ function Lokali() {
           <Input size="default" placeholder="Kvadratura" />
         </FormItem>
         <FormItem
-          label="Broj soba"
-          name="broj_soba"
+          label="Broj prostorija"
+          name="broj_prostorija"
           rules={[
             {
               required: true,
@@ -57,7 +135,7 @@ function Lokali() {
             },
           ]}
         >
-          <Select value={form.getFieldsValue().broj_soba} style={{ width: 120 }}>
+          <Select value={form.getFieldsValue().broj_prostorija} style={{ width: 120 }}>
             <Option value="1.0">1</Option>
             <Option value="1.5">1.5</Option>
             <Option value="2.0">2</Option>
@@ -73,7 +151,7 @@ function Lokali() {
         </FormItem>
         <FormItem
           label="Orijentisanost"
-          name="orijentisanost"
+          name="orijentisanost_lokala"
           rules={[
             {
               required: true,
@@ -81,7 +159,7 @@ function Lokali() {
             },
           ]}
         >
-          <Select value={form.getFieldsValue().orijentisanost} style={{ width: 120 }}>
+          <Select value={form.getFieldsValue().orijentisanost_lokala} style={{ width: 120 }}>
             <Option value="Sever">Sever</Option>
             <Option value="Jug">Jug</Option>
           </Select>
@@ -101,7 +179,7 @@ function Lokali() {
 
         <FormItem
           label="Status"
-          name="status_lokala"
+          name="status_prodaje_lokala"
           rules={[
             {
               required: true,
@@ -109,7 +187,7 @@ function Lokali() {
             },
           ]}
         >
-          <Select value={form.getFieldsValue().status_prodaje} style={{ width: 120 }}>
+          <Select value={form.getFieldsValue().status_prodaje_lokala} style={{ width: 120 }}>
             <Option value="dostupan">Dostupan</Option>
             <Option value="rezervisan">Rezervisan</Option>
             <Option value="prodat">Prodat</Option>
@@ -118,10 +196,12 @@ function Lokali() {
         <Form.Item>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button type="primary" htmlType="submit">
-              Dodaj
+              {propslokala.edit ? 'Izmeni' : 'Dodaj'}
             </Button>
 
-            <Button type="danger">Otkaži</Button>
+            <Button onClick={closeModal2} type="danger">
+              Otkaži
+            </Button>
           </div>
         </Form.Item>
       </Form>
@@ -129,4 +209,4 @@ function Lokali() {
   );
 }
 
-export default Lokali;
+export default Local;

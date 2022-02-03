@@ -63,7 +63,7 @@ function ApartmentsReview() {
     });
   };
 
-  ////izmene stana
+  ////izmene i detalji stana
   const getApartmentObj = id_stana => {
     api.get(`/stanovi/detalji-stana/${id_stana}`).then(res => {
       setSelectedPlace(res.data);
@@ -490,7 +490,13 @@ function ApartmentsReview() {
       </div>
 
       <Table columns={columns} dataSource={data} pagination={{ pageSize: [6] }} rowKey="id_stana"></Table>
-      <Modal title="Izmeni" visible={isEditPlaceVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
+      <Modal
+        title="Izmeni podatke stana"
+        visible={isEditPlaceVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+      >
         <Stanova edit propsstan={selectedPlace} getData={getData} closeModal={() => showModal(false)} />
       </Modal>
       <Modal
