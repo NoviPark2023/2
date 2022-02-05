@@ -192,6 +192,12 @@ function PregledGaraza() {
     },
     {
       key: '6',
+      title: 'Datum ugovora',
+      dataIndex: 'datum_ugovora',
+      ...getColumnSearchProps('datum_ugovora'),
+    },
+    {
+      key: '7',
       title: 'Ugovor',
       render: (text, record) => (
         <>
