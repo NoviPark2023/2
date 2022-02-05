@@ -21,6 +21,9 @@ function ReviewLocal() {
   /// Api za dovlacenje podataka stana
   const [selectedLocal, setSelectedLocal] = useState('');
 
+  ///api za dovlacenje ponuda lokala
+  const [, setSelectedOffers] = useState('');
+
   ///modal za dodaj
   const showModal = id => {
     setEditLocal(id);
@@ -45,7 +48,6 @@ function ReviewLocal() {
       .then(res => {
         if (res) {
           setData(res.data.results);
-          setSelectedLocal(res.data.results);
         }
       })
       .finally(() => {
@@ -64,6 +66,13 @@ function ReviewLocal() {
   const getLocalObj = id_lokala => {
     api.get(`/lokali/detalji-lokala/${id_lokala}/`).then(res => {
       setSelectedLocal(res.data);
+    });
+  };
+
+  ///ponude stana
+  const getListOffers = id_lokala => {
+    api.get(`/ponude-lokali/lista-ponuda-lokala/${id_lokala}/`).then(res => {
+      setSelectedOffers(res.data);
     });
   };
 
@@ -329,9 +338,16 @@ function ReviewLocal() {
       key: '9',
       title: 'Ponude',
       render: (text, record) => (
-        // <Link>
-        <Button style={{ color: '#092b00', border: '1px solid green' }}>Ponude</Button>
-        // </Link>
+        <Link to={`/ponude-lokala/`}>
+          <Button
+            style={{ color: '#092b00', border: '1px solid green' }}
+            onClick={() => {
+              getListOffers(record.id_ponude_lokala);
+            }}
+          >
+            Ponude
+          </Button>
+        </Link>
       ),
     },
     {
@@ -341,9 +357,9 @@ function ReviewLocal() {
         <Link to={`/lokali/${record.id_lokala}`}>
           <Button
             style={{ color: 'blue', border: '1px solid black' }}
-            // onClick={() => {
-            //   getListOffers(record.id_stana);
-            // }}
+            onClick={() => {
+              setSelectedLocal(record.id_lokala);
+            }}
           >
             Detalji
           </Button>

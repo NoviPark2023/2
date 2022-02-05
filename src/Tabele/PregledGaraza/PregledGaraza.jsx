@@ -52,7 +52,7 @@ function PregledGaraza() {
 
   ////ugovor
   const Contract = id_garaze => {
-    api.get(`/ponude/preuzmi-ugovor/${id_garaze}/`).then(res => {
+    api.get(`/garaze/preuzmi-ugovor-garaze/${id_garaze}/`).then(res => {
       const link = document.createElement('a');
       link.href = res.data;
       link.download = 'Ugovor';
@@ -192,6 +192,12 @@ function PregledGaraza() {
     },
     {
       key: '6',
+      title: 'Datum ugovora',
+      dataIndex: 'datum_ugovora',
+      ...getColumnSearchProps('datum_ugovora'),
+    },
+    {
+      key: '7',
       title: 'Ugovor',
       render: (text, record) => (
         <>

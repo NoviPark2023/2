@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import { Input, Button, Form, Select, AutoComplete, message } from 'antd';
+import { Input, Button, Form, Select, AutoComplete, DatePicker, Space, message } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { Option } from 'antd/lib/mentions';
 import 'antd/dist/antd.css';
@@ -43,6 +43,7 @@ function Garages(propsgaraze) {
         cena_garaze: garaza.cena_garaze,
         napomena_garaze: garaza.napomena_garaze,
         status_prodaje_garaze: garaza.status_prodaje_garaze,
+        datum_ugovora: garaza.datum_ugovora,
       });
 
       getSelectedClient(propsgaraze.propsgaraze.kupac);
@@ -179,6 +180,29 @@ function Garages(propsgaraze) {
             <Option value="prodata">Prodata</Option>
           </Select>
         </FormItem>
+
+        <FormItem
+          label="Datum ugovora"
+          name="datum_ugovora"
+          rules={[
+            {
+              required: false,
+              message: ' Unesite datum!',
+            },
+          ]}
+        >
+          <Space direction="vertical" size={12}>
+            {form.getFieldsValue().datum_ugovora}
+            <DatePicker
+              // defaultValue={moment(form.getFieldsValue().datum_ugovora)}
+              onChange={(val, newDate) => {
+                form.setFieldsValue({ datum_ugovora: newDate });
+              }}
+              format={'DD.MM.YYYY'}
+            />
+          </Space>
+        </FormItem>
+
         <Form.Item>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button onClick={updateGarages} type="primary" htmlType="submit">

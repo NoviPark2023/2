@@ -1,33 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Popconfirm, Input, Space, Tag } from 'antd';
-import Ponuda from 'Modal/Ponuda/Ponuda';
 import { useLocation } from 'react-router';
-import { api } from 'api/api';
-import Klijenta from 'Modal/Klijenta/Klijenta';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
-import { Spin } from 'antd';
 import { authService } from 'auth/auth.service';
+import { Spin } from 'antd';
+import { api } from 'api/api';
+// import Klijenta from 'Modal/Klijenta/Klijenta';
+import PonudaLokala from 'Modal/PonudaLokala/PonudaLokala';
 
-const PAYMENT_TYPE_LABELS = {
-  ceo_iznos: 'CEO IZNOS',
-  kredit: 'KREDIT',
-  na_rate: 'NA RATE',
-  ucesce: 'UCESCE',
-};
-
-const OffersReview = () => {
+function PregledPonudaLokala() {
   const activeRole = authService.getRole();
-
-  //////history router
   const browserLocation = useLocation();
   const queryParams = new URLSearchParams(browserLocation.search);
-  const id = queryParams.get('id'); ///id stana
-  // const price = queryParams.get('price'); ///cena stana
+  const id = queryParams.get('id_lokala'); ///id lokala
   const [setPonude, setSelectedOffers] = useState('');
-  const [isClientVisible, setIsClientVisible] = useState(false);
-  const [selectedBuyer] = useState(null);
+  // const [isClientVisible, setIsClientVisible] = useState(false);
+  // const [selectedBuyer] = useState(null);
   const [offers, setOffers] = useState(null);
 
   ///loader
@@ -37,7 +27,7 @@ const OffersReview = () => {
   const getListOffers = (paramId = id) => {
     setLoaderPage(true);
     api
-      .get(`/ponude/lista-ponuda-stana/${paramId}/`)
+      .get(`/ponude-lokali/lista-ponuda-lokala/${paramId}/`)
       .then(res => {
         setSelectedOffers(res.data.results);
       })
@@ -45,28 +35,20 @@ const OffersReview = () => {
         setLoaderPage(false);
       });
   };
-  ////api za brisanje ponude
-  const deleteOffers = id_ponude => {
-    api.delete(`/ponude/obrisi-ponudu/${id_ponude}/`).then(res => {
+
+  ////api za brisanje ponude lokala
+  const deleteOffers = id_ponude_lokala => {
+    api.delete(`/ponude-lokali/obrisi-ponudu-lokala/${id_ponude_lokala}/`).then(res => {
       getListOffers();
     });
   };
 
-  ////ugovor
-  const Contract = id_ponude => {
-    api.get(`/ponude/preuzmi-ugovor/${id_ponude}/`).then(res => {
-      const link = document.createElement('a');
-      link.href = res.data;
-      link.download = 'Ugovor';
-      link.click();
-    });
-  };
-
-  // modal dodaj
+  // modal dodaj lokal
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
 
-  ////modal izmeni
+  ////modal izmeni lokal
   const [isModalVisible, setIsModalVisible] = useState(false);
+
   ////popconfirm delete button
   const [confirmLoading, setVisible] = useState(false);
 
@@ -148,62 +130,61 @@ const OffersReview = () => {
         text
       ),
   });
+
   const columns = [
     {
       key: '1',
       title: 'ID ponude',
-      dataIndex: 'id_ponude',
-      ...getColumnSearchProps('id_ponude'),
+      dataIndex: 'id_ponude_lokala',
+      ...getColumnSearchProps('id_ponude_lokala'),
     },
     {
       key: '2',
       title: 'Kupac',
-      dataIndex: 'ime_kupca',
-      ...getColumnSearchProps('kupac'),
+      dataIndex: 'ime_kupca_lokala',
+      ...getColumnSearchProps('ime_kupca_lokala'),
     },
     {
       key: '3',
-      title: 'Stan',
-      dataIndex: 'stan',
-      ...getColumnSearchProps('stan'),
+      title: 'Lokal',
+      dataIndex: 'lokali',
+      ...getColumnSearchProps('lokali'),
     },
     {
       key: '4',
-      title: 'Lamela stana',
-      dataIndex: 'lamela_stana',
-      ...getColumnSearchProps('lamela_stana'),
+      title: 'Lamela lokala',
+      dataIndex: 'lamela_lokala',
+      ...getColumnSearchProps('lamela_lokala'),
     },
     {
       key: '5',
-      title: 'Cena ponude stana',
-      dataIndex: 'cena_stana_za_kupca',
-      ...getColumnSearchProps('cena_stana_za_kupca'),
+      title: 'Cena ponude lokala',
+      dataIndex: 'cena_lokala_za_kupca',
+      ...getColumnSearchProps('cena_lokala_za_kupca'),
     },
     {
       key: '6',
-      title: 'Cena stana',
-      dataIndex: 'cena_stana',
-      ...getColumnSearchProps('cena_stana'),
-      // render: () => <span>{price}</span>,
+      title: 'Cena lokala',
+      dataIndex: 'cena_lokala',
+      ...getColumnSearchProps('cena_lokala'),
     },
 
     {
       key: '7',
       title: 'Broj ugovora',
-      dataIndex: 'broj_ugovora',
-      ...getColumnSearchProps('broj_ugovora'),
+      dataIndex: 'broj_ugovora_lokala',
+      ...getColumnSearchProps('broj_ugovora_lokala'),
     },
     {
       key: '8',
       title: 'Datum ugovora',
-      dataIndex: 'datum_ugovora',
-      ...getColumnSearchProps('datum_ugovora'),
+      dataIndex: 'datum_ugovora_lokala',
+      ...getColumnSearchProps('datum_ugovora_lokala'),
     },
     {
       key: '9',
-      title: 'Način plaćanja',
-      dataIndex: 'nacin_placanja',
-      render: (text, record) => <span>{PAYMENT_TYPE_LABELS[record.nacin_placanja]}</span>,
+      title: 'Nacin plaćanja',
+      dataIndex: 'nacin_placanja_lokala',
       filters: [
         {
           text: 'CEO IZNOS',
@@ -222,12 +203,12 @@ const OffersReview = () => {
           value: 'UCESCE',
         },
       ],
-      onFilter: (value, record) => record.nacin_placanja.indexOf(value) === 0,
+      onFilter: (value, record) => record.nacin_placanja_lokala.indexOf(value) === 0,
     },
     {
       key: '10',
       title: 'Status',
-      dataIndex: 'status_ponude',
+      dataIndex: 'status_ponude_lokala',
       render(text) {
         let color = text === 'potencijalan' ? 'geekblue' : 'green';
         if (text === 'potencijalan') {
@@ -257,7 +238,7 @@ const OffersReview = () => {
           value: ['kupljen'],
         },
       ],
-      onFilter: (value, record) => record.status_ponude.indexOf(value) === 0,
+      onFilter: (value, record) => record.status_ponude_lokala.indexOf(value) === 0,
     },
     {
       key: '11',
@@ -267,7 +248,7 @@ const OffersReview = () => {
           <Button
             disabled={record.status_ponude === 'potencijalan'}
             onClick={() => {
-              Contract(record.id_ponude);
+              //   Contract(record.id_ponude);
             }}
           >
             Ugovor
@@ -310,7 +291,7 @@ const OffersReview = () => {
             onCancel={handleCancel}
             cancelText="NE"
             okText="DA"
-            onConfirm={() => deleteOffers(record.id_ponude)}
+            onConfirm={() => deleteOffers(record.id_ponude_lokala)}
           >
             <Button
               disabled={
@@ -338,30 +319,29 @@ const OffersReview = () => {
           Dodaj novu ponudu
         </Button>
       </div>
-      <Table columns={columns} dataSource={setPonude} pagination={{ pageSize: [5] }} rowKey="id_ponude"></Table>
-
-      <Modal
+      <Table columns={columns} dataSource={setPonude} pagination={{ pageSize: [5] }} rowKey="id_ponude_lokala"></Table>
+      {/* <Modal
         title="Pregled Klijenta"
         visible={isClientVisible && selectedBuyer}
         onCancel={() => setIsClientVisible(false)}
         footer={null}
       >
         <Klijenta preview propsklijenta={selectedBuyer} closeModal={() => setIsClientVisible(false)} />
-      </Modal>
+      </Modal> */}
 
       <Modal
-        title="Izmeni"
+        title="Izmeni ponudu lokala"
         visible={isModalVisible}
         onOk={handleOkModal}
         onCancel={() => setIsModalVisible(false)}
         footer={null}
       >
         {!!offers && (
-          <Ponuda
+          <PonudaLokala
             edit
             onEdit={getListOffers}
             idKlijenta={offers.id_kupca}
-            propsponuda={offers}
+            propsponudalokala={offers}
             getData={getListOffers}
             closeModal={() => setIsModalVisible(false)}
           />
@@ -370,15 +350,15 @@ const OffersReview = () => {
 
       <Modal
         destroyOnClose={true}
-        title="Dodaj ponudu"
+        title="Dodaj ponudu lokala"
         visible={isCreateModalVisible}
         onOk={handleOkModal}
         onCancel={() => setIsCreateModalVisible(false)}
         footer={null}
       >
         {isCreateModalVisible && (
-          <Ponuda
-            propsponuda={{ stan: id }}
+          <PonudaLokala
+            propsponudalokala={{ stan: id }}
             getData={getListOffers}
             closeModal={() => setIsCreateModalVisible(false)}
           />
@@ -389,6 +369,6 @@ const OffersReview = () => {
       </div>
     </div>
   );
-};
+}
 
-export default OffersReview;
+export default PregledPonudaLokala;
