@@ -18,6 +18,7 @@ import { authService } from 'auth/auth.service';
 import PregledCenaStana from 'Tabele/PregledCenaStana/PregledCenaStana';
 import PregledLokala from 'Tabele/PregledLokala/PregledLokala';
 import PregledGaraza from 'Tabele/PregledGaraza/PregledGaraza';
+import PregledPonudaLokala from 'Tabele/PregledPonudaLokala/PregledPonudaLokala';
 
 const { Content } = Layout;
 
@@ -55,6 +56,9 @@ function Views() {
           </Route>
           <Route exact path="/ponude">
             <ViewPermisionGate role={activeRole} routeName="ponude" component={PregledPonuda} />
+          </Route>
+          <Route exact path="/ponude-lokala">
+            <ViewPermisionGate role={activeRole} routeName="ponudeLokala" component={PregledPonudaLokala} />
           </Route>
           <Route exact path="/izvestaji">
             <ViewPermisionGate role={activeRole} routeName="izvestaji" component={Izvestaj} />

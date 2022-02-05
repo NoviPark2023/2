@@ -17,6 +17,7 @@ const ROUTE_PASSPORT = {
   klijenti: [ROLES.admin, ROLES.finansije, ROLES.prodavac],
   klijentiid: [ROLES.admin, ROLES.finansije, ROLES.prodavac],
   ponude: [ROLES.admin, ROLES.finansije, ROLES.prodavac],
+  ponudeLokala: [ROLES.admin, ROLES.finansije, ROLES.prodavac],
   novaponuda: [ROLES.admin, ROLES.finansije, ROLES.prodavac],
   notfound: [ROLES.admin, ROLES.finansije, ROLES.prodavac],
 };

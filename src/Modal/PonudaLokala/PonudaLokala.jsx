@@ -1,16 +1,13 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { Input, Button, Form, Select, AutoComplete, DatePicker, Space, message } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
-import { UserOutlined } from '@ant-design/icons';
+// import { UserOutlined } from '@ant-design/icons';
 import { Option } from 'antd/lib/mentions';
-import 'antd/dist/antd.css';
 import { api } from 'api/api';
 import { toast } from 'react-toastify';
-// import moment from 'moment';
 import { Spin } from 'antd';
 
-function ChangeOffers(propsponuda) {
+function PonudaLokala(propsponudalokala) {
   const [form] = Form.useForm();
   const [clients, setClients] = useState({}); // List of clients fetched form server by client name
   const [clientOptions, setClientOptions] = useState([]); // list of formatted clients
@@ -26,7 +23,6 @@ function ChangeOffers(propsponuda) {
     setClientName(option?.label || '');
     setClientId(option?.value || null);
   };
-
   const onClientSearch = client => {
     api.get(`/kupci/kupci-autocomplete/${client}/`).then(response => {
       setClients(response.data);
@@ -41,24 +37,26 @@ function ChangeOffers(propsponuda) {
   };
 
   useEffect(() => {
-    const { propsponuda: ponuda, edit } = propsponuda;
+    const { propsponudalokala: ponuda, edit } = propsponudalokala;
 
     if (edit) {
       form.setFieldsValue({
-        cena_stana_za_kupca: ponuda.cena_stana_za_kupca,
-        broj_ugovora: ponuda.broj_ugovora,
-        datum_ugovora: ponuda.datum_ugovora,
-        nacin_placanja: ponuda.nacin_placanja,
-        status_ponude: ponuda.status_ponude,
-        napomena: ponuda.napomena,
-        stan: ponuda.stan_id,
+        cena_lokala_za_kupca: ponuda.cena_lokala_za_kupca,
+        broj_ugovora_lokala: ponuda.broj_ugovora_lokala,
+        datum_ugovora_lokala: ponuda.datum_ugovora_lokala,
+        nacin_placanja_lokala: ponuda.nacin_placanja_lokala,
+        status_ponude_lokala: ponuda.status_ponude_lokala,
+        napomena_ponude_lokala: ponuda.napomena_ponude_lokala,
+        lokal: ponuda.lokal_id,
       });
 
-      getSelectedClient(propsponuda.propsponuda.kupac);
+      getSelectedClient(propsponudalokala.propsponudalokala.kupac);
     } else {
       form.setFieldsValue({});
     }
-  }, [propsponuda]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [propsponudalokala]); /// [form, propsponudalokala] prolazi i ovako proveriti ovo
+
   useEffect(() => {
     if (clients.hasOwnProperty('results')) {
       setClientOptions(
@@ -78,25 +76,25 @@ function ChangeOffers(propsponuda) {
 
   const updateOffers = () => {
     setLoaderPage(true);
-    const endpoint = propsponuda.edit
-      ? `/ponude/izmeni-ponudu/${propsponuda.propsponuda.id_ponude}/`
-      : '/ponude/kreiraj-ponudu/';
+    const endpoint = propsponudalokala.edit
+      ? `/ponude-lokali/izmeni-ponudu-lokala/${propsponudalokala.propsponudalokala.id_ponude}/`
+      : '/ponude-lokali/kreiraj-ponudu-lokala/';
 
-    const request = propsponuda.edit ? api.put : api.post;
+    const request = propsponudalokala.edit ? api.put : api.post;
 
     request(endpoint, {
       ...form.getFieldValue(),
 
       kupac: clientId,
-      stan: propsponuda.propsponuda.stan,
+      stan: propsponudalokala.propsponudalokala.stan,
     })
       .then(res => {
         form.setFieldsValue({});
-        propsponuda.closeModal();
-        if (propsponuda.edit) {
-          propsponuda.onEdit(propsponuda.idKlijenta);
+        propsponudalokala.closeModal();
+        if (propsponudalokala.edit) {
+          propsponudalokala.onEdit(propsponudalokala.idKlijenta);
         } else {
-          propsponuda.getData();
+          propsponudalokala.getData();
         }
         toast.success('Uspesno ste izmenili podatke');
       })
@@ -119,6 +117,7 @@ function ChangeOffers(propsponuda) {
       <Form autoComplete="off" layout="vertical" form={form}>
         <FormItem
           label="Ime kupca"
+          name="ime_kupca"
           rules={[
             {
               required: true,
@@ -137,7 +136,7 @@ function ChangeOffers(propsponuda) {
         </FormItem>
         <FormItem
           label="Cena ponude"
-          name="cena_stana_za_kupca"
+          name="cena_lokala_za_kupca"
           rules={[
             {
               required: true,
@@ -145,11 +144,11 @@ function ChangeOffers(propsponuda) {
             },
           ]}
         >
-          <Input id="cena_stana_za_kupca" size="default" placeholder="Cena ponude" prefix={<UserOutlined />} />
+          <Input id="cena_lokala_za_kupca" size="default" placeholder="Cena ponude lokala" />
         </FormItem>
         <FormItem
           label="Broj ugovora"
-          name="broj_ugovora"
+          name="broj_ugovora_lokala"
           rules={[
             {
               required: false,
@@ -157,11 +156,11 @@ function ChangeOffers(propsponuda) {
             },
           ]}
         >
-          <Input id="broj_ugovora" size="default" placeholder="broj ugovora" prefix={<UserOutlined />} />
+          <Input id="broj_ugovora_lokala" size="default" placeholder="broj ugovora lokala" />
         </FormItem>
         <FormItem
           label="Datum ugovora"
-          name="datum_ugovora"
+          name="datum_ugovora_lokala"
           rules={[
             {
               required: true,
@@ -174,7 +173,7 @@ function ChangeOffers(propsponuda) {
             <DatePicker
               // defaultValue={moment(form.getFieldsValue().datum_ugovora)}
               onChange={(val, newDate) => {
-                form.setFieldsValue({ datum_ugovora: newDate });
+                form.setFieldsValue({ datum_ugovora_lokala: newDate });
               }}
               format={'DD.MM.YYYY'}
             />
@@ -183,7 +182,7 @@ function ChangeOffers(propsponuda) {
 
         <FormItem
           label=" Napomena"
-          name="napomena"
+          name="napomena_ponude_lokala"
           rules={[
             {
               required: false,
@@ -191,28 +190,28 @@ function ChangeOffers(propsponuda) {
             },
           ]}
         >
-          <Input id="napomena" size="default" placeholder=" napomena" />
+          <Input id="napomena_ponude_lokala" size="default" placeholder=" napomena" />
         </FormItem>
         <FormItem
-          label="Način plaćanja"
-          name="nacin_placanja"
+          label="Nacin placanja"
+          name="nacin_placanja_lokala"
           rules={[
             {
               required: true,
-              message: 'Izaberite način plaćanja!',
+              message: 'Izaberite nacin placanja!',
             },
           ]}
         >
-          <Select value={form.getFieldsValue().nacin_placanja} style={{ width: 120 }}>
+          <Select value={form.getFieldsValue().nacin_placanja_lokala} style={{ width: 120 }}>
             <Option value="ceo_iznos">Ceo iznos</Option>
             <Option value="kredit">Kredit</Option>
             <Option value="na_rate">Na rate</Option>
-            <Option value="ucesce">Učesće</Option>
+            <Option value="ucesce">Ucesce</Option>
           </Select>
         </FormItem>
         <FormItem
           label="Status "
-          name="status_ponude"
+          name="status_ponude_lokala"
           rules={[
             {
               required: true,
@@ -220,7 +219,7 @@ function ChangeOffers(propsponuda) {
             },
           ]}
         >
-          <Select value={form.getFieldsValue().status_ponude} style={{ width: 120 }}>
+          <Select value={form.getFieldsValue().status_ponude_lokala} style={{ width: 120 }}>
             <Option value="potencijalan">Potencijalan</Option>
             <Option value="rezervisan">Rezervisan</Option>
             <Option value="kupljen">Kupljen</Option>
@@ -232,7 +231,7 @@ function ChangeOffers(propsponuda) {
               Sačuvaj
             </Button>
 
-            <Button type="danger" onClick={() => propsponuda.closeModal()}>
+            <Button type="danger" onClick={() => propsponudalokala.closeModal()}>
               Otkaži
             </Button>
           </div>
@@ -245,4 +244,4 @@ function ChangeOffers(propsponuda) {
   );
 }
 
-export default ChangeOffers;
+export default PonudaLokala;

@@ -76,6 +76,7 @@ function ApartmentsReview() {
       setSelectedOffers(res.data);
     });
   };
+
   ////hooks za search u tabeli
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
@@ -402,7 +403,7 @@ function ApartmentsReview() {
       key: '11',
       title: 'Ponude',
       render: (text, record) => (
-        <Link to={`/ponude?id=${record.id_stana}&price=${record.cena_stana}`}>
+        <Link to={`/ponude?id=${record.id_stana}`}>
           <Button
             style={{ color: '#092b00', border: '1px solid green' }}
             onClick={() => {
