@@ -144,7 +144,6 @@ function ChangeClients(propsklijenta) {
               message: 'Unesite  E-mail!',
             },
             {
-              type: 'email',
               message: 'Unesite ispravan E-mail!',
             },
           ]}

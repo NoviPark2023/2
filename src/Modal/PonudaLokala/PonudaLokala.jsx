@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Input, Button, Form, Select, AutoComplete, DatePicker, Space, message } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
-// import { UserOutlined } from '@ant-design/icons';
 import { Option } from 'antd/lib/mentions';
 import { api } from 'api/api';
 import { toast } from 'react-toastify';
@@ -47,10 +46,10 @@ function PonudaLokala(propsponudalokala) {
         nacin_placanja_lokala: ponuda.nacin_placanja_lokala,
         status_ponude_lokala: ponuda.status_ponude_lokala,
         napomena_ponude_lokala: ponuda.napomena_ponude_lokala,
-        lokal: ponuda.lokal_id,
+        lokali: ponuda.lokali_id,
       });
 
-      getSelectedClient(propsponudalokala.propsponudalokala.kupac);
+      getSelectedClient(propsponudalokala.propsponudalokala.kupac_lokala);
     } else {
       form.setFieldsValue({});
     }
@@ -77,7 +76,7 @@ function PonudaLokala(propsponudalokala) {
   const updateOffers = () => {
     setLoaderPage(true);
     const endpoint = propsponudalokala.edit
-      ? `/ponude-lokali/izmeni-ponudu-lokala/${propsponudalokala.propsponudalokala.id_ponude}/`
+      ? `/ponude-lokali/izmeni-ponudu-lokala/${propsponudalokala.propsponudalokala.id_ponude_lokala}/`
       : '/ponude-lokali/kreiraj-ponudu-lokala/';
 
     const request = propsponudalokala.edit ? api.put : api.post;
@@ -85,8 +84,8 @@ function PonudaLokala(propsponudalokala) {
     request(endpoint, {
       ...form.getFieldValue(),
 
-      kupac: clientId,
-      stan: propsponudalokala.propsponudalokala.stan,
+      kupac_lokala: clientId,
+      lokali: propsponudalokala.propsponudalokala.lokali,
     })
       .then(res => {
         form.setFieldsValue({});
@@ -110,6 +109,7 @@ function PonudaLokala(propsponudalokala) {
       .finally(() => {
         setLoaderPage(false);
       });
+    console.log(form.getFieldValue(), 'lokali');
   };
 
   return (
@@ -117,7 +117,7 @@ function PonudaLokala(propsponudalokala) {
       <Form autoComplete="off" layout="vertical" form={form}>
         <FormItem
           label="Ime kupca"
-          name="ime_kupca"
+          // name="ime_kupca"
           rules={[
             {
               required: true,
@@ -163,13 +163,13 @@ function PonudaLokala(propsponudalokala) {
           name="datum_ugovora_lokala"
           rules={[
             {
-              required: true,
+              required: false,
               message: ' Unesite datum!',
             },
           ]}
         >
           <Space direction="vertical" size={12}>
-            {form.getFieldsValue().datum_ugovora}
+            {form.getFieldsValue().datum_ugovora_lokala}
             <DatePicker
               // defaultValue={moment(form.getFieldsValue().datum_ugovora)}
               onChange={(val, newDate) => {

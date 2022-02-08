@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
-import { Input, Button, Form, Select, message } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Input, Button, Form, Select, Checkbox, message } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { Option } from 'antd/lib/mentions';
 import 'antd/dist/antd.css';
@@ -8,6 +8,8 @@ import { api } from 'api/api';
 import { toast } from 'react-toastify';
 
 function ChangeApartments(propsstan) {
+  const [price, setPrice] = useState(false);
+
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -21,7 +23,7 @@ function ChangeApartments(propsstan) {
         orijentisanost: propsstan.propsstan.orijentisanost,
         broj_terasa: propsstan.propsstan.broj_terasa,
         cena_stana: propsstan.propsstan.cena_stana,
-        status_prodaje: propsstan.propsstan.status_prodaje,
+        unesena_mauelna_cena_stana: propsstan.propsstan.unesena_mauelna_cena_stana,
       });
     }
   }, [propsstan]);
@@ -212,29 +214,27 @@ function ChangeApartments(propsstan) {
             },
           ]}
         >
-          <Input disabled="true" size="default" placeholder="Cena stana" />
+          <Input disabled={price ? false : true} size="default" placeholder="Cena stana" />
         </FormItem>
 
         <FormItem
-          label="Status"
-          name="status_prodaje"
+          label="Manuelna izmena cene stana"
+          name="unesena_mauelna_cena_stana"
           rules={[
             {
               required: false,
-              message: 'Unesite Status!',
+              // message: 'Izmenite rucno cenu stana!',
             },
           ]}
         >
-          <Select
-            disabled="true"
-            defaultValue={'Potencijalan'}
-            value={form.getFieldsValue().status_prodaje}
-            style={{ width: 120 }}
-          >
-            <Option value="dostupan">Dostupan</Option>
-            <Option value="rezervisan">Rezervisan</Option>
-            <Option value="prodat">Prodat</Option>
-          </Select>
+          <Checkbox
+            onChange={value => {
+              form.setFieldsValue({
+                unesena_mauelna_cena_stana: value.target.checked,
+              });
+              setPrice(value.target.checked);
+            }}
+          ></Checkbox>
         </FormItem>
         <Form.Item>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
