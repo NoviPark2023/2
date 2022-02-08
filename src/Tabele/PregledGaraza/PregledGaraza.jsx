@@ -193,7 +193,7 @@ function PregledGaraza() {
     {
       key: '6',
       title: 'Datum ugovora',
-      dataIndex: 'datum_ugovora',
+      dataIndex: 'datum_ugovora_garaze',
       ...getColumnSearchProps('datum_ugovora'),
     },
     {
@@ -202,7 +202,7 @@ function PregledGaraza() {
       render: (text, record) => (
         <>
           <Button
-            disabled={record.status_prodaje_garaze === 'dostupna' || record.status_prodaje_garaze === 'rezervisana'}
+            disabled={record.status_prodaje_garaze === 'dostupna'}
             onClick={() => {
               Contract(record.id_garaze);
             }}

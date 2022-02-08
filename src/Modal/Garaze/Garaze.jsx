@@ -43,7 +43,7 @@ function Garages(propsgaraze) {
         cena_garaze: garaza.cena_garaze,
         napomena_garaze: garaza.napomena_garaze,
         status_prodaje_garaze: garaza.status_prodaje_garaze,
-        datum_ugovora: garaza.datum_ugovora,
+        datum_ugovora_garaze: garaza.datum_ugovora_garaze,
       });
 
       getSelectedClient(propsgaraze.propsgaraze.kupac);
@@ -183,7 +183,7 @@ function Garages(propsgaraze) {
 
         <FormItem
           label="Datum ugovora"
-          name="datum_ugovora"
+          name="datum_ugovora_garaze"
           rules={[
             {
               required: false,
@@ -192,11 +192,11 @@ function Garages(propsgaraze) {
           ]}
         >
           <Space direction="vertical" size={12}>
-            {form.getFieldsValue().datum_ugovora}
+            {form.getFieldsValue().datum_ugovora_garaze}
             <DatePicker
               // defaultValue={moment(form.getFieldsValue().datum_ugovora)}
               onChange={(val, newDate) => {
-                form.setFieldsValue({ datum_ugovora: newDate });
+                form.setFieldsValue({ datum_ugovora_garaze: newDate });
               }}
               format={'DD.MM.YYYY'}
             />

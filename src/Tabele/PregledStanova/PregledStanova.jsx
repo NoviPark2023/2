@@ -366,6 +366,30 @@ function ApartmentsReview() {
     },
     {
       key: '10',
+      title: 'Rucna izmena cena',
+      dataIndex: 'unesena_mauelna_cena_stana',
+      filters: [
+        {
+          text: 'DA',
+          value: 'true',
+        },
+        {
+          text: 'NE',
+          value: 'false',
+        },
+      ],
+      onFilter: (value, record) => record.unesena_mauelna_cena_stana.indexOf(value) === 0,
+      render: (text, record) => (
+        <Input
+          checked={record.value === true}
+          disabled="false"
+          type="checkbox"
+          style={{ width: '20px', height: '20px', marginLeft: '30px' }}
+        ></Input>
+      ),
+    },
+    {
+      key: '11',
       title: 'Status',
       dataIndex: 'status_prodaje',
       render(text) {
@@ -400,7 +424,7 @@ function ApartmentsReview() {
       onFilter: (value, record) => record.status_prodaje.indexOf(value) === 0,
     },
     {
-      key: '11',
+      key: '12',
       title: 'Ponude',
       render: (text, record) => (
         <Link to={`/ponude?id=${record.id_stana}`}>
@@ -416,7 +440,7 @@ function ApartmentsReview() {
       ),
     },
     {
-      key: '12',
+      key: '13',
       title: 'Detalji',
       render: (text, record) => (
         <Link to={`/stanovi/${record.id_stana}`}>
@@ -432,7 +456,7 @@ function ApartmentsReview() {
       ),
     },
     {
-      key: '13',
+      key: '14',
       title: 'Izmeni',
       render: (text, record) => (
         <div>
@@ -450,7 +474,7 @@ function ApartmentsReview() {
       ),
     },
     {
-      key: '14',
+      key: '15',
       title: 'Obriši',
       render: (text, record) => (
         <>
@@ -490,7 +514,7 @@ function ApartmentsReview() {
         </Button>
       </div>
 
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: [6] }} rowKey="id_stana"></Table>
+      <Table columns={columns} dataSource={data} pagination={{ pageSize: [5] }} rowKey="id_stana"></Table>
       <Modal
         title="Izmeni podatke stana"
         visible={isEditPlaceVisible}

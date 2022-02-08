@@ -4,7 +4,7 @@ import { Table, Button, Modal, Popconfirm, Input, Space, Tag } from 'antd';
 import Ponuda from 'Modal/Ponuda/Ponuda';
 import { useLocation } from 'react-router';
 import { api } from 'api/api';
-import Klijenta from 'Modal/Klijenta/Klijenta';
+// import Klijenta from 'Modal/Klijenta/Klijenta';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
@@ -26,8 +26,8 @@ const OffersReview = () => {
   const id = queryParams.get('id'); ///id stana
   // const price = queryParams.get('price'); ///cena stana
   const [setPonude, setSelectedOffers] = useState('');
-  const [isClientVisible, setIsClientVisible] = useState(false);
-  const [selectedBuyer] = useState(null);
+  // const [isClientVisible, setIsClientVisible] = useState(false);
+  // const [selectedBuyer] = useState(null);
   const [offers, setOffers] = useState(null);
 
   ///loader
@@ -340,14 +340,14 @@ const OffersReview = () => {
       </div>
       <Table columns={columns} dataSource={setPonude} pagination={{ pageSize: [5] }} rowKey="id_ponude"></Table>
 
-      <Modal
+      {/* <Modal
         title="Pregled Klijenta"
         visible={isClientVisible && selectedBuyer}
         onCancel={() => setIsClientVisible(false)}
         footer={null}
       >
         <Klijenta preview propsklijenta={selectedBuyer} closeModal={() => setIsClientVisible(false)} />
-      </Modal>
+      </Modal> */}
 
       <Modal
         title="Izmeni"

@@ -7,23 +7,20 @@ import { SearchOutlined } from '@ant-design/icons';
 import { authService } from 'auth/auth.service';
 import { Spin } from 'antd';
 import { api } from 'api/api';
-// import Klijenta from 'Modal/Klijenta/Klijenta';
 import PonudaLokala from 'Modal/PonudaLokala/PonudaLokala';
 
 function PregledPonudaLokala() {
   const activeRole = authService.getRole();
   const browserLocation = useLocation();
   const queryParams = new URLSearchParams(browserLocation.search);
-  const id = queryParams.get('id_lokala'); ///id lokala
+  const id = queryParams.get('id'); ///id lokala
   const [setPonude, setSelectedOffers] = useState('');
-  // const [isClientVisible, setIsClientVisible] = useState(false);
-  // const [selectedBuyer] = useState(null);
   const [offers, setOffers] = useState(null);
 
   ///loader
   const [loaderPage, setLoaderPage] = useState(false);
 
-  ///ponude stana
+  ///ponude lokala
   const getListOffers = (paramId = id) => {
     setLoaderPage(true);
     api
@@ -320,17 +317,9 @@ function PregledPonudaLokala() {
         </Button>
       </div>
       <Table columns={columns} dataSource={setPonude} pagination={{ pageSize: [5] }} rowKey="id_ponude_lokala"></Table>
-      {/* <Modal
-        title="Pregled Klijenta"
-        visible={isClientVisible && selectedBuyer}
-        onCancel={() => setIsClientVisible(false)}
-        footer={null}
-      >
-        <Klijenta preview propsklijenta={selectedBuyer} closeModal={() => setIsClientVisible(false)} />
-      </Modal> */}
 
       <Modal
-        title="Izmeni ponudu lokala"
+        title="Izmeni ponudu"
         visible={isModalVisible}
         onOk={handleOkModal}
         onCancel={() => setIsModalVisible(false)}
@@ -358,7 +347,7 @@ function PregledPonudaLokala() {
       >
         {isCreateModalVisible && (
           <PonudaLokala
-            propsponudalokala={{ stan: id }}
+            propsponudalokala={{ lokali: id }}
             getData={getListOffers}
             closeModal={() => setIsCreateModalVisible(false)}
           />
