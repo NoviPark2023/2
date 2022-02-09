@@ -122,36 +122,42 @@ function ReviewUser() {
     {
       key: '1',
       title: 'ID',
+      align: 'center',
       dataIndex: 'id',
       ...getColumnSearchProps('id'),
     },
     {
       key: '2',
       title: 'Ime',
+      align: 'center',
       dataIndex: 'ime',
       ...getColumnSearchProps('ime'),
     },
     {
       key: '3',
       title: 'Prezime',
+      align: 'center',
       dataIndex: 'prezime',
       ...getColumnSearchProps('prezime'),
     },
     {
       key: '4',
       title: 'E-mail',
+      align: 'center',
       dataIndex: 'email',
       ...getColumnSearchProps('email'),
     },
     {
       key: '5',
       title: 'Korisničko ime',
+      align: 'center',
       dataIndex: 'username',
       ...getColumnSearchProps('username'),
     },
     {
       key: '6',
       title: 'Tip korisnika',
+      align: 'center',
       dataIndex: 'role',
       filters: [
         {
@@ -173,6 +179,7 @@ function ReviewUser() {
     {
       key: '8',
       title: 'Izmeni',
+      align: 'center',
       render: (text, record) => (
         <div>
           <Button
@@ -190,6 +197,7 @@ function ReviewUser() {
 
     {
       title: 'Obriši',
+      align: 'center',
       key: '9',
       render: (text, record) => (
         <>

@@ -203,10 +203,10 @@ function PonudaLokala(propsponudalokala) {
           ]}
         >
           <Select value={form.getFieldsValue().nacin_placanja_lokala} style={{ width: 120 }}>
-            <Option value="ceo_iznos">Ceo iznos</Option>
-            <Option value="kredit">Kredit</Option>
-            <Option value="na_rate">Na rate</Option>
-            <Option value="ucesce">Ucesce</Option>
+            <Option value="Ceo iznos">Ceo iznos</Option>
+            <Option value="Kredit">Kredit</Option>
+            <Option value="Na rate">Na rate</Option>
+            <Option value="Ucesce">Ucesce</Option>
           </Select>
         </FormItem>
         <FormItem
@@ -237,7 +237,7 @@ function PonudaLokala(propsponudalokala) {
           </div>
         </Form.Item>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          {loaderPage && <Spin tip="Loading page" size="large"></Spin>}
+          {loaderPage && <Spin tip="Loading page" size="large" />}
         </div>
       </Form>
     </div>

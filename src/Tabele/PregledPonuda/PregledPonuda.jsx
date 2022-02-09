@@ -10,13 +10,6 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
 import { authService } from 'auth/auth.service';
 
-const PAYMENT_TYPE_LABELS = {
-  ceo_iznos: 'CEO IZNOS',
-  kredit: 'KREDIT',
-  na_rate: 'NA RATE',
-  ucesce: 'UCESCE',
-};
-
 const OffersReview = () => {
   const activeRole = authService.getRole();
 
@@ -152,36 +145,42 @@ const OffersReview = () => {
     {
       key: '1',
       title: 'ID ponude',
+      align: 'center',
       dataIndex: 'id_ponude',
       ...getColumnSearchProps('id_ponude'),
     },
     {
       key: '2',
       title: 'Kupac',
+      align: 'center',
       dataIndex: 'ime_kupca',
       ...getColumnSearchProps('kupac'),
     },
     {
       key: '3',
       title: 'Stan',
+      align: 'center',
       dataIndex: 'stan',
       ...getColumnSearchProps('stan'),
     },
     {
       key: '4',
       title: 'Lamela stana',
+      align: 'center',
       dataIndex: 'lamela_stana',
       ...getColumnSearchProps('lamela_stana'),
     },
     {
       key: '5',
       title: 'Cena ponude stana',
+      align: 'center',
       dataIndex: 'cena_stana_za_kupca',
       ...getColumnSearchProps('cena_stana_za_kupca'),
     },
     {
       key: '6',
       title: 'Cena stana',
+      align: 'center',
       dataIndex: 'cena_stana',
       ...getColumnSearchProps('cena_stana'),
       // render: () => <span>{price}</span>,
@@ -190,36 +189,40 @@ const OffersReview = () => {
     {
       key: '7',
       title: 'Broj ugovora',
+      align: 'center',
       dataIndex: 'broj_ugovora',
       ...getColumnSearchProps('broj_ugovora'),
     },
     {
       key: '8',
       title: 'Datum ugovora',
+      align: 'center',
       dataIndex: 'datum_ugovora',
       ...getColumnSearchProps('datum_ugovora'),
     },
     {
       key: '9',
       title: 'Način plaćanja',
+      align: 'center',
       dataIndex: 'nacin_placanja',
-      render: (text, record) => <span>{PAYMENT_TYPE_LABELS[record.nacin_placanja]}</span>,
+      // render: (text, record) => <span>{PAYMENT_TYPE_LABELS[record.nacin_placanja]}</span>,
+      render: (text, record) => <span>{record.nacin_placanja}</span>,
       filters: [
         {
-          text: 'CEO IZNOS',
-          value: 'CEO IZNOS',
+          text: 'Ceo iznos',
+          value: 'Ceo iznos',
         },
         {
-          text: 'KREDIT',
-          value: 'KREDIT',
+          text: 'Kredit',
+          value: 'Kredit',
         },
         {
-          text: 'NA RATE',
-          value: 'NA RATE',
+          text: 'Na rate',
+          value: 'Na rate',
         },
         {
-          text: 'UCESCE',
-          value: 'UCESCE',
+          text: 'Ucešće',
+          value: 'Ucesce',
         },
       ],
       onFilter: (value, record) => record.nacin_placanja.indexOf(value) === 0,
@@ -227,6 +230,7 @@ const OffersReview = () => {
     {
       key: '10',
       title: 'Status',
+      align: 'center',
       dataIndex: 'status_ponude',
       render(text) {
         let color = text === 'potencijalan' ? 'geekblue' : 'green';
@@ -262,6 +266,7 @@ const OffersReview = () => {
     {
       key: '11',
       title: 'Ugovor',
+      align: 'center',
       render: (text, record) => (
         <>
           <Button
@@ -278,6 +283,7 @@ const OffersReview = () => {
     {
       key: '12',
       title: 'Izmeni',
+      align: 'center',
       render: (text, record) => (
         <>
           <Button
@@ -298,6 +304,7 @@ const OffersReview = () => {
     {
       key: '13',
       title: 'Obriši',
+      align: 'center',
       render: (text, record) => (
         <>
           <Popconfirm

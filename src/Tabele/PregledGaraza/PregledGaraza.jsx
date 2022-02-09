@@ -131,6 +131,7 @@ function PregledGaraza() {
     {
       key: '1',
       title: 'ID',
+      align: 'center',
       dataIndex: 'id_garaze',
       ...getColumnSearchProps('id_garaze'),
     },
@@ -138,6 +139,7 @@ function PregledGaraza() {
     {
       key: '2',
       title: 'Broj garaže',
+      align: 'center',
       dataIndex: 'jedinstveni_broj_garaze',
       ...getColumnSearchProps('jedinstveni_broj_garaze'),
     },
@@ -145,6 +147,7 @@ function PregledGaraza() {
     {
       key: '3',
       title: 'Cena',
+      align: 'center',
       dataIndex: 'cena_garaze',
       ...getColumnSearchProps('cena_garaze'),
       sorter: (a, b) => a.cena_garaze - b.cena_garaze,
@@ -152,12 +155,14 @@ function PregledGaraza() {
     {
       key: '4',
       title: 'Kupac',
+      align: 'center',
       dataIndex: 'ime_kupca',
       ...getColumnSearchProps('ime_kupca'),
     },
     {
       key: '5',
       title: 'Status',
+      align: 'center',
       dataIndex: 'status_prodaje_garaze',
       render(text) {
         let color = text === 'dostupna' ? 'geekblue' : 'green';
@@ -193,12 +198,14 @@ function PregledGaraza() {
     {
       key: '6',
       title: 'Datum ugovora',
+      align: 'center',
       dataIndex: 'datum_ugovora_garaze',
       ...getColumnSearchProps('datum_ugovora'),
     },
     {
       key: '7',
       title: 'Ugovor',
+      align: 'center',
       render: (text, record) => (
         <>
           <Button
@@ -215,6 +222,7 @@ function PregledGaraza() {
     {
       key: '7',
       title: 'Izmeni',
+      align: 'center',
       render: (text, record) => (
         <div>
           <Button
@@ -232,6 +240,7 @@ function PregledGaraza() {
     {
       key: '8',
       title: 'Obriši',
+      align: 'center',
       render: (text, record) => (
         <>
           <Popconfirm

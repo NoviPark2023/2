@@ -204,10 +204,10 @@ function ChangeOffers(propsponuda) {
           ]}
         >
           <Select value={form.getFieldsValue().nacin_placanja} style={{ width: 120 }}>
-            <Option value="ceo_iznos">Ceo iznos</Option>
-            <Option value="kredit">Kredit</Option>
-            <Option value="na_rate">Na rate</Option>
-            <Option value="ucesce">Učesće</Option>
+            <Option value="Ceo iznos">Ceo iznos</Option>
+            <Option value="Kredit">Kredit</Option>
+            <Option value="Na rate">Na rate</Option>
+            <Option value="Ucesce ">Učesće</Option>
           </Select>
         </FormItem>
         <FormItem

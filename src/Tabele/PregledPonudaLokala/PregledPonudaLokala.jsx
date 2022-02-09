@@ -132,36 +132,42 @@ function PregledPonudaLokala() {
     {
       key: '1',
       title: 'ID ponude',
+      align: 'center',
       dataIndex: 'id_ponude_lokala',
       ...getColumnSearchProps('id_ponude_lokala'),
     },
     {
       key: '2',
       title: 'Kupac',
+      align: 'center',
       dataIndex: 'ime_kupca_lokala',
       ...getColumnSearchProps('ime_kupca_lokala'),
     },
     {
       key: '3',
       title: 'Lokal',
+      align: 'center',
       dataIndex: 'lokali',
       ...getColumnSearchProps('lokali'),
     },
     {
       key: '4',
       title: 'Lamela lokala',
+      align: 'center',
       dataIndex: 'lamela_lokala',
       ...getColumnSearchProps('lamela_lokala'),
     },
     {
       key: '5',
       title: 'Cena ponude lokala',
+      align: 'center',
       dataIndex: 'cena_lokala_za_kupca',
       ...getColumnSearchProps('cena_lokala_za_kupca'),
     },
     {
       key: '6',
       title: 'Cena lokala',
+      align: 'center',
       dataIndex: 'cena_lokala',
       ...getColumnSearchProps('cena_lokala'),
     },
@@ -169,35 +175,39 @@ function PregledPonudaLokala() {
     {
       key: '7',
       title: 'Broj ugovora',
+      align: 'center',
       dataIndex: 'broj_ugovora_lokala',
       ...getColumnSearchProps('broj_ugovora_lokala'),
     },
     {
       key: '8',
       title: 'Datum ugovora',
+      align: 'center',
       dataIndex: 'datum_ugovora_lokala',
       ...getColumnSearchProps('datum_ugovora_lokala'),
     },
     {
       key: '9',
       title: 'Nacin plaćanja',
+      align: 'center',
       dataIndex: 'nacin_placanja_lokala',
+      render: (text, record) => <span>{record.nacin_placanja_lokala}</span>,
       filters: [
         {
-          text: 'CEO IZNOS',
-          value: 'CEO IZNOS',
+          text: 'Ceo iznos',
+          value: 'Ceo iznos',
         },
         {
-          text: 'KREDIT',
-          value: 'KREDIT',
+          text: 'Kredit',
+          value: 'Kredit',
         },
         {
-          text: 'NA RATE',
-          value: 'NA RATE',
+          text: 'Na rate',
+          value: 'Na rate',
         },
         {
-          text: 'UCESCE',
-          value: 'UCESCE',
+          text: 'Ucešće',
+          value: 'Ucesce',
         },
       ],
       onFilter: (value, record) => record.nacin_placanja_lokala.indexOf(value) === 0,
@@ -205,6 +215,7 @@ function PregledPonudaLokala() {
     {
       key: '10',
       title: 'Status',
+      align: 'center',
       dataIndex: 'status_ponude_lokala',
       render(text) {
         let color = text === 'potencijalan' ? 'geekblue' : 'green';
@@ -240,6 +251,7 @@ function PregledPonudaLokala() {
     {
       key: '11',
       title: 'Ugovor',
+      align: 'center',
       render: (text, record) => (
         <>
           <Button
@@ -256,6 +268,7 @@ function PregledPonudaLokala() {
     {
       key: '12',
       title: 'Izmeni',
+      align: 'center',
       render: (text, record) => (
         <>
           <Button
@@ -276,6 +289,7 @@ function PregledPonudaLokala() {
     {
       key: '13',
       title: 'Obriši',
+      align: 'center',
       render: (text, record) => (
         <>
           <Popconfirm
