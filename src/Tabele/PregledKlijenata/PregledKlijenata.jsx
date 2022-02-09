@@ -129,12 +129,14 @@ function ClientsReview() {
     {
       key: '1',
       title: 'ID Kupca',
+      align: 'center',
       dataIndex: 'id_kupca',
       ...getColumnSearchProps('id_kupca'), /////pozivanje search-a u tabeli
     },
     {
       key: '2',
       title: 'Lice',
+      align: 'center',
       dataIndex: 'lice',
       filters: [
         {
@@ -151,35 +153,41 @@ function ClientsReview() {
     {
       key: '3',
       title: 'Ime i Prezime',
+      align: 'center',
       dataIndex: 'ime_prezime',
       ...getColumnSearchProps('ime_prezime'),
     },
     {
       key: '4',
       title: 'E-mail',
+      align: 'center',
       dataIndex: 'email',
       ...getColumnSearchProps('email'),
     },
     {
       key: '5',
       title: 'Broj telefona',
+      align: 'center',
       dataIndex: 'broj_telefona',
       ...getColumnSearchProps('broj_telefona'),
     },
     {
       key: '6',
       title: 'PIB/JMBG',
+      align: 'center',
       dataIndex: 'Jmbg_Pib',
       ...getColumnSearchProps('Jmbg_Pib'),
     },
     {
       key: '7',
       title: 'Adresa',
+      align: 'center',
       dataIndex: 'adresa',
       ...getColumnSearchProps('adresa'),
     },
     {
       title: 'Detalji',
+      align: 'center',
       key: '9',
       render: (text, record) => (
         <Link to={`/klijenti/${record.id_kupca}`}>
@@ -192,6 +200,7 @@ function ClientsReview() {
     {
       key: '8',
       title: 'Izmeni',
+      align: 'center',
       render: (text, record) => (
         <div>
           <Button
@@ -210,6 +219,7 @@ function ClientsReview() {
     {
       key: '10',
       title: 'Obriši',
+      align: 'center',
       render: (text, record) => (
         <>
           <Popconfirm

@@ -21,8 +21,8 @@ function ReviewLocal() {
   /// Api za dovlacenje podataka stana
   const [selectedLocal, setSelectedLocal] = useState('');
 
-  ///api za dovlacenje ponuda lokala
-  const [, setSelectedOffers] = useState('');
+  // ///api za dovlacenje ponuda lokala
+  // const [, setSelectedOffers] = useState('');
 
   ///modal za dodaj
   const showModal = id => {
@@ -69,12 +69,12 @@ function ReviewLocal() {
     });
   };
 
-  ///ponude stana
-  const getListOffers = id_lokala => {
-    api.get(`/ponude-lokali/lista-ponuda-lokala/${id_lokala}/`).then(res => {
-      setSelectedOffers(res.data);
-    });
-  };
+  ///ponude lokala
+  // const getListOffers = id_lokala => {
+  //   api.get(`/ponude-lokali/lista-ponuda-lokala/${id_lokala}/`).then(res => {
+  //     setSelectedOffers(res.data);
+  //   });
+  // };
 
   ////hooks za search u tabeli
   const [searchText, setSearchText] = useState();
@@ -147,24 +147,28 @@ function ReviewLocal() {
     {
       key: '1',
       title: 'ID',
+      align: 'center',
       dataIndex: 'id_lokala',
       ...getColumnSearchProps('id_lokala'),
     },
     {
       key: '2',
       title: 'Lamela',
+      align: 'center',
       dataIndex: 'lamela_lokala',
       ...getColumnSearchProps('lamela_lokala'),
     },
     {
       key: '3',
       title: 'Adresa',
+      align: 'center',
       dataIndex: 'adresa_lokala',
       ...getColumnSearchProps('adresa_lokala'),
     },
     {
       key: '4',
       title: 'Kvadratura',
+      align: 'center',
       dataIndex: 'kvadratura_lokala',
       filters: [
         {
@@ -203,6 +207,7 @@ function ReviewLocal() {
     {
       key: '5',
       title: 'Broj prostorija',
+      align: 'center',
       dataIndex: 'broj_prostorija',
       filters: [
         {
@@ -248,6 +253,7 @@ function ReviewLocal() {
     {
       key: '6',
       title: 'Orijentisanost',
+      align: 'center',
       dataIndex: 'orijentisanost_lokala',
       filters: [
         {
@@ -265,6 +271,7 @@ function ReviewLocal() {
     {
       key: '7',
       title: 'Cena',
+      align: 'center',
       dataIndex: 'cena_lokala',
       filters: [
         {
@@ -302,6 +309,7 @@ function ReviewLocal() {
     {
       key: '8',
       title: 'Status',
+      align: 'center',
       dataIndex: 'status_prodaje_lokala',
       render(text) {
         let color = text === 'dostupan' ? 'geekblue' : 'green';
@@ -337,12 +345,13 @@ function ReviewLocal() {
     {
       key: '9',
       title: 'Ponude',
+      align: 'center',
       render: (text, record) => (
-        <Link to={`/ponude-lokala/`}>
+        <Link to={`/ponude-lokala?id=${record.id_lokala}`}>
           <Button
             style={{ color: '#092b00', border: '1px solid green' }}
             onClick={() => {
-              getListOffers(record.id_ponude_lokala);
+              setSelectedLocal(record.id_ponude_lokala);
             }}
           >
             Ponude
@@ -353,6 +362,7 @@ function ReviewLocal() {
     {
       key: '10',
       title: 'Detalji',
+      align: 'center',
       render: (text, record) => (
         <Link to={`/lokali/${record.id_lokala}`}>
           <Button
@@ -369,6 +379,7 @@ function ReviewLocal() {
     {
       key: '11',
       title: 'Izmeni',
+      align: 'center',
       render: (text, record) => (
         <div>
           <Button
@@ -387,6 +398,7 @@ function ReviewLocal() {
     {
       key: '12',
       title: 'Obriši',
+      align: 'center',
       render: (text, record) => (
         <>
           <Popconfirm
@@ -424,7 +436,7 @@ function ReviewLocal() {
           Dodaj novi lokal
         </Button>
       </div>
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: [5] }} rowKey="id_lokala"></Table>
+      <Table columns={columns} dataSource={data} pagination={{ pageSize: [5] }} rowKey="id_lokala" />
       <Modal title="Izmeni podatke lokala" visible={editLocal} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <Lokali edit propslokala={selectedLocal} getData={getData} closeModal={() => showModal(false)} />
       </Modal>
@@ -439,7 +451,7 @@ function ReviewLocal() {
         <Lokali propslokala={selectedLocal} getData={getData} closeModal={() => setCreateLocal(false)} />
       </Modal>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        {loaderPage && <Spin tip="Loading page" size="large"></Spin>}
+        {loaderPage && <Spin tip="Loading page" size="large" />}
       </div>
     </div>
   );

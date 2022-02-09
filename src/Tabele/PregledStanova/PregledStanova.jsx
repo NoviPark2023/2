@@ -148,24 +148,28 @@ function ApartmentsReview() {
     {
       key: '1',
       title: 'ID',
+      align: 'center',
       dataIndex: 'id_stana',
       ...getColumnSearchProps('id_stana'),
     },
     {
       key: '2',
       title: 'Lamela',
+      align: 'center',
       dataIndex: 'lamela',
       ...getColumnSearchProps('lamela'), /////pozivanje search-a u tabeli
     },
     {
       key: '3',
       title: 'Adresa',
+      align: 'center',
       dataIndex: 'adresa_stana',
       ...getColumnSearchProps('adresa_stana'),
     },
     {
       key: '4',
       title: 'Kvadratura',
+      align: 'center',
       dataIndex: 'kvadratura',
       filters: [
         {
@@ -203,6 +207,7 @@ function ApartmentsReview() {
     {
       key: '5',
       title: 'Sprat',
+      align: 'center',
       dataIndex: 'sprat',
       filters: [
         {
@@ -244,6 +249,7 @@ function ApartmentsReview() {
     {
       key: '6',
       title: 'Broj soba',
+      align: 'center',
       dataIndex: 'broj_soba',
       filters: [
         {
@@ -289,6 +295,7 @@ function ApartmentsReview() {
     {
       key: '7',
       title: 'Orijentisanost',
+      align: 'center',
       dataIndex: 'orijentisanost',
       filters: [
         {
@@ -305,6 +312,7 @@ function ApartmentsReview() {
     {
       key: '8',
       title: 'Broj terasa',
+      align: 'center',
       dataIndex: 'broj_terasa',
       filters: [
         {
@@ -330,6 +338,7 @@ function ApartmentsReview() {
     {
       key: '9',
       title: 'Cena',
+      align: 'center',
       dataIndex: 'cena_stana',
       filters: [
         {
@@ -366,7 +375,33 @@ function ApartmentsReview() {
     },
     {
       key: '10',
+      title: 'Rucna izmena cena',
+      align: 'center',
+      dataIndex: 'unesena_mauelna_cena_stana',
+      filters: [
+        {
+          text: 'DA',
+          value: 'true',
+        },
+        {
+          text: 'NE',
+          value: 'false',
+        },
+      ],
+      onFilter: (value, record) => record.unesena_mauelna_cena_stana.indexOf(value) === 0,
+      render: (text, record) => (
+        <Input
+          checked={record.value === true}
+          disabled="false"
+          type="checkbox"
+          style={{ width: '20px', height: '20px', marginLeft: '30px' }}
+        ></Input>
+      ),
+    },
+    {
+      key: '11',
       title: 'Status',
+      align: 'center',
       dataIndex: 'status_prodaje',
       render(text) {
         let color = text === 'dostupan' ? 'geekblue' : 'green';
@@ -400,8 +435,9 @@ function ApartmentsReview() {
       onFilter: (value, record) => record.status_prodaje.indexOf(value) === 0,
     },
     {
-      key: '11',
+      key: '12',
       title: 'Ponude',
+      align: 'center',
       render: (text, record) => (
         <Link to={`/ponude?id=${record.id_stana}`}>
           <Button
@@ -416,8 +452,9 @@ function ApartmentsReview() {
       ),
     },
     {
-      key: '12',
+      key: '13',
       title: 'Detalji',
+      align: 'center',
       render: (text, record) => (
         <Link to={`/stanovi/${record.id_stana}`}>
           <Button
@@ -432,8 +469,9 @@ function ApartmentsReview() {
       ),
     },
     {
-      key: '13',
+      key: '14',
       title: 'Izmeni',
+      align: 'center',
       render: (text, record) => (
         <div>
           <Button
@@ -450,7 +488,7 @@ function ApartmentsReview() {
       ),
     },
     {
-      key: '14',
+      key: '15',
       title: 'Obriši',
       render: (text, record) => (
         <>
@@ -490,7 +528,7 @@ function ApartmentsReview() {
         </Button>
       </div>
 
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: [6] }} rowKey="id_stana"></Table>
+      <Table columns={columns} dataSource={data} pagination={{ pageSize: [5] }} rowKey="id_stana"></Table>
       <Modal
         title="Izmeni podatke stana"
         visible={isEditPlaceVisible}

@@ -7,23 +7,20 @@ import { SearchOutlined } from '@ant-design/icons';
 import { authService } from 'auth/auth.service';
 import { Spin } from 'antd';
 import { api } from 'api/api';
-// import Klijenta from 'Modal/Klijenta/Klijenta';
 import PonudaLokala from 'Modal/PonudaLokala/PonudaLokala';
 
 function PregledPonudaLokala() {
   const activeRole = authService.getRole();
   const browserLocation = useLocation();
   const queryParams = new URLSearchParams(browserLocation.search);
-  const id = queryParams.get('id_lokala'); ///id lokala
+  const id = queryParams.get('id'); ///id lokala
   const [setPonude, setSelectedOffers] = useState('');
-  // const [isClientVisible, setIsClientVisible] = useState(false);
-  // const [selectedBuyer] = useState(null);
   const [offers, setOffers] = useState(null);
 
   ///loader
   const [loaderPage, setLoaderPage] = useState(false);
 
-  ///ponude stana
+  ///ponude lokala
   const getListOffers = (paramId = id) => {
     setLoaderPage(true);
     api
@@ -135,36 +132,42 @@ function PregledPonudaLokala() {
     {
       key: '1',
       title: 'ID ponude',
+      align: 'center',
       dataIndex: 'id_ponude_lokala',
       ...getColumnSearchProps('id_ponude_lokala'),
     },
     {
       key: '2',
       title: 'Kupac',
+      align: 'center',
       dataIndex: 'ime_kupca_lokala',
       ...getColumnSearchProps('ime_kupca_lokala'),
     },
     {
       key: '3',
       title: 'Lokal',
+      align: 'center',
       dataIndex: 'lokali',
       ...getColumnSearchProps('lokali'),
     },
     {
       key: '4',
       title: 'Lamela lokala',
+      align: 'center',
       dataIndex: 'lamela_lokala',
       ...getColumnSearchProps('lamela_lokala'),
     },
     {
       key: '5',
       title: 'Cena ponude lokala',
+      align: 'center',
       dataIndex: 'cena_lokala_za_kupca',
       ...getColumnSearchProps('cena_lokala_za_kupca'),
     },
     {
       key: '6',
       title: 'Cena lokala',
+      align: 'center',
       dataIndex: 'cena_lokala',
       ...getColumnSearchProps('cena_lokala'),
     },
@@ -172,35 +175,39 @@ function PregledPonudaLokala() {
     {
       key: '7',
       title: 'Broj ugovora',
+      align: 'center',
       dataIndex: 'broj_ugovora_lokala',
       ...getColumnSearchProps('broj_ugovora_lokala'),
     },
     {
       key: '8',
       title: 'Datum ugovora',
+      align: 'center',
       dataIndex: 'datum_ugovora_lokala',
       ...getColumnSearchProps('datum_ugovora_lokala'),
     },
     {
       key: '9',
       title: 'Nacin plaćanja',
+      align: 'center',
       dataIndex: 'nacin_placanja_lokala',
+      render: (text, record) => <span>{record.nacin_placanja_lokala}</span>,
       filters: [
         {
-          text: 'CEO IZNOS',
-          value: 'CEO IZNOS',
+          text: 'Ceo iznos',
+          value: 'Ceo iznos',
         },
         {
-          text: 'KREDIT',
-          value: 'KREDIT',
+          text: 'Kredit',
+          value: 'Kredit',
         },
         {
-          text: 'NA RATE',
-          value: 'NA RATE',
+          text: 'Na rate',
+          value: 'Na rate',
         },
         {
-          text: 'UCESCE',
-          value: 'UCESCE',
+          text: 'Ucešće',
+          value: 'Ucesce',
         },
       ],
       onFilter: (value, record) => record.nacin_placanja_lokala.indexOf(value) === 0,
@@ -208,6 +215,7 @@ function PregledPonudaLokala() {
     {
       key: '10',
       title: 'Status',
+      align: 'center',
       dataIndex: 'status_ponude_lokala',
       render(text) {
         let color = text === 'potencijalan' ? 'geekblue' : 'green';
@@ -243,6 +251,7 @@ function PregledPonudaLokala() {
     {
       key: '11',
       title: 'Ugovor',
+      align: 'center',
       render: (text, record) => (
         <>
           <Button
@@ -259,6 +268,7 @@ function PregledPonudaLokala() {
     {
       key: '12',
       title: 'Izmeni',
+      align: 'center',
       render: (text, record) => (
         <>
           <Button
@@ -279,6 +289,7 @@ function PregledPonudaLokala() {
     {
       key: '13',
       title: 'Obriši',
+      align: 'center',
       render: (text, record) => (
         <>
           <Popconfirm
@@ -320,17 +331,9 @@ function PregledPonudaLokala() {
         </Button>
       </div>
       <Table columns={columns} dataSource={setPonude} pagination={{ pageSize: [5] }} rowKey="id_ponude_lokala"></Table>
-      {/* <Modal
-        title="Pregled Klijenta"
-        visible={isClientVisible && selectedBuyer}
-        onCancel={() => setIsClientVisible(false)}
-        footer={null}
-      >
-        <Klijenta preview propsklijenta={selectedBuyer} closeModal={() => setIsClientVisible(false)} />
-      </Modal> */}
 
       <Modal
-        title="Izmeni ponudu lokala"
+        title="Izmeni ponudu"
         visible={isModalVisible}
         onOk={handleOkModal}
         onCancel={() => setIsModalVisible(false)}
@@ -358,7 +361,7 @@ function PregledPonudaLokala() {
       >
         {isCreateModalVisible && (
           <PonudaLokala
-            propsponudalokala={{ stan: id }}
+            propsponudalokala={{ lokali: id }}
             getData={getListOffers}
             closeModal={() => setIsCreateModalVisible(false)}
           />

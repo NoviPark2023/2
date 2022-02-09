@@ -124,6 +124,7 @@ const ClientOffersReview = props => {
     {
       key: '1',
       title: 'ID ponude',
+      align: 'center',
       dataIndex: 'id_ponude',
       ...getColumnSearchProps('id_ponude'),
     },
@@ -131,18 +132,21 @@ const ClientOffersReview = props => {
     {
       key: '2',
       title: ' Adresa stana',
+      align: 'center',
       dataIndex: 'adresa_stana',
       ...getColumnSearchProps('adresa_stana'),
     },
     {
       key: '3',
       title: 'Cena ponude stana',
+      align: 'center',
       dataIndex: 'cena_stana_za_kupca',
       ...getColumnSearchProps('cena_stana_za_kupca'),
     },
     {
       key: '4',
       title: 'Cena stana',
+      align: 'center',
       dataIndex: 'cena_stana',
       ...getColumnSearchProps('cena_stana'),
     },
@@ -150,18 +154,21 @@ const ClientOffersReview = props => {
     {
       key: '5',
       title: 'Broj ugovora',
+      align: 'center',
       dataIndex: 'broj_ugovora',
       ...getColumnSearchProps('broj_ugovora'),
     },
     {
       key: '6',
       title: 'Datum ugovora',
+      align: 'center',
       dataIndex: 'datum_ugovora',
       ...getColumnSearchProps('datum_ugovora'),
     },
     {
       key: '7',
       title: 'Nacin plaćanja',
+      align: 'center',
       dataIndex: 'nacin_placanja',
       render: (text, record) => <span>{PAYMENT_TYPE_LABELS[record.nacin_placanja]}</span>,
       filters: [
@@ -188,6 +195,7 @@ const ClientOffersReview = props => {
     {
       key: '8',
       title: 'Status',
+      align: 'center',
       dataIndex: 'status_ponude',
       render(text) {
         let color = text === 'dostupan' ? 'geekblue' : 'green';
@@ -223,6 +231,7 @@ const ClientOffersReview = props => {
     {
       key: '9',
       title: 'Ugovor',
+      align: 'center',
       render: (text, record) => (
         <>
           <Button
@@ -239,6 +248,7 @@ const ClientOffersReview = props => {
     {
       key: '10',
       title: 'Izmeni',
+      align: 'center',
       render: (text, record) => (
         <>
           <Button
@@ -256,6 +266,7 @@ const ClientOffersReview = props => {
     {
       key: '11',
       title: 'Obriši',
+      align: 'center',
       render: (text, record) => (
         <>
           <Popconfirm
@@ -276,7 +287,7 @@ const ClientOffersReview = props => {
 
   return (
     <div>
-      <Table columns={columns} dataSource={props.tableItems} pagination={{ pageSize: [5] }}></Table>
+      <Table columns={columns} dataSource={props.tableItems} pagination={{ pageSize: [5] }} />
 
       <Modal
         title="Pregled Klijenta"

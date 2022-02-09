@@ -122,12 +122,14 @@ function ApartmentsPriceReview() {
     {
       key: '1',
       title: 'ID Cene',
+      align: 'center',
       dataIndex: 'id_azur_cene',
       ...getColumnSearchProps('id_azur_cene'),
     },
     {
       key: '2',
       title: 'Sprat',
+      align: 'center',
       dataIndex: 'sprat',
       filters: [
         {
@@ -170,6 +172,7 @@ function ApartmentsPriceReview() {
     {
       key: '3',
       title: 'Broj soba',
+      align: 'center',
       dataIndex: 'broj_soba',
       filters: [
         {
@@ -216,6 +219,7 @@ function ApartmentsPriceReview() {
     {
       key: '4',
       title: 'Orijentacija',
+      align: 'center',
       dataIndex: 'orijentisanost',
       filters: [
         {
@@ -232,6 +236,7 @@ function ApartmentsPriceReview() {
     {
       key: '5',
       title: 'Cena Kvadrata',
+      align: 'center',
       dataIndex: 'cena_kvadrata',
       filters: [
         {
@@ -262,6 +267,7 @@ function ApartmentsPriceReview() {
     {
       key: '6',
       title: 'Izmeni',
+      align: 'center',
       render: (text, record) => (
         <div>
           <Button
@@ -279,6 +285,7 @@ function ApartmentsPriceReview() {
     {
       key: '7',
       title: 'Obriši',
+      align: 'center',
       render: (text, record) => (
         <>
           <Popconfirm
@@ -313,7 +320,7 @@ function ApartmentsPriceReview() {
             Kreiraj novu cenu
           </Button>
         </div>
-        <Table dataSource={data} columns={columns} pagination={{ pageSize: [5] }} rowKey="id_azur_cene"></Table>
+        <Table dataSource={data} columns={columns} pagination={{ pageSize: [5] }} rowKey="id_azur_cene" />
         <Modal
           title="Izmeni cenu kvadrata"
           visible={isEditPriceVisible}
@@ -343,7 +350,7 @@ function ApartmentsPriceReview() {
           />
         </Modal>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          {loaderPage && <Spin tip="Loading page" size="large"></Spin>}
+          {loaderPage && <Spin tip="Loading page" size="large" />}
         </div>
       </div>
     </>
