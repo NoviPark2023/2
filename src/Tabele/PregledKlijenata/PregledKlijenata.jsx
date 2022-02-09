@@ -254,7 +254,7 @@ function ClientsReview() {
         </Button>
       </div>
 
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: [6] }} rowKey="id_kupca"></Table>
+      <Table columns={columns} dataSource={data} pagination={{ pageSize: [6] }} rowKey="id_kupca" />
 
       <Modal title="Izmeni klijenta" visible={editClient} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <Klijenta edit propsklijenta={client} getData={getData} closeModal={() => showModal(false)} />
@@ -270,7 +270,7 @@ function ClientsReview() {
         <Klijenta propsklijenta={client} getData={getData} closeModal={() => setCreateClient(false)} />
       </Modal>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        {loaderPage && <Spin tip="Loading page" size="large"></Spin>}
+        {loaderPage && <Spin tip="Loading page" size="large" />}
       </div>
     </div>
   );

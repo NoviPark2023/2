@@ -6,12 +6,6 @@ import Klijenta from 'Modal/Klijenta/Klijenta';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 
-const PAYMENT_TYPE_LABELS = {
-  ceo_iznos: 'CEO IZNOS',
-  kredit: 'KREDIT',
-  na_rate: 'NA RATE',
-  ucesce: 'UCESCE',
-};
 
 const ClientOffersReview = props => {
   const [isClientVisible, setIsClientVisible] = useState(false);
@@ -170,7 +164,7 @@ const ClientOffersReview = props => {
       title: 'Nacin plaćanja',
       align: 'center',
       dataIndex: 'nacin_placanja',
-      render: (text, record) => <span>{PAYMENT_TYPE_LABELS[record.nacin_placanja]}</span>,
+      render: (text, record) => <span>{record.nacin_placanja}</span>,
       filters: [
         {
           text: 'CEO IZNOS',

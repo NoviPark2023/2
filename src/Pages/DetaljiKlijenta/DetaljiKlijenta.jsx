@@ -113,7 +113,7 @@ function DetaljiKlijenta(props) {
             <Klijenta getData={onUpdate} edit propsklijenta={data} closeModal={() => setEditModal(false)} />
           </Modal>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            {loaderPage && <Spin tip="Loading page" size="large"></Spin>}
+            {loaderPage && <Spin tip="Loading page" size="large" />}
           </div>
         </div>
         <div>
