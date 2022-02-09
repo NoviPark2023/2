@@ -207,7 +207,7 @@ function ChangeOffers(propsponuda) {
             <Option value="Ceo iznos">Ceo iznos</Option>
             <Option value="Kredit">Kredit</Option>
             <Option value="Na rate">Na rate</Option>
-            <Option value="Ucesce ">Učesće</Option>
+            <Option value="Ucesce">Učesće</Option>
           </Select>
         </FormItem>
         <FormItem

@@ -167,20 +167,20 @@ const ClientOffersReview = props => {
       render: (text, record) => <span>{record.nacin_placanja}</span>,
       filters: [
         {
-          text: 'CEO IZNOS',
-          value: 'CEO IZNOS',
+          text: 'Ceo iznos',
+          value: 'Ceo iznos',
         },
         {
-          text: 'KREDIT',
-          value: 'KREDIT',
+          text: 'Kredit',
+          value: 'Kredit',
         },
         {
-          text: 'NA RATE',
-          value: 'NA RATE',
+          text: 'Na rate',
+          value: 'Na rate',
         },
         {
-          text: 'UCESCE',
-          value: 'UCESCE',
+          text: 'Ucešće',
+          value: 'Ucesce',
         },
       ],
       onFilter: (value, record) => record.nacin_placanja.indexOf(value) === 0,

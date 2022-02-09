@@ -205,7 +205,6 @@ const OffersReview = () => {
       title: 'Način plaćanja',
       align: 'center',
       dataIndex: 'nacin_placanja',
-      // render: (text, record) => <span>{PAYMENT_TYPE_LABELS[record.nacin_placanja]}</span>,
       render: (text, record) => <span>{record.nacin_placanja}</span>,
       filters: [
         {
