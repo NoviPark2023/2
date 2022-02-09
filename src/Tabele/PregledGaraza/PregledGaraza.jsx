@@ -204,6 +204,33 @@ function PregledGaraza() {
     },
     {
       key: '7',
+      title: 'Nacin plaćanja',
+      align: 'center',
+      dataIndex: 'nacin_placanja_garaze',
+      render: (text, record) => <span>{record.nacin_placanja_garaze}</span>,
+      filters: [
+        {
+          text: 'Ceo iznos',
+          value: 'Ceo iznos',
+        },
+        {
+          text: 'Kredit',
+          value: 'Kredit',
+        },
+        {
+          text: 'Na rate',
+          value: 'Na rate',
+        },
+        {
+          text: 'Ucešće',
+          value: 'Ucesce',
+        },
+      ],
+      onFilter: (value, record) => record.nacin_placanja_garaze.indexOf(value) === 0,
+    },
+
+    {
+      key: '8',
       title: 'Ugovor',
       align: 'center',
       render: (text, record) => (
@@ -220,7 +247,7 @@ function PregledGaraza() {
       ),
     },
     {
-      key: '7',
+      key: '9',
       title: 'Izmeni',
       align: 'center',
       render: (text, record) => (
@@ -238,7 +265,7 @@ function PregledGaraza() {
       ),
     },
     {
-      key: '8',
+      key: '10',
       title: 'Obriši',
       align: 'center',
       render: (text, record) => (

@@ -223,11 +223,11 @@ function ChangeApartments(propsstan) {
           rules={[
             {
               required: false,
-              // message: 'Izmenite rucno cenu stana!',
             },
           ]}
         >
           <Checkbox
+            value={form.getFieldsValue().unesena_mauelna_cena_stana}
             onChange={value => {
               form.setFieldsValue({
                 unesena_mauelna_cena_stana: value.target.checked,
