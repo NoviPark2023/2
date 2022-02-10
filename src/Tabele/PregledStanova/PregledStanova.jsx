@@ -370,7 +370,7 @@ function ApartmentsReview() {
           value: [150000, 200000],
         },
         {
-          text: 'rucno',
+          text: 'Rucno',
           value: ['rucno'],
         },
       ],
@@ -383,33 +383,8 @@ function ApartmentsReview() {
       },
       sorter: (a, b) => a.cena_stana - b.cena_stana,
     },
-    // {
-    //   key: '10',
-    //   title: 'Izmena cene',
-    //   align: 'center',
-    //   dataIndex: 'unesena_mauelna_cena_stana',
-    //   onFilter: (value, record) => record.unesena_mauelna_cena_stana.indexOf(value) === 0,
-    //   filters: [
-    //     {
-    //       text: 'Rucno',
-    //       value: 'Rucno',
-    //     },
-    //     {
-    //       text: 'Automatski',
-    //       value: 'Automatski',
-    //     },
-    //   ],
-    //   render: (text, record) => (
-    //     <Input
-    //       checked={record.value === true}
-    //       disabled="false"
-    //       type="checkbox"
-    //       style={{ width: '20px', height: '20px', marginLeft: '30px' }}
-    //     ></Input>
-    //   ),
-    // },
     {
-      key: '11',
+      key: '10',
       title: 'Status',
       align: 'center',
       dataIndex: 'status_prodaje',
@@ -445,7 +420,7 @@ function ApartmentsReview() {
       onFilter: (value, record) => record.status_prodaje.indexOf(value) === 0,
     },
     {
-      key: '12',
+      key: '11',
       title: 'Ponude',
       align: 'center',
       render: (text, record) => (
@@ -462,7 +437,7 @@ function ApartmentsReview() {
       ),
     },
     {
-      key: '13',
+      key: '12',
       title: 'Detalji',
       align: 'center',
       render: (text, record) => (
@@ -479,7 +454,7 @@ function ApartmentsReview() {
       ),
     },
     {
-      key: '14',
+      key: '13',
       title: 'Izmeni',
       align: 'center',
       render: (text, record) => (
@@ -498,7 +473,7 @@ function ApartmentsReview() {
       ),
     },
     {
-      key: '15',
+      key: '14',
       title: 'Obriši',
       align: 'center',
       render: (text, record) => (
@@ -539,7 +514,13 @@ function ApartmentsReview() {
         </Button>
       </div>
 
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: [5] }} rowKey="id_stana"></Table>
+      <Table
+        rowClassName={record => (record.unesena_mauelna_cena_stana ? 'active-row' : '')}
+        columns={columns}
+        dataSource={data}
+        pagination={{ pageSize: [5] }}
+        rowKey="id_stana"
+      ></Table>
       <Modal
         title="Izmeni podatke stana"
         visible={isEditPlaceVisible}

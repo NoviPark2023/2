@@ -19,7 +19,7 @@ function Local(propslokala) {
         broj_prostorija: propslokala.propslokala.broj_prostorija,
         orijentisanost_lokala: propslokala.propslokala.orijentisanost_lokala,
         cena_lokala: propslokala.propslokala.cena_lokala,
-        status_prodaje_lokala: propslokala.propslokala.status_prodaje_lokala,
+        // status_prodaje_lokala: propslokala.propslokala.status_prodaje_lokala,
       });
     }
   }, [propslokala]);
@@ -177,7 +177,7 @@ function Local(propslokala) {
           <Input size="default" placeholder="Cena lokala" />
         </FormItem>
 
-        <FormItem
+        {/* <FormItem
           label="Status"
           name="status_prodaje_lokala"
           rules={[
@@ -192,7 +192,7 @@ function Local(propslokala) {
             <Option value="rezervisan">Rezervisan</Option>
             <Option value="prodat">Prodat</Option>
           </Select>
-        </FormItem>
+        </FormItem> */}
         <Form.Item>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button type="primary" htmlType="submit">

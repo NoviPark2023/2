@@ -181,7 +181,7 @@ function PregledPonudaLokala() {
     },
     {
       key: '8',
-      title: 'Datum ugovora',
+      title: 'Datum',
       align: 'center',
       dataIndex: 'datum_ugovora_lokala',
       ...getColumnSearchProps('datum_ugovora_lokala'),
@@ -255,7 +255,7 @@ function PregledPonudaLokala() {
       render: (text, record) => (
         <>
           <Button
-            disabled={record.status_ponude === 'potencijalan'}
+            disabled={record.status_ponude_lokala === 'potencijalan'}
             onClick={() => {
               //   Contract(record.id_ponude);
             }}

@@ -6,7 +6,6 @@ import Klijenta from 'Modal/Klijenta/Klijenta';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 
-
 const ClientOffersReview = props => {
   const [isClientVisible, setIsClientVisible] = useState(false);
   const [selectedBuyer] = useState(null);
@@ -154,7 +153,7 @@ const ClientOffersReview = props => {
     },
     {
       key: '6',
-      title: 'Datum ugovora',
+      title: 'Datum',
       align: 'center',
       dataIndex: 'datum_ugovora',
       ...getColumnSearchProps('datum_ugovora'),

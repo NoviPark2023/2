@@ -195,7 +195,7 @@ const OffersReview = () => {
     },
     {
       key: '8',
-      title: 'Datum ugovora',
+      title: 'Datum',
       align: 'center',
       dataIndex: 'datum_ugovora',
       ...getColumnSearchProps('datum_ugovora'),

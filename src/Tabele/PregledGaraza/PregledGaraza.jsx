@@ -6,11 +6,14 @@ import Garaze from 'Modal/Garaze/Garaze';
 import { api } from 'api/api';
 import 'antd/dist/antd.css';
 import { Spin } from 'antd';
+import { authService } from 'auth/auth.service';
 
 function PregledGaraza() {
   const [client, setClient] = useState('');
   const [editClient, setEditClient] = useState(false);
   const [createClient, setCreateClient] = useState(false);
+
+  const activeRole = authService.getRole();
 
   ///loader
   const [loaderPage, setLoaderPage] = useState(false);
@@ -197,7 +200,7 @@ function PregledGaraza() {
     },
     {
       key: '6',
-      title: 'Datum ugovora',
+      title: 'Datum',
       align: 'center',
       dataIndex: 'datum_ugovora_garaze',
       ...getColumnSearchProps('datum_ugovora'),
@@ -271,6 +274,7 @@ function PregledGaraza() {
       render: (text, record) => (
         <>
           <Popconfirm
+            disabled={activeRole === 'Prodavac'}
             title="Da li ste sigurni da želite da izbrišete garažu?"
             placement="left"
             onCancel={handleCancel}
@@ -278,7 +282,9 @@ function PregledGaraza() {
             okText="DA"
             onConfirm={() => deleteGarage(record.id_garaze)}
           >
-            <Button type="danger">Obriši</Button>
+            <Button disabled={activeRole === 'Prodavac'} type="danger">
+              Obriši
+            </Button>
           </Popconfirm>
         </>
       ),
