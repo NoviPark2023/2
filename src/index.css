@@ -21,3 +21,6 @@ div.ant-row {
 li.ant-pagination-options {
   display: none;
 }
+.active-row {
+  background-color: #d7e2ed;
+}

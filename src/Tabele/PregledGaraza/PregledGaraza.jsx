@@ -6,11 +6,14 @@ import Garaze from 'Modal/Garaze/Garaze';
 import { api } from 'api/api';
 import 'antd/dist/antd.css';
 import { Spin } from 'antd';
+import { authService } from 'auth/auth.service';
 
 function PregledGaraza() {
   const [client, setClient] = useState('');
   const [editClient, setEditClient] = useState(false);
   const [createClient, setCreateClient] = useState(false);
+
+  const activeRole = authService.getRole();
 
   ///loader
   const [loaderPage, setLoaderPage] = useState(false);
@@ -197,13 +200,40 @@ function PregledGaraza() {
     },
     {
       key: '6',
-      title: 'Datum ugovora',
+      title: 'Datum',
       align: 'center',
       dataIndex: 'datum_ugovora_garaze',
       ...getColumnSearchProps('datum_ugovora'),
     },
     {
       key: '7',
+      title: 'Nacin plaćanja',
+      align: 'center',
+      dataIndex: 'nacin_placanja_garaze',
+      render: (text, record) => <span>{record.nacin_placanja_garaze}</span>,
+      filters: [
+        {
+          text: 'Ceo iznos',
+          value: 'Ceo iznos',
+        },
+        {
+          text: 'Kredit',
+          value: 'Kredit',
+        },
+        {
+          text: 'Na rate',
+          value: 'Na rate',
+        },
+        {
+          text: 'Ucešće',
+          value: 'Ucesce',
+        },
+      ],
+      onFilter: (value, record) => record.nacin_placanja_garaze.indexOf(value) === 0,
+    },
+
+    {
+      key: '8',
       title: 'Ugovor',
       align: 'center',
       render: (text, record) => (
@@ -220,7 +250,7 @@ function PregledGaraza() {
       ),
     },
     {
-      key: '7',
+      key: '9',
       title: 'Izmeni',
       align: 'center',
       render: (text, record) => (
@@ -238,12 +268,13 @@ function PregledGaraza() {
       ),
     },
     {
-      key: '8',
+      key: '10',
       title: 'Obriši',
       align: 'center',
       render: (text, record) => (
         <>
           <Popconfirm
+            disabled={activeRole === 'Prodavac'}
             title="Da li ste sigurni da želite da izbrišete garažu?"
             placement="left"
             onCancel={handleCancel}
@@ -251,7 +282,9 @@ function PregledGaraza() {
             okText="DA"
             onConfirm={() => deleteGarage(record.id_garaze)}
           >
-            <Button type="danger">Obriši</Button>
+            <Button disabled={activeRole === 'Prodavac'} type="danger">
+              Obriši
+            </Button>
           </Popconfirm>
         </>
       ),

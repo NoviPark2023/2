@@ -44,6 +44,7 @@ function Garages(propsgaraze) {
         napomena_garaze: garaza.napomena_garaze,
         status_prodaje_garaze: garaza.status_prodaje_garaze,
         datum_ugovora_garaze: garaza.datum_ugovora_garaze,
+        nacin_placanja_garaze: garaza.nacin_placanja_garaze,
       });
 
       getSelectedClient(propsgaraze.propsgaraze.kupac);
@@ -201,6 +202,23 @@ function Garages(propsgaraze) {
               format={'DD.MM.YYYY'}
             />
           </Space>
+        </FormItem>
+        <FormItem
+          label="Nacin placanja"
+          name="nacin_placanja_garaze"
+          rules={[
+            {
+              required: true,
+              message: 'Izaberite nacin placanja!',
+            },
+          ]}
+        >
+          <Select value={form.getFieldsValue().nacin_placanja_garaze} style={{ width: 120 }}>
+            <Option value="Ceo iznos">Ceo iznos</Option>
+            <Option value="Kredit">Kredit</Option>
+            <Option value="Na rate">Na rate</Option>
+            <Option value="Ucesce">Ucesce</Option>
+          </Select>
         </FormItem>
 
         <Form.Item>

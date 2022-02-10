@@ -163,7 +163,7 @@ function PonudaLokala(propsponudalokala) {
           name="datum_ugovora_lokala"
           rules={[
             {
-              required: false,
+              required: true,
               message: ' Unesite datum!',
             },
           ]}

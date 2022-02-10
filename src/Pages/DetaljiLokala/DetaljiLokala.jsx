@@ -4,7 +4,7 @@ import { Card, Descriptions, Button, Modal } from 'antd';
 import { api } from 'api/api';
 import styles from './DetaljiLokala.module.css';
 import 'antd/dist/antd.css';
-// import Grafikon from 'components/Grafikoni/Grafikon';
+import GrafikonLokali from 'components/GrafikonLokali/GrafikonLokali';
 import { useParams } from 'react-router-dom';
 import { authService } from 'auth/auth.service';
 import NotFound from 'Pages/NotFound/NotFound';
@@ -104,8 +104,7 @@ function DetailsLocal() {
             <Lokali getData={onUpdate} edit propslokala={data} closeModal={() => setEditModal(false)} />
           </Modal>
           <Card className={styles.textLabel} style={{ width: '50%', margin: '15px' }}>
-            {/* <Grafikon propsstan={data} /> */}
-            <p style={{ fontSize: '50px', textAlign: 'center' }}>DEKI JE CAR NAJVECI</p>
+            <GrafikonLokali propslokala={data} />
           </Card>
         </div>
       </>

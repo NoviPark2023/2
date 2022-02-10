@@ -148,29 +148,29 @@ function ApartmentsReview() {
     {
       key: '1',
       title: 'ID',
-      align: 'center',
       dataIndex: 'id_stana',
+      align: 'center',
       ...getColumnSearchProps('id_stana'),
     },
     {
       key: '2',
       title: 'Lamela',
-      align: 'center',
       dataIndex: 'lamela',
+      align: 'center',
       ...getColumnSearchProps('lamela'), /////pozivanje search-a u tabeli
     },
     {
       key: '3',
       title: 'Adresa',
-      align: 'center',
       dataIndex: 'adresa_stana',
+      align: 'center',
       ...getColumnSearchProps('adresa_stana'),
     },
     {
       key: '4',
       title: 'Kvadratura',
-      align: 'center',
       dataIndex: 'kvadratura',
+      align: 'center',
       filters: [
         {
           text: '10-30',
@@ -207,8 +207,8 @@ function ApartmentsReview() {
     {
       key: '5',
       title: 'Sprat',
-      align: 'center',
       dataIndex: 'sprat',
+      align: 'center',
       filters: [
         {
           text: '1',
@@ -249,8 +249,8 @@ function ApartmentsReview() {
     {
       key: '6',
       title: 'Broj soba',
-      align: 'center',
       dataIndex: 'broj_soba',
+      align: 'center',
       filters: [
         {
           text: '1',
@@ -295,8 +295,8 @@ function ApartmentsReview() {
     {
       key: '7',
       title: 'Orijentisanost',
-      align: 'center',
       dataIndex: 'orijentisanost',
+      align: 'center',
       filters: [
         {
           text: 'Sever',
@@ -312,8 +312,8 @@ function ApartmentsReview() {
     {
       key: '8',
       title: 'Broj terasa',
-      align: 'center',
       dataIndex: 'broj_terasa',
+      align: 'center',
       filters: [
         {
           text: '0',
@@ -338,7 +338,7 @@ function ApartmentsReview() {
     {
       key: '9',
       title: 'Cena',
-      align: 'center',
+      backgroundColor: 'red',
       dataIndex: 'cena_stana',
       filters: [
         {
@@ -369,37 +369,22 @@ function ApartmentsReview() {
           text: '150000-200000',
           value: [150000, 200000],
         },
+        {
+          text: 'Rucno',
+          value: ['rucno'],
+        },
       ],
-      onFilter: (value, record) => record.cena_stana >= value[0] && record.cena_stana <= value[1],
+      onFilter: (value, record) => {
+        if (value[0] !== 'rucno') {
+          return record.cena_stana >= value[0] && record.cena_stana <= value[1];
+        } else {
+          return record.unesena_mauelna_cena_stana;
+        }
+      },
       sorter: (a, b) => a.cena_stana - b.cena_stana,
     },
     {
       key: '10',
-      title: 'Rucna izmena cena',
-      align: 'center',
-      dataIndex: 'unesena_mauelna_cena_stana',
-      filters: [
-        {
-          text: 'DA',
-          value: 'true',
-        },
-        {
-          text: 'NE',
-          value: 'false',
-        },
-      ],
-      onFilter: (value, record) => record.unesena_mauelna_cena_stana.indexOf(value) === 0,
-      render: (text, record) => (
-        <Input
-          checked={record.value === true}
-          disabled="false"
-          type="checkbox"
-          style={{ width: '20px', height: '20px', marginLeft: '30px' }}
-        ></Input>
-      ),
-    },
-    {
-      key: '11',
       title: 'Status',
       align: 'center',
       dataIndex: 'status_prodaje',
@@ -435,7 +420,7 @@ function ApartmentsReview() {
       onFilter: (value, record) => record.status_prodaje.indexOf(value) === 0,
     },
     {
-      key: '12',
+      key: '11',
       title: 'Ponude',
       align: 'center',
       render: (text, record) => (
@@ -452,7 +437,7 @@ function ApartmentsReview() {
       ),
     },
     {
-      key: '13',
+      key: '12',
       title: 'Detalji',
       align: 'center',
       render: (text, record) => (
@@ -469,7 +454,7 @@ function ApartmentsReview() {
       ),
     },
     {
-      key: '14',
+      key: '13',
       title: 'Izmeni',
       align: 'center',
       render: (text, record) => (
@@ -488,8 +473,9 @@ function ApartmentsReview() {
       ),
     },
     {
-      key: '15',
+      key: '14',
       title: 'Obriši',
+      align: 'center',
       render: (text, record) => (
         <>
           <Popconfirm
@@ -528,7 +514,13 @@ function ApartmentsReview() {
         </Button>
       </div>
 
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: [5] }} rowKey="id_stana"></Table>
+      <Table
+        rowClassName={record => (record.unesena_mauelna_cena_stana ? 'active-row' : '')}
+        columns={columns}
+        dataSource={data}
+        pagination={{ pageSize: [5] }}
+        rowKey="id_stana"
+      ></Table>
       <Modal
         title="Izmeni podatke stana"
         visible={isEditPlaceVisible}

@@ -25,6 +25,9 @@ function ChangeApartments(propsstan) {
         cena_stana: propsstan.propsstan.cena_stana,
         unesena_mauelna_cena_stana: propsstan.propsstan.unesena_mauelna_cena_stana,
       });
+      if (propsstan.propsstan.unesena_mauelna_cena_stana) {
+        setPrice(true);
+      } else setPrice(false);
     }
   }, [propsstan]);
 
@@ -220,14 +223,15 @@ function ChangeApartments(propsstan) {
         <FormItem
           label="Manuelna izmena cene stana"
           name="unesena_mauelna_cena_stana"
+          valuePropName="checked"
           rules={[
             {
               required: false,
-              // message: 'Izmenite rucno cenu stana!',
             },
           ]}
         >
           <Checkbox
+            checked={form.getFieldsValue().unesena_mauelna_cena_stana}
             onChange={value => {
               form.setFieldsValue({
                 unesena_mauelna_cena_stana: value.target.checked,
