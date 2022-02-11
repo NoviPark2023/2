@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import { Input, Button, Form, Select, AutoComplete, DatePicker, Space, message } from 'antd';
+import {Input, Button, Form, Select, AutoComplete, DatePicker, Space, message, Tag} from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { Option } from 'antd/lib/mentions';
 import 'antd/dist/antd.css';
@@ -183,17 +183,23 @@ function Garages(propsgaraze) {
         </FormItem>
 
         <FormItem
-          label="Datum ugovora"
+          label="Datum"
           name="datum_ugovora_garaze"
           rules={[
             {
-              required: false,
+              required: true,
               message: ' Unesite datum!',
             },
           ]}
         >
+          <p>
+            <Tag color={'green'} style={{ width: '50%', textAlign: 'center' }}>
+              Trenutno unešen datum: <b>{ form.getFieldsValue().datum_ugovora_garaze}</b>
+            </Tag>
+          </p>
           <Space direction="vertical" size={12}>
-            {form.getFieldsValue().datum_ugovora_garaze}
+
+
             <DatePicker
               // defaultValue={moment(form.getFieldsValue().datum_ugovora)}
               onChange={(val, newDate) => {
@@ -204,12 +210,12 @@ function Garages(propsgaraze) {
           </Space>
         </FormItem>
         <FormItem
-          label="Nacin placanja"
+          label="Način plaćanja"
           name="nacin_placanja_garaze"
           rules={[
             {
               required: true,
-              message: 'Izaberite nacin placanja!',
+              message: 'Izaberite način plaćanja!',
             },
           ]}
         >

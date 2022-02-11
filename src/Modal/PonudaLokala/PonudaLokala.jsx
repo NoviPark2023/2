@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Button, Form, Select, AutoComplete, DatePicker, Space, message } from 'antd';
+import {Input, Button, Form, Select, AutoComplete, DatePicker, Space, message, Tag} from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { Option } from 'antd/lib/mentions';
 import { api } from 'api/api';
@@ -159,7 +159,7 @@ function PonudaLokala(propsponudalokala) {
           <Input id="broj_ugovora_lokala" size="default" placeholder="broj ugovora lokala" />
         </FormItem>
         <FormItem
-          label="Datum ugovora"
+          label="Datum"
           name="datum_ugovora_lokala"
           rules={[
             {
@@ -168,8 +168,12 @@ function PonudaLokala(propsponudalokala) {
             },
           ]}
         >
+           <p>
+            <Tag color={'green'} style={{ width: '50%', textAlign: 'center' }}>
+              Trenutno unešen datum: <b>{form.getFieldsValue().datum_ugovora_lokala}</b>
+            </Tag>
+          </p>
           <Space direction="vertical" size={12}>
-            {form.getFieldsValue().datum_ugovora_lokala}
             <DatePicker
               // defaultValue={moment(form.getFieldsValue().datum_ugovora)}
               onChange={(val, newDate) => {

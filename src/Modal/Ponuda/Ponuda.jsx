@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import { Input, Button, Form, Select, AutoComplete, DatePicker, Space, message } from 'antd';
+import {Input, Button, Form, Select, AutoComplete, DatePicker, Space, message, Tag} from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { UserOutlined } from '@ant-design/icons';
 import { Option } from 'antd/lib/mentions';
@@ -160,7 +160,7 @@ function ChangeOffers(propsponuda) {
           <Input id="broj_ugovora" size="default" placeholder="broj ugovora" prefix={<UserOutlined />} />
         </FormItem>
         <FormItem
-          label="Datum ugovora"
+          label="Datum"
           name="datum_ugovora"
           rules={[
             {
@@ -169,8 +169,12 @@ function ChangeOffers(propsponuda) {
             },
           ]}
         >
+          <p>
+            <Tag color={'green'} style={{width: '50%', textAlign: 'center'}}>
+              Trenutno unešen datum: <b>{form.getFieldsValue().datum_ugovora}</b>
+            </Tag>
+          </p>
           <Space direction="vertical" size={12}>
-            {form.getFieldsValue().datum_ugovora}
             <DatePicker
               // defaultValue={moment(form.getFieldsValue().datum_ugovora)}
               onChange={(val, newDate) => {

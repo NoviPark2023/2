@@ -238,7 +238,7 @@ function ChangeApartments(propsstan) {
               });
               setPrice(value.target.checked);
             }}
-          ></Checkbox>
+          />
         </FormItem>
         <Form.Item>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
