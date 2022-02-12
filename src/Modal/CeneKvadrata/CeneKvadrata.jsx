@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { Input, Button, Form, Select } from 'antd';
+import {Input, Button, Form, Select, message} from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { api } from 'api/api';
 import { Option } from 'antd/lib/mentions';
@@ -46,11 +46,19 @@ function ChanngePricePerSquare(propscenakvadrata) {
         succses();
         sucsessMessages('uspesno');
       })
-      .catch(e => {
-        errorMessages('greska');
+      .catch(error => {
+        if (error.data.detail) {
+          message.error({
+            content: 'Ažuriranje cena za ovu konfiguraciju stana ne postoji u sistemu !',
+            className: 'custom-class',
+            style: {
+              marginTop: '0vh',
+              fontSize: 20,
+            },
+          });
+        }
       });
   };
-
   const editPricePerSquare = (id_azur_cene, values) => {
     const endpoint = `/stanovi/promeni-cenu-kvadrata/${id_azur_cene}`;
     api

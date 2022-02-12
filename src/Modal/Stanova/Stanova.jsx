@@ -78,6 +78,16 @@ function ChangeApartments(propsstan) {
             },
           });
         }
+        if (error.data.detail) {
+          message.error({
+            content: 'Ažuriranje cena za ovu konfiguraciju stana ne postoji u sistemu !',
+            className: 'custom-class',
+            style: {
+              marginTop: '0vh',
+              fontSize: 20,
+            },
+          });
+        }
       });
   };
 
