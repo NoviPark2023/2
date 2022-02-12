@@ -124,9 +124,9 @@ const ClientOffersReview = props => {
 
     {
       key: '2',
-      title: ' Adresa stana',
+      title: 'Lamela stana',
       align: 'center',
-      dataIndex: 'adresa_stana',
+      dataIndex: 'lamela_stana',
       ...getColumnSearchProps('adresa_stana'),
     },
     {
