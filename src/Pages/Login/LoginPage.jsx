@@ -49,7 +49,7 @@ function LoginPage() {
   return (
     <div className={style.loginPage}>
       <div className={style.logo}>
-        <img src={logo} alt="Logo"></img>
+        <img src={logo} alt="Logo" />
       </div>
       <Form
         form={form}

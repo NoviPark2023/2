@@ -373,6 +373,7 @@ function RoiReports() {
           </Card>
         </Col>
       </Row>
+      <Divider/>
     </Scroll>
   );
 }
