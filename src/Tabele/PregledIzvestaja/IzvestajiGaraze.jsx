@@ -238,11 +238,11 @@ function ReportsGaraze() {
                                         data={data_garaze_brojevi}
                                         dataKey="value"
                                         cx={320}
-                                        cy={220}
+                                        cy={270}
                                         startAngle={180}
                                         endAngle={0}
-                                        innerRadius={80}
-                                        outerRadius={130}
+                                        innerRadius={120}
+                                        outerRadius={200}
                                         fill="#8884d8"
                                         label
                                     >
