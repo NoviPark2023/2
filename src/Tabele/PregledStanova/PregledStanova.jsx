@@ -427,9 +427,9 @@ function ApartmentsReview() {
         <Link to={`/ponude?id=${record.id_stana}`}>
           <Button
             style={{ color: '#092b00', border: '1px solid green' }}
-            onClick={() => {
-              getListOffers(record.id_stana);
-            }}
+            // onClick={() => {
+            //   getListOffers(record.id_stana);
+            // }}
           >
             Ponude
           </Button>
@@ -444,9 +444,9 @@ function ApartmentsReview() {
         <Link to={`/stanovi/${record.id_stana}`}>
           <Button
             style={{ color: 'blue', border: '1px solid black' }}
-            onClick={() => {
-              getListOffers(record.id_stana);
-            }}
+            // onClick={() => {
+            //   getListOffers(record.id_stana);
+            // }}
           >
             Detalji
           </Button>

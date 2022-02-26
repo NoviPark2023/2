@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import {Input, Button, Form, Select, AutoComplete, DatePicker, Space, message, Tag} from 'antd';
+import { Input, Button, Form, Select, AutoComplete, DatePicker, Space, message, Tag } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { Option } from 'antd/lib/mentions';
 import 'antd/dist/antd.css';
 import { api } from 'api/api';
 import { toast } from 'react-toastify';
+import { Spin } from 'antd';
 
 function Garages(propsgaraze) {
   const [form] = Form.useForm();
@@ -13,6 +14,9 @@ function Garages(propsgaraze) {
   const [clientOptions, setClientOptions] = useState([]); // list of formatted clients
   const [clientName, setClientName] = useState(''); // current selected client name
   const [clientId, setClientId] = useState(null); // current selected client id
+
+  ///loader
+  const [loaderPage, setLoaderPage] = useState(false);
 
   const onClientSelect = selected => {
     const option = clientOptions.find(option => option.value === selected);
@@ -70,6 +74,7 @@ function Garages(propsgaraze) {
   }, [clientName]);
 
   const updateGarages = () => {
+    setLoaderPage(true);
     const endpoint = propsgaraze.edit
       ? `/garaze/izmeni-garazu/${propsgaraze.propsgaraze.id_garaze}/`
       : '/garaze/kreiraj-garazu/';
@@ -94,20 +99,28 @@ function Garages(propsgaraze) {
       .catch(error => {
         if (error.data) {
           message.error({
-            content: 'Garaza sa ovim brojem vec postoji u sistemu !',
+            // content: 'Garaza sa ovim brojem vec postoji u sistemu !',
             className: 'custom-class',
             style: { fontSize: 20, marginTop: '0vh' },
           });
         }
       })
       .finally(() => {
-        propsgaraze.getData();
+        setLoaderPage(false);
       });
+  };
+  const onFinish = values => {
+    updateGarages(values);
+    propsgaraze.getData();
+  };
+
+  const onFinishFailed = errorInfo => {
+    console.log('Failed:', errorInfo);
   };
 
   return (
     <div>
-      <Form autoComplete="off" layout="vertical" form={form}>
+      <Form autoComplete="off" layout="vertical" form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
         <FormItem
           label="Broj garaže"
           name="jedinstveni_broj_garaze"
@@ -194,12 +207,10 @@ function Garages(propsgaraze) {
         >
           <p>
             <Tag color={'green'} style={{ width: '50%', textAlign: 'center' }}>
-              Trenutno unešen datum: <b>{ form.getFieldsValue().datum_ugovora_garaze}</b>
+              Trenutno unešen datum: <b>{form.getFieldsValue().datum_ugovora_garaze}</b>
             </Tag>
           </p>
           <Space direction="vertical" size={12}>
-
-
             <DatePicker
               // defaultValue={moment(form.getFieldsValue().datum_ugovora)}
               onChange={(val, newDate) => {
@@ -237,6 +248,9 @@ function Garages(propsgaraze) {
             </Button>
           </div>
         </Form.Item>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {loaderPage && <Spin tip="Loading page" size="large"></Spin>}
+        </div>
       </Form>
     </div>
   );

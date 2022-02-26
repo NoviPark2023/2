@@ -61,6 +61,16 @@ function PregledPonudaLokala() {
     setIsModalVisible(false);
   };
 
+  ////ugovor
+  const Contract = id_ponude_lokala => {
+    api.get(`/ponude-lokali/preuzmi-ugovor-lokala/${id_ponude_lokala}/`).then(res => {
+      const link = document.createElement('a');
+      link.href = res.data;
+      link.download = 'Ugovor';
+      link.click();
+    });
+  };
+
   ////hooks za search u tabeli
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
@@ -257,7 +267,7 @@ function PregledPonudaLokala() {
           <Button
             disabled={record.status_ponude_lokala === 'potencijalan'}
             onClick={() => {
-              //   Contract(record.id_ponude);
+              Contract(record.id_ponude_lokala);
             }}
           >
             Ugovor

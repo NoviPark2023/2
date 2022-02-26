@@ -124,10 +124,10 @@ const ClientOffersReview = props => {
 
     {
       key: '2',
-      title: ' Adresa stana',
+      title: ' Lamela stana',
       align: 'center',
-      dataIndex: 'adresa_stana',
-      ...getColumnSearchProps('adresa_stana'),
+      dataIndex: 'lamela_stana',
+      ...getColumnSearchProps('lamela_stana'),
     },
     {
       key: '3',
@@ -280,7 +280,7 @@ const ClientOffersReview = props => {
 
   return (
     <div>
-      <Table columns={columns} dataSource={props.tableItems} pagination={{ pageSize: [5] }} />
+      <Table columns={columns} dataSource={props.tableItems} pagination={{ pageSize: [5] }} rowKey="id_ponude" />
 
       <Modal
         title="Pregled Klijenta"

@@ -51,12 +51,12 @@ function ClientsReview() {
     });
   };
 
-  ////Api Lista Korisnika
-  const getDetailClient = id_kupca => {
-    api.get(`/kupci/detalji-kupca/${id_kupca}/`).then(res => {
-      getData();
-    });
-  };
+  // ////Api Lista Korisnika
+  // const getDetailClient = id_kupca => {
+  //   api.get(`/kupci/detalji-kupca/${id_kupca}/`).then(res => {
+  //     getData();
+  //   });
+  // };
 
   ////hooks za search u tabeli
   const [searchText, setSearchText] = useState('');
@@ -191,7 +191,8 @@ function ClientsReview() {
       key: '9',
       render: (text, record) => (
         <Link to={`/klijenti/${record.id_kupca}`}>
-          <Button style={{ color: 'blue', border: '1px solid black' }} onClick={() => getDetailClient(record.id_kupca)}>
+          <Button style={{ color: 'blue', border: '1px solid black' }}>
+            {/* onClick={() => getDetailClient(record.id_kupca)} */}
             Detalji
           </Button>
         </Link>

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import {Input, Button, Form, Select, AutoComplete, DatePicker, Space, message, Tag} from 'antd';
+import { Input, Button, Form, Select, AutoComplete, DatePicker, Space, message, Tag } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { UserOutlined } from '@ant-design/icons';
 import { Option } from 'antd/lib/mentions';
@@ -170,7 +170,7 @@ function ChangeOffers(propsponuda) {
           ]}
         >
           <p>
-            <Tag color={'green'} style={{width: '50%', textAlign: 'center'}}>
+            <Tag color={'green'} style={{ width: '50%', textAlign: 'center' }}>
               Trenutno unešen datum: <b>{form.getFieldsValue().datum_ugovora}</b>
             </Tag>
           </p>
