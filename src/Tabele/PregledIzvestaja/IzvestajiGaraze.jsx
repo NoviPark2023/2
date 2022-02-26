@@ -6,7 +6,7 @@ import {Statistic} from 'antd/es';
 import {api} from 'api/api';
 import Scroll from 'components/Scroll/Scroll';
 import stanovi_izvestaji_icon from "../../assets/garaze/garaze-izvestaji.png";
-import {PieChart, Pie, Sector, Cell, ResponsiveContainer, Legend} from 'recharts';
+import {PieChart, Pie, Sector, Cell, BarChart, Legend, CartesianGrid, XAxis, YAxis, Line, Bar} from 'recharts';
 
 const {Title} = Typography;
 
@@ -31,8 +31,8 @@ function ReportsGaraze() {
         });
     };
     useEffect(() => {
-        getData();
-        getUsers();
+        getData().then(r => "");
+        getUsers().then(r => "");
     }, []);
 
     {
@@ -56,6 +56,76 @@ function ReportsGaraze() {
         {name: 'Prodatih (%)', value: data.procenat_prodatih_garaza},
 
     ];
+
+    const dataProdajaPoMesecima = data.prodaja_garaza_po_mesecima
+        ? [
+            {name: 'jan', garaze: data.prodaja_garaza_po_mesecima[0].jan},
+            {name: 'feb', garaze: data.prodaja_garaza_po_mesecima[0].feb},
+            {name: 'mart', garaze: data.prodaja_garaza_po_mesecima[0].mart},
+            {name: 'april', garaze: data.prodaja_garaza_po_mesecima[0].apr},
+            {name: 'maj', garaze: data.prodaja_garaza_po_mesecima[0].maj},
+            {name: 'jun', garaze: data.prodaja_garaza_po_mesecima[0].jun},
+            {name: 'jul', garaze: data.prodaja_garaza_po_mesecima[0].jul},
+            {name: 'avgust', garaze: data.prodaja_garaza_po_mesecima[0].avg},
+            {name: 'sep', garaze: data.prodaja_garaza_po_mesecima[0].sep},
+            {name: 'okt', garaze: data.prodaja_garaza_po_mesecima[0].okt},
+            {name: 'nov', garaze: data.prodaja_garaza_po_mesecima[0].nov},
+            {name: 'dec', garaze: data.prodaja_garaza_po_mesecima[0].dec},
+        ]
+        : [];
+
+      const dataSumaProdatoMeseci = data.ukupna_suma_prodatih_garaza
+    ? [
+        {
+          name: 'jan',
+          prihod: data.ukupna_suma_prodatih_garaza[0].jan,
+        },
+        {
+          name: 'feb',
+          prihod: data.ukupna_suma_prodatih_garaza[0].feb,
+        },
+        {
+          name: 'mart',
+          prihod: data.ukupna_suma_prodatih_garaza[0].mart,
+        },
+        {
+          name: 'april',
+          prihod: data.ukupna_suma_prodatih_garaza[0].apr,
+        },
+        {
+          name: 'maj',
+          prihod: data.ukupna_suma_prodatih_garaza[0].maj,
+        },
+        {
+          name: 'jun',
+          prihod: data.ukupna_suma_prodatih_garaza[0].jun,
+        },
+        {
+          name: 'jul',
+          prihod: data.ukupna_suma_prodatih_garaza[0].jul,
+        },
+        {
+          name: 'avg',
+          prihod: data.ukupna_suma_prodatih_garaza[0].avg,
+        },
+        {
+          name: 'sep',
+          prihod: data.ukupna_suma_prodatih_garaza[0].sep,
+        },
+        {
+          name: 'okt',
+          prihod: data.ukupna_suma_prodatih_garaza[0].okt,
+        },
+        {
+          name: 'nov',
+          prihod: data.ukupna_suma_prodatih_garaza[0].nov,
+        },
+        {
+          name: 'dec',
+          prihod: data.ukupna_suma_prodatih_garaza[0].dec,
+        },
+      ]
+    : [];
 
     return (
         <Scroll>
@@ -163,29 +233,69 @@ function ReportsGaraze() {
                                     alignItems: 'center',
                                 }}
                             >
-                                <PieChart width={400} height={400}>
+                                <PieChart width={700} height={400}>
                                     <Pie
                                         data={data_garaze_brojevi}
                                         dataKey="value"
-                                        isAnimationActive={false}
+                                        cx={320}
+                                        cy={220}
+                                        startAngle={180}
+                                        endAngle={0}
+                                        innerRadius={80}
+                                        outerRadius={130}
                                         fill="#8884d8"
-                                        label
                                     >
                                         {data_garaze_brojevi.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={COLORS_BROJEVI[index % COLORS_BROJEVI.length]}/>
+                                            <Cell key={`cell-${index}`}
+                                                  fill={COLORS_BROJEVI[index % COLORS_BROJEVI.length]}/>
                                         ))}
                                     </Pie>
                                     <Tooltip/>
-                                    <Legend />
+                                    <Legend/>
                                 </PieChart>
                             </Card>
                         </Col>
                         {/*END Pie Char Garaze BROJEVI*/}
+
+                        {/*TOK PRODAJE GARAZA PO MESECIMA*/}
+                        <Col span={24} style={{
+                            width: '100%',
+                            margin: '10px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}>
+                            <Card
+                                style={{
+                                    width: '100%',
+                                    margin: '10px',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            > <Title level={5} align="center">Broj prodatih garaža po mesecima</Title>
+
+                                <BarChart
+                                    width={800}
+                                    height={300}
+                                    data={dataProdajaPoMesecima}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3"/>
+                                    <XAxis dataKey="name"/>
+                                    <YAxis/>
+                                    <Tooltip/>
+                                    <Legend/>
+                                    <Bar dataKey="garaze" fill="#1890ff" background={{fill: "#eee"}}/>
+                                </BarChart>
+                            </Card>
+                        </Col>
+                        {/*END tok prodaje garaza po mesecima*/}
+
                     </Row>
                 </Col>
                 {/*Garaze statistika PROCENTI*/}
                 <Col span={12}>
-                    <Row gutter={24} style={{padding: '0px', marginTop: '0px', marginRight: '0px'}}>
+                    <Row gutter={24}>
                         {/*Dostupne Garaze PROCENTI*/}
                         <Col span={8}>
                             <Card
@@ -266,21 +376,54 @@ function ReportsGaraze() {
                                     <Pie
                                         data={data_garaze_procenti}
                                         dataKey="value"
-                                        isAnimationActive={false}
                                         fill="#8884d8"
-                                        label
-
                                     >
                                         {data_garaze_procenti.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={COLORS_PROCENTI[index % COLORS_PROCENTI.length]}/>
+                                            <Cell key={`cell-${index}`}
+                                                  fill={COLORS_PROCENTI[index % COLORS_PROCENTI.length]}/>
                                         ))}
                                     </Pie>
                                     <Tooltip/>
-                                    <Legend />
+                                    <Legend/>
                                 </PieChart>
                             </Card>
                         </Col>
                         {/*END Pie Char Garaze PROCENTI*/}
+
+                        {/*UKUPNA SUMA PRODAJE GARAZA PO MESECIMA*/}
+                        <Col span={24} style={{
+                            width: '100%',
+                            margin: '10px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}>
+                            <Card
+                                style={{
+                                    width: '100%',
+                                    margin: '10px',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            > <Title level={5} align="center">Ukupna suma prodaja
+                                po mesecima</Title>
+
+                                <BarChart
+                                    width={800}
+                                    height={300}
+                                    data={dataSumaProdatoMeseci}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3"/>
+                                    <XAxis dataKey="name"/>
+                                    <YAxis/>
+                                    <Tooltip/>
+                                    <Legend/>
+                                    <Bar dataKey="prihod" fill="#1890ff" background={{fill: "#eee"}}/>
+                                </BarChart>
+                            </Card>
+                        </Col>
+                        {/*END ukupna suma prodaje garaza po mesecima*/}
                     </Row>
                 </Col>
             </Row>
