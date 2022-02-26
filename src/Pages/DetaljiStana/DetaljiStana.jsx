@@ -9,6 +9,8 @@ import Grafikon from 'components/Grafikoni/Grafikon';
 import { useParams } from 'react-router-dom';
 import { authService } from 'auth/auth.service';
 import NotFound from 'Pages/NotFound/NotFound';
+import Dokumentacija from 'Tabele/Dokumentacija/Dokumentacija';
+import Scroll from 'components/Scroll/Scroll';
 
 function DetailsApartments() {
   const activeRole = authService.getRole();
@@ -69,51 +71,54 @@ function DetailsApartments() {
   if (data) {
     return (
       <>
-        <div className={styles['flat-details']}>
-          <Card
-            className={styles.textLabel}
-            title="Detalji stana"
-            extra={
-              <Button
-                disabled={activeRole === 'Prodavac'}
-                type="primary"
-                onClick={() => {
-                  setEditModal(true);
-                }}
-              >
-                Izmeni
-              </Button>
-            }
-            style={{ width: '50%', margin: '15px' }}
-          >
-            <Descriptions layout="horizontal">
-              <Descriptions.Item label="Lamela">{data.lamela}</Descriptions.Item>
-              <Descriptions.Item label="Adresa" span={4}>
-                {data.adresa_stana}
-              </Descriptions.Item>
-              <Descriptions.Item label="Broj soba">{data.broj_soba}</Descriptions.Item>
-              <Descriptions.Item label="Broj terasa">{data.broj_terasa}</Descriptions.Item>
-              <Descriptions.Item label="Cena stana">{data.cena_stana}</Descriptions.Item>
-              <Descriptions.Item label="Kvadratura">{data.kvadratura}</Descriptions.Item>
-              <Descriptions.Item label="Orijentisanost">{data.orijentisanost}</Descriptions.Item>
-              <Descriptions.Item label="Sprat">{data.sprat}</Descriptions.Item>
-              <Descriptions.Item label="Status prodaje">{data.status_prodaje}</Descriptions.Item>
-            </Descriptions>
-          </Card>
+        <Scroll>
+          <div className={styles['flat-details']}>
+            <Card
+              className={styles.textLabel}
+              title="Detalji stana"
+              extra={
+                <Button
+                  disabled={activeRole === 'Prodavac'}
+                  type="primary"
+                  onClick={() => {
+                    setEditModal(true);
+                  }}
+                >
+                  Izmeni
+                </Button>
+              }
+              style={{ width: '50%', margin: '15px' }}
+            >
+              <Descriptions layout="horizontal">
+                <Descriptions.Item label="Lamela">{data.lamela}</Descriptions.Item>
+                <Descriptions.Item label="Adresa" span={4}>
+                  {data.adresa_stana}
+                </Descriptions.Item>
+                <Descriptions.Item label="Broj soba">{data.broj_soba}</Descriptions.Item>
+                <Descriptions.Item label="Broj terasa">{data.broj_terasa}</Descriptions.Item>
+                <Descriptions.Item label="Cena stana">{data.cena_stana}</Descriptions.Item>
+                <Descriptions.Item label="Kvadratura">{data.kvadratura}</Descriptions.Item>
+                <Descriptions.Item label="Orijentisanost">{data.orijentisanost}</Descriptions.Item>
+                <Descriptions.Item label="Sprat">{data.sprat}</Descriptions.Item>
+                <Descriptions.Item label="Status prodaje">{data.status_prodaje}</Descriptions.Item>
+              </Descriptions>
+            </Card>
 
-          <Modal
-            title="Izmeni"
-            visible={showEditModal}
-            onOk={onUpdate}
-            onCancel={() => setEditModal(false)}
-            footer={null}
-          >
-            <Stanova getData={onUpdate} edit propsstan={data} closeModal={() => setEditModal(false)} />
-          </Modal>
-          <Card className={styles.textLabel} style={{ width: '50%', margin: '15px' }}>
-            <Grafikon propsstan={data} />
-          </Card>
-        </div>
+            <Modal
+              title="Izmeni"
+              visible={showEditModal}
+              onOk={onUpdate}
+              onCancel={() => setEditModal(false)}
+              footer={null}
+            >
+              <Stanova getData={onUpdate} edit propsstan={data} closeModal={() => setEditModal(false)} />
+            </Modal>
+            <Card className={styles.textLabel} style={{ width: '50%', margin: '15px' }}>
+              <Grafikon propsstan={data} />
+            </Card>
+          </div>
+          <Dokumentacija />
+        </Scroll>
       </>
     );
   }

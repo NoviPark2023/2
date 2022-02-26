@@ -299,7 +299,7 @@ function PregledGaraza() {
     <div>
       <div style={{ margin: 20 }}>
         <Button
-          //   disabled={activeRole === 'Prodavac'}
+          disabled={activeRole === 'Prodavac'}
           type="primary"
           onClick={() => {
             setCreateClient(true);

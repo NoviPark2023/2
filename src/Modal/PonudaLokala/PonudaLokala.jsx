@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Input, Button, Form, Select, AutoComplete, DatePicker, Space, message, Tag} from 'antd';
+import { Input, Button, Form, Select, AutoComplete, DatePicker, Space, message, Tag } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { Option } from 'antd/lib/mentions';
 import { api } from 'api/api';
@@ -98,7 +98,7 @@ function PonudaLokala(propsponudalokala) {
         toast.success('Uspesno ste izmenili podatke');
       })
       .catch(error => {
-        if (error.data.broj_ugovora) {
+        if (error.data.broj_ugovora_lokala) {
           message.error({
             content: 'Ponuda sa ovim brojem ugovora vec postoji u sistemu !',
             className: 'custom-class',
@@ -109,7 +109,6 @@ function PonudaLokala(propsponudalokala) {
       .finally(() => {
         setLoaderPage(false);
       });
-    console.log(form.getFieldValue(), 'lokali');
   };
 
   return (
@@ -168,7 +167,7 @@ function PonudaLokala(propsponudalokala) {
             },
           ]}
         >
-           <p>
+          <p>
             <Tag color={'green'} style={{ width: '50%', textAlign: 'center' }}>
               Trenutno unešen datum: <b>{form.getFieldsValue().datum_ugovora_lokala}</b>
             </Tag>
