@@ -244,6 +244,7 @@ function ReportsGaraze() {
                                         innerRadius={80}
                                         outerRadius={130}
                                         fill="#8884d8"
+                                        label
                                     >
                                         {data_garaze_brojevi.map((entry, index) => (
                                             <Cell key={`cell-${index}`}
@@ -377,6 +378,7 @@ function ReportsGaraze() {
                                         data={data_garaze_procenti}
                                         dataKey="value"
                                         fill="#8884d8"
+                                        label
                                     >
                                         {data_garaze_procenti.map((entry, index) => (
                                             <Cell key={`cell-${index}`}
