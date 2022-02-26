@@ -299,7 +299,7 @@ function ReportsLokali() {
                             >
                                 <Statistic
                                     title="Dostupnih"
-                                    value={data.procenat_dostupnih_garaza}
+                                    value={data.procenat_dostupnih}
                                     valueStyle={{color: '#3f8600'}}
                                     suffix="%"
                                 />
@@ -320,7 +320,7 @@ function ReportsLokali() {
                             >
                                 <Statistic
                                     title="Rezervisanih"
-                                    value={data.procenat_rezervisanih_garaza}
+                                    value={data.procenat_rezervisanih}
                                     precision={2}
                                     valueStyle={{color: '#4d4dff'}}
                                     suffix="%"
@@ -342,7 +342,7 @@ function ReportsLokali() {
                             >
                                 <Statistic
                                     title="Prodatih"
-                                    value={data.procenat_prodatih_garaza}
+                                    value={data.procenat_prodatih}
                                     precision={2}
                                     valueStyle={{color: '#cf1322'}}
                                     suffix="%"
