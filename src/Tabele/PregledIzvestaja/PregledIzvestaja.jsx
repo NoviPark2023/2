@@ -7,6 +7,7 @@ import IzvestajKlijenti from './IzvestajiKlijenti';
 import RoiIzvestaji from './RoiIzvestaji';
 import {Col, Row} from 'antd/lib';
 import IzvestajiGaraze from "./IzvestajiGaraze";
+import IzvestajiLokali from "./IzvestajiLokali";
 
 const {Sider, Content} = Layout;
 
@@ -15,19 +16,22 @@ function ReportReview() {
     return (
         <Layout style={{height: '100%', position: 'relative', backgroundColor: 'red'}}>
             <Sider trigger={null}>
-                <Divider />
+                <Divider/>
 
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
                     <Menu.Item key={1} onClick={() => setMenuItem(1)} icon={<PieChartOutlined/>}>
                         Izveštaji Stanovi
                     </Menu.Item>
                     <Menu.Item key={2} onClick={() => setMenuItem(2)} icon={<PieChartOutlined/>}>
-                        Izveštaji Garaže
+                        Izveštaji Lokali
                     </Menu.Item>
                     <Menu.Item key={3} onClick={() => setMenuItem(3)} icon={<PieChartOutlined/>}>
+                        Izveštaji Garaže
+                    </Menu.Item>
+                    <Menu.Item key={4} onClick={() => setMenuItem(4)} icon={<PieChartOutlined/>}>
                         Izveštaji Klijenti
                     </Menu.Item>
-                    <Menu.Item key={4} onClick={() => setMenuItem(4)} icon={<AreaChartOutlined/>}>
+                    <Menu.Item key={5} onClick={() => setMenuItem(5)} icon={<AreaChartOutlined/>}>
                         ROI Izeštaji
                     </Menu.Item>
 
@@ -55,10 +59,22 @@ function ReportReview() {
                             position: 'relative',
                         }}
                     >
-                        <IzvestajiGaraze/>
+                        <IzvestajiLokali/>
                     </Content>
                 )}
                 {menuItem === 3 && (
+                    <Content
+                        className="site-layout-background"
+                        style={{
+                            margin: '24px 16px',
+                            padding: 24,
+                            position: 'relative',
+                        }}
+                    >
+                        <IzvestajiGaraze/>
+                    </Content>
+                )}
+                {menuItem === 4 && (
                     <Content
                         style={{
                             margin: '24px 16px',
@@ -69,7 +85,7 @@ function ReportReview() {
                         <IzvestajKlijenti/>
                     </Content>
                 )}
-                {menuItem === 4 && (
+                {menuItem === 5 && (
                     <Row style={{height: '100%'}}>
                         <Col span={24}>
                             <Content

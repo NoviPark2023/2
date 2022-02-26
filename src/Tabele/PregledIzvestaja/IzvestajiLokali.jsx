@@ -5,122 +5,111 @@ import {Card, Divider, Tooltip} from 'antd';
 import {Statistic} from 'antd/es';
 import {api} from 'api/api';
 import Scroll from 'components/Scroll/Scroll';
-import stanovi_izvestaji_icon from "../../assets/garaze/garaze-izvestaji.png";
+import lokali_izvestaji_icon from "../../assets/lokali/lokali-izvestaji.png";
 import {Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, XAxis, YAxis} from 'recharts';
 
 const {Title} = Typography;
 
-function ReportsGaraze() {
+function ReportsLokali() {
     const [data, setData] = useState({});
-    const [users, setUsers] = useState([]);
+
 
     const getData = async () => {
-        api.get('/reports-garaze/').then(res => {
+        api.get('/reports-lokali/').then(res => {
             setData(res.data);
         });
     };
 
-    const getUsers = async () => {
-        api.get('/reports/korisnici/').then(res => {
-            if (res.data && res.data.length) {
-                const data = res.data.map(item => {
-                    return {name: item.ime, Prodaja: item.prodati_stanovi_korisnici};
-                });
-                setUsers(data);
-            }
-        });
-    };
     useEffect(() => {
         getData().then(r => "");
-        getUsers().then(r => "");
     }, []);
 
     {
         /*Podaci za Pie Char Garaze BROJEVI*/
     }
     const COLORS_BROJEVI = ['#0088FE', '#0062c4', '#28beff', '#2aaecc'];
-    const data_garaze_brojevi = [
-        {name: 'Dostupnih', value: data.dostupno_garaza},
-        {name: 'Rezervisanih', value: data.rezervisano_garaza},
-        {name: 'Prodatih', value: data.prodato_garaza},
+    const data_lokali_brojevi = [
+        {name: 'Dostupnih', value: data.dostupno},
+        {name: 'Rezervisanih', value: data.rezervisano},
+        {name: 'Prodatih', value: data.prodato},
     ];
     {
         /*Podaci za Pie Char Garaze PROCENTI*/
     }
     const COLORS_PROCENTI = ['#0088FE', '#0062c4', '#28beff', '#2aaecc'];
-    const data_garaze_procenti = [
-        {name: 'Dostupnih (%)', value: data.procenat_dostupnih_garaza},
-        {name: 'Rezervisanih (%)', value: data.procenat_rezervisanih_garaza},
-        {name: 'Prodatih (%)', value: data.procenat_prodatih_garaza},
+    const data_lokali_procenti = [
+        {name: 'Dostupnih (%)', value: data.procenat_dostupnih},
+        {name: 'Rezervisanih (%)', value: data.procenat_rezervisanih},
+        {name: 'Prodatih (%)', value: data.procenat_prodatih},
 
     ];
 
-    const dataProdajaPoMesecima = data.prodaja_garaza_po_mesecima
+    const dataProdajaPoMesecima = data.prodaja_po_mesecima
         ? [
-            {name: 'jan', garaze: data.prodaja_garaza_po_mesecima[0].jan},
-            {name: 'feb', garaze: data.prodaja_garaza_po_mesecima[0].feb},
-            {name: 'mart', garaze: data.prodaja_garaza_po_mesecima[0].mart},
-            {name: 'april', garaze: data.prodaja_garaza_po_mesecima[0].apr},
-            {name: 'maj', garaze: data.prodaja_garaza_po_mesecima[0].maj},
-            {name: 'jun', garaze: data.prodaja_garaza_po_mesecima[0].jun},
-            {name: 'jul', garaze: data.prodaja_garaza_po_mesecima[0].jul},
-            {name: 'avgust', garaze: data.prodaja_garaza_po_mesecima[0].avg},
-            {name: 'sep', garaze: data.prodaja_garaza_po_mesecima[0].sep},
-            {name: 'okt', garaze: data.prodaja_garaza_po_mesecima[0].okt},
-            {name: 'nov', garaze: data.prodaja_garaza_po_mesecima[0].nov},
-            {name: 'dec', garaze: data.prodaja_garaza_po_mesecima[0].dec},
+            {name: 'jan', lokali: data.prodaja_po_mesecima[0].jan},
+            {name: 'feb', lokali: data.prodaja_po_mesecima[0].feb},
+            {name: 'mart', lokali: data.prodaja_po_mesecima[0].mart},
+            {name: 'april', lokali: data.prodaja_po_mesecima[0].apr},
+            {name: 'maj', lokali: data.prodaja_po_mesecima[0].maj},
+            {name: 'jun', lokali: data.prodaja_po_mesecima[0].jun},
+            {name: 'jul', lokali: data.prodaja_po_mesecima[0].jul},
+            {name: 'avgust', lokali: data.prodaja_po_mesecima[0].avg},
+            {name: 'sep', lokali: data.prodaja_po_mesecima[0].sep},
+            {name: 'okt', lokali: data.prodaja_po_mesecima[0].okt},
+            {name: 'nov', lokali: data.prodaja_po_mesecima[0].nov},
+            {name: 'dec', lokali: data.prodaja_po_mesecima[0].dec},
         ]
         : [];
 
-    const dataSumaProdatoMeseci = data.ukupna_suma_prodatih_garaza
+    const dataSumaProdatoMeseci = data.ukupna_suma_prodatih_lokala
         ? [
             {
                 name: 'jan',
-                prihod: data.ukupna_suma_prodatih_garaza[0].jan,
+                prihod: data.ukupna_suma_prodatih_lokala[0].jan,
             },
             {
                 name: 'feb',
-                prihod: data.ukupna_suma_prodatih_garaza[0].feb,
+                prihod: data.ukupna_suma_prodatih_lokala[0].feb,
             },
             {
                 name: 'mart',
-                prihod: data.ukupna_suma_prodatih_garaza[0].mart,
+                prihod: data.ukupna_suma_prodatih_lokala[0].mart,
             },
             {
                 name: 'april',
-                prihod: data.ukupna_suma_prodatih_garaza[0].apr,
+                prihod: data.ukupna_suma_prodatih_lokala[0].apr,
             },
             {
                 name: 'maj',
-                prihod: data.ukupna_suma_prodatih_garaza[0].maj,
+                prihod: data.ukupna_suma_prodatih_lokala[0].maj,
             },
             {
                 name: 'jun',
-                prihod: data.ukupna_suma_prodatih_garaza[0].jun,
+                prihod: data.ukupna_suma_prodatih_lokala[0].jun,
             },
             {
                 name: 'jul',
-                prihod: data.ukupna_suma_prodatih_garaza[0].jul,
+                prihod: data.ukupna_suma_prodatih_lokala[0].jul,
             },
             {
                 name: 'avg',
-                prihod: data.ukupna_suma_prodatih_garaza[0].avg,
+                prihod: data.ukupna_suma_prodatih_lokala[0].avg,
             },
             {
                 name: 'sep',
-                prihod: data.ukupna_suma_prodatih_garaza[0].sep,
+                prihod: data.ukupna_suma_prodatih_lokala[0].sep,
             },
             {
                 name: 'okt',
-                prihod: data.ukupna_suma_prodatih_garaza[0].okt,
+                prihod: data.ukupna_suma_prodatih_lokala[0].okt,
             },
             {
                 name: 'nov',
-                prihod: data.ukupna_suma_prodatih_garaza[0].nov,
+                prihod: data.ukupna_suma_prodatih_lokala[0].nov,
             },
             {
                 name: 'dec',
-                prihod: data.ukupna_suma_prodatih_garaza[0].dec,
+                prihod: data.ukupna_suma_prodatih_lokala[0].dec,
             },
         ]
         : [];
@@ -130,13 +119,13 @@ function ReportsGaraze() {
             {/*Title with Icon*/}
             <Row>
                 <Col span={24}>
-                    <Title level={3}> <img src={stanovi_izvestaji_icon} alt="icon stanovi"/>
-                        Izveštaji Garaže
+                    <Title level={3}> <img src={lokali_izvestaji_icon} alt="icon stanovi"/>
+                        Izveštaji Lokali
                     </Title>
                     <Divider/>
                 </Col>
             </Row>
-            {/*Garaze statistika BROJEVI*/}
+            {/*LOKALI STATISTIKA BROJEVI*/}
             <Row gutter={24} style={{padding: '0px', marginTop: '0px', marginRight: '0px'}}>
                 <Col span={24}>
                     <Card
@@ -149,14 +138,14 @@ function ReportsGaraze() {
                         }}
                     >
                         <Statistic
-                            title="UKUPAN BROJ GARAŽA"
-                            value={data.ukupno_garaza}
+                            title="UKUPAN BROJ LOKALA"
+                            value={data.ukupno_lokala}
                             valueStyle={{color: '#3f8600', textAlign: 'center'}}
                             s
                         />
                     </Card>
                 </Col>
-                {/*Dostupne Garaze BROJEVI*/}
+                {/*DOSTUPNI LOKALI BROJEVI*/}
                 <Col span={12}>
                     <Row gutter={24} style={{padding: '0px', marginTop: '0px', marginRight: '0px'}}>
                         <Col span={8}>
@@ -172,14 +161,14 @@ function ReportsGaraze() {
                                 <Statistic
                                     style={{textAlign: 'center'}}
                                     title="Dostupnih"
-                                    value={data.dostupno_garaza}
+                                    value={data.dostupno}
                                     valueStyle={{color: '#3f8600', textAlign: 'center'}}
                                 />
                             </Card>
                         </Col>
-                        {/*END Dostupne Garaze BROJEVI*/}
+                        {/*END Dostupn Lokali BROJEVI*/}
 
-                        {/*Rezervisane Garaze BROJEVI*/}
+                        {/*REZERVISANI LOKALI BROJEVI*/}
                         <Col span={8}>
                             <Card
                                 style={{
@@ -193,14 +182,14 @@ function ReportsGaraze() {
                                 <Statistic
                                     style={{textAlign: 'center'}}
                                     title="Rezervisanih"
-                                    value={data.rezervisano_garaza}
+                                    value={data.rezervisano}
                                     valueStyle={{color: '#3f8600', textAlign: 'center'}}
                                 />
                             </Card>
                         </Col>
-                        {/*END Rezervisane Garaze BROJEVI*/}
+                        {/*END Rezervisani Lokali BROJEVI*/}
 
-                        {/*Prodate Garaze BROJEVI*/}
+                        {/*PRODATI LOKALI BROJEVI*/}
                         <Col span={8}>
                             <Card
                                 style={{
@@ -214,14 +203,14 @@ function ReportsGaraze() {
                                 <Statistic
                                     style={{textAlign: 'center'}}
                                     title="Prodatih"
-                                    value={data.prodato_garaza}
+                                    value={data.prodato}
                                     valueStyle={{color: '#3f8600'}}
                                 />
                             </Card>
                         </Col>
-                        {/*END Prodate Garaze BROJEVI*/}
+                        {/*END Prodati Lokali BROJEVI*/}
 
-                        {/*Pie Char Garaze BROJEVI*/}
+                        {/*Pie Char Lokali BROJEVI*/}
                         <Col span={24}>
                             <Card
                                 style={{
@@ -234,7 +223,7 @@ function ReportsGaraze() {
                             >
                                 <PieChart width={700} height={400}>
                                     <Pie
-                                        data={data_garaze_brojevi}
+                                        data={data_lokali_brojevi}
                                         dataKey="value"
                                         cx={320}
                                         cy={270}
@@ -245,7 +234,7 @@ function ReportsGaraze() {
                                         fill="#8884d8"
                                         label
                                     >
-                                        {data_garaze_brojevi.map((entry, index) => (
+                                        {data_lokali_brojevi.map((entry, index) => (
                                             <Cell key={`cell-${index}`}
                                                   fill={COLORS_BROJEVI[index % COLORS_BROJEVI.length]}/>
                                         ))}
@@ -255,9 +244,9 @@ function ReportsGaraze() {
                                 </PieChart>
                             </Card>
                         </Col>
-                        {/*END Pie Char Garaze BROJEVI*/}
+                        {/*END Pie Char Lokali BROJEVI*/}
 
-                        {/*TOK PRODAJE GARAZA PO MESECIMA*/}
+                        {/*TOK PRODAJE LOKALA PO MESECIMA*/}
                         <Col span={24} style={{
                             width: '100%',
                             margin: '10px',
@@ -273,7 +262,7 @@ function ReportsGaraze() {
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                 }}
-                            > <Title level={5} align="center">Broj prodatih garaža po mesecima</Title>
+                            > <Title level={5} align="center">Broj prodatih lokala po mesecima</Title>
 
                                 <BarChart
                                     width={550}
@@ -285,18 +274,19 @@ function ReportsGaraze() {
                                     <YAxis/>
                                     <Tooltip/>
                                     <Legend/>
-                                    <Bar dataKey="garaze" fill="#1890ff" background={{fill: "#eee"}}/>
+                                    <Bar dataKey="lokali" fill="#1890ff" background={{fill: "#eee"}}/>
                                 </BarChart>
                             </Card>
                         </Col>
-                        {/*END tok prodaje garaza po mesecima*/}
+                        {/*END tok prodaje Lokala po mesecima*/}
 
                     </Row>
                 </Col>
-                {/*Garaze statistika PROCENTI*/}
+
+                {/*LOKALI STATISTIKA PROCENTI*/}
                 <Col span={12}>
                     <Row gutter={24}>
-                        {/*Dostupne Garaze PROCENTI*/}
+                        {/*DOSTUPNI LOKALI PROCENTI*/}
                         <Col span={8}>
                             <Card
                                 style={{
@@ -315,9 +305,9 @@ function ReportsGaraze() {
                                 />
                             </Card>
                         </Col>
-                        {/*END Dostupne Garaze PROCENTI*/}
+                        {/*END Dostupni Lokali PROCENTI*/}
 
-                        {/*Rezervisane Garaze PROCENTI*/}
+                        {/*REZERVISANI LOKALI PROCENTI*/}
                         <Col span={8}>
                             <Card
                                 style={{
@@ -337,9 +327,9 @@ function ReportsGaraze() {
                                 />
                             </Card>
                         </Col>
-                        {/*END Rezervisane Garaze PROCENTI*/}
+                        {/*END Rezervisani Lokali PROCENTI*/}
 
-                        {/*Prodate Garaze PROCENTI*/}
+                        {/*PRODATI LOKALI PROCENTI*/}
                         <Col span={8}>
                             <Card
                                 style={{
@@ -359,9 +349,9 @@ function ReportsGaraze() {
                                 />
                             </Card>
                         </Col>
-                        {/*END Prodate Garaze PROCENTI*/}
+                        {/*END Prodati Lokali PROCENTI*/}
 
-                        {/*Pie Char Garaze PROCENTI*/}
+                        {/*Pie Char LOKALI PROCENTI*/}
                         <Col span={24}>
                             <Card
                                 style={{
@@ -374,12 +364,12 @@ function ReportsGaraze() {
                             >
                                 <PieChart width={400} height={400}>
                                     <Pie
-                                        data={data_garaze_procenti}
+                                        data={data_lokali_procenti}
                                         dataKey="value"
                                         fill="#8884d8"
                                         label
                                     >
-                                        {data_garaze_procenti.map((entry, index) => (
+                                        {data_lokali_procenti.map((entry, index) => (
                                             <Cell key={`cell-${index}`}
                                                   fill={COLORS_PROCENTI[index % COLORS_PROCENTI.length]}/>
                                         ))}
@@ -389,9 +379,9 @@ function ReportsGaraze() {
                                 </PieChart>
                             </Card>
                         </Col>
-                        {/*END Pie Char Garaze PROCENTI*/}
+                        {/*END Pie Char LOKALI PROCENTI*/}
 
-                        {/*UKUPNA SUMA PRODAJE GARAZA PO MESECIMA*/}
+                        {/*UKUPNA SUMA PRODAJE LOAKLA PO MESECIMA*/}
                         <Col span={24} style={{
                             width: '100%',
                             margin: '10px',
@@ -424,7 +414,7 @@ function ReportsGaraze() {
                                 </BarChart>
                             </Card>
                         </Col>
-                        {/*END ukupna suma prodaje garaza po mesecima*/}
+                        {/*END ukupna suma prodaje Lokala po mesecima*/}
                     </Row>
                 </Col>
             </Row>
@@ -433,4 +423,4 @@ function ReportsGaraze() {
     );
 }
 
-export default ReportsGaraze;
+export default ReportsLokali;
