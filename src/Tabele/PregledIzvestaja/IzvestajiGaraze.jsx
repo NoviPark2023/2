@@ -277,7 +277,7 @@ function ReportsGaraze() {
                             > <Title level={5} align="center">Broj prodatih garaža po mesecima</Title>
 
                                 <BarChart
-                                    width={800}
+                                    width={550}
                                     height={300}
                                     data={dataProdajaPoMesecima}
                                 >
@@ -412,7 +412,7 @@ function ReportsGaraze() {
                                 po mesecima</Title>
 
                                 <BarChart
-                                    width={800}
+                                    width={550}
                                     height={300}
                                     data={dataSumaProdatoMeseci}
                                 >
