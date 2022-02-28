@@ -25,7 +25,7 @@ function ReportsLokali() {
     }, []);
 
     {
-        /*Podaci za Pie Char Garaze BROJEVI*/
+        /*Podaci za PieChar Lokala BROJEVI*/
     }
     const COLORS_BROJEVI = ['#0088FE', '#0062c4', '#28beff', '#2aaecc'];
     const data_lokali_brojevi = [
@@ -34,7 +34,7 @@ function ReportsLokali() {
         {name: 'Prodatih', value: data.prodato},
     ];
     {
-        /*Podaci za Pie Char Garaze PROCENTI*/
+        /*Podaci za PieChar Lokala PROCENTI*/
     }
     const COLORS_PROCENTI = ['#0088FE', '#0062c4', '#28beff', '#2aaecc'];
     const data_lokali_procenti = [
