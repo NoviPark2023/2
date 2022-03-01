@@ -145,13 +145,13 @@ function ApartmentsReview() {
     });
 
     const columns = [
-        {
-            key: '1',
-            title: 'ID',
-            dataIndex: 'id_stana',
-            align: 'center',
-            ...getColumnSearchProps('id_stana'),
-        },
+        // {
+        //     key: '1',
+        //     title: 'ID',
+        //     dataIndex: 'id_stana',
+        //     align: 'center',
+        //     ...getColumnSearchProps('id_stana'),
+        // },
         {
             key: '2',
             title: 'Lamela',
@@ -159,13 +159,13 @@ function ApartmentsReview() {
             align: 'center',
             ...getColumnSearchProps('lamela'), /////pozivanje search-a u tabeli
         },
-        {
-            key: '3',
-            title: 'Adresa',
-            dataIndex: 'adresa_stana',
-            align: 'center',
-            ...getColumnSearchProps('adresa_stana'),
-        },
+        // {
+        //     key: '3',
+        //     title: 'Adresa',
+        //     dataIndex: 'adresa_stana',
+        //     align: 'center',
+        //     ...getColumnSearchProps('adresa_stana'),
+        // },
         {
             key: '4',
             title: 'Kvadratura',
@@ -248,7 +248,7 @@ function ApartmentsReview() {
         },
         {
             key: '6',
-            title: 'Broj soba',
+            title: 'Sobe',
             dataIndex: 'broj_soba',
             align: 'center',
             filters: [
@@ -311,7 +311,7 @@ function ApartmentsReview() {
         },
         {
             key: '8',
-            title: 'Broj terasa',
+            title: 'Terase',
             dataIndex: 'broj_terasa',
             align: 'center',
             filters: [
