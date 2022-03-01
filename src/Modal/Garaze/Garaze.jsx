@@ -99,7 +99,7 @@ function Garages(propsgaraze) {
       .catch(error => {
         if (error.data) {
           message.error({
-            // content: 'Garaza sa ovim brojem vec postoji u sistemu !',
+            content: 'Garaza sa ovim brojem vec postoji u sistemu !',
             className: 'custom-class',
             style: { fontSize: 20, marginTop: '0vh' },
           });
