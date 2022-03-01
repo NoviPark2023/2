@@ -1,12 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import {Row, Col, Typography} from 'antd/lib';
-import {Tooltip, LineChart, Line, XAxis, YAxis, CartesianGrid, BarChart, Bar, Legend} from 'recharts';
+import {
+    Tooltip,
+    LineChart,
+    Line,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    BarChart,
+    Bar,
+    Legend,
+    PieChart,
+    Pie,
+    Cell
+} from 'recharts';
 import 'antd/dist/antd.css';
 import {Card, Divider} from 'antd';
 import {Statistic} from 'antd/es';
 import {api} from 'api/api';
 import Scroll from 'components/Scroll/Scroll';
 import stanovi_izvestaji_icon from "../../assets/stanovi/stanovi-icon-izvestaji.png";
+import lokali_izvestaji_icon from "../../assets/lokali/lokali-izvestaji.png";
 
 const {Title} = Typography;
 
@@ -39,7 +53,7 @@ function ReportsApartments() {
         /*Podaci za PieChar Stanova BROJEVI*/
     }
     const COLORS_BROJEVI = ['#0088FE', '#0062c4', '#28beff', '#2aaecc'];
-    const data_lokali_brojevi = [
+    const data_stanovi_brojevi = [
         {name: 'Dostupnih', value: data.dostupan},
         {name: 'Rezervisanih', value: data.rezervisano},
         {name: 'Prodatih', value: data.prodat},
@@ -48,14 +62,14 @@ function ReportsApartments() {
         /*Podaci za PieChar Lokala PROCENTI*/
     }
     const COLORS_PROCENTI = ['#0088FE', '#0062c4', '#28beff', '#2aaecc'];
-    const data_lokali_procenti = [
+    const data_stanovi_procenti = [
         {name: 'Dostupnih (%)', value: data.procenat_dostupan},
         {name: 'Rezervisanih (%)', value: data.procenat_rezervisan},
         {name: 'Prodatih (%)', value: data.procenat_prodat},
 
     ];
 
-    const dataSalesByMonths = data.prodaja_po_mesecima
+    const dataProdajaPoMesecima = data.prodaja_po_mesecima
         ? [
             {name: 'jan', stanovi: data.prodaja_po_mesecima[0].jan},
             {name: 'feb', stanovi: data.prodaja_po_mesecima[0].feb},
@@ -72,7 +86,7 @@ function ReportsApartments() {
         ]
         : [];
 
-    const dataAmountOfApartmentsSold = data.ukupna_suma_prodatih_stanova
+    const dataSumaProdatoMeseci = data.ukupna_suma_prodatih_stanova
         ? [
             {
                 name: 'jan',
@@ -131,86 +145,206 @@ function ReportsApartments() {
             <Row>
                 <Col span={24}>
                     <Title level={3}> <img src={stanovi_izvestaji_icon} alt="icon stanovi"/>
-                           Izveštaji Stanovi
+                        Izveštaji Stanovi
                     </Title>
                     <Divider/>
                 </Col>
             </Row>
-            <Row>
-                <Col span={12}>
-                    <Title level={3}>1.Ukupan broj stanova</Title>
-
+            {/*STANOVI STATISTIKA BROJEVI*/}
+            <Row gutter={24} style={{padding: '0px', marginTop: '0px', marginRight: '0px'}}>
+                <Col span={24}>
                     <Card
                         style={{
-                            width: '77%',
-                            margin: '15px',
+                            width: '100%',
+                            margin: '10px',
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
                         }}
                     >
                         <Statistic
-                            title="UKUPAN BROJ STANOVA"
+                            title="UKUPAN BROJ LOKALA"
                             value={data.ukupno_stanova}
                             valueStyle={{color: '#3f8600', textAlign: 'center'}}
                             s
                         />
                     </Card>
-
-                    <Row>
-                        <Col span={6}>
-                            <Card style={{margin: '10px'}}>
+                </Col>
+                {/*DOSTUPNI STANOVI BROJEVI*/}
+                <Col span={12}>
+                    <Row gutter={24} style={{padding: '0px', marginTop: '0px', marginRight: '0px'}}>
+                        <Col span={8}>
+                            <Card
+                                style={{
+                                    width: '100%',
+                                    margin: '10px',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            >
                                 <Statistic
                                     style={{textAlign: 'center'}}
-                                    title="Dostupni"
+                                    title="Dostupnih"
                                     value={data.dostupan}
                                     valueStyle={{color: '#3f8600', textAlign: 'center'}}
                                 />
                             </Card>
                         </Col>
-                        <Col style={{margin: '10px'}} span={6}>
-                            <Card>
+                        {/*END Dostupn Stanovi BROJEVI*/}
+
+                        {/*REZERVISANI STANOVI BROJEVI*/}
+                        <Col span={8}>
+                            <Card
+                                style={{
+                                    width: '100%',
+                                    margin: '10px',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            >
                                 <Statistic
                                     style={{textAlign: 'center'}}
-                                    title="Rezervisani"
+                                    title="Rezervisanih"
                                     value={data.rezervisano}
                                     valueStyle={{color: '#3f8600', textAlign: 'center'}}
                                 />
                             </Card>
                         </Col>
-                        <Col style={{margin: '10px'}} span={6}>
-                            <Card>
+                        {/*END Rezervisani Stanova BROJEVI*/}
+
+                        {/*PRODATI LOKALI BROJEVI*/}
+                        <Col span={8}>
+                            <Card
+                                style={{
+                                    width: '100%',
+                                    margin: '10px',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            >
                                 <Statistic
                                     style={{textAlign: 'center'}}
-                                    title="Prodati"
+                                    title="Prodatih"
                                     value={data.prodat}
                                     valueStyle={{color: '#3f8600'}}
                                 />
                             </Card>
                         </Col>
-                        <Col span={6}/>
+                        {/*END Prodati Stanovi BROJEVI*/}
+
+                        {/*Pie Char Stanovi BROJEVI*/}
+                        <Col span={24}>
+                            <Card
+                                style={{
+                                    width: '100%',
+                                    margin: '10px',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <PieChart width={700} height={400}>
+                                    <Pie
+                                        data={data_stanovi_brojevi}
+                                        dataKey="value"
+                                        cx={320}
+                                        cy={270}
+                                        startAngle={180}
+                                        endAngle={0}
+                                        innerRadius={120}
+                                        outerRadius={200}
+                                        fill="#8884d8"
+                                        label
+                                    >
+                                        {data_stanovi_brojevi.map((entry, index) => (
+                                            <Cell key={`cell-${index}`}
+                                                  fill={COLORS_BROJEVI[index % COLORS_BROJEVI.length]}/>
+                                        ))}
+                                    </Pie>
+                                    <Tooltip/>
+                                    <Legend/>
+                                </PieChart>
+                            </Card>
+                        </Col>
+                        {/*END Pie Char Stanovi BROJEVI*/}
+
+                        {/*TOK PRODAJE LOKALA PO MESECIMA*/}
+                        <Col span={24} style={{
+                            width: '100%',
+                            margin: '10px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}>
+                            <Card
+                                style={{
+                                    width: '100%',
+                                    margin: '10px',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            > <Title level={5} align="center">Broj prodatih stanova po mesecima</Title>
+
+                                <BarChart
+                                    width={550}
+                                    height={300}
+                                    data={dataProdajaPoMesecima}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3"/>
+                                    <XAxis dataKey="name"/>
+                                    <YAxis/>
+                                    <Tooltip/>
+                                    <Legend/>
+                                    <Bar dataKey="stanovi" fill="#1890ff" background={{fill: "#eee"}}/>
+                                </BarChart>
+                            </Card>
+                        </Col>
+                        {/*END tok prodaje Stanova po mesecima*/}
+
                     </Row>
                 </Col>
-                <Col span={12}>
-                    <Title style={{textAlign: 'center'}} level={3}>
-                        2.Prodaja stanova izražena u procentima
-                    </Title>
 
-                    <Row gutter={24} style={{padding: '5px', marginTop: '100px', marginRight: '30px'}}>
+                {/*STANOVI STATISTIKA PROCENTI*/}
+                <Col span={12}>
+                    <Row gutter={24}>
+                        {/*DOSTUPNI STANOVI PROCENTI*/}
                         <Col span={8}>
-                            <Card>
+                            <Card
+                                style={{
+                                    width: '100%',
+                                    margin: '10px',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            >
                                 <Statistic
-                                    title="Dostupni"
+                                    title="Dostupnih"
                                     value={data.procenat_dostupan}
                                     valueStyle={{color: '#3f8600'}}
                                     suffix="%"
                                 />
                             </Card>
                         </Col>
+                        {/*END Dostupni Stanovi PROCENTI*/}
+
+                        {/*REZERVISANI STANOVI PROCENTI*/}
                         <Col span={8}>
-                            <Card>
+                            <Card
+                                style={{
+                                    width: '100%',
+                                    margin: '10px',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            >
                                 <Statistic
-                                    title="Rezervisani"
+                                    title="Rezervisanih"
                                     value={data.procenat_rezervisan}
                                     precision={2}
                                     valueStyle={{color: '#4d4dff'}}
@@ -218,10 +352,21 @@ function ReportsApartments() {
                                 />
                             </Card>
                         </Col>
+                        {/*END Rezervisani Stanovi PROCENTI*/}
+
+                        {/*PRODATI STANOVI PROCENTI*/}
                         <Col span={8}>
-                            <Card>
+                            <Card
+                                style={{
+                                    width: '100%',
+                                    margin: '10px',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            >
                                 <Statistic
-                                    title="Prodati"
+                                    title="Prodatih"
                                     value={data.procenat_prodat}
                                     precision={2}
                                     valueStyle={{color: '#cf1322'}}
@@ -229,77 +374,76 @@ function ReportsApartments() {
                                 />
                             </Card>
                         </Col>
+                        {/*END Prodati Stanovi PROCENTI*/}
+
+                        {/*Pie Char STANOVI PROCENTI*/}
+                        <Col span={24}>
+                            <Card
+                                style={{
+                                    width: '100%',
+                                    margin: '10px',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <PieChart width={400} height={400}>
+                                    <Pie
+                                        data={data_stanovi_procenti}
+                                        dataKey="value"
+                                        fill="#8884d8"
+                                        label
+                                    >
+                                        {data_stanovi_procenti.map((entry, index) => (
+                                            <Cell key={`cell-${index}`}
+                                                  fill={COLORS_PROCENTI[index % COLORS_PROCENTI.length]}/>
+                                        ))}
+                                    </Pie>
+                                    <Tooltip/>
+                                    <Legend/>
+                                </PieChart>
+                            </Card>
+                        </Col>
+                        {/*END Pie Char STANOVI PROCENTI*/}
+
+                        {/*UKUPNA SUMA PRODAJE STANOVA PO MESECIMA*/}
+                        <Col span={24} style={{
+                            width: '100%',
+                            margin: '10px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}>
+                            <Card
+                                style={{
+                                    width: '100%',
+                                    margin: '10px',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            > <Title level={5} align="center">Ukupna suma prodaja
+                                po mesecima</Title>
+
+                                <BarChart
+                                    width={550}
+                                    height={300}
+                                    data={dataSumaProdatoMeseci}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3"/>
+                                    <XAxis dataKey="name"/>
+                                    <YAxis/>
+                                    <Tooltip/>
+                                    <Legend/>
+                                    <Bar dataKey="prihod" fill="#1890ff" background={{fill: "#eee"}}/>
+                                </BarChart>
+                            </Card>
+                        </Col>
+                        {/*END ukupna suma prodaje Stanova po mesecima*/}
                     </Row>
                 </Col>
             </Row>
             <Divider/>
-            <Row>
-                <Col span={24}>
-                    <Title level={3}>3.Tok prodaje po mesecima</Title>
-                    <LineChart
-                        width={900}
-                        height={400}
-                        data={dataSalesByMonths}
-                        margin={{
-                            top: 10,
-                            right: 30,
-                            left: 0,
-                            bottom: 0,
-                        }}
-                    >
-                        <CartesianGrid strokeDasharray="3 3"/>
-                        <XAxis dataKey="name"/>
-                        <YAxis/>
-                        <Tooltip/>
-                        <Line connectNulls type="monotone" dataKey="stanovi" stroke="#e74c3c" fill="#1890ff"/>
-                    </LineChart>
-                </Col>
-            </Row>
-            <Row>
-                <Col span={24}>
-                    <Title level={3}>4.Ostvaren rezultat prodaje po korisniku</Title>
-                    <BarChart
-                        width={900}
-                        height={400}
-                        data={users}
-                        margin={{
-                            top: 5,
-                            right: 30,
-                            left: 20,
-                            bottom: 5,
-                        }}
-                    >
-                        <CartesianGrid strokeDasharray="3 3"/>
-                        <XAxis dataKey="name"/>
-                        <YAxis/>
-                        <Tooltip/>
-                        <Legend/>
-                        <Bar dataKey="Prodaja" fill="#e74c3c"/>
-                    </BarChart>
-                </Col>
-            </Row>
-            <Row>
-                <Col span={24}>
-                    <Title level={3}>5.Rast prodaje</Title>
-                    <LineChart
-                        width={900}
-                        height={400}
-                        data={dataAmountOfApartmentsSold}
-                        margin={{
-                            top: 10,
-                            right: 30,
-                            left: 0,
-                            bottom: 0,
-                        }}
-                    >
-                        <CartesianGrid strokeDasharray="3 3"/>
-                        <XAxis dataKey="name"/>
-                        <YAxis/>
-                        <Tooltip/>
-                        <Line connectNulls type="monotone" dataKey="prihod" stroke="#e74c3c" fill="#1890ff"/>
-                    </LineChart>
-                </Col>
-            </Row>
         </Scroll>
     );
 }

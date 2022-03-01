@@ -119,7 +119,7 @@ function ReportsLokali() {
             {/*Title with Icon*/}
             <Row>
                 <Col span={24}>
-                    <Title level={3}> <img src={lokali_izvestaji_icon} alt="icon stanovi"/>
+                    <Title level={3}> <img src={lokali_izvestaji_icon} alt="icon lokali"/>
                         Izveštaji Lokali
                     </Title>
                     <Divider/>

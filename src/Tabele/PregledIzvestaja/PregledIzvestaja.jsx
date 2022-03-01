@@ -28,9 +28,9 @@ function ReportReview() {
                     <Menu.Item key={3} onClick={() => setMenuItem(3)} icon={<PieChartOutlined/>}>
                         Izveštaji Garaže
                     </Menu.Item>
-                    <Menu.Item key={4} onClick={() => setMenuItem(4)} icon={<PieChartOutlined/>}>
-                        Izveštaji Klijenti
-                    </Menu.Item>
+                    {/*<Menu.Item key={4} onClick={() => setMenuItem(4)} icon={<PieChartOutlined/>}>*/}
+                    {/*    Izveštaji Klijenti*/}
+                    {/*</Menu.Item>*/}
                     <Menu.Item key={5} onClick={() => setMenuItem(5)} icon={<AreaChartOutlined/>}>
                         ROI Izeštaji
                     </Menu.Item>
@@ -74,17 +74,17 @@ function ReportReview() {
                         <IzvestajiGaraze/>
                     </Content>
                 )}
-                {menuItem === 4 && (
-                    <Content
-                        style={{
-                            margin: '24px 16px',
-                            padding: 24,
-                            position: 'relative',
-                        }}
-                    >
-                        <IzvestajKlijenti/>
-                    </Content>
-                )}
+                {/*{menuItem === 4 && (*/}
+                {/*    <Content*/}
+                {/*        style={{*/}
+                {/*            margin: '24px 16px',*/}
+                {/*            padding: 24,*/}
+                {/*            position: 'relative',*/}
+                {/*        }}*/}
+                {/*    >*/}
+                {/*        <IzvestajKlijenti/>*/}
+                {/*    </Content>*/}
+                {/*)}*/}
                 {menuItem === 5 && (
                     <Row style={{height: '100%'}}>
                         <Col span={24}>
