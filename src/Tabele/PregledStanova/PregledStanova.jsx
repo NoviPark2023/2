@@ -41,20 +41,48 @@ function ApartmentsReview() {
     ///API state
     const [data, setData] = useState([]);
 
+
+    // PAGINATION
+    const handleChange = (pagination) => {
+        const offset = pagination.current * pagination.pageSize - pagination.pageSize;
+        const limit = pagination.pageSize;
+
+        getData(offset, limit);
+    };
+
     //// API lista stanova
-    const getData = async () => {
+    const getData = async (offset, limit) => {
         setLoaderPage(true);
+
+        const queryParams = new URLSearchParams();
+
+        queryParams.append("offset", offset);
+        queryParams.append("limit", limit);
+        queryParams.append("offset", offset);
+
+
+        /* console.log(page)
+         const queryParams = new URLSearchParams();
+         if (!page) {
+             queryParams.append("page", "1")
+         } else {
+             queryParams.append("page", page.current)
+
+         }*/
+
         api
-            .get('/stanovi/')
+            //.get('/stanovi/')
+            .get(`/stanovi/?${queryParams.toString()}`)
             .then(res => {
                 if (res) {
-                    setData(res.data.results);
+                    setData(res.data);
                 }
             })
             .finally(() => {
                 setLoaderPage(false);
             });
     };
+
 
     ////Api za brisanje stanova
     const deleteApartment = id_stana => {
@@ -517,10 +545,21 @@ function ApartmentsReview() {
             <Table
                 rowClassName={record => (record.unesena_mauelna_cena_stana ? 'active-row' : '')}
                 columns={columns}
-                dataSource={data}
-                pagination={false}
+                dataSource={data.results}
+                onChange={handleChange}
+                pagination={{
+                    total: data.count,// total count returned from backend
+                    // pageSize: [10]
+                }}
+                //pagination={{pageSize: [5]}}
+                // {{
+                //total: data.count // total count returned from backend
+                // }}
+                //pagination={false}
                 scroll={{y: 'calc(100vh - 265px)'}}
-                rowKey="id_stana"/>
+                rowKey="id_stana"
+            />
+
             <Modal
                 title="Izmeni podatke stana"
                 visible={isEditPlaceVisible}
