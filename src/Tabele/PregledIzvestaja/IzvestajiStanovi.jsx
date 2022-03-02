@@ -163,7 +163,7 @@ function ReportsApartments() {
                         }}
                     >
                         <Statistic
-                            title="UKUPAN BROJ LOKALA"
+                            title="UKUPAN BROJ STANOVA"
                             value={data.ukupno_stanova}
                             valueStyle={{color: '#3f8600', textAlign: 'center'}}
                             s
