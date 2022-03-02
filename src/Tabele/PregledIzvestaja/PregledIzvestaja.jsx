@@ -14,24 +14,42 @@ const {Sider, Content} = Layout;
 function ReportReview() {
     const [menuItem, setMenuItem] = useState(1);
     return (
-        <Layout style={{height: '100%', position: 'relative', backgroundColor: 'red'}}>
-            <Sider trigger={null}>
+        <Layout>
+            <Sider trigger={null} width={180}>
                 <Divider/>
 
-                <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-                    <Menu.Item key={1} onClick={() => setMenuItem(1)} icon={<PieChartOutlined/>}>
+                <Menu
+                    theme="dark"
+                    mode="inline"
+                    defaultSelectedKeys={['1']}
+                    style={{height: '100%', borderRight: 0}}
+                >
+                    <Menu.Item
+                        key={1}
+                        onClick={() => setMenuItem(1)}
+                        icon={<PieChartOutlined/>}
+                    >
                         Izveštaji Stanovi
+
                     </Menu.Item>
                     <Menu.Item key={2} onClick={() => setMenuItem(2)} icon={<PieChartOutlined/>}>
                         Izveštaji Lokali
                     </Menu.Item>
-                    <Menu.Item key={3} onClick={() => setMenuItem(3)} icon={<PieChartOutlined/>}>
+                    <Menu.Item
+                        key={3}
+                        onClick={() => setMenuItem(3)}
+                        icon={<PieChartOutlined/>}
+                    >
                         Izveštaji Garaže
                     </Menu.Item>
                     {/*<Menu.Item key={4} onClick={() => setMenuItem(4)} icon={<PieChartOutlined/>}>*/}
                     {/*    Izveštaji Klijenti*/}
                     {/*</Menu.Item>*/}
-                    <Menu.Item key={5} onClick={() => setMenuItem(5)} icon={<AreaChartOutlined/>}>
+                    <Menu.Item
+                        key={5}
+                        onClick={() => setMenuItem(5)}
+                        icon={<AreaChartOutlined/>}
+                    >
                         ROI Izeštaji
                     </Menu.Item>
 
