@@ -42,8 +42,8 @@ function ApartmentsReview() {
     const [data, setData] = useState([]);
 
 
-    // PAGINATION
-    const handleChange = (pagination) => {
+    // PAGINATION STANOVI
+    const handleChangePagination = (pagination) => {
         const offset = pagination.current * pagination.pageSize - pagination.pageSize;
         const limit = pagination.pageSize;
 
@@ -60,18 +60,7 @@ function ApartmentsReview() {
         queryParams.append("limit", limit);
         queryParams.append("offset", offset);
 
-
-        /* console.log(page)
-         const queryParams = new URLSearchParams();
-         if (!page) {
-             queryParams.append("page", "1")
-         } else {
-             queryParams.append("page", page.current)
-
-         }*/
-
         api
-            //.get('/stanovi/')
             .get(`/stanovi/?${queryParams.toString()}`)
             .then(res => {
                 if (res) {
@@ -546,16 +535,11 @@ function ApartmentsReview() {
                 rowClassName={record => (record.unesena_mauelna_cena_stana ? 'active-row' : '')}
                 columns={columns}
                 dataSource={data.results}
-                onChange={handleChange}
+                onChange={handleChangePagination}
                 pagination={{
                     total: data.count,// total count returned from backend
                     // pageSize: [10]
                 }}
-                //pagination={{pageSize: [5]}}
-                // {{
-                //total: data.count // total count returned from backend
-                // }}
-                //pagination={false}
                 scroll={{y: 'calc(100vh - 265px)'}}
                 rowKey="id_stana"
             />

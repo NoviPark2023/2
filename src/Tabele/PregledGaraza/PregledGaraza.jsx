@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Table, Modal, Input, Space, Popconfirm, Tag} from 'antd';
+import {Button, Input, Modal, Popconfirm, Space, Spin, Table, Tag} from 'antd';
 import Highlighter from 'react-highlight-words';
 import {SearchOutlined} from '@ant-design/icons';
 import Garaze from 'Modal/Garaze/Garaze';
 import {api} from 'api/api';
 import 'antd/dist/antd.css';
-import {Spin} from 'antd';
 import {authService} from 'auth/auth.service';
 
 function PregledGaraza() {
@@ -33,11 +32,27 @@ function PregledGaraza() {
     //state za API
     const [data, setData] = useState([]);
 
-    //// API lista klijenata
-    const getData = async () => {
+    // PAGINATION GARAZE
+    const handleChangePagination = (pagination) => {
+        const offset = pagination.current * pagination.pageSize - pagination.pageSize;
+        const limit = pagination.pageSize;
+
+        getData(offset, limit);
+    };
+
+    //// API lista Garaza
+    const getData = async (offset, limit) => {
         setLoaderPage(true);
+
+        const queryParams = new URLSearchParams();
+
+        queryParams.append("offset", offset);
+        queryParams.append("limit", limit);
+        queryParams.append("offset", offset);
+
         api
-            .get('/garaze/')
+            //.get('/garaze/')
+            .get(`/garaze/?${queryParams.toString()}`)
             .then(res => {
                 setData(res.data.results);
             })
@@ -311,7 +326,9 @@ function PregledGaraza() {
             <Table
                 dataSource={data}
                 columns={columns}
-                pagination={false}
+                pagination={{
+                    total: data.count,// total count returned from backend
+                }}
                 scroll={{y: 'calc(100vh - 265px)'}}
                 rowKey="id_garaze"
             />
