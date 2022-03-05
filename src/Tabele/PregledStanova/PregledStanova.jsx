@@ -538,7 +538,6 @@ function ApartmentsReview() {
                 onChange={handleChangePagination}
                 pagination={{
                     total: data.count,// total count returned from backend
-                    // pageSize: [10]
                 }}
                 scroll={{y: 'calc(100vh - 265px)'}}
                 rowKey="id_stana"

@@ -31,11 +31,26 @@ function ClientsReview() {
     //state za API
     const [data, setData] = useState([]);
 
+    // PAGINATION KLIJENTI
+    const handleChangePagination = (pagination) => {
+        const offset = pagination.current * pagination.pageSize - pagination.pageSize;
+        const limit = pagination.pageSize;
+
+        getData(offset, limit);
+    };
+
     //// API lista klijenata
-    const getData = async () => {
+    const getData = async (offset, limit) => {
         setLoaderPage(true);
+
+        const queryParams = new URLSearchParams();
+
+        queryParams.append("offset", offset);
+        queryParams.append("limit", limit);
+        queryParams.append("offset", offset);
+
         api
-            .get('/kupci/')
+            .get(`/kupci/?${queryParams.toString()}`)
             .then(res => {
                 setData(res.data.results);
             })
@@ -50,13 +65,6 @@ function ClientsReview() {
             getData();
         });
     };
-
-    // ////Api Lista Korisnika
-    // const getDetailClient = id_kupca => {
-    //   api.get(`/kupci/detalji-kupca/${id_kupca}/`).then(res => {
-    //     getData();
-    //   });
-    // };
 
     ////hooks za search u tabeli
     const [searchText, setSearchText] = useState('');
@@ -258,7 +266,9 @@ function ClientsReview() {
             <Table
                 columns={columns}
                 dataSource={data}
-                pagination={false}
+                pagination={{
+                    total: data.count,// total count returned from backend
+                }}
                 scroll={{y: 'calc(100vh - 265px)'}}
                 rowKey="id_kupca"
             />
