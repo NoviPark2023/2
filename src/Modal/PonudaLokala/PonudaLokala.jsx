@@ -110,10 +110,17 @@ function PonudaLokala(propsponudalokala) {
         setLoaderPage(false);
       });
   };
+  const onFinish = values => {
+    updateOffers(values);
+  };
+
+  const onFinishFailed = errorInfo => {
+    console.log('Failed:', errorInfo);
+  };
 
   return (
     <div>
-      <Form autoComplete="off" layout="vertical" form={form}>
+      <Form autoComplete="off" onFinish={onFinish} onFinishFailed={onFinishFailed} layout="vertical" form={form}>
         <FormItem
           label="Ime kupca"
           // name="ime_kupca"
@@ -230,7 +237,7 @@ function PonudaLokala(propsponudalokala) {
         </FormItem>
         <Form.Item>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Button onClick={updateOffers} type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit">
               Sačuvaj
             </Button>
 

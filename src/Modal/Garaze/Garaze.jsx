@@ -240,7 +240,7 @@ function Garages(propsgaraze) {
 
         <Form.Item>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Button onClick={updateGarages} type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit">
               Sačuvaj
             </Button>
             <Button type="danger" onClick={() => propsgaraze.closeModal()}>

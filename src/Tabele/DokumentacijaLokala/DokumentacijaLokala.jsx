@@ -6,7 +6,7 @@ import { Spin } from 'antd';
 import 'antd/dist/antd.css';
 import { UploadOutlined } from '@ant-design/icons';
 
-function Dokumentacija() {
+function DokumentacijaLokala() {
   const activeRole = authService.getRole();
 
   const [editDoc, setEditDoc] = useState(false);
@@ -29,7 +29,7 @@ function Dokumentacija() {
   const getData = async () => {
     setLoaderPage(true);
     api
-      .get('/stanovi-dms/')
+      .get('/lokali-dms/')
       .then(res => {
         if (res) {
           setData(res.data.results);
@@ -42,14 +42,14 @@ function Dokumentacija() {
 
   ////Api za brisanje dokumentacije
   const deleteDocument = id_fajla => {
-    api.delete(`/stanovi-dms/obrisi-dokument-stana/${id_fajla}/`).then(res => {
+    api.delete(`/lokali-dms/obrisi-dokument-lokala/${id_fajla}/`).then(res => {
       getData();
     });
   };
 
   ////Api za download
   const downloadDocument = id_fajla => {
-    api.get(`/stanovi-dms/preuzmi-dokument-stana/${id_fajla}/`).then(res => {
+    api.get(`/lokali-dms/preuzmi-dokument-lokala/${id_fajla}/`).then(res => {
       const link = document.createElement('a');
       link.href = res.data;
       link.download = 'Dokument';
@@ -58,7 +58,7 @@ function Dokumentacija() {
   };
   ////Api dodavanje novog dokumenta
   const createNewDocument = () => {
-    api.put(`/stanovi-dms/upload-stanovi-files/`).then(res => {
+    api.put(`/lokali-dms/upload-lokala-files/`).then(res => {
       setData(res.data.results);
     });
   };
@@ -135,7 +135,6 @@ function Dokumentacija() {
   useEffect(() => {
     getData();
   }, []);
-
   return (
     <div>
       <div style={{ margin: 20 }}>
@@ -160,4 +159,4 @@ function Dokumentacija() {
   );
 }
 
-export default Dokumentacija;
+export default DokumentacijaLokala;
