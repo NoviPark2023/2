@@ -9,6 +9,8 @@ import { useParams } from 'react-router-dom';
 import { authService } from 'auth/auth.service';
 import NotFound from 'Pages/NotFound/NotFound';
 import Lokali from 'Modal/Lokali/Lokali';
+import Scroll from 'components/Scroll/Scroll';
+import DokumentacijaLokala from 'Tabele/DokumentacijaLokala/DokumentacijaLokala';
 
 function DetailsLocal() {
   const activeRole = authService.getRole();
@@ -64,49 +66,52 @@ function DetailsLocal() {
   if (data) {
     return (
       <>
-        <div className={styles['flat-details']}>
-          <Card
-            className={styles.textLabel}
-            title="Detalji lokala"
-            extra={
-              <Button
-                disabled={activeRole === 'Prodavac'}
-                type="primary"
-                onClick={() => {
-                  setEditModal(true);
-                }}
-              >
-                Izmeni
-              </Button>
-            }
-            style={{ width: '50%', margin: '15px' }}
-          >
-            <Descriptions layout="horizontal">
-              <Descriptions.Item label="Lamela">{data.lamela_lokala}</Descriptions.Item>
-              <Descriptions.Item label="Adresa lokala" span={4}>
-                {data.adresa_lokala}
-              </Descriptions.Item>
-              <Descriptions.Item label="Broj prostorija">{data.broj_prostorija}</Descriptions.Item>
-              <Descriptions.Item label="Cena lokala">{data.cena_lokala}</Descriptions.Item>
-              <Descriptions.Item label="Kvadratura">{data.kvadratura_lokala}</Descriptions.Item>
-              <Descriptions.Item label="Orijentisanost">{data.orijentisanost_lokala}</Descriptions.Item>
-              <Descriptions.Item label="Status prodaje">{data.status_prodaje_lokala}</Descriptions.Item>
-            </Descriptions>
-          </Card>
+        <Scroll>
+          <div className={styles['flat-details']}>
+            <Card
+              className={styles.textLabel}
+              title="Detalji lokala"
+              extra={
+                <Button
+                  disabled={activeRole === 'Prodavac'}
+                  type="primary"
+                  onClick={() => {
+                    setEditModal(true);
+                  }}
+                >
+                  Izmeni
+                </Button>
+              }
+              style={{ width: '50%', margin: '15px' }}
+            >
+              <Descriptions layout="horizontal">
+                <Descriptions.Item label="Lamela">{data.lamela_lokala}</Descriptions.Item>
+                <Descriptions.Item label="Adresa lokala" span={4}>
+                  {data.adresa_lokala}
+                </Descriptions.Item>
+                <Descriptions.Item label="Broj prostorija">{data.broj_prostorija}</Descriptions.Item>
+                <Descriptions.Item label="Cena lokala">{data.cena_lokala}</Descriptions.Item>
+                <Descriptions.Item label="Kvadratura">{data.kvadratura_lokala}</Descriptions.Item>
+                <Descriptions.Item label="Orijentisanost">{data.orijentisanost_lokala}</Descriptions.Item>
+                <Descriptions.Item label="Status prodaje">{data.status_prodaje_lokala}</Descriptions.Item>
+              </Descriptions>
+            </Card>
 
-          <Modal
-            title="Izmeni podatke lokala"
-            visible={showEditModal}
-            onOk={onUpdate}
-            onCancel={() => setEditModal(false)}
-            footer={null}
-          >
-            <Lokali getData={onUpdate} edit propslokala={data} closeModal={() => setEditModal(false)} />
-          </Modal>
-          <Card className={styles.textLabel} style={{ width: '50%', margin: '15px' }}>
-            <GrafikonLokali propslokala={data} />
-          </Card>
-        </div>
+            <Modal
+              title="Izmeni podatke lokala"
+              visible={showEditModal}
+              onOk={onUpdate}
+              onCancel={() => setEditModal(false)}
+              footer={null}
+            >
+              <Lokali getData={onUpdate} edit propslokala={data} closeModal={() => setEditModal(false)} />
+            </Modal>
+            <Card className={styles.textLabel} style={{ width: '50%', margin: '15px' }}>
+              <GrafikonLokali propslokala={data} />
+            </Card>
+          </div>
+          <DokumentacijaLokala />
+        </Scroll>
       </>
     );
   }
