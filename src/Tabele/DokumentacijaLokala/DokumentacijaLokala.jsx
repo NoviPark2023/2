@@ -5,8 +5,9 @@ import { api } from 'api/api';
 import { Spin } from 'antd';
 import 'antd/dist/antd.css';
 import { UploadOutlined } from '@ant-design/icons';
+import moment from 'moment';
 
-function DokumentacijaLokala() {
+function DokumentacijaLokala(propslokala) {
   const activeRole = authService.getRole();
 
   const [editDoc, setEditDoc] = useState(false);
@@ -29,7 +30,7 @@ function DokumentacijaLokala() {
   const getData = async () => {
     setLoaderPage(true);
     api
-      .get('/lokali-dms/')
+      .get(`/lokali-dms/?lokal=${propslokala.propslokala.id_lokala}`)
       .then(res => {
         if (res) {
           setData(res.data.results);
@@ -87,6 +88,9 @@ function DokumentacijaLokala() {
       title: 'Datum',
       align: 'center',
       dataIndex: 'datum_ucitavanja',
+      render: dom => {
+        return <span>{moment(dom).format('DD.MM.YYYY')}</span>;
+      },
     },
     {
       key: '5',
