@@ -117,7 +117,7 @@ function DetailsApartments() {
               <Grafikon propsstan={data} />
             </Card>
           </div>
-          <Dokumentacija />
+          <Dokumentacija propsstan={data} />
         </Scroll>
       </>
     );

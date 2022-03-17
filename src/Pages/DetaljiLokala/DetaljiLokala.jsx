@@ -110,7 +110,7 @@ function DetailsLocal() {
               <GrafikonLokali propslokala={data} />
             </Card>
           </div>
-          <DokumentacijaLokala />
+          <DokumentacijaLokala propslokala={data} />
         </Scroll>
       </>
     );
