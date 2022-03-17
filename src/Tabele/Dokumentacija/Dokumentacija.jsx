@@ -7,47 +7,55 @@ import 'antd/dist/antd.css';
 import { UploadOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import getToken from 'utils/getToken';
+import { useParams } from 'react-router-dom';
 
-function Dokumentacija(propsstan) {
+function Dokumentacija() {
   const activeRole = authService.getRole();
 
   const [editDoc, setEditDoc] = useState(false);
-
-  // const handleOk = () => {
-  //   setEditDoc(false);
-  // };
-
-  const handleCancel = () => {
-    setEditDoc(false);
-  };
-
   ///loader
   const [loaderPage, setLoaderPage] = useState(false);
 
   ///API state
   const [data, setData] = useState([]);
+  const [file, setFile] = useState();
+  const id = useParams();
+
+  const handleCancel = () => {
+    setEditDoc(false);
+  };
+
+  const handleUpload = () => {
+    const formData = new FormData();
+    formData.append('stan', id.id);
+    formData.append('file', file);
+
+    api
+      .post('/stanovi-dms/upload-stanovi-files/', formData, {
+        headers: {
+          Authorization: `${getToken()}`,
+        },
+      })
+      .then(res => res.json())
+      .then(() => {
+        message.error('Greška!');
+      })
+      .catch(() => {
+        message.success('Uspešno!');
+      })
+      .finally(() => {
+        getData();
+      });
+  };
 
   const props = {
-    name: 'file',
-    action: 'https://api.stanovi.biz/stanovi-dms/upload-stanovi-files/',
-    headers: {
-      Authorization: `${getToken()}`,
+    onRemove: () => {
+      setFile(null);
     },
-    data: () => {
-      const data = new FormData();
-      // data.append('opis_dokumenta', 'opis');
-      data.append('id_stana', '4');
+    beforeUpload: file => {
+      setFile(file);
 
-      return data;
-    },
-    onChange(info) {
-      if (info.file.status !== 'uploading') {
-      }
-      if (info.file.status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
-      }
+      return false;
     },
   };
 
@@ -55,7 +63,7 @@ function Dokumentacija(propsstan) {
   const getData = async () => {
     setLoaderPage(true);
     api
-      .get(`/stanovi-dms/?stan=${propsstan.propsstan.id_stana}`)
+      .get(`/stanovi-dms/?stan=${id.id}`)
       .then(res => {
         if (res) {
           setData(res.data.results);
@@ -82,12 +90,6 @@ function Dokumentacija(propsstan) {
       link.click();
     });
   };
-  ////Api dodavanje novog dokumenta
-  const createNewDocument = id_stana => {
-    api.post(`/stanovi-dms/upload-stanovi-files/`, id_stana).then(res => {
-      setData(res.data.results);
-    });
-  };
 
   const columns = [
     {
@@ -96,20 +98,14 @@ function Dokumentacija(propsstan) {
       align: 'center',
       dataIndex: 'id_fajla',
     },
-    // {
-    //   key: '2',
-    //   title: 'Dokument',
-    //   align: 'center',
-    //   dataIndex: 'opis_dokumenta',
-    // },
     {
-      key: '3',
+      key: '2',
       title: 'Naziv fajla',
       align: 'center',
       dataIndex: 'naziv_fajla',
     },
     {
-      key: '4',
+      key: '3',
       title: 'Datum',
       align: 'center',
       dataIndex: 'datum_ucitavanja',
@@ -118,7 +114,7 @@ function Dokumentacija(propsstan) {
       },
     },
     {
-      key: '5',
+      key: '4',
       title: 'Preuzmi',
       align: 'center',
       render: (text, record) => (
@@ -136,15 +132,13 @@ function Dokumentacija(propsstan) {
       ),
     },
     {
-      key: '6',
+      key: '5',
       title: 'Obriši',
       align: 'center',
       render: (text, record) => (
         <>
           <Popconfirm
             disabled={activeRole === 'Prodavac'}
-            // visible={editDoc}
-            // onOk={handleOk}
             title="Da li ste sigurni da želite da izbrišete dokument?"
             placement="left"
             onCancel={handleCancel}
@@ -168,22 +162,21 @@ function Dokumentacija(propsstan) {
   return (
     <div>
       <div style={{ margin: 20, display: 'flex' }}>
-        <Upload {...props} method="POST">
-          <Button
-            // onClick={() => {
-            //   createNewDocument(true);
-            // }}
-            icon={<UploadOutlined />}
-            disabled={activeRole === 'Prodavac'}
-            type="primary"
-          >
+        <Upload {...props}>
+          <Button type="primary" icon={<UploadOutlined />}>
+            {' '}
             Dodaj novi dokument
           </Button>
         </Upload>
-        {/* <div style={{ marginLeft: 20 }}>
-          <Button style={{ backgroundColor: 'limegreen', color: 'blanchedalmond' }}>Sacuvaj</Button>
-        </div> */}
+        <Button
+          type="primary"
+          onClick={handleUpload}
+          style={{ marginLeft: 20, display: 'flex', backgroundColor: 'limegreen' }}
+        >
+          Sačuvaj
+        </Button>
       </div>
+      <div style={{ margin: 20, display: 'flex' }}></div>
       <Table columns={columns} dataSource={data} pagination={{ pageSize: [5] }} rowKey={'id_fajla'} />
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {loaderPage && <Spin tip="Loading page" size="large" />}
