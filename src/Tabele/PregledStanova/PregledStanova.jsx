@@ -55,9 +55,10 @@ function ApartmentsReview() {
 
     const queryParams = new URLSearchParams();
 
-    queryParams.append('offset', offset);
     queryParams.append('limit', limit);
     queryParams.append('offset', offset);
+    queryParams.append('setSearchText', setSearchText);
+    queryParams.append('setSearchedColumn', setSearchedColumn);
 
     api
       .get(`/stanovi/?${queryParams.toString()}`)
@@ -540,7 +541,7 @@ function ApartmentsReview() {
         scroll={{ y: 'calc(100vh - 265px)' }}
         rowKey="id_stana"
       />
-
+      {console.log(data, 'ssssss')}
       <Modal
         title="Izmeni podatke stana"
         visible={isEditPlaceVisible}
