@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Popconfirm, Button, Upload } from 'antd';
+import { Table, Popconfirm, Button, Upload, message } from 'antd';
 import { authService } from 'auth/auth.service';
 import { api } from 'api/api';
 import { Spin } from 'antd';
 import 'antd/dist/antd.css';
 import { UploadOutlined } from '@ant-design/icons';
+import getToken from 'utils/getToken';
 import moment from 'moment';
+import { useParams } from 'react-router-dom';
 
-function DokumentacijaLokala(propslokala) {
+function DokumentacijaLokala() {
   const activeRole = authService.getRole();
 
   const [editDoc, setEditDoc] = useState(false);
-
-  // const handleOk = () => {
-  //   setEditDoc(false);
-  // };
 
   const handleCancel = () => {
     setEditDoc(false);
@@ -25,12 +23,14 @@ function DokumentacijaLokala(propslokala) {
 
   ///API state
   const [data, setData] = useState([]);
+  const [file, setFile] = useState();
+  const id = useParams();
 
   //// API lista dokumentacije
   const getData = async () => {
     setLoaderPage(true);
     api
-      .get(`/lokali-dms/?lokal=${propslokala.propslokala.id_lokala}`)
+      .get(`/lokali-dms/?lokal=${id.id}`)
       .then(res => {
         if (res) {
           setData(res.data.results);
@@ -57,11 +57,40 @@ function DokumentacijaLokala(propslokala) {
       link.click();
     });
   };
-  ////Api dodavanje novog dokumenta
-  const createNewDocument = () => {
-    api.put(`/lokali-dms/upload-lokala-files/`).then(res => {
-      setData(res.data.results);
-    });
+  const handleUpload = () => {
+    const formData = new FormData();
+    formData.append('lokal', id.id);
+    formData.append('file', file);
+    setLoaderPage();
+
+    api
+      .post('/lokali-dms/upload-lokala-files/', formData, {
+        headers: {
+          Authorization: `${getToken()}`,
+        },
+      })
+      .then(res => res.json())
+      .then(() => {
+        message.success('Uspešno!');
+      })
+      .catch(() => {
+        // message.error('Greška!');
+      })
+      .finally(() => {
+        getData();
+        setLoaderPage();
+      });
+  };
+
+  const props = {
+    onRemove: () => {
+      setFile(null);
+    },
+    beforeUpload: file => {
+      setFile(file);
+
+      return false;
+    },
   };
 
   const columns = [
@@ -71,20 +100,15 @@ function DokumentacijaLokala(propslokala) {
       align: 'center',
       dataIndex: 'id_fajla',
     },
+
     {
       key: '2',
-      title: 'Dokument',
-      align: 'center',
-      dataIndex: 'opis_dokumenta',
-    },
-    {
-      key: '3',
       title: 'Naziv fajla',
       align: 'center',
       dataIndex: 'naziv_fajla',
     },
     {
-      key: '4',
+      key: '3',
       title: 'Datum',
       align: 'center',
       dataIndex: 'datum_ucitavanja',
@@ -93,7 +117,7 @@ function DokumentacijaLokala(propslokala) {
       },
     },
     {
-      key: '5',
+      key: '4',
       title: 'Preuzmi',
       align: 'center',
       render: (text, record) => (
@@ -111,7 +135,7 @@ function DokumentacijaLokala(propslokala) {
       ),
     },
     {
-      key: '6',
+      key: '5',
       title: 'Obriši',
       align: 'center',
       render: (text, record) => (
@@ -141,19 +165,19 @@ function DokumentacijaLokala(propslokala) {
   }, []);
   return (
     <div>
-      <div style={{ margin: 20 }}>
-        <Upload>
-          <Button
-            icon={<UploadOutlined />}
-            disabled={activeRole === 'Prodavac'}
-            type="primary"
-            onClick={() => {
-              createNewDocument(true);
-            }}
-          >
+      <div style={{ margin: 20, display: 'flex' }}>
+        <Upload {...props}>
+          <Button type="primary" icon={<UploadOutlined />}>
             Dodaj novi dokument
           </Button>
         </Upload>
+        <Button
+          type="primary"
+          onClick={handleUpload}
+          style={{ marginLeft: 20, display: 'flex', backgroundColor: 'limegreen' }}
+        >
+          Sačuvaj
+        </Button>
       </div>
       <Table columns={columns} dataSource={data} pagination={{ pageSize: [5] }} rowKey={'id_fajla'} />
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
