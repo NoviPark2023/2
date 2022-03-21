@@ -13,22 +13,24 @@ function Dokumentacija() {
   const activeRole = authService.getRole();
 
   const [editDoc, setEditDoc] = useState(false);
+
   ///loader
   const [loaderPage, setLoaderPage] = useState(false);
 
   ///API state
   const [data, setData] = useState([]);
-  const [file, setFile] = useState();
+  const [file, setFile] = useState([]);
   const id = useParams();
 
   const handleCancel = () => {
     setEditDoc(false);
   };
 
-  const handleUpload = () => {
+  const handleUpload = async () => {
     const formData = new FormData();
     formData.append('stan', id.id);
-    formData.append('file', file);
+    formData.append('file', file[0]);
+    setLoaderPage();
 
     api
       .post('/stanovi-dms/upload-stanovi-files/', formData, {
@@ -36,27 +38,29 @@ function Dokumentacija() {
           Authorization: `${getToken()}`,
         },
       })
-      .then(res => res.json())
-      .then(() => {
-        message.error('Greška!');
+      .then(res => {
+        setFile([]);
+
+        message.success('Uspešno!');
       })
       .catch(() => {
-        message.success('Uspešno!');
+        message.error('Greška!');
       })
       .finally(() => {
         getData();
+        setLoaderPage();
       });
   };
 
   const props = {
-    onRemove: () => {
-      setFile(null);
-    },
+    onRemove: () => {},
     beforeUpload: file => {
-      setFile(file);
+      setFile([file]);
 
       return false;
     },
+    multiple: false,
+    fileList: file,
   };
 
   //// API lista dokumentacije
@@ -164,7 +168,6 @@ function Dokumentacija() {
       <div style={{ margin: 20, display: 'flex' }}>
         <Upload {...props}>
           <Button type="primary" icon={<UploadOutlined />}>
-            {' '}
             Dodaj novi dokument
           </Button>
         </Upload>
