@@ -12,7 +12,8 @@ import { useParams } from 'react-router-dom';
 function DokumentacijaLokala() {
   const activeRole = authService.getRole();
 
-  const [editDoc, setEditDoc] = useState(false);
+  const [, setEditDoc] = useState(false);
+  const [upload, setUpload] = useState(false);
 
   const handleCancel = () => {
     setEditDoc(false);
@@ -38,11 +39,13 @@ function DokumentacijaLokala() {
       })
       .finally(() => {
         setLoaderPage(false);
+        setUpload(false);
       });
   };
 
   ////Api za brisanje dokumentacije
   const deleteDocument = id_fajla => {
+    setLoaderPage(true);
     api.delete(`/lokali-dms/obrisi-dokument-lokala/${id_fajla}/`).then(res => {
       getData();
     });
@@ -51,6 +54,7 @@ function DokumentacijaLokala() {
   ////Api za download
   const downloadDocument = id_fajla => {
     api.get(`/lokali-dms/preuzmi-dokument-lokala/${id_fajla}/`).then(res => {
+      setLoaderPage(true);
       const link = document.createElement('a');
       link.href = res.data;
       link.download = 'Dokument';
@@ -60,7 +64,7 @@ function DokumentacijaLokala() {
   const handleUpload = () => {
     const formData = new FormData();
     formData.append('lokal', id.id);
-    formData.append('file', file);
+    formData.append('file', file[0]);
     setLoaderPage();
 
     api
@@ -69,13 +73,15 @@ function DokumentacijaLokala() {
           Authorization: `${getToken()}`,
         },
       })
-      .then(res => res.json())
-      .then(() => {
+
+      .then(res => {
+        setFile([]);
         message.success('Uspešno!');
       })
       .catch(() => {
-        // message.error('Greška!');
+        message.error('Greška!');
       })
+
       .finally(() => {
         getData();
         setLoaderPage();
@@ -83,14 +89,14 @@ function DokumentacijaLokala() {
   };
 
   const props = {
-    onRemove: () => {
-      setFile(null);
-    },
+    onRemove: () => {},
     beforeUpload: file => {
-      setFile(file);
+      setFile([file]);
 
       return false;
     },
+    multiple: false,
+    fileList: file,
   };
 
   const columns = [
@@ -162,16 +168,25 @@ function DokumentacijaLokala() {
 
   useEffect(() => {
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <div>
       <div style={{ margin: 20, display: 'flex' }}>
         <Upload {...props}>
-          <Button type="primary" icon={<UploadOutlined />}>
+          <Button
+            onClick={() => {
+              setUpload(true);
+            }}
+            type="primary"
+            icon={<UploadOutlined />}
+          >
             Dodaj novi dokument
           </Button>
         </Upload>
         <Button
+          disabled={upload ? false : true}
           type="primary"
           onClick={handleUpload}
           style={{ marginLeft: 20, display: 'flex', backgroundColor: 'limegreen' }}

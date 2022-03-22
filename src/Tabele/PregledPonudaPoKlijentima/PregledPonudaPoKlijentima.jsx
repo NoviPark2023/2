@@ -280,7 +280,7 @@ const ClientOffersReview = props => {
 
   return (
     <div>
-      <Table columns={columns} dataSource={props.tableItems} pagination={{ pageSize: [5] }} />
+      <Table columns={columns} dataSource={props.tableItems} pagination={{ pageSize: [5] }} rowKey={'id_ponude'} />
 
       <Modal
         title="Pregled Klijenta"
