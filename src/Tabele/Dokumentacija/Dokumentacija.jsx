@@ -12,7 +12,8 @@ import { useParams } from 'react-router-dom';
 function Dokumentacija() {
   const activeRole = authService.getRole();
 
-  const [editDoc, setEditDoc] = useState(false);
+  const [, setEditDoc] = useState(false);
+  const [upload, setUpload] = useState(false);
 
   ///loader
   const [loaderPage, setLoaderPage] = useState(false);
@@ -40,7 +41,6 @@ function Dokumentacija() {
       })
       .then(res => {
         setFile([]);
-
         message.success('Uspešno!');
       })
       .catch(() => {
@@ -75,11 +75,13 @@ function Dokumentacija() {
       })
       .finally(() => {
         setLoaderPage(false);
+        setUpload(false);
       });
   };
 
   ////Api za brisanje dokumentacije
   const deleteDocument = id_fajla => {
+    setLoaderPage(true);
     api.delete(`/stanovi-dms/obrisi-dokument-stana/${id_fajla}/`).then(res => {
       getData();
     });
@@ -88,6 +90,7 @@ function Dokumentacija() {
   ////Api za download
   const downloadDocument = id_fajla => {
     api.get(`/stanovi-dms/preuzmi-dokument-stana/${id_fajla}/`).then(res => {
+      setLoaderPage(true);
       const link = document.createElement('a');
       link.href = res.data;
       link.download = 'Dokument';
@@ -161,17 +164,25 @@ function Dokumentacija() {
 
   useEffect(() => {
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div>
       <div style={{ margin: 20, display: 'flex' }}>
         <Upload {...props}>
-          <Button type="primary" icon={<UploadOutlined />}>
+          <Button
+            onClick={() => {
+              setUpload(true);
+            }}
+            type="primary"
+            icon={<UploadOutlined />}
+          >
             Dodaj novi dokument
           </Button>
         </Upload>
         <Button
+          disabled={upload ? false : true}
           type="primary"
           onClick={handleUpload}
           style={{ marginLeft: 20, display: 'flex', backgroundColor: 'limegreen' }}
