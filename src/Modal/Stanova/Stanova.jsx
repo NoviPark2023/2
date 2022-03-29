@@ -9,14 +9,17 @@ import { toast } from 'react-toastify';
 
 function ChangeApartments(propsstan) {
   const [price, setPrice] = useState(false);
+  const [pagination, setPagination] = useState({});
 
   const [form] = Form.useForm();
 
   useEffect(() => {
+    setPagination(propsstan.pagination);
+    form.setFieldsValue({});
     if (propsstan.edit) {
       form.setFieldsValue({
         lamela: propsstan.propsstan.lamela,
-        adresa_stana: propsstan.propsstan.adresa_stana,
+        // adresa_stana: propsstan.propsstan.adresa_stana,
         kvadratura: propsstan.propsstan.kvadratura,
         sprat: propsstan.propsstan.sprat,
         broj_soba: propsstan.propsstan.broj_soba,
@@ -36,7 +39,7 @@ function ChangeApartments(propsstan) {
   };
   const succses = () => {
     propsstan.closeModal();
-    propsstan.getData();
+    propsstan.getData(pagination.offset, pagination.limit);
   };
 
   const sucsessMessages = value => {
@@ -117,7 +120,7 @@ function ChangeApartments(propsstan) {
         >
           <Input size="default" placeholder="Lamela" />
         </FormItem>
-        <FormItem
+        {/* <FormItem
           label="Adresa stana"
           name="adresa_stana"
           rules={[
@@ -128,7 +131,7 @@ function ChangeApartments(propsstan) {
           ]}
         >
           <Input size="default" placeholder="Adresa stana" />
-        </FormItem>
+        </FormItem> */}
         <FormItem
           label="Kvadratura"
           name="kvadratura"

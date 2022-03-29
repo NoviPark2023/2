@@ -10,6 +10,7 @@ import { Spin } from 'antd';
 
 function Garages(propsgaraze) {
   const [form] = Form.useForm();
+  const [pagination, setPagination] = useState({});
   const [clients, setClients] = useState({}); // List of clients fetched form server by client name
   const [clientOptions, setClientOptions] = useState([]); // list of formatted clients
   const [clientName, setClientName] = useState(''); // current selected client name
@@ -40,6 +41,10 @@ function Garages(propsgaraze) {
 
   useEffect(() => {
     const { propsgaraze: garaza, edit } = propsgaraze;
+    setPagination(propsgaraze.pagination);
+    form.setFieldsValue({});
+    setClientName(null);
+    setClientId(null);
 
     if (edit) {
       form.setFieldsValue({
@@ -52,8 +57,6 @@ function Garages(propsgaraze) {
       });
 
       getSelectedClient(propsgaraze.propsgaraze.kupac);
-    } else {
-      form.setFieldsValue({});
     }
   }, [propsgaraze]);
   useEffect(() => {
@@ -92,7 +95,7 @@ function Garages(propsgaraze) {
         if (propsgaraze.edit) {
           propsgaraze.onEdit(propsgaraze.idKlijenta);
         } else {
-          propsgaraze.getData();
+          propsgaraze.getData(pagination.offset, pagination.limit);
         }
         toast.success('Uspesno ste izmenili podatke');
       })
@@ -107,11 +110,11 @@ function Garages(propsgaraze) {
       })
       .finally(() => {
         setLoaderPage(false);
+        propsgaraze.getData(pagination.offset, pagination.limit);
       });
   };
   const onFinish = values => {
     updateGarages(values);
-    propsgaraze.getData();
   };
 
   const onFinishFailed = errorInfo => {

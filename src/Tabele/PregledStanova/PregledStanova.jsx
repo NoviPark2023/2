@@ -39,13 +39,14 @@ function ApartmentsReview() {
   };
 
   ///API state
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
+  const [pagination, setPagination] = useState({ offset: null, limit: null });
 
   // PAGINATION STANOVI
   const handleChangePagination = pagination => {
     const offset = pagination.current * pagination.pageSize - pagination.pageSize;
     const limit = pagination.pageSize;
-
+    setPagination({ offset: offset, limit: limit });
     getData(offset, limit);
   };
 
@@ -55,8 +56,8 @@ function ApartmentsReview() {
 
     const queryParams = new URLSearchParams();
 
-    queryParams.append('limit', limit);
-    queryParams.append('offset', offset);
+    if (offset) queryParams.append('offset', offset);
+    if (limit) queryParams.append('limit', limit);
 
     api
       .get(`/stanovi/?${queryParams.toString()}`)
@@ -73,7 +74,7 @@ function ApartmentsReview() {
   ////Api za brisanje stanova
   const deleteApartment = id_stana => {
     api.delete(`/stanovi/obrisi-stan/${id_stana}`).then(res => {
-      getData();
+      getData(pagination.offset, pagination.limit);
     });
   };
 
@@ -547,7 +548,13 @@ function ApartmentsReview() {
         onCancel={handleCancel}
         footer={null}
       >
-        <Stanova edit propsstan={selectedPlace} getData={getData} closeModal={() => showModal(false)} />
+        <Stanova
+          edit
+          pagination={pagination}
+          propsstan={selectedPlace}
+          getData={getData}
+          closeModal={() => showModal(false)}
+        />
       </Modal>
       <Modal
         destroyOnClose={true}
@@ -557,7 +564,12 @@ function ApartmentsReview() {
         onCancel={() => setIsCreatePlaceVisible(false)}
         footer={null}
       >
-        <Stanova propsstan={selectedPlace} getData={getData} closeModal={() => setIsCreatePlaceVisible(false)} />
+        <Stanova
+          pagination={pagination}
+          propsstan={selectedPlace}
+          getData={getData}
+          closeModal={() => setIsCreatePlaceVisible(false)}
+        />
       </Modal>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {loaderPage && <Spin tip="Loading page" size="large" />}

@@ -12,6 +12,7 @@ function ClientsReview() {
   const [client, setClient] = useState('');
   const [editClient, setEditClient] = useState(false);
   const [createClient, setCreateClient] = useState(false);
+
   ///loader
   const [loaderPage, setLoaderPage] = useState(false);
 
@@ -29,13 +30,14 @@ function ClientsReview() {
   };
 
   //state za API
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
+  const [pagination, setPagination] = useState({ offset: null, limit: null });
 
   // PAGINATION KLIJENTI
   const handleChangePagination = pagination => {
     const offset = pagination.current * pagination.pageSize - pagination.pageSize;
     const limit = pagination.pageSize;
-
+    setPagination({ offset: offset, limit: limit });
     getData(offset, limit);
   };
 
@@ -45,9 +47,8 @@ function ClientsReview() {
 
     const queryParams = new URLSearchParams();
 
-    queryParams.append('offset', offset);
-    queryParams.append('limit', limit);
-    queryParams.append('offset', offset);
+    if (offset) queryParams.append('offset', offset);
+    if (limit) queryParams.append('limit', limit);
 
     api
       .get(`/kupci/?${queryParams.toString()}`)
@@ -62,7 +63,7 @@ function ClientsReview() {
   /// Api za brisanje kupca
   const deleteClient = id_kupca => {
     api.delete(`/kupci/obrisi-kupca/${id_kupca}/`).then(res => {
-      getData();
+      getData(pagination.offset, pagination.limit);
     });
   };
 
@@ -134,13 +135,13 @@ function ClientsReview() {
   });
 
   const columns = [
-    {
-      key: '1',
-      title: 'ID Kupca',
-      align: 'center',
-      dataIndex: 'id_kupca',
-      ...getColumnSearchProps('id_kupca'), /////pozivanje search-a u tabeli
-    },
+    // {
+    //   key: '1',
+    //   title: 'ID Kupca',
+    //   align: 'center',
+    //   dataIndex: 'id_kupca',
+    //   ...getColumnSearchProps('id_kupca'), /////pozivanje search-a u tabeli
+    // },
     {
       key: '2',
       title: 'Lice',
@@ -275,7 +276,13 @@ function ClientsReview() {
       />
 
       <Modal title="Izmeni klijenta" visible={editClient} onOk={handleOk} onCancel={handleCancel} footer={null}>
-        <Klijenta edit propsklijenta={client} getData={getData} closeModal={() => showModal(false)} />
+        <Klijenta
+          edit
+          pagination={pagination}
+          propsklijenta={client}
+          getData={getData}
+          closeModal={() => showModal(false)}
+        />
       </Modal>
       <Modal
         destroyOnClose={true}
@@ -285,7 +292,12 @@ function ClientsReview() {
         onCancel={() => setCreateClient(false)}
         footer={null}
       >
-        <Klijenta propsklijenta={client} getData={getData} closeModal={() => setCreateClient(false)} />
+        <Klijenta
+          pagination={pagination}
+          propsklijenta={client}
+          getData={getData}
+          closeModal={() => setCreateClient(false)}
+        />
       </Modal>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {loaderPage && <Spin tip="Loading page" size="large" />}

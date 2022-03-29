@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input, Form, Select, Button, message } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { UserOutlined } from '@ant-design/icons';
@@ -10,8 +10,11 @@ import { toast } from 'react-toastify';
 
 function ChangeClients(propsklijenta) {
   const [form] = Form.useForm();
+  const [pagination, setPagination] = useState({});
 
   useEffect(() => {
+    setPagination(propsklijenta.pagination);
+    form.setFieldsValue({});
     if (propsklijenta.edit) {
       form.setFieldsValue({
         lice: propsklijenta.propsklijenta.lice,
@@ -30,16 +33,12 @@ function ChangeClients(propsklijenta) {
 
   const succses = () => {
     propsklijenta.closeModal();
-    propsklijenta.getData();
+    propsklijenta.getData(pagination.offset, pagination.limit);
   };
 
   const sucsessMessages = value => {
     toast.success(value);
   };
-
-  // const errorMessages = value => {
-  //   toast.error(value);
-  // };
 
   const createClient = values => {
     const endpoint = '/kupci/kreiraj-kupca/';
