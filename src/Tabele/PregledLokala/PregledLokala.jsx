@@ -144,13 +144,13 @@ function ReviewLocal() {
   });
 
   const columns = [
-    {
-      key: '1',
-      title: 'ID',
-      align: 'center',
-      dataIndex: 'id_lokala',
-      ...getColumnSearchProps('id_lokala'),
-    },
+    // {
+    //   key: '1',
+    //   title: 'ID',
+    //   align: 'center',
+    //   dataIndex: 'id_lokala',
+    //   ...getColumnSearchProps('id_lokala'),
+    // },
     {
       key: '2',
       title: 'Lamela',

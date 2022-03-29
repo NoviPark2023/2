@@ -29,14 +29,16 @@ function PregledGaraza() {
   const handleCancel = () => {
     setEditClient(false);
   };
+
   //state za API
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
+  const [pagination, setPagination] = useState({ offset: null, limit: null });
 
   // PAGINATION GARAZE
-  const handleChangePagination = pagination => {
+  const handleChangePagination = (pagination, filters) => {
     const offset = pagination.current * pagination.pageSize - pagination.pageSize;
     const limit = pagination.pageSize;
-
+    setPagination({ offset: offset, limit: limit });
     getData(offset, limit);
   };
 
@@ -45,13 +47,10 @@ function PregledGaraza() {
     setLoaderPage(true);
 
     const queryParams = new URLSearchParams();
-
-    queryParams.append('offset', offset);
-    queryParams.append('limit', limit);
-    queryParams.append('offset', offset);
+    if (offset) queryParams.append('offset', offset);
+    if (limit) queryParams.append('limit', limit);
 
     api
-      //.get('/garaze/')
       .get(`/garaze/?${queryParams.toString()}`)
       .then(res => {
         setData(res.data);
@@ -64,7 +63,7 @@ function PregledGaraza() {
   /// Api za brisanje kupca
   const deleteGarage = id_garaze => {
     api.delete(`/garaze/obrisi-garazu/${id_garaze}/`).then(res => {
-      getData();
+      getData(pagination.offset, pagination.limit);
     });
   };
 
@@ -146,13 +145,13 @@ function PregledGaraza() {
   });
 
   const columns = [
-    {
-      key: '1',
-      title: 'ID',
-      align: 'center',
-      dataIndex: 'id_garaze',
-      ...getColumnSearchProps('id_garaze'),
-    },
+    // {
+    //   key: '1',
+    //   title: 'ID',
+    //   align: 'center',
+    //   dataIndex: 'id_garaze',
+    //   ...getColumnSearchProps('id_garaze'),
+    // },
 
     {
       key: '2',
@@ -200,15 +199,15 @@ function PregledGaraza() {
       filters: [
         {
           text: 'prodata',
-          value: ['prodata'],
+          value: 'prodata',
         },
         {
           text: 'dostupna',
-          value: ['dostupna'],
+          value: 'dostupna',
         },
         {
           text: 'rezervisana',
-          value: ['rezervisana'],
+          value: 'rezervisana',
         },
       ],
       onFilter: (value, record) => record.status_prodaje_garaze.indexOf(value) === 0,
@@ -222,7 +221,7 @@ function PregledGaraza() {
     },
     {
       key: '7',
-      title: 'Nacin plaćanja',
+      title: 'Način plaćanja',
       align: 'center',
       dataIndex: 'nacin_placanja_garaze',
       render: (text, record) => <span>{record.nacin_placanja_garaze}</span>,
@@ -335,7 +334,13 @@ function PregledGaraza() {
       />
 
       <Modal title="Izmeni podatke garaže" visible={editClient} onOk={handleOk} onCancel={handleCancel} footer={null}>
-        <Garaze edit propsgaraze={client} getData={getData} closeModal={() => showModal(false)} />
+        <Garaze
+          edit
+          pagination={pagination}
+          propsgaraze={client}
+          getData={getData}
+          closeModal={() => showModal(false)}
+        />
       </Modal>
       <Modal
         destroyOnClose={true}
@@ -345,7 +350,12 @@ function PregledGaraza() {
         onCancel={() => setCreateClient(false)}
         footer={null}
       >
-        <Garaze propsgaraze={client} getData={getData} closeModal={() => setCreateClient(false)} />
+        <Garaze
+          propsgaraze={client}
+          getData={getData}
+          pagination={pagination}
+          closeModal={() => setCreateClient(false)}
+        />
       </Modal>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {loaderPage && <Spin tip="Loading page" size="large" />}
