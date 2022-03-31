@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import {Input, Button, Form, Select, message} from 'antd';
+import { Input, Button, Form, Select, message } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { api } from 'api/api';
 import { Option } from 'antd/lib/mentions';

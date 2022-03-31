@@ -9,7 +9,7 @@ import moment from 'moment';
 import getToken from 'utils/getToken';
 import { useParams } from 'react-router-dom';
 
-function Dokumentacija() {
+function DocumentationApartment() {
   const activeRole = authService.getRole();
 
   const [, setEditDoc] = useState(false);
@@ -90,7 +90,7 @@ function Dokumentacija() {
   ////Api za download
   const downloadDocument = id_fajla => {
     api.get(`/stanovi-dms/preuzmi-dokument-stana/${id_fajla}/`).then(res => {
-      setLoaderPage(true);
+      setLoaderPage(false);
       const link = document.createElement('a');
       link.href = res.data;
       link.download = 'Dokument';
@@ -101,18 +101,12 @@ function Dokumentacija() {
   const columns = [
     {
       key: '1',
-      title: 'ID',
-      align: 'center',
-      dataIndex: 'id_fajla',
-    },
-    {
-      key: '2',
       title: 'Naziv fajla',
       align: 'center',
       dataIndex: 'naziv_fajla',
     },
     {
-      key: '3',
+      key: '2',
       title: 'Datum',
       align: 'center',
       dataIndex: 'datum_ucitavanja',
@@ -121,13 +115,12 @@ function Dokumentacija() {
       },
     },
     {
-      key: '4',
+      key: '3',
       title: 'Preuzmi',
       align: 'center',
       render: (text, record) => (
         <>
           <Button
-            disabled={activeRole === 'Prodavac'}
             type="primary"
             onClick={() => {
               downloadDocument(record.id_fajla);
@@ -139,13 +132,12 @@ function Dokumentacija() {
       ),
     },
     {
-      key: '5',
+      key: '4',
       title: 'Obriši',
       align: 'center',
       render: (text, record) => (
         <>
           <Popconfirm
-            disabled={activeRole === 'Prodavac'}
             title="Da li ste sigurni da želite da izbrišete dokument?"
             placement="left"
             onCancel={handleCancel}
@@ -153,9 +145,7 @@ function Dokumentacija() {
             okText="DA"
             onConfirm={() => deleteDocument(record.id_fajla)}
           >
-            <Button disabled={activeRole === 'Prodavac'} type="danger">
-              Obriši
-            </Button>
+            <Button type="danger">Obriši</Button>
           </Popconfirm>
         </>
       ),
@@ -199,4 +189,4 @@ function Dokumentacija() {
   );
 }
 
-export default Dokumentacija;
+export default DocumentationApartment;

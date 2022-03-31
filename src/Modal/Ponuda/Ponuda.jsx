@@ -7,7 +7,6 @@ import { Option } from 'antd/lib/mentions';
 import 'antd/dist/antd.css';
 import { api } from 'api/api';
 import { toast } from 'react-toastify';
-// import moment from 'moment';
 import { Spin } from 'antd';
 
 function ChangeOffers(propsponuda) {
@@ -23,8 +22,8 @@ function ChangeOffers(propsponuda) {
   const onClientSelect = selected => {
     const option = clientOptions.find(option => option.value === selected);
 
-    setClientName(option?.label || '');
-    setClientId(option?.value || null);
+    setClientName(option?.value || '');
+    setClientId(option?.id || null);
   };
 
   const onClientSearch = client => {
@@ -45,6 +44,7 @@ function ChangeOffers(propsponuda) {
 
     if (edit) {
       form.setFieldsValue({
+        ime_kupca: ponuda.ime_kupca,
         cena_stana_za_kupca: ponuda.cena_stana_za_kupca,
         broj_ugovora: ponuda.broj_ugovora,
         datum_ugovora: ponuda.datum_ugovora,
@@ -63,8 +63,8 @@ function ChangeOffers(propsponuda) {
     if (clients.hasOwnProperty('results')) {
       setClientOptions(
         clients.results.map(client => ({
-          value: client.id_kupca,
-          label: client.ime_prezime,
+          value: client.ime_prezime,
+          id: client.id_kupca,
         }))
       );
     }
@@ -126,6 +126,7 @@ function ChangeOffers(propsponuda) {
       <Form autoComplete="off" layout="vertical" onFinish={onFinish} onFinishFailed={onFinishFailed} form={form}>
         <FormItem
           label="Ime kupca"
+          name="ime_kupca"
           rules={[
             {
               required: true,

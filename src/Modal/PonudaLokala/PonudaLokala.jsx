@@ -19,8 +19,8 @@ function PonudaLokala(propsponudalokala) {
   const onClientSelect = selected => {
     const option = clientOptions.find(option => option.value === selected);
 
-    setClientName(option?.label || '');
-    setClientId(option?.value || null);
+    setClientName(option?.value || '');
+    setClientId(option?.id || null);
   };
   const onClientSearch = client => {
     api.get(`/kupci/kupci-autocomplete/${client}/`).then(response => {
@@ -40,6 +40,7 @@ function PonudaLokala(propsponudalokala) {
 
     if (edit) {
       form.setFieldsValue({
+        ime_kupca_lokala: ponuda.ime_kupca_lokala,
         cena_lokala_za_kupca: ponuda.cena_lokala_za_kupca,
         broj_ugovora_lokala: ponuda.broj_ugovora_lokala,
         datum_ugovora_lokala: ponuda.datum_ugovora_lokala,
@@ -60,8 +61,8 @@ function PonudaLokala(propsponudalokala) {
     if (clients.hasOwnProperty('results')) {
       setClientOptions(
         clients.results.map(client => ({
-          value: client.id_kupca,
-          label: client.ime_prezime,
+          value: client.ime_prezime,
+          id: client.id_kupca,
         }))
       );
     }
@@ -123,7 +124,7 @@ function PonudaLokala(propsponudalokala) {
       <Form autoComplete="off" onFinish={onFinish} onFinishFailed={onFinishFailed} layout="vertical" form={form}>
         <FormItem
           label="Ime kupca"
-          // name="ime_kupca"
+          name="ime_kupca_lokala"
           rules={[
             {
               required: true,

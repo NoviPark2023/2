@@ -11,6 +11,7 @@ import { Spin } from 'antd';
 function Garages(propsgaraze) {
   const [form] = Form.useForm();
   const [pagination, setPagination] = useState({});
+  const [filter, setFilters] = useState({});
   const [clients, setClients] = useState({}); // List of clients fetched form server by client name
   const [clientOptions, setClientOptions] = useState([]); // list of formatted clients
   const [clientName, setClientName] = useState(''); // current selected client name
@@ -42,6 +43,7 @@ function Garages(propsgaraze) {
   useEffect(() => {
     const { propsgaraze: garaza, edit } = propsgaraze;
     setPagination(propsgaraze.pagination);
+    setFilters(propsgaraze.filter);
     form.setFieldsValue({});
     setClientName(null);
     setClientId(null);
@@ -95,22 +97,28 @@ function Garages(propsgaraze) {
         if (propsgaraze.edit) {
           propsgaraze.onEdit(propsgaraze.idKlijenta);
         } else {
-          propsgaraze.getData(pagination.offset, pagination.limit);
+          propsgaraze.getData(pagination.offset, pagination.limit, filter);
         }
         toast.success('Uspesno ste izmenili podatke');
       })
       .catch(error => {
-        if (error.data) {
+        if (error.data.jedinstveni_broj_garaze) {
           message.error({
             content: 'Garaza sa ovim brojem vec postoji u sistemu !',
             className: 'custom-class',
             style: { fontSize: 20, marginTop: '0vh' },
           });
+          // } else if (error.status === 500) {
+          //   message.error({
+          //     content: 'Unesite ime kupca!',
+          //     className: 'custom-class',
+          //     style: { fontSize: 20, marginTop: '0vh' },
+          //   });
         }
       })
       .finally(() => {
         setLoaderPage(false);
-        propsgaraze.getData(pagination.offset, pagination.limit);
+        // propsgaraze.getData(pagination.offset, pagination.limit, filter);
       });
   };
   const onFinish = values => {
