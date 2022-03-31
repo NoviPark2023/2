@@ -114,13 +114,13 @@ const ClientOffersReview = props => {
   });
 
   const columns = [
-    {
-      key: '1',
-      title: 'ID ponude',
-      align: 'center',
-      dataIndex: 'id_ponude',
-      ...getColumnSearchProps('id_ponude'),
-    },
+    // {
+    //   key: '1',
+    //   title: 'ID ponude',
+    //   align: 'center',
+    //   dataIndex: 'id_ponude',
+    //   ...getColumnSearchProps('id_ponude'),
+    // },
 
     {
       key: '2',

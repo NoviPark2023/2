@@ -9,9 +9,8 @@ import getToken from 'utils/getToken';
 import moment from 'moment';
 import { useParams } from 'react-router-dom';
 
-function DokumentacijaLokala() {
+function DocumentationLocal() {
   const activeRole = authService.getRole();
-
   const [, setEditDoc] = useState(false);
   const [upload, setUpload] = useState(false);
 
@@ -54,7 +53,7 @@ function DokumentacijaLokala() {
   ////Api za download
   const downloadDocument = id_fajla => {
     api.get(`/lokali-dms/preuzmi-dokument-lokala/${id_fajla}/`).then(res => {
-      setLoaderPage(true);
+      setLoaderPage(false);
       const link = document.createElement('a');
       link.href = res.data;
       link.download = 'Dokument';
@@ -102,19 +101,12 @@ function DokumentacijaLokala() {
   const columns = [
     {
       key: '1',
-      title: 'ID',
-      align: 'center',
-      dataIndex: 'id_fajla',
-    },
-
-    {
-      key: '2',
       title: 'Naziv fajla',
       align: 'center',
       dataIndex: 'naziv_fajla',
     },
     {
-      key: '3',
+      key: '2',
       title: 'Datum',
       align: 'center',
       dataIndex: 'datum_ucitavanja',
@@ -123,13 +115,12 @@ function DokumentacijaLokala() {
       },
     },
     {
-      key: '4',
+      key: '3',
       title: 'Preuzmi',
       align: 'center',
       render: (text, record) => (
         <>
           <Button
-            disabled={activeRole === 'Prodavac'}
             type="primary"
             onClick={() => {
               downloadDocument(record.id_fajla);
@@ -141,15 +132,12 @@ function DokumentacijaLokala() {
       ),
     },
     {
-      key: '5',
+      key: '4',
       title: 'Obriši',
       align: 'center',
       render: (text, record) => (
         <>
           <Popconfirm
-            disabled={activeRole === 'Prodavac'}
-            // visible={editDoc}
-            // onOk={handleOk}
             title="Da li ste sigurni da želite da izbrišete dokument?"
             placement="left"
             onCancel={handleCancel}
@@ -157,9 +145,7 @@ function DokumentacijaLokala() {
             okText="DA"
             onConfirm={() => deleteDocument(record.id_fajla)}
           >
-            <Button disabled={activeRole === 'Prodavac'} type="danger">
-              Obriši
-            </Button>
+            <Button type="danger">Obriši</Button>
           </Popconfirm>
         </>
       ),
@@ -202,4 +188,4 @@ function DokumentacijaLokala() {
   );
 }
 
-export default DokumentacijaLokala;
+export default DocumentationLocal;

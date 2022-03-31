@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Table, Modal, Input, Space, Popconfirm } from 'antd';
+import { Button, Table, Modal, Popconfirm } from 'antd';
 import { api } from 'api/api';
 import CeneKvadrata from 'Modal/CeneKvadrata/CeneKvadrata';
-import Highlighter from 'react-highlight-words';
-import { SearchOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import { Spin } from 'antd';
 
@@ -51,83 +49,9 @@ function ApartmentsPriceReview() {
     });
   };
 
-  ////hooks za search u tabeli
-  const [searchText, setSearchText] = useState('');
-  const [searchedColumn, setSearchedColumn] = useState('');
-
-  ////funkcionanost za search u tabeli
-  const handleSearch = (selectedKeys, confirm, dataIndex) => {
-    confirm();
-    setSearchText(selectedKeys[0]);
-    setSearchedColumn(dataIndex);
-  };
-
-  const handleReset = clearFilters => {
-    clearFilters();
-  };
-
-  let searchInput;
-
-  const getColumnSearchProps = dataIndex => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-      <div style={{ padding: 8 }}>
-        <Input
-          ref={node => {
-            searchInput = node;
-          }}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{ marginBottom: 8, display: 'block' }}
-        />
-        <Space>
-          <Button
-            type="primary"
-            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            icon={<SearchOutlined />}
-            size="small"
-            style={{ width: 100 }}
-          >
-            Search
-          </Button>
-          <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 100 }}>
-            Reset
-          </Button>
-        </Space>
-      </div>
-    ),
-    filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
-    onFilter: (value, record) =>
-      record[dataIndex] ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()) : '',
-    onFilterDropdownVisibleChange: visible => {
-      if (visible) {
-        setTimeout(() => searchInput.select(), 100);
-      }
-    },
-    render: text =>
-      searchedColumn === dataIndex ? (
-        <Highlighter
-          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-          searchWords={[searchText]}
-          autoEscape
-          textToHighlight={text ? text.toString() : ''}
-        />
-      ) : (
-        text
-      ),
-  });
-
   const columns = [
     {
       key: '1',
-      title: 'ID Cene',
-      align: 'center',
-      dataIndex: 'id_azur_cene',
-      ...getColumnSearchProps('id_azur_cene'),
-    },
-    {
-      key: '2',
       title: 'Sprat',
       align: 'center',
       dataIndex: 'sprat',
@@ -170,7 +94,7 @@ function ApartmentsPriceReview() {
     },
 
     {
-      key: '3',
+      key: '2',
       title: 'Broj soba',
       align: 'center',
       dataIndex: 'broj_soba',
@@ -217,7 +141,7 @@ function ApartmentsPriceReview() {
     },
 
     {
-      key: '4',
+      key: '3',
       title: 'Orijentacija',
       align: 'center',
       dataIndex: 'orijentisanost',
@@ -234,7 +158,7 @@ function ApartmentsPriceReview() {
       onFilter: (value, record) => record.orijentisanost.indexOf(value) === 0,
     },
     {
-      key: '5',
+      key: '4',
       title: 'Cena Kvadrata',
       align: 'center',
       dataIndex: 'cena_kvadrata',
@@ -265,7 +189,7 @@ function ApartmentsPriceReview() {
     },
 
     {
-      key: '6',
+      key: '5',
       title: 'Izmeni',
       align: 'center',
       render: (text, record) => (
@@ -283,7 +207,7 @@ function ApartmentsPriceReview() {
       ),
     },
     {
-      key: '7',
+      key: '6',
       title: 'Obriši',
       align: 'center',
       render: (text, record) => (
@@ -320,7 +244,15 @@ function ApartmentsPriceReview() {
             Kreiraj novu cenu
           </Button>
         </div>
-        <Table dataSource={data} columns={columns} pagination={{ pageSize: [5] }} rowKey="id_azur_cene" />
+        <Table
+          dataSource={data}
+          columns={columns}
+          pagination={{
+            total: data.count, // total count returned from backend
+          }}
+          scroll={{ y: 'calc(100vh - 265px)' }}
+          rowKey="id_azur_cene"
+        />
         <Modal
           title="Izmeni cenu kvadrata"
           visible={isEditPriceVisible}

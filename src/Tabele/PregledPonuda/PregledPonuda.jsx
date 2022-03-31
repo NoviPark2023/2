@@ -1,12 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Modal, Popconfirm, Input, Space, Tag } from 'antd';
+import { Table, Button, Modal, Popconfirm, Tag } from 'antd';
 import Ponuda from 'Modal/Ponuda/Ponuda';
 import { useLocation } from 'react-router';
 import { api } from 'api/api';
-// import Klijenta from 'Modal/Klijenta/Klijenta';
-import Highlighter from 'react-highlight-words';
-import { SearchOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
 import { authService } from 'auth/auth.service';
 
@@ -17,10 +14,7 @@ const OffersReview = () => {
   const browserLocation = useLocation();
   const queryParams = new URLSearchParams(browserLocation.search);
   const id = queryParams.get('id'); ///id stana
-  // const price = queryParams.get('price'); ///cena stana
   const [setPonude, setSelectedOffers] = useState('');
-  // const [isClientVisible, setIsClientVisible] = useState(false);
-  // const [selectedBuyer] = useState(null);
   const [offers, setOffers] = useState(null);
 
   ///loader
@@ -75,114 +69,116 @@ const OffersReview = () => {
     setIsModalVisible(false);
   };
 
-  ////hooks za search u tabeli
-  const [searchText, setSearchText] = useState('');
-  const [searchedColumn, setSearchedColumn] = useState('');
+  // ////hooks za search u tabeli
+  // const [searchText, setSearchText] = useState('');
+  // const [searchedColumn, setSearchedColumn] = useState('');
 
-  ////funkcionanost za search u tabeli
-  const handleSearch = (selectedKeys, confirm, dataIndex) => {
-    confirm();
-    setSearchText(selectedKeys[0]);
-    setSearchedColumn(dataIndex);
-  };
+  // ////funkcionanost za search u tabeli
+  // const handleSearch = (selectedKeys, confirm, dataIndex) => {
+  //   confirm();
+  //   setSearchText(selectedKeys[0]);
+  //   setSearchedColumn(dataIndex);
+  // };
 
-  const handleReset = clearFilters => {
-    clearFilters();
-  };
+  // const handleReset = clearFilters => {
+  //   clearFilters();
+  // };
 
-  let searchInput;
+  // let searchInput;
 
-  const getColumnSearchProps = dataIndex => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-      <div style={{ padding: 8 }}>
-        <Input
-          ref={node => {
-            searchInput = node;
-          }}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{ marginBottom: 8, display: 'block' }}
-        />
-        <Space>
-          <Button
-            type="primary"
-            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            icon={<SearchOutlined />}
-            size="small"
-            style={{ width: 100 }}
-          >
-            Search
-          </Button>
-          <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 100 }}>
-            Reset
-          </Button>
-        </Space>
-      </div>
-    ),
-    filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
-    onFilter: (value, record) =>
-      record[dataIndex] ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()) : '',
-    onFilterDropdownVisibleChange: visible => {
-      if (visible) {
-        setTimeout(() => searchInput.select(), 100);
-      }
-    },
-    render: text =>
-      searchedColumn === dataIndex ? (
-        <Highlighter
-          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-          searchWords={[searchText]}
-          autoEscape
-          textToHighlight={text ? text.toString() : ''}
-        />
-      ) : (
-        text
-      ),
-  });
+  // const getColumnSearchProps = dataIndex => ({
+  //   filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+  //     <div style={{ padding: 8 }}>
+  //       <Input
+  //         ref={node => {
+  //           searchInput = node;
+  //         }}
+  //         placeholder={`Search ${dataIndex}`}
+  //         value={selectedKeys[0]}
+  //         onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+  //         onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+  //         style={{ marginBottom: 8, display: 'block' }}
+  //       />
+  //       <Space>
+  //         <Button
+  //           type="primary"
+  //           onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+  //           icon={<SearchOutlined />}
+  //           size="small"
+  //           style={{ width: 100 }}
+  //         >
+  //           Search
+  //         </Button>
+  //         <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 100 }}>
+  //           Reset
+  //         </Button>
+  //       </Space>
+  //     </div>
+  //   ),
+  //   filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
+  //   onFilter: (value, record) =>
+  //     record[dataIndex] ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()) : '',
+  //   onFilterDropdownVisibleChange: visible => {
+  //     if (visible) {
+  //       setTimeout(() => searchInput.select(), 100);
+  //     }
+  //   },
+  //   render: text =>
+  //     searchedColumn === dataIndex ? (
+  //       <Highlighter
+  //         highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+  //         searchWords={[searchText]}
+  //         autoEscape
+  //         textToHighlight={text ? text.toString() : ''}
+  //       />
+  //     ) : (
+  //       text
+  //     ),
+  // });
   const columns = [
-    {
-      key: '1',
-      title: 'ID ponude',
-      align: 'center',
-      dataIndex: 'id_ponude',
-      ...getColumnSearchProps('id_ponude'),
-    },
+    // {
+    //   key: '1',
+    //   title: 'ID ponude',
+    //   align: 'center',
+    //   dataIndex: 'id_ponude',
+    //   ...getColumnSearchProps('id_ponude'),
+    // },
     {
       key: '2',
       title: 'Kupac',
       align: 'center',
       dataIndex: 'ime_kupca',
-      ...getColumnSearchProps('kupac'),
+      // ...getColumnSearchProps('kupac'),
     },
     {
       key: '3',
       title: 'Stan',
       align: 'center',
       dataIndex: 'stan',
-      ...getColumnSearchProps('stan'),
+      // ...getColumnSearchProps('stan'),
     },
     {
       key: '4',
       title: 'Lamela stana',
       align: 'center',
       dataIndex: 'lamela_stana',
-      ...getColumnSearchProps('lamela_stana'),
+      // ...getColumnSearchProps('lamela_stana'),
     },
     {
       key: '5',
       title: 'Cena ponude stana',
       align: 'center',
       dataIndex: 'cena_stana_za_kupca',
-      ...getColumnSearchProps('cena_stana_za_kupca'),
+      sorter: (a, b) => a.cena_stana_za_kupca - b.cena_stana_za_kupca,
+      // ...getColumnSearchProps('cena_stana_za_kupca'),
     },
     {
       key: '6',
       title: 'Cena stana',
       align: 'center',
       dataIndex: 'cena_stana',
-      ...getColumnSearchProps('cena_stana'),
+      sorter: (a, b) => a.cena_stana - b.cena_stana,
+      // ...getColumnSearchProps('cena_stana'),
       // render: () => <span>{price}</span>,
     },
 
@@ -191,14 +187,14 @@ const OffersReview = () => {
       title: 'Broj ugovora',
       align: 'center',
       dataIndex: 'broj_ugovora',
-      ...getColumnSearchProps('broj_ugovora'),
+      // ...getColumnSearchProps('broj_ugovora'),
     },
     {
       key: '8',
       title: 'Datum',
       align: 'center',
       dataIndex: 'datum_ugovora',
-      ...getColumnSearchProps('datum_ugovora'),
+      // ...getColumnSearchProps('datum_ugovora'),
     },
     {
       key: '9',
@@ -206,25 +202,25 @@ const OffersReview = () => {
       align: 'center',
       dataIndex: 'nacin_placanja',
       render: (text, record) => <span>{record.nacin_placanja}</span>,
-      filters: [
-        {
-          text: 'Ceo iznos',
-          value: 'Ceo iznos',
-        },
-        {
-          text: 'Kredit',
-          value: 'Kredit',
-        },
-        {
-          text: 'Na rate',
-          value: 'Na rate',
-        },
-        {
-          text: 'Ucešće',
-          value: 'Ucesce',
-        },
-      ],
-      onFilter: (value, record) => record.nacin_placanja.indexOf(value) === 0,
+      // filters: [
+      //   {
+      //     text: 'Ceo iznos',
+      //     value: 'Ceo iznos',
+      //   },
+      //   {
+      //     text: 'Kredit',
+      //     value: 'Kredit',
+      //   },
+      //   {
+      //     text: 'Na rate',
+      //     value: 'Na rate',
+      //   },
+      //   {
+      //     text: 'Ucešće',
+      //     value: 'Ucesce',
+      //   },
+      // ],
+      // onFilter: (value, record) => record.nacin_placanja.indexOf(value) === 0,
     },
     {
       key: '10',
@@ -246,21 +242,21 @@ const OffersReview = () => {
           </Tag>
         );
       },
-      filters: [
-        {
-          text: 'potencijalan',
-          value: ['potencijalan'],
-        },
-        {
-          text: 'rezervisan',
-          value: ['rezervisan'],
-        },
-        {
-          text: 'kupljen',
-          value: ['kupljen'],
-        },
-      ],
-      onFilter: (value, record) => record.status_ponude.indexOf(value) === 0,
+      // filters: [
+      //   {
+      //     text: 'potencijalan',
+      //     value: ['potencijalan'],
+      //   },
+      //   {
+      //     text: 'rezervisan',
+      //     value: ['rezervisan'],
+      //   },
+      //   {
+      //     text: 'kupljen',
+      //     value: ['kupljen'],
+      //   },
+      // ],
+      // onFilter: (value, record) => record.status_ponude.indexOf(value) === 0,
     },
     {
       key: '11',
@@ -286,9 +282,6 @@ const OffersReview = () => {
       render: (text, record) => (
         <>
           <Button
-            disabled={
-              (record.status_ponude === 'rezervisan' || record.status_ponude === 'kupljen') && activeRole === 'Prodavac'
-            }
             type="primary"
             onClick={() => {
               showModal(true);
@@ -344,7 +337,7 @@ const OffersReview = () => {
           Dodaj novu ponudu
         </Button>
       </div>
-      <Table columns={columns} dataSource={setPonude} pagination={{ pageSize: [5] }} rowKey="id_ponude"></Table>
+      <Table columns={columns} dataSource={setPonude} pagination={false} rowKey="id_ponude"></Table>
 
       {/* <Modal
         title="Pregled Klijenta"

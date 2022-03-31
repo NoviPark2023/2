@@ -7,7 +7,7 @@ import { api } from 'api/api';
 import 'antd/dist/antd.css';
 import { authService } from 'auth/auth.service';
 
-function PregledGaraza() {
+function GarageReview() {
   const [client, setClient] = useState('');
   const [editClient, setEditClient] = useState(false);
   const [createClient, setCreateClient] = useState(false);
@@ -32,21 +32,39 @@ function PregledGaraza() {
 
   //state za API
   const [data, setData] = useState({});
+  const [filter, setFilters] = useState({});
   const [pagination, setPagination] = useState({ offset: null, limit: null });
 
   // PAGINATION GARAZE
   const handleChangePagination = (pagination, filters) => {
+    const stringFilters = ['jedinstveni_broj_garaze', 'ime_kupca', 'cena_garaze', 'datum_ugovora_garaze'];
+    Object.entries(filters).forEach(entry => {
+      let key = entry[0];
+      let value = entry[1];
+      if (stringFilters.includes(key)) {
+        filters[key] = value ? value[0] : null;
+      } else {
+        filters[key] = value ? value : null;
+      }
+    });
+    setFilters({ ...filters });
     const offset = pagination.current * pagination.pageSize - pagination.pageSize;
     const limit = pagination.pageSize;
     setPagination({ offset: offset, limit: limit });
-    getData(offset, limit);
+    getData(offset, limit, filters);
   };
 
   //// API lista Garaza
-  const getData = async (offset, limit) => {
+  const getData = async (offset, limit, filters) => {
     setLoaderPage(true);
 
     const queryParams = new URLSearchParams();
+    if (filters)
+      Object.entries(filters).forEach(entry => {
+        if (entry[1]) {
+          queryParams.append(entry[0], entry[1]);
+        }
+      });
     if (offset) queryParams.append('offset', offset);
     if (limit) queryParams.append('limit', limit);
 
@@ -86,6 +104,10 @@ function PregledGaraza() {
     confirm();
     setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
+
+    // if (dataIndex === 'jedinstveni_broj_garaze') {
+    //   setSearch(selectedKeys[0]);
+    // }
   };
 
   const handleReset = clearFilters => {
@@ -154,7 +176,7 @@ function PregledGaraza() {
     // },
 
     {
-      key: '2',
+      key: 'jedinstveni_broj_garaze',
       title: 'Broj garaže',
       align: 'center',
       dataIndex: 'jedinstveni_broj_garaze',
@@ -162,15 +184,15 @@ function PregledGaraza() {
     },
 
     {
-      key: '3',
+      key: 'cena_garaze',
       title: 'Cena',
       align: 'center',
       dataIndex: 'cena_garaze',
-      ...getColumnSearchProps('cena_garaze'),
-      sorter: (a, b) => a.cena_garaze - b.cena_garaze,
+      // ...getColumnSearchProps('cena_garaze'),
+      // sorter: (a, b) => a.cena_garaze - b.cena_garaze,
     },
     {
-      key: '4',
+      key: 'ime_kupca',
       title: 'Kupac',
       align: 'center',
       dataIndex: 'ime_kupca',
@@ -213,7 +235,7 @@ function PregledGaraza() {
       onFilter: (value, record) => record.status_prodaje_garaze.indexOf(value) === 0,
     },
     {
-      key: '6',
+      key: 'datum_ugovora_garaze',
       title: 'Datum',
       align: 'center',
       dataIndex: 'datum_ugovora_garaze',
@@ -337,6 +359,7 @@ function PregledGaraza() {
         <Garaze
           edit
           pagination={pagination}
+          filter={filter}
           propsgaraze={client}
           getData={getData}
           closeModal={() => showModal(false)}
@@ -354,6 +377,7 @@ function PregledGaraza() {
           propsgaraze={client}
           getData={getData}
           pagination={pagination}
+          filter={filter}
           closeModal={() => setCreateClient(false)}
         />
       </Modal>
@@ -364,4 +388,4 @@ function PregledGaraza() {
   );
 }
 
-export default PregledGaraza;
+export default GarageReview;
