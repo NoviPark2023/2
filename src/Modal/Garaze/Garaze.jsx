@@ -5,13 +5,10 @@ import FormItem from 'antd/lib/form/FormItem';
 import { Option } from 'antd/lib/mentions';
 import 'antd/dist/antd.css';
 import { api } from 'api/api';
-import { toast } from 'react-toastify';
 import { Spin } from 'antd';
 
 function Garages(propsgaraze) {
   const [form] = Form.useForm();
-  const [pagination, setPagination] = useState({});
-  const [filter, setFilters] = useState({});
   const [clients, setClients] = useState({}); // List of clients fetched form server by client name
   const [clientOptions, setClientOptions] = useState([]); // list of formatted clients
   const [clientName, setClientName] = useState(''); // current selected client name
@@ -34,16 +31,16 @@ function Garages(propsgaraze) {
   };
 
   const getSelectedClient = id => {
-    api.get(`/kupci/detalji-kupca/${id}/`).then(response => {
-      setClientName(response.data.ime_prezime);
-      setClientId(id);
-    });
+    if (id)
+      api.get(`/kupci/detalji-kupca/${id}/`).then(response => {
+        setClientName(response.data.ime_prezime);
+        setClientId(id);
+      });
   };
 
   useEffect(() => {
     const { propsgaraze: garaza, edit } = propsgaraze;
-    setPagination(propsgaraze.pagination);
-    setFilters(propsgaraze.filter);
+
     form.setFieldsValue({});
     setClientName(null);
     setClientId(null);
@@ -75,17 +72,40 @@ function Garages(propsgaraze) {
   useEffect(() => {
     if (clientName) {
       onClientSearch(clientName);
+    } else {
+      setClientId(null);
     }
   }, [clientName]);
 
+  const validateGarages = () => {
+    let error = '';
+
+    if ((!clientName || clientName.length === 0) && form.getFieldsValue().status_prodaje_garaze === 'prodata') {
+      error = 'Unesite ime kupca!';
+    }
+    return error;
+  };
+
   const updateGarages = () => {
     setLoaderPage(true);
+
+    const error = validateGarages();
+    if (error) {
+      setLoaderPage(false);
+
+      message.error({
+        content: error,
+        className: 'custom-class',
+        style: { fontSize: 20, marginTop: '0vh' },
+      });
+      return;
+    }
+
     const endpoint = propsgaraze.edit
       ? `/garaze/izmeni-garazu/${propsgaraze.propsgaraze.id_garaze}/`
       : '/garaze/kreiraj-garazu/';
 
     const request = propsgaraze.edit ? api.put : api.post;
-
     request(endpoint, {
       ...form.getFieldValue(),
 
@@ -95,30 +115,24 @@ function Garages(propsgaraze) {
         form.setFieldsValue({});
         propsgaraze.closeModal();
         if (propsgaraze.edit) {
-          propsgaraze.onEdit(propsgaraze.idKlijenta);
+          // propsgaraze.onEdit(propsgaraze.idKlijenta);
+
+          propsgaraze.getData();
         } else {
-          propsgaraze.getData(pagination.offset, pagination.limit, filter);
+          propsgaraze.getData();
         }
-        toast.success('Uspesno ste izmenili podatke');
       })
       .catch(error => {
-        if (error.data.jedinstveni_broj_garaze) {
+        if (error.data?.jedinstveni_broj_garaze) {
           message.error({
             content: 'Garaza sa ovim brojem vec postoji u sistemu !',
             className: 'custom-class',
             style: { fontSize: 20, marginTop: '0vh' },
           });
-          // } else if (error.status === 500) {
-          //   message.error({
-          //     content: 'Unesite ime kupca!',
-          //     className: 'custom-class',
-          //     style: { fontSize: 20, marginTop: '0vh' },
-          //   });
         }
       })
       .finally(() => {
         setLoaderPage(false);
-        // propsgaraze.getData(pagination.offset, pagination.limit, filter);
       });
   };
   const onFinish = values => {

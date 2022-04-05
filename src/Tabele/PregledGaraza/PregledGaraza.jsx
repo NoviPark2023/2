@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable default-case */
+import React, { useEffect, useState, useContext } from 'react';
 import { Button, Input, Modal, Popconfirm, Space, Spin, Table, Tag } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
@@ -6,11 +7,15 @@ import Garaze from 'Modal/Garaze/Garaze';
 import { api } from 'api/api';
 import 'antd/dist/antd.css';
 import { authService } from 'auth/auth.service';
+import { GlobalStoreContext } from 'components/Views/Views';
 
 function GarageReview() {
   const [client, setClient] = useState('');
   const [editClient, setEditClient] = useState(false);
   const [createClient, setCreateClient] = useState(false);
+
+  //////reducer
+  const [state, dispatch] = useContext(GlobalStoreContext);
 
   const activeRole = authService.getRole();
 
@@ -32,35 +37,45 @@ function GarageReview() {
 
   //state za API
   const [data, setData] = useState({});
-  const [filter, setFilters] = useState({});
-  const [pagination, setPagination] = useState({ offset: null, limit: null });
 
   // PAGINATION GARAZE
-  const handleChangePagination = (pagination, filters) => {
-    const stringFilters = ['jedinstveni_broj_garaze', 'ime_kupca', 'cena_garaze', 'datum_ugovora_garaze'];
-    Object.entries(filters).forEach(entry => {
+  const handleChangePagination = (pagination, filter) => {
+    const stringFilters = [
+      'jedinstveni_broj_garaze',
+      'ime_kupca',
+      'cena_garaze',
+      'datum_ugovora_garaze',
+      'status_prodaje_garaze',
+    ];
+    Object.entries(filter).forEach(entry => {
       let key = entry[0];
       let value = entry[1];
       if (stringFilters.includes(key)) {
-        filters[key] = value ? value[0] : null;
+        filter[key] = value ? value[0] : null;
       } else {
-        filters[key] = value ? value : null;
+        filter[key] = value ? value : null;
       }
     });
-    setFilters({ ...filters });
     const offset = pagination.current * pagination.pageSize - pagination.pageSize;
     const limit = pagination.pageSize;
-    setPagination({ offset: offset, limit: limit });
-    getData(offset, limit, filters);
+
+    dispatch({
+      type: 'update_filters_pagination',
+      pagination: { offset: offset, limit: limit, current: pagination.current },
+      filters: filter,
+    });
   };
 
   //// API lista Garaza
-  const getData = async (offset, limit, filters) => {
+  const getData = async () => {
     setLoaderPage(true);
 
     const queryParams = new URLSearchParams();
-    if (filters)
-      Object.entries(filters).forEach(entry => {
+    let filter = state.filter;
+    let offset = state.pagination.offset;
+    let limit = state.pagination.limit;
+    if (filter)
+      Object.entries(filter).forEach(entry => {
         if (entry[1]) {
           queryParams.append(entry[0], entry[1]);
         }
@@ -81,7 +96,7 @@ function GarageReview() {
   /// Api za brisanje kupca
   const deleteGarage = id_garaze => {
     api.delete(`/garaze/obrisi-garazu/${id_garaze}/`).then(res => {
-      getData(pagination.offset, pagination.limit);
+      getData();
     });
   };
 
@@ -167,14 +182,6 @@ function GarageReview() {
   });
 
   const columns = [
-    // {
-    //   key: '1',
-    //   title: 'ID',
-    //   align: 'center',
-    //   dataIndex: 'id_garaze',
-    //   ...getColumnSearchProps('id_garaze'),
-    // },
-
     {
       key: 'jedinstveni_broj_garaze',
       title: 'Broj garaže',
@@ -182,14 +189,11 @@ function GarageReview() {
       dataIndex: 'jedinstveni_broj_garaze',
       ...getColumnSearchProps('jedinstveni_broj_garaze'),
     },
-
     {
       key: 'cena_garaze',
       title: 'Cena',
       align: 'center',
       dataIndex: 'cena_garaze',
-      // ...getColumnSearchProps('cena_garaze'),
-      // sorter: (a, b) => a.cena_garaze - b.cena_garaze,
     },
     {
       key: 'ime_kupca',
@@ -199,7 +203,7 @@ function GarageReview() {
       ...getColumnSearchProps('ime_kupca'),
     },
     {
-      key: '5',
+      key: 'status_prodaje_garaze',
       title: 'Status',
       align: 'center',
       dataIndex: 'status_prodaje_garaze',
@@ -329,7 +333,8 @@ function GarageReview() {
 
   useEffect(() => {
     getData();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
 
   return (
     <div>
@@ -349,21 +354,16 @@ function GarageReview() {
         columns={columns}
         onChange={handleChangePagination}
         pagination={{
-          total: data.count, // total count returned from backend
+          total: data.count,
+          current: state.pagination.current,
+          // total count returned from backend
         }}
         scroll={{ y: 'calc(100vh - 265px)' }}
         rowKey="id_garaze"
       />
 
       <Modal title="Izmeni podatke garaže" visible={editClient} onOk={handleOk} onCancel={handleCancel} footer={null}>
-        <Garaze
-          edit
-          pagination={pagination}
-          filter={filter}
-          propsgaraze={client}
-          getData={getData}
-          closeModal={() => showModal(false)}
-        />
+        <Garaze edit propsgaraze={client} getData={getData} closeModal={() => showModal(false)} />
       </Modal>
       <Modal
         destroyOnClose={true}
@@ -373,13 +373,7 @@ function GarageReview() {
         onCancel={() => setCreateClient(false)}
         footer={null}
       >
-        <Garaze
-          propsgaraze={client}
-          getData={getData}
-          pagination={pagination}
-          filter={filter}
-          closeModal={() => setCreateClient(false)}
-        />
+        <Garaze propsgaraze={client} getData={getData} closeModal={() => setCreateClient(false)} />
       </Modal>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {loaderPage && <Spin tip="Loading page" size="large" />}
