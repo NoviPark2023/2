@@ -11,9 +11,11 @@ import { toast } from 'react-toastify';
 function ChangeClients(propsklijenta) {
   const [form] = Form.useForm();
   const [pagination, setPagination] = useState({});
+  const [filter, setFilters] = useState({});
 
   useEffect(() => {
     setPagination(propsklijenta.pagination);
+
     form.setFieldsValue({});
     if (propsklijenta.edit) {
       form.setFieldsValue({
@@ -34,6 +36,7 @@ function ChangeClients(propsklijenta) {
   const succses = () => {
     propsklijenta.closeModal();
     propsklijenta.getData(pagination.offset, pagination.limit);
+    setFilters(propsklijenta.filter);
   };
 
   const sucsessMessages = value => {
@@ -97,6 +100,7 @@ function ChangeClients(propsklijenta) {
   };
   const onFinish = values => {
     changeUsers(values);
+    propsklijenta.getData(pagination.offset, pagination.limit, filter);
   };
 
   const onFinishFailed = errorInfo => {

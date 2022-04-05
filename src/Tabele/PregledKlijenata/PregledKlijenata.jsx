@@ -31,22 +31,39 @@ function ClientsReview() {
 
   //state za API
   const [data, setData] = useState({});
+  const [filter, setFilters] = useState({});
   const [pagination, setPagination] = useState({ offset: null, limit: null });
 
   // PAGINATION KLIJENTI
-  const handleChangePagination = pagination => {
+  const handleChangePagination = (pagination, filters) => {
+    const stringFilters = ['lice', 'ime_prezime', 'email', 'broj_telefona', 'Jmbg_Pib', 'adresa'];
+    Object.entries(filters).forEach(entry => {
+      let key = entry[0];
+      let value = entry[1];
+      if (stringFilters.includes(key)) {
+        filters[key] = value ? value[0] : null;
+      } else {
+        filters[key] = value ? value : null;
+      }
+    });
+    setFilters({ ...filters });
     const offset = pagination.current * pagination.pageSize - pagination.pageSize;
     const limit = pagination.pageSize;
     setPagination({ offset: offset, limit: limit });
-    getData(offset, limit);
+    getData(offset, limit, filters);
   };
 
   //// API lista klijenata
-  const getData = async (offset, limit) => {
+  const getData = async (offset, limit, filters) => {
     setLoaderPage(true);
 
     const queryParams = new URLSearchParams();
-
+    if (filters)
+      Object.entries(filters).forEach(entry => {
+        if (entry[1]) {
+          queryParams.append(entry[0], entry[1]);
+        }
+      });
     if (offset) queryParams.append('offset', offset);
     if (limit) queryParams.append('limit', limit);
 
@@ -135,15 +152,8 @@ function ClientsReview() {
   });
 
   const columns = [
-    // {
-    //   key: '1',
-    //   title: 'ID Kupca',
-    //   align: 'center',
-    //   dataIndex: 'id_kupca',
-    //   ...getColumnSearchProps('id_kupca'), /////pozivanje search-a u tabeli
-    // },
     {
-      key: '2',
+      key: 'lice',
       title: 'Lice',
       align: 'center',
       dataIndex: 'lice',
@@ -160,21 +170,21 @@ function ClientsReview() {
       onFilter: (value, record) => record.lice.indexOf(value) === 0,
     },
     {
-      key: '3',
+      key: 'ime_prezime',
       title: 'Ime i Prezime',
       align: 'center',
       dataIndex: 'ime_prezime',
       ...getColumnSearchProps('ime_prezime'),
     },
     {
-      key: '4',
+      key: 'email',
       title: 'E-mail',
       align: 'center',
       dataIndex: 'email',
       ...getColumnSearchProps('email'),
     },
     {
-      key: '5',
+      key: 'broj_telefona',
       title: 'Broj telefona',
       align: 'center',
       dataIndex: 'broj_telefona',
@@ -188,7 +198,7 @@ function ClientsReview() {
       ...getColumnSearchProps('Jmbg_Pib'),
     },
     {
-      key: '7',
+      key: 'adresa',
       title: 'Adresa',
       align: 'center',
       dataIndex: 'adresa',
@@ -279,6 +289,7 @@ function ClientsReview() {
         <Klijenta
           edit
           pagination={pagination}
+          filter={filter}
           propsklijenta={client}
           getData={getData}
           closeModal={() => showModal(false)}
@@ -295,6 +306,7 @@ function ClientsReview() {
         <Klijenta
           pagination={pagination}
           propsklijenta={client}
+          filter={filter}
           getData={getData}
           closeModal={() => setCreateClient(false)}
         />

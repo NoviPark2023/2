@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button, Table, Modal, Input, Space, Popconfirm, Tag } from 'antd';
 import Stanova from 'Modal/Stanova/Stanova';
 import { api } from 'api/api';
@@ -8,9 +8,13 @@ import { Link } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import { Spin } from 'antd';
 import { authService } from 'auth/auth.service';
+import { GlobalStoreContext } from 'components/Views/Views';
 
 function ApartmentsReview() {
   const activeRole = authService.getRole();
+
+  //////reducer
+  const [state, dispatch] = useContext(GlobalStoreContext);
 
   /////state za izmeni
   const [isEditPlaceVisible, setIsEditPlaceVisible] = useState(false);
@@ -21,9 +25,6 @@ function ApartmentsReview() {
 
   /// Api za dovlacenje podataka stana
   const [selectedPlace, setSelectedPlace] = useState('');
-
-  //   ///api za dovlacenje ponuda
-  //   const [, setSelectedOffers] = useState('');
 
   ///modal za dodaj
   const showModal = id => {
@@ -40,13 +41,18 @@ function ApartmentsReview() {
 
   ///API state
   const [data, setData] = useState({});
-  const [pagination, setPagination] = useState({ offset: null, limit: null });
+  const [pagination, setPagination] = useState(state.pagination);
 
   // PAGINATION STANOVI
   const handleChangePagination = pagination => {
+    dispatch({
+      type: 'save_pagination',
+      pagination,
+    });
+
     const offset = pagination.current * pagination.pageSize - pagination.pageSize;
     const limit = pagination.pageSize;
-    setPagination({ offset: offset, limit: limit });
+    setPagination(pagination);
     getData(offset, limit);
   };
 
@@ -84,13 +90,6 @@ function ApartmentsReview() {
       setSelectedPlace(res.data);
     });
   };
-
-  //   ///ponude stana
-  //   const getListOffers = id_stana => {
-  //     api.get(`/ponude/lista-ponuda-stana/${id_stana}/`).then(res => {
-  //       setSelectedOffers(res.data);
-  //     });
-  //   };
 
   ////hooks za search u tabeli
   const [searchText, setSearchText] = useState('');
@@ -512,7 +511,11 @@ function ApartmentsReview() {
   ];
 
   useEffect(() => {
-    getData();
+    const offset = pagination?.current
+      ? (pagination?.current * pagination?.pageSize ?? 0) - (pagination?.pageSize ?? 0)
+      : null;
+    const limit = pagination?.pageSize;
+    getData(offset, limit);
   }, []);
 
   return (
@@ -536,6 +539,7 @@ function ApartmentsReview() {
         onChange={handleChangePagination}
         pagination={{
           total: data.count, // total count returned from backend
+          current: pagination?.current ?? 1,
         }}
         scroll={{ y: 'calc(100vh - 265px)' }}
         rowKey="id_stana"

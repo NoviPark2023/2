@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import PregledStanova from 'Tabele/PregledStanova/PregledStanova';
 import PregledKlijenta from 'Tabele/PregledKlijenata/PregledKlijenata';
@@ -19,8 +19,11 @@ import PregledCenaStana from 'Tabele/PregledCenaStana/PregledCenaStana';
 import PregledLokala from 'Tabele/PregledLokala/PregledLokala';
 import PregledGaraza from 'Tabele/PregledGaraza/PregledGaraza';
 import PregledPonudaLokala from 'Tabele/PregledPonudaLokala/PregledPonudaLokala';
+import garazaReducer, { initialState as garazaInitialState } from 'context/GarazaReducer.jsx';
+import stanReducer, { initialState as stanInitialState } from 'context/StanReducer.jsx';
 
 const { Content } = Layout;
+export const GlobalStoreContext = React.createContext();
 
 function Views() {
   const activeRole = authService.getRole();
@@ -31,7 +34,9 @@ function Views() {
       <Content className={style.content}>
         <Switch>
           <Route exact path="/">
-            <ViewPermisionGate role={activeRole} routeName="pregledStanova" component={PregledStanova} />
+            <GlobalStoreContext.Provider value={useReducer(stanReducer, stanInitialState)}>
+              <ViewPermisionGate role={activeRole} routeName="pregledStanova" component={PregledStanova} />
+            </GlobalStoreContext.Provider>
           </Route>
           <Route exact path="/stanovi/:id">
             <ViewPermisionGate role={activeRole} routeName="stanovi" component={DetaljiStana} />
@@ -43,7 +48,9 @@ function Views() {
             <ViewPermisionGate role={activeRole} routeName="stanovi" component={DetaljiLokala} />
           </Route>
           <Route exact path="/garaze">
-            <ViewPermisionGate role={activeRole} routeName="pregledGaraza" component={PregledGaraza} />
+            <GlobalStoreContext.Provider value={useReducer(garazaReducer, garazaInitialState)}>
+              <ViewPermisionGate role={activeRole} routeName="pregledGaraza" component={PregledGaraza} />
+            </GlobalStoreContext.Provider>
           </Route>
           <Route exact path="/korisnici">
             <ViewPermisionGate role={activeRole} routeName="korisnici" component={PregledKorisnika} />

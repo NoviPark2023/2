@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { Table, Button, Modal, Popconfirm, Input, Space, Tag } from 'antd';
+import { Table, Button, Modal, Popconfirm, Tag } from 'antd';
 import Ponuda from 'Modal/Ponuda/Ponuda';
 import { api } from 'api/api';
 import Klijenta from 'Modal/Klijenta/Klijenta';
-import Highlighter from 'react-highlight-words';
-import { SearchOutlined } from '@ant-design/icons';
 
 const ClientOffersReview = props => {
   const [isClientVisible, setIsClientVisible] = useState(false);
@@ -46,102 +44,32 @@ const ClientOffersReview = props => {
     });
   };
 
-  ////hooks za search u tabeli
-  const [searchText, setSearchText] = useState('');
-  const [searchedColumn, setSearchedColumn] = useState('');
-
-  ////funkcionanost za search u tabeli
-  const handleSearch = (selectedKeys, confirm, dataIndex) => {
-    confirm();
-    setSearchText(selectedKeys[0]);
-    setSearchedColumn(dataIndex);
-  };
-
-  const handleReset = clearFilters => {
-    clearFilters();
-  };
-
-  let searchInput;
-
-  const getColumnSearchProps = dataIndex => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-      <div style={{ padding: 8 }}>
-        <Input
-          ref={node => {
-            searchInput = node;
-          }}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{ marginBottom: 8, display: 'block' }}
-        />
-        <Space>
-          <Button
-            type="primary"
-            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            icon={<SearchOutlined />}
-            size="small"
-            style={{ width: 100 }}
-          >
-            Search
-          </Button>
-          <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 100 }}>
-            Reset
-          </Button>
-        </Space>
-      </div>
-    ),
-    filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
-    onFilter: (value, record) =>
-      record[dataIndex] ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()) : '',
-    onFilterDropdownVisibleChange: visible => {
-      if (visible) {
-        setTimeout(() => searchInput.select(), 100);
-      }
-    },
-    render: text =>
-      searchedColumn === dataIndex ? (
-        <Highlighter
-          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-          searchWords={[searchText]}
-          autoEscape
-          textToHighlight={text ? text.toString() : ''}
-        />
-      ) : (
-        text
-      ),
-  });
-
   const columns = [
-    // {
-    //   key: '1',
-    //   title: 'ID ponude',
-    //   align: 'center',
-    //   dataIndex: 'id_ponude',
-    //   ...getColumnSearchProps('id_ponude'),
-    // },
-
     {
-      key: '2',
+      key: '1',
       title: 'Lamela stana',
       align: 'center',
       dataIndex: 'lamela_stana',
-      ...getColumnSearchProps('adresa_stana'),
     },
+    // {
+    //   key: '2',
+    //   title: ' Kupac',
+    //   align: 'center',
+    //   dataIndex: 'ime_prezime', odraditi modal ovo polje se ne rednederuje kod izmene modala
+
+    // },
     {
       key: '3',
       title: 'Cena ponude stana',
       align: 'center',
       dataIndex: 'cena_stana_za_kupca',
-      ...getColumnSearchProps('cena_stana_za_kupca'),
+      sorter: (a, b) => a.cena_stana_za_kupca - b.cena_stana_za_kupca,
     },
     {
       key: '4',
       title: 'Cena stana',
       align: 'center',
       dataIndex: 'cena_stana',
-      ...getColumnSearchProps('cena_stana'),
     },
 
     {
@@ -149,41 +77,19 @@ const ClientOffersReview = props => {
       title: 'Broj ugovora',
       align: 'center',
       dataIndex: 'broj_ugovora',
-      ...getColumnSearchProps('broj_ugovora'),
     },
     {
       key: '6',
       title: 'Datum',
       align: 'center',
       dataIndex: 'datum_ugovora',
-      ...getColumnSearchProps('datum_ugovora'),
     },
     {
       key: '7',
       title: 'Nacin plaćanja',
       align: 'center',
       dataIndex: 'nacin_placanja',
-      render: (text, record) => <span>{record.nacin_placanja}</span>,
-      filters: [
-        {
-          text: 'Ceo iznos',
-          value: 'Ceo iznos',
-        },
-        {
-          text: 'Kredit',
-          value: 'Kredit',
-        },
-        {
-          text: 'Na rate',
-          value: 'Na rate',
-        },
-        {
-          text: 'Ucešće',
-          value: 'Ucesce',
-        },
-      ],
-      onFilter: (value, record) => record.nacin_placanja.indexOf(value) === 0,
-      sorter: (a, b) => a.nacin_placanja - b.nacin_placanja,
+      // render: (text, record) => <span>{record.nacin_placanja}</span>,
     },
     {
       key: '8',
@@ -205,21 +111,6 @@ const ClientOffersReview = props => {
           </Tag>
         );
       },
-      filters: [
-        {
-          text: 'potencijalan',
-          value: ['potencijalan'],
-        },
-        {
-          text: 'rezervisan',
-          value: ['rezervisan'],
-        },
-        {
-          text: 'kupljen',
-          value: ['kupljen'],
-        },
-      ],
-      onFilter: (value, record) => record.status_ponude.indexOf(value) === 0,
     },
     {
       key: '9',
@@ -280,7 +171,13 @@ const ClientOffersReview = props => {
 
   return (
     <div>
-      <Table columns={columns} dataSource={props.tableItems} pagination={{ pageSize: [5] }} rowKey={'id_ponude'} />
+      <Table
+        columns={columns}
+        dataSource={props.tableItems}
+        pagination={false}
+        scroll={{ y: 'calc(100vh - 265px)' }}
+        rowKey={'id_ponude'}
+      />
 
       <Modal
         title="Pregled Klijenta"
