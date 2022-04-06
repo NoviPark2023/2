@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Popconfirm, Button, Upload, message } from 'antd';
-import { authService } from 'auth/auth.service';
+// import { authService } from 'auth/auth.service';
 import { api } from 'api/api';
 import { Spin } from 'antd';
 import 'antd/dist/antd.css';
@@ -10,7 +10,7 @@ import moment from 'moment';
 import { useParams } from 'react-router-dom';
 
 function DocumentationLocal() {
-  const activeRole = authService.getRole();
+  // const activeRole = authService.getRole();
   const [, setEditDoc] = useState(false);
   const [upload, setUpload] = useState(false);
 

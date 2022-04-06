@@ -6,16 +6,15 @@ import { UserOutlined } from '@ant-design/icons';
 import { Option } from 'antd/lib/mentions';
 import { api } from 'api/api';
 import 'antd/dist/antd.css';
-import { toast } from 'react-toastify';
+import { Spin } from 'antd';
 
 function ChangeClients(propsklijenta) {
   const [form] = Form.useForm();
-  const [pagination, setPagination] = useState({});
-  const [filter, setFilters] = useState({});
+
+  ///loader
+  const [loaderPage, setLoaderPage] = useState(false);
 
   useEffect(() => {
-    setPagination(propsklijenta.pagination);
-
     form.setFieldsValue({});
     if (propsklijenta.edit) {
       form.setFieldsValue({
@@ -35,12 +34,7 @@ function ChangeClients(propsklijenta) {
 
   const succses = () => {
     propsklijenta.closeModal();
-    propsklijenta.getData(pagination.offset, pagination.limit);
-    setFilters(propsklijenta.filter);
-  };
-
-  const sucsessMessages = value => {
-    toast.success(value);
+    propsklijenta.getData();
   };
 
   const createClient = values => {
@@ -49,7 +43,6 @@ function ChangeClients(propsklijenta) {
       .post(endpoint, values)
       .then(res => {
         succses();
-        sucsessMessages('uspesno');
       })
       .catch(error => {
         if (error.data.email) {
@@ -87,11 +80,10 @@ function ChangeClients(propsklijenta) {
       .then(res => {
         propsklijenta.closeModal();
         propsklijenta.getData();
-        toast.success('Uspesno ste izmenili podatke');
+        setLoaderPage(false);
       })
       .catch(e => {
         propsklijenta.closeModal();
-        toast.error('Greska!');
       });
   };
 
@@ -100,7 +92,7 @@ function ChangeClients(propsklijenta) {
   };
   const onFinish = values => {
     changeUsers(values);
-    propsklijenta.getData(pagination.offset, pagination.limit, filter);
+    // propsklijenta.getData();
   };
 
   const onFinishFailed = errorInfo => {
@@ -209,6 +201,9 @@ function ChangeClients(propsklijenta) {
             </Button>
           </div>
         </Form.Item>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {loaderPage && <Spin tip="Loading page" size="large"></Spin>}
+        </div>
       </Form>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Button, Table, Modal, Input, Space, Popconfirm } from 'antd';
 import { api } from 'api/api';
 import Klijenta from 'Modal/Klijenta/Klijenta';
@@ -7,6 +7,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import { Spin } from 'antd';
+import { GlobalStoreContext } from 'components/Views/Views';
 
 function ClientsReview() {
   const [client, setClient] = useState('');
@@ -15,6 +16,9 @@ function ClientsReview() {
 
   ///loader
   const [loaderPage, setLoaderPage] = useState(false);
+
+  //////reducer
+  const [state, dispatch] = useContext(GlobalStoreContext);
 
   /////modal za dodaj
   const showModal = id => {
@@ -31,35 +35,40 @@ function ClientsReview() {
 
   //state za API
   const [data, setData] = useState({});
-  const [filter, setFilters] = useState({});
-  const [pagination, setPagination] = useState({ offset: null, limit: null });
 
   // PAGINATION KLIJENTI
-  const handleChangePagination = (pagination, filters) => {
+  const handleChangePagination = (pagination, filter) => {
     const stringFilters = ['lice', 'ime_prezime', 'email', 'broj_telefona', 'Jmbg_Pib', 'adresa'];
-    Object.entries(filters).forEach(entry => {
+    Object.entries(filter).forEach(entry => {
       let key = entry[0];
       let value = entry[1];
       if (stringFilters.includes(key)) {
-        filters[key] = value ? value[0] : null;
+        filter[key] = value ? value[0] : null;
       } else {
-        filters[key] = value ? value : null;
+        filter[key] = value ? value : null;
       }
     });
-    setFilters({ ...filters });
+
     const offset = pagination.current * pagination.pageSize - pagination.pageSize;
     const limit = pagination.pageSize;
-    setPagination({ offset: offset, limit: limit });
-    getData(offset, limit, filters);
+
+    dispatch({
+      type: 'update_filters_pagination',
+      pagination: { offset: offset, limit: limit, current: pagination.current },
+      filters: filter,
+    });
   };
 
   //// API lista klijenata
-  const getData = async (offset, limit, filters) => {
+  const getData = async () => {
     setLoaderPage(true);
 
     const queryParams = new URLSearchParams();
-    if (filters)
-      Object.entries(filters).forEach(entry => {
+    let filter = state.filter;
+    let offset = state.pagination.offset;
+    let limit = state.pagination.limit;
+    if (filter)
+      Object.entries(filter).forEach(entry => {
         if (entry[1]) {
           queryParams.append(entry[0], entry[1]);
         }
@@ -80,18 +89,18 @@ function ClientsReview() {
   /// Api za brisanje kupca
   const deleteClient = id_kupca => {
     api.delete(`/kupci/obrisi-kupca/${id_kupca}/`).then(res => {
-      getData(pagination.offset, pagination.limit);
+      getData();
     });
   };
 
   ////hooks za search u tabeli
-  const [searchText, setSearchText] = useState('');
+  const [searchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
 
   ////funkcionanost za search u tabeli
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
-    setSearchText(selectedKeys[0]);
+    // setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
   };
 
@@ -167,38 +176,38 @@ function ClientsReview() {
           value: 'Fizicko',
         },
       ],
-      onFilter: (value, record) => record.lice.indexOf(value) === 0,
+      // onFilter: (value, record) => record.lice.indexOf(value) === 0,
     },
     {
-      key: 'ime_prezime',
+      key: 'ime_prezime__icontains',
       title: 'Ime i Prezime',
       align: 'center',
       dataIndex: 'ime_prezime',
       ...getColumnSearchProps('ime_prezime'),
     },
     {
-      key: 'email',
+      key: 'email__icontains',
       title: 'E-mail',
       align: 'center',
       dataIndex: 'email',
       ...getColumnSearchProps('email'),
     },
     {
-      key: 'broj_telefona',
+      key: 'broj_telefona__icontains',
       title: 'Broj telefona',
       align: 'center',
       dataIndex: 'broj_telefona',
       ...getColumnSearchProps('broj_telefona'),
     },
     {
-      key: '6',
+      key: 'Jmbg_Pib__icontains',
       title: 'PIB/JMBG',
       align: 'center',
       dataIndex: 'Jmbg_Pib',
       ...getColumnSearchProps('Jmbg_Pib'),
     },
     {
-      key: 'adresa',
+      key: 'adresa__icontains',
       title: 'Adresa',
       align: 'center',
       dataIndex: 'adresa',
@@ -259,7 +268,8 @@ function ClientsReview() {
 
   useEffect(() => {
     getData();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
 
   return (
     <div>
@@ -280,20 +290,14 @@ function ClientsReview() {
         onChange={handleChangePagination}
         pagination={{
           total: data.count, // total count returned from backend
+          current: state.pagination.current,
         }}
         scroll={{ y: 'calc(100vh - 265px)' }}
         rowKey="id_kupca"
       />
 
       <Modal title="Izmeni klijenta" visible={editClient} onOk={handleOk} onCancel={handleCancel} footer={null}>
-        <Klijenta
-          edit
-          pagination={pagination}
-          filter={filter}
-          propsklijenta={client}
-          getData={getData}
-          closeModal={() => showModal(false)}
-        />
+        <Klijenta edit propsklijenta={client} getData={getData} closeModal={() => showModal(false)} />
       </Modal>
       <Modal
         destroyOnClose={true}
@@ -303,13 +307,7 @@ function ClientsReview() {
         onCancel={() => setCreateClient(false)}
         footer={null}
       >
-        <Klijenta
-          pagination={pagination}
-          propsklijenta={client}
-          filter={filter}
-          getData={getData}
-          closeModal={() => setCreateClient(false)}
-        />
+        <Klijenta propsklijenta={client} getData={getData} closeModal={() => setCreateClient(false)} />
       </Modal>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {loaderPage && <Spin tip="Loading page" size="large" />}
