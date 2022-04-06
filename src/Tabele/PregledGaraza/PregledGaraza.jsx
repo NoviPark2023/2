@@ -40,13 +40,7 @@ function GarageReview() {
 
   // PAGINATION GARAZE
   const handleChangePagination = (pagination, filter) => {
-    const stringFilters = [
-      'jedinstveni_broj_garaze',
-      'ime_kupca',
-      'cena_garaze',
-      'datum_ugovora_garaze',
-      'status_prodaje_garaze',
-    ];
+    const stringFilters = ['jedinstveni_broj_garaze', 'ime_kupca', 'cena_garaze', 'status_prodaje_garaze'];
     Object.entries(filter).forEach(entry => {
       let key = entry[0];
       let value = entry[1];
@@ -111,18 +105,14 @@ function GarageReview() {
   };
 
   ////hooks za search u tabeli
-  const [searchText, setSearchText] = useState('');
+  const [searchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
 
   ////funkcionanost za search u tabeli
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
-    setSearchText(selectedKeys[0]);
+    // setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
-
-    // if (dataIndex === 'jedinstveni_broj_garaze') {
-    //   setSearch(selectedKeys[0]);
-    // }
   };
 
   const handleReset = clearFilters => {
@@ -200,7 +190,7 @@ function GarageReview() {
       title: 'Kupac',
       align: 'center',
       dataIndex: 'ime_kupca',
-      ...getColumnSearchProps('ime_kupca'),
+      // ...getColumnSearchProps('ime_kupca'),
     },
     {
       key: 'status_prodaje_garaze',
@@ -236,14 +226,13 @@ function GarageReview() {
           value: 'rezervisana',
         },
       ],
-      onFilter: (value, record) => record.status_prodaje_garaze.indexOf(value) === 0,
+      // onFilter: (value, record) => record.status_prodaje_garaze.indexOf(value) === 0,
     },
     {
       key: 'datum_ugovora_garaze',
       title: 'Datum',
       align: 'center',
       dataIndex: 'datum_ugovora_garaze',
-      ...getColumnSearchProps('datum_ugovora'),
     },
     {
       key: '7',
@@ -251,25 +240,25 @@ function GarageReview() {
       align: 'center',
       dataIndex: 'nacin_placanja_garaze',
       render: (text, record) => <span>{record.nacin_placanja_garaze}</span>,
-      filters: [
-        {
-          text: 'Ceo iznos',
-          value: 'Ceo iznos',
-        },
-        {
-          text: 'Kredit',
-          value: 'Kredit',
-        },
-        {
-          text: 'Na rate',
-          value: 'Na rate',
-        },
-        {
-          text: 'Ucešće',
-          value: 'Ucesce',
-        },
-      ],
-      onFilter: (value, record) => record.nacin_placanja_garaze.indexOf(value) === 0,
+      // filters: [
+      //   {
+      //     text: 'Ceo iznos',
+      //     value: 'Ceo iznos',
+      //   },
+      //   {
+      //     text: 'Kredit',
+      //     value: 'Kredit',
+      //   },
+      //   {
+      //     text: 'Na rate',
+      //     value: 'Na rate',
+      //   },
+      //   {
+      //     text: 'Ucešće',
+      //     value: 'Ucesce',
+      //   },
+      // ],
+      // onFilter: (value, record) => record.nacin_placanja_garaze.indexOf(value) === 0,
     },
 
     {

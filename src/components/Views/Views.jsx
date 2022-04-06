@@ -21,6 +21,7 @@ import PregledGaraza from 'Tabele/PregledGaraza/PregledGaraza';
 import PregledPonudaLokala from 'Tabele/PregledPonudaLokala/PregledPonudaLokala';
 import garazaReducer, { initialState as garazaInitialState } from 'context/GarazaReducer.jsx';
 import stanReducer, { initialState as stanInitialState } from 'context/StanReducer.jsx';
+import klijentiReducer, { initialState as klijentiInitialState } from 'context/KlijentiReducer.jsx';
 
 const { Content } = Layout;
 export const GlobalStoreContext = React.createContext();
@@ -56,7 +57,9 @@ function Views() {
             <ViewPermisionGate role={activeRole} routeName="korisnici" component={PregledKorisnika} />
           </Route>
           <Route exact path="/klijenti">
-            <ViewPermisionGate role={activeRole} routeName="klijenti" component={PregledKlijenta} />
+            <GlobalStoreContext.Provider value={useReducer(klijentiReducer, klijentiInitialState)}>
+              <ViewPermisionGate role={activeRole} routeName="klijenti" component={PregledKlijenta} />
+            </GlobalStoreContext.Provider>
           </Route>
           <Route exact path="/klijenti/:id">
             <ViewPermisionGate role={activeRole} routeName="klijentiid" component={DetaljiKlijenta} />

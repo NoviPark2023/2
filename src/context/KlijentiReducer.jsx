@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 export const initialState = {
   data: {},
   filter: {},

@@ -41,27 +41,45 @@ function ApartmentsReview() {
 
   ///API state
   const [data, setData] = useState({});
-  const [pagination, setPagination] = useState(state.pagination);
+  // const [pagination, setPagination] = useState(state.pagination);
 
   // PAGINATION STANOVI
-  const handleChangePagination = pagination => {
-    dispatch({
-      type: 'save_pagination',
-      pagination,
+  const handleChangePagination = (pagination, filter) => {
+    const stringFilters = ['lamela', 'status_prodaje', 'sprat', 'broj_soba', 'broj_terasa', 'orijentisanost'];
+    Object.entries(filter).forEach(entry => {
+      let key = entry[0];
+      let value = entry[1];
+      if (stringFilters.includes(key)) {
+        filter[key] = value ? value[0] : null;
+      } else {
+        filter[key] = value ? value : null;
+      }
     });
 
     const offset = pagination.current * pagination.pageSize - pagination.pageSize;
     const limit = pagination.pageSize;
-    setPagination(pagination);
-    getData(offset, limit);
+    dispatch({
+      type: 'update_filters_pagination',
+      pagination: { offset: offset, limit: limit, current: pagination.current },
+      filters: filter,
+    });
   };
 
   //// API lista stanova
-  const getData = async (offset, limit) => {
+  const getData = async () => {
     setLoaderPage(true);
 
     const queryParams = new URLSearchParams();
 
+    let filter = state.filter;
+    let offset = state.pagination.offset;
+    let limit = state.pagination.limit;
+    if (filter)
+      Object.entries(filter).forEach(entry => {
+        if (entry[1]) {
+          queryParams.append(entry[0], entry[1]);
+        }
+      });
     if (offset) queryParams.append('offset', offset);
     if (limit) queryParams.append('limit', limit);
 
@@ -69,6 +87,7 @@ function ApartmentsReview() {
       .get(`/stanovi/?${queryParams.toString()}`)
       .then(res => {
         if (res) {
+          console.log('data', res.data);
           setData(res.data);
         }
       })
@@ -80,7 +99,7 @@ function ApartmentsReview() {
   ////Api za brisanje stanova
   const deleteApartment = id_stana => {
     api.delete(`/stanovi/obrisi-stan/${id_stana}`).then(res => {
-      getData(pagination.offset, pagination.limit);
+      getData();
     });
   };
 
@@ -92,13 +111,14 @@ function ApartmentsReview() {
   };
 
   ////hooks za search u tabeli
-  const [searchText, setSearchText] = useState('');
+  // const [searchText, setSearchText] = useState(''); ///proveri ovo za filtere
+  const [searchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
 
   ////funkcionanost za search u tabeli
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
-    setSearchText(selectedKeys[0]);
+    // setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
   };
 
@@ -159,155 +179,142 @@ function ApartmentsReview() {
   });
 
   const columns = [
-    // {
-    //     key: '1',
-    //     title: 'ID',
-    //     dataIndex: 'id_stana',
-    //     align: 'center',
-    //     ...getColumnSearchProps('id_stana'),
-    // },
     {
-      key: '2',
+      key: 'lamela__icontains',
       title: 'Lamela',
       dataIndex: 'lamela',
       align: 'center',
-      ...getColumnSearchProps('lamela'), /////pozivanje search-a u tabeli
+      ...getColumnSearchProps('lamela'),
     },
-    // {
-    //     key: '3',
-    //     title: 'Adresa',
-    //     dataIndex: 'adresa_stana',
-    //     align: 'center',
-    //     ...getColumnSearchProps('adresa_stana'),
-    // },
+
     {
-      key: '4',
+      key: 'kvadratura',
       title: 'Kvadratura',
       dataIndex: 'kvadratura',
       align: 'center',
-      filters: [
-        {
-          text: '10-30',
-          value: [10, 30],
-        },
-        {
-          text: '30-40',
-          value: [30, 40],
-        },
-        {
-          text: '40-50',
-          value: [40, 50],
-        },
-        {
-          text: '50-60',
-          value: [50, 60],
-        },
-        {
-          text: '60-80',
-          value: [60, 80],
-        },
-        {
-          text: '80-120',
-          value: [80, 120],
-        },
-        {
-          text: '120-170',
-          value: [120, 170],
-        },
-      ],
-      onFilter: (value, record) => record.kvadratura >= value[0] && record.kvadratura <= value[1],
+      // filters: [
+      //   {
+      //     text: '10-30',
+      //     value: [10, 30],
+      //   },
+      //   {
+      //     text: '30-40',
+      //     value: [30, 40],
+      //   },
+      //   {
+      //     text: '40-50',
+      //     value: [40, 50],
+      //   },
+      //   {
+      //     text: '50-60',
+      //     value: [50, 60],
+      //   },
+      //   {
+      //     text: '60-80',
+      //     value: [60, 80],
+      //   },
+      //   {
+      //     text: '80-120',
+      //     value: [80, 120],
+      //   },
+      //   {
+      //     text: '120-170',
+      //     value: [120, 170],
+      //   },
+      // ],
+      // onFilter: (value, record) => record.kvadratura >= value[0] && record.kvadratura <= value[1],
       sorter: (a, b) => a.kvadratura - b.kvadratura,
     },
     {
-      key: '5',
+      key: 'sprat',
       title: 'Sprat',
       dataIndex: 'sprat',
       align: 'center',
       filters: [
         {
           text: '1',
-          value: [0, 1],
+          value: '1.0',
         },
         {
           text: '2',
-          value: [2, 2],
+          value: '2.0',
         },
         {
           text: '3',
-          value: [3, 3],
+          value: '3.0',
         },
         {
           text: '4',
-          value: [4, 4],
+          value: '4.0',
         },
         {
           text: '5',
-          value: [5, 5],
+          value: '5.0',
         },
         {
           text: '6',
-          value: [6, 6],
+          value: '6.0',
         },
         {
           text: '7',
-          value: [7, 7],
+          value: '7.0',
         },
         {
           text: 'PS',
           value: 'PS',
         },
       ],
-      onFilter: (value, record) => record.sprat >= value[0] && record.sprat <= value[1],
+      // onFilter: (value, record) => record.sprat >= value[0] && record.sprat <= value[1],
       sorter: (a, b) => a.sprat - b.sprat,
     },
     {
-      key: '6',
+      key: 'broj_soba',
       title: 'Sobe',
       dataIndex: 'broj_soba',
       align: 'center',
       filters: [
         {
           text: '1',
-          value: [1, 1],
+          value: [1],
         },
         {
           text: '1.5',
-          value: [1.5, 1.5],
+          value: [1.5],
         },
         {
           text: '2',
-          value: [2, 2],
+          value: 2,
         },
         {
           text: '2.5',
-          value: [2.5, 2.5],
+          value: [2.5],
         },
         {
           text: '3',
-          value: [3, 3],
+          value: [3],
         },
         {
           text: '3.5',
-          value: [3.5, 3.5],
+          value: [3.5],
         },
         {
           text: '4',
-          value: [4, 4],
+          value: [4],
         },
         {
           text: '4.5',
-          value: [4.5, 4.5],
+          value: [4.5],
         },
         {
           text: '5',
-          value: [5, 5],
+          value: [5],
         },
       ],
-      onFilter: (value, record) => record.broj_soba >= value[0] && record.broj_soba <= value[1],
+      // onFilter: (value, record) => record.broj_soba >= value[0] && record.broj_soba <= value[1],
       sorter: (a, b) => a.broj_soba - b.broj_soba,
     },
     {
-      key: '7',
+      key: 'orijentisanost',
       title: 'Orijentisanost',
       dataIndex: 'orijentisanost',
       align: 'center',
@@ -324,70 +331,70 @@ function ApartmentsReview() {
       onFilter: (value, record) => record.orijentisanost.indexOf(value) === 0,
     },
     {
-      key: '8',
+      key: 'broj_terasa',
       title: 'Terase',
       dataIndex: 'broj_terasa',
       align: 'center',
       filters: [
         {
           text: '0',
-          value: [0, 0],
+          value: [0],
         },
         {
           text: '1',
-          value: [1, 1],
+          value: [1],
         },
         {
           text: '2',
-          value: [2, 2],
+          value: [2],
         },
         {
           text: '3',
-          value: [3, 3],
+          value: [3],
         },
       ],
-      onFilter: (value, record) => record.broj_terasa >= value[0] && record.broj_terasa <= value[1],
+      // onFilter: (value, record) => record.broj_terasa >= value[0] && record.broj_terasa <= value[1],
       sorter: (a, b) => a.broj_terasa - b.broj_terasa,
     },
     {
-      key: '9',
+      key: 'cena_stana',
       title: 'Cena',
       backgroundColor: 'red',
       dataIndex: 'cena_stana',
-      filters: [
-        {
-          text: '50000-70000',
-          value: [50000, 70000],
-        },
-        {
-          text: '70000-85000',
-          value: [70000, 85000],
-        },
-        {
-          text: '85000-95000',
-          value: [85000, 95000],
-        },
-        {
-          text: '95000-105000',
-          value: [95000, 105000],
-        },
-        {
-          text: '105000-120000',
-          value: [105000, 120000],
-        },
-        {
-          text: '120000-150000',
-          value: [120000, 150000],
-        },
-        {
-          text: '150000-200000',
-          value: [150000, 200000],
-        },
-        {
-          text: 'Rucno',
-          value: ['rucno'],
-        },
-      ],
+      // filters: [
+      //   {
+      //     text: '50000-70000',
+      //     value: [50000, 70000],
+      //   },
+      //   {
+      //     text: '70000-85000',
+      //     value: [70000, 85000],
+      //   },
+      //   {
+      //     text: '85000-95000',
+      //     value: [85000, 95000],
+      //   },
+      //   {
+      //     text: '95000-105000',
+      //     value: [95000, 105000],
+      //   },
+      //   {
+      //     text: '105000-120000',
+      //     value: [105000, 120000],
+      //   },
+      //   {
+      //     text: '120000-150000',
+      //     value: [120000, 150000],
+      //   },
+      //   {
+      //     text: '150000-200000',
+      //     value: [150000, 200000],
+      //   },
+      //   {
+      //     text: 'Rucno',
+      //     value: ['rucno'],
+      //   },
+      // ],
       onFilter: (value, record) => {
         if (value[0] !== 'rucno') {
           return record.cena_stana >= value[0] && record.cena_stana <= value[1];
@@ -398,7 +405,7 @@ function ApartmentsReview() {
       sorter: (a, b) => a.cena_stana - b.cena_stana,
     },
     {
-      key: '10',
+      key: 'status_prodaje',
       title: 'Status',
       align: 'center',
       dataIndex: 'status_prodaje',
@@ -511,12 +518,9 @@ function ApartmentsReview() {
   ];
 
   useEffect(() => {
-    const offset = pagination?.current
-      ? (pagination?.current * pagination?.pageSize ?? 0) - (pagination?.pageSize ?? 0)
-      : null;
-    const limit = pagination?.pageSize;
-    getData(offset, limit);
-  }, []);
+    getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
 
   return (
     <div>
@@ -539,7 +543,7 @@ function ApartmentsReview() {
         onChange={handleChangePagination}
         pagination={{
           total: data.count, // total count returned from backend
-          current: pagination?.current ?? 1,
+          current: state.pagination.current,
         }}
         scroll={{ y: 'calc(100vh - 265px)' }}
         rowKey="id_stana"
@@ -552,13 +556,7 @@ function ApartmentsReview() {
         onCancel={handleCancel}
         footer={null}
       >
-        <Stanova
-          edit
-          pagination={pagination}
-          propsstan={selectedPlace}
-          getData={getData}
-          closeModal={() => showModal(false)}
-        />
+        <Stanova edit propsstan={selectedPlace} getData={getData} closeModal={() => showModal(false)} />
       </Modal>
       <Modal
         destroyOnClose={true}
@@ -568,12 +566,7 @@ function ApartmentsReview() {
         onCancel={() => setIsCreatePlaceVisible(false)}
         footer={null}
       >
-        <Stanova
-          pagination={pagination}
-          propsstan={selectedPlace}
-          getData={getData}
-          closeModal={() => setIsCreatePlaceVisible(false)}
-        />
+        <Stanova propsstan={selectedPlace} getData={getData} closeModal={() => setIsCreatePlaceVisible(false)} />
       </Modal>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {loaderPage && <Spin tip="Loading page" size="large" />}
