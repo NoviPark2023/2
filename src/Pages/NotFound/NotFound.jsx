@@ -3,7 +3,6 @@ import { Result, Button } from 'antd';
 import { useHistory } from 'react-router-dom';
 
 function NotFound() {
-  console.log('render');
   const history = useHistory();
   const backhome = () => {
     history.push('/');

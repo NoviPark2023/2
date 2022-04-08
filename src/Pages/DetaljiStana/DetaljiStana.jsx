@@ -5,7 +5,7 @@ import { api } from 'api/api';
 import Stanova from 'Modal/Stanova/Stanova';
 import styles from './DetaljiStana.module.css';
 import 'antd/dist/antd.css';
-import Grafikon from 'components/Grafikoni/Grafikon';
+import GrafikonStanovi from 'components/GrafikonStanovi/GrafikonStanovi';
 import { useParams } from 'react-router-dom';
 import { authService } from 'auth/auth.service';
 import NotFound from 'Pages/NotFound/NotFound';
@@ -91,9 +91,7 @@ function DetailsApartments() {
             >
               <Descriptions layout="horizontal">
                 <Descriptions.Item label="Lamela">{data.lamela}</Descriptions.Item>
-                <Descriptions.Item label="Adresa" span={4}>
-                  {data.adresa_stana}
-                </Descriptions.Item>
+                <Descriptions.Item label="Adresa">{data.adresa_stana}</Descriptions.Item>
                 <Descriptions.Item label="Broj soba">{data.broj_soba}</Descriptions.Item>
                 <Descriptions.Item label="Broj terasa">{data.broj_terasa}</Descriptions.Item>
                 <Descriptions.Item label="Cena stana">{data.cena_stana}</Descriptions.Item>
@@ -114,7 +112,7 @@ function DetailsApartments() {
               <Stanova getData={onUpdate} edit propsstan={data} closeModal={() => setEditModal(false)} />
             </Modal>
             <Card className={styles.textLabel} style={{ width: '50%', margin: '15px' }}>
-              <Grafikon propsstan={data} />
+              <GrafikonStanovi propsstan={data} />
             </Card>
           </div>
           <Dokumentacija propsstan={data} />

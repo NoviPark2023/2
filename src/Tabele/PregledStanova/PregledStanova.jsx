@@ -41,7 +41,6 @@ function ApartmentsReview() {
 
   ///API state
   const [data, setData] = useState({});
-  // const [pagination, setPagination] = useState(state.pagination);
 
   // PAGINATION STANOVI
   const handleChangePagination = (pagination, filter) => {
@@ -87,7 +86,6 @@ function ApartmentsReview() {
       .get(`/stanovi/?${queryParams.toString()}`)
       .then(res => {
         if (res) {
-          console.log('data', res.data);
           setData(res.data);
         }
       })
@@ -542,7 +540,7 @@ function ApartmentsReview() {
         dataSource={data.results}
         onChange={handleChangePagination}
         pagination={{
-          total: data.count, // total count returned from backend
+          total: data.count,
           current: state.pagination.current,
         }}
         scroll={{ y: 'calc(100vh - 265px)' }}

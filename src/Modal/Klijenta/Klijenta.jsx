@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { Input, Form, Select, Button, message } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { UserOutlined } from '@ant-design/icons';
-import { Option } from 'antd/lib/mentions';
 import { api } from 'api/api';
 import 'antd/dist/antd.css';
 import { Spin } from 'antd';
@@ -43,6 +42,11 @@ function ChangeClients(propsklijenta) {
       .post(endpoint, values)
       .then(res => {
         succses();
+        message.success({
+          content: 'Uspešno kreiran novi klijent !',
+          className: 'custom-class',
+          style: {},
+        });
       })
       .catch(error => {
         if (error.data.email) {
@@ -78,6 +82,11 @@ function ChangeClients(propsklijenta) {
     api
       .put(endpoint, values)
       .then(res => {
+        message.success({
+          content: 'Uspešno ste izmenili podatke kupca !',
+          className: 'custom-class',
+          style: {},
+        });
         propsklijenta.closeModal();
         propsklijenta.getData();
         setLoaderPage(false);
@@ -92,7 +101,6 @@ function ChangeClients(propsklijenta) {
   };
   const onFinish = values => {
     changeUsers(values);
-    // propsklijenta.getData();
   };
 
   const onFinishFailed = errorInfo => {
@@ -113,8 +121,8 @@ function ChangeClients(propsklijenta) {
           ]}
         >
           <Select disabled={propsklijenta.preview} id="lice" value={form.getFieldsValue().lice} style={{ width: 120 }}>
-            <Option value="Fizicko">Fizicko Lice</Option>
-            <Option value="Pravno">Pravno Lice</Option>
+            <Select.Option value="Fizicko">Fizicko Lice</Select.Option>
+            <Select.Option value="Pravno">Pravno Lice</Select.Option>
           </Select>
         </FormItem>
 

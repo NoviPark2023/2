@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Input, Button, Form, Select, AutoComplete, DatePicker, Space, message, Tag } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
-import { Option } from 'antd/lib/mentions';
 import { api } from 'api/api';
-import { toast } from 'react-toastify';
 import { Spin } from 'antd';
 
-function PonudaLokala(propsponudalokala) {
+function ChangeOffersLocal(propsponudalokala) {
   const [form] = Form.useForm();
   const [clients, setClients] = useState({}); // List of clients fetched form server by client name
   const [clientOptions, setClientOptions] = useState([]); // list of formatted clients
@@ -55,7 +53,7 @@ function PonudaLokala(propsponudalokala) {
       form.setFieldsValue({});
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [propsponudalokala]); /// [form, propsponudalokala] prolazi i ovako proveriti ovo
+  }, [propsponudalokala]);
 
   useEffect(() => {
     if (clients.hasOwnProperty('results')) {
@@ -93,10 +91,19 @@ function PonudaLokala(propsponudalokala) {
         propsponudalokala.closeModal();
         if (propsponudalokala.edit) {
           propsponudalokala.onEdit(propsponudalokala.idKlijenta);
+          message.success({
+            content: 'Uspešno ste izmenili podatke!',
+            className: 'custom-class',
+            style: {},
+          });
         } else {
           propsponudalokala.getData();
+          message.success({
+            content: 'Uspešno kreirana ponuda lokala!',
+            className: 'custom-class',
+            style: {},
+          });
         }
-        toast.success('Uspesno ste izmenili podatke');
       })
       .catch(error => {
         if (error.data.broj_ugovora_lokala) {
@@ -214,10 +221,10 @@ function PonudaLokala(propsponudalokala) {
           ]}
         >
           <Select value={form.getFieldsValue().nacin_placanja_lokala} style={{ width: 120 }}>
-            <Option value="Ceo iznos">Ceo iznos</Option>
-            <Option value="Kredit">Kredit</Option>
-            <Option value="Na rate">Na rate</Option>
-            <Option value="Ucesce">Ucesce</Option>
+            <Select.Option value="Ceo iznos">Ceo iznos</Select.Option>
+            <Select.Option value="Kredit">Kredit</Select.Option>
+            <Select.Option value="Na rate">Na rate</Select.Option>
+            <Select.Option value="Ucesce">Ucesce</Select.Option>
           </Select>
         </FormItem>
         <FormItem
@@ -231,9 +238,9 @@ function PonudaLokala(propsponudalokala) {
           ]}
         >
           <Select value={form.getFieldsValue().status_ponude_lokala} style={{ width: 120 }}>
-            <Option value="potencijalan">Potencijalan</Option>
-            <Option value="rezervisan">Rezervisan</Option>
-            <Option value="kupljen">Kupljen</Option>
+            <Select.Option value="potencijalan">Potencijalan</Select.Option>
+            <Select.Option value="rezervisan">Rezervisan</Select.Option>
+            <Select.Option value="kupljen">Kupljen</Select.Option>
           </Select>
         </FormItem>
         <Form.Item>
@@ -255,4 +262,4 @@ function PonudaLokala(propsponudalokala) {
   );
 }
 
-export default PonudaLokala;
+export default ChangeOffersLocal;

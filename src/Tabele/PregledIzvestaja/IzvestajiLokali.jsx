@@ -10,7 +10,7 @@ import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, XAxis, YAxis
 
 const { Title } = Typography;
 
-function ReportsLokali() {
+function ReportsLocal() {
   const [data, setData] = useState({});
 
   const getData = async () => {
@@ -417,4 +417,4 @@ function ReportsLokali() {
   );
 }
 
-export default ReportsLokali;
+export default ReportsLocal;

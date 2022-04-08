@@ -3,10 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Input, Button, Form, Select, AutoComplete, DatePicker, Space, message, Tag } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { UserOutlined } from '@ant-design/icons';
-import { Option } from 'antd/lib/mentions';
 import 'antd/dist/antd.css';
 import { api } from 'api/api';
-import { toast } from 'react-toastify';
 import { Spin } from 'antd';
 
 function ChangeOffers(propsponuda) {
@@ -95,10 +93,19 @@ function ChangeOffers(propsponuda) {
         propsponuda.closeModal();
         if (propsponuda.edit) {
           propsponuda.onEdit(propsponuda.idKlijenta);
+          message.success({
+            content: 'Uspešno ste izmenili podatke!',
+            className: 'custom-class',
+            style: {},
+          });
         } else {
           propsponuda.getData();
+          message.success({
+            content: 'Uspešno kreirana ponuda stana!',
+            className: 'custom-class',
+            style: {},
+          });
         }
-        toast.success('Uspesno ste izmenili podatke');
       })
       .catch(error => {
         if (error.data.broj_ugovora) {
@@ -216,10 +223,10 @@ function ChangeOffers(propsponuda) {
           ]}
         >
           <Select value={form.getFieldsValue().nacin_placanja} style={{ width: 120 }}>
-            <Option value="Ceo iznos">Ceo iznos</Option>
-            <Option value="Kredit">Kredit</Option>
-            <Option value="Na rate">Na rate</Option>
-            <Option value="Ucesce">Učesće</Option>
+            <Select.Option value="Ceo iznos">Ceo iznos</Select.Option>
+            <Select.Option value="Kredit">Kredit</Select.Option>
+            <Select.Option value="Na rate">Na rate</Select.Option>
+            <Select.Option value="Ucesce">Učesće</Select.Option>
           </Select>
         </FormItem>
         <FormItem
@@ -233,9 +240,9 @@ function ChangeOffers(propsponuda) {
           ]}
         >
           <Select value={form.getFieldsValue().status_ponude} style={{ width: 120 }}>
-            <Option value="potencijalan">Potencijalan</Option>
-            <Option value="rezervisan">Rezervisan</Option>
-            <Option value="kupljen">Kupljen</Option>
+            <Select.Option value="potencijalan">Potencijalan</Select.Option>
+            <Select.Option value="rezervisan">Rezervisan</Select.Option>
+            <Select.Option value="kupljen">Kupljen</Select.Option>
           </Select>
         </FormItem>
         <Form.Item>

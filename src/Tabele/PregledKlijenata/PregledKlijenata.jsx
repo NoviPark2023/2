@@ -176,7 +176,6 @@ function ClientsReview() {
           value: 'Fizicko',
         },
       ],
-      // onFilter: (value, record) => record.lice.indexOf(value) === 0,
     },
     {
       key: 'ime_prezime__icontains',
@@ -289,7 +288,7 @@ function ClientsReview() {
         dataSource={data.results}
         onChange={handleChangePagination}
         pagination={{
-          total: data.count, // total count returned from backend
+          total: data.count,
           current: state.pagination.current,
         }}
         scroll={{ y: 'calc(100vh - 265px)' }}

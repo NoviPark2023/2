@@ -71,7 +71,7 @@ function LoginPage() {
             },
           ]}
         >
-          <Input trim={true} size="default" placeholder="Korisničko ime" prefix={<UserOutlined />} />
+          <Input trim="true" size="default" placeholder="Korisničko ime" prefix={<UserOutlined />} />
         </FormItem>
         <FormItem
           name="password"

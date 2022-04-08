@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { Input, Button, Form, Select, AutoComplete, DatePicker, Space, message, Tag } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
-import { Option } from 'antd/lib/mentions';
 import 'antd/dist/antd.css';
 import { api } from 'api/api';
 import { Spin } from 'antd';
@@ -83,6 +82,10 @@ function Garages(propsgaraze) {
     if ((!clientName || clientName.length === 0) && form.getFieldsValue().status_prodaje_garaze === 'prodata') {
       error = 'Unesite ime kupca!';
     }
+    if ((!clientName || clientName.length === 0) && form.getFieldsValue().status_prodaje_garaze === 'rezervisana') {
+      error = 'Unesite ime kupca!';
+    }
+
     return error;
   };
 
@@ -115,17 +118,26 @@ function Garages(propsgaraze) {
         form.setFieldsValue({});
         propsgaraze.closeModal();
         if (propsgaraze.edit) {
-          // propsgaraze.onEdit(propsgaraze.idKlijenta);
+          message.success({
+            content: 'Uspešno ste izmenili podatke!',
+            className: 'custom-class',
+            style: {},
+          });
 
           propsgaraze.getData();
         } else {
           propsgaraze.getData();
+          message.success({
+            content: 'Uspešno kreirana garaza!',
+            className: 'custom-class',
+            style: {},
+          });
         }
       })
       .catch(error => {
         if (error.data?.jedinstveni_broj_garaze) {
           message.error({
-            content: 'Garaza sa ovim brojem vec postoji u sistemu !',
+            content: 'Garaža sa ovim brojem vec postoji u sistemu !',
             className: 'custom-class',
             style: { fontSize: 20, marginTop: '0vh' },
           });
@@ -214,9 +226,9 @@ function Garages(propsgaraze) {
           ]}
         >
           <Select id="status_prodaje_garaze" value={form.getFieldsValue().status_prodaje_garaze} style={{ width: 120 }}>
-            <Option value="dostupna">Dostupna</Option>
-            <Option value="rezervisana">Rezervisana</Option>
-            <Option value="prodata">Prodata</Option>
+            <Select.Option value="dostupna">Dostupna</Select.Option>
+            <Select.Option value="rezervisana">Rezervisana</Select.Option>
+            <Select.Option value="prodata">Prodata</Select.Option>
           </Select>
         </FormItem>
 
@@ -256,10 +268,10 @@ function Garages(propsgaraze) {
           ]}
         >
           <Select value={form.getFieldsValue().nacin_placanja_garaze} style={{ width: 120 }}>
-            <Option value="Ceo iznos">Ceo iznos</Option>
-            <Option value="Kredit">Kredit</Option>
-            <Option value="Na rate">Na rate</Option>
-            <Option value="Ucesce">Ucesce</Option>
+            <Select.Option value="Ceo iznos">Ceo iznos</Select.Option>
+            <Select.Option value="Kredit">Kredit</Select.Option>
+            <Select.Option value="Na rate">Na rate</Select.Option>
+            <Select.Option value="Ucesce">Ucesce</Select.Option>
           </Select>
         </FormItem>
 

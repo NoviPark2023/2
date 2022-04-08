@@ -1,7 +1,7 @@
 import React from 'react';
 import PregledLokala from 'Tabele/PregledLokala/PregledLokala';
 
-function Lokali() {
+function Locals() {
   return (
     <div>
       <PregledLokala />
@@ -9,4 +9,4 @@ function Lokali() {
   );
 }
 
-export default Lokali;
+export default Locals;

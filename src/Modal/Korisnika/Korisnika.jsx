@@ -3,10 +3,8 @@ import React, { useEffect } from 'react';
 import { Input, Button, Form, Select, message } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { UserOutlined } from '@ant-design/icons';
-import { Option } from 'antd/lib/mentions';
 import { api } from 'api/api';
 import 'antd/dist/antd.css';
-import { toast } from 'react-toastify';
 
 function ChangeUser(propskorisnika) {
   const [form] = Form.useForm();
@@ -33,14 +31,6 @@ function ChangeUser(propskorisnika) {
     propskorisnika.getData();
   };
 
-  const sucsessMessages = value => {
-    toast.success(value);
-  };
-
-  const errorMessages = value => {
-    toast.error(value);
-  };
-
   const createUser = values => {
     const endpoint = '/korisnici/kreiraj-korisnika/';
     api
@@ -48,7 +38,7 @@ function ChangeUser(propskorisnika) {
       .then(res => {
         succses();
         message.success({
-          content: 'Uspesno kreiran Korisnik !',
+          content: 'Uspešno kreiran Korisnik !',
           className: 'custom-class',
           style: {},
         });
@@ -65,7 +55,7 @@ function ChangeUser(propskorisnika) {
           });
         } else if (error.data.username) {
           message.error({
-            content: 'Korisnik sa ovim Korisnickim Imenom je vec registrovan u sistemu !',
+            content: 'Korisnik sa ovim Korisničkim Imenom je vec registrovan u sistemu !',
             className: 'custom-class',
             style: {
               marginTop: '0vh',
@@ -82,11 +72,13 @@ function ChangeUser(propskorisnika) {
       .put(endpoint, values)
       .then(res => {
         succses();
-        sucsessMessages('uspesno');
+        message.success({
+          content: 'Uspešno izmenjeni podaci korisnika !',
+          className: 'custom-class',
+          style: {},
+        });
       })
-      .catch(res => {
-        errorMessages('greska');
-      });
+      .catch(res => {});
   };
 
   const changeUsers = values => {
@@ -180,9 +172,9 @@ function ChangeUser(propskorisnika) {
           ]}
         >
           <Select id="role" value={form.getFieldsValue().role} style={{ width: 120 }}>
-            <Option value="Prodavac">Prodavac </Option>
-            <Option value="Finansije">Finansije</Option>
-            <Option value="Administrator">Administrator</Option>
+            <Select.Option value="Prodavac">Prodavac </Select.Option>
+            <Select.Option value="Finansije">Finansije</Select.Option>
+            <Select.Option value="Administrator">Administrator</Select.Option>
           </Select>
         </FormItem>
         <Form.Item>

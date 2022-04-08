@@ -3,9 +3,7 @@ import React, { useEffect } from 'react';
 import { Input, Button, Form, Select, message } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { api } from 'api/api';
-import { Option } from 'antd/lib/mentions';
 import 'antd/dist/antd.css';
-import { toast } from 'react-toastify';
 
 function ChanngePricePerSquare(propscenakvadrata) {
   const [form] = Form.useForm();
@@ -30,21 +28,17 @@ function ChanngePricePerSquare(propscenakvadrata) {
     propscenakvadrata.listOfPrice();
   };
 
-  const sucsessMessages = value => {
-    toast.success(value);
-  };
-
-  const errorMessages = value => {
-    toast.error(value);
-  };
-
   const createPrice = values => {
     const endpoint = '/stanovi/kreiraj-cenu-kvadrata';
     api
       .post(endpoint, values)
       .then(res => {
         succses();
-        sucsessMessages('uspesno');
+        message.success({
+          content: 'Uspešno kreirana cena kvadrata !',
+          className: 'custom-class',
+          style: {},
+        });
       })
       .catch(error => {
         if (error.data.detail) {
@@ -65,11 +59,13 @@ function ChanngePricePerSquare(propscenakvadrata) {
       .put(endpoint, values)
       .then(res => {
         succses();
-        sucsessMessages('uspesno');
+        message.success({
+          content: 'Uspešno izmenjena cena kvadrata !',
+          className: 'custom-class',
+          style: {},
+        });
       })
-      .catch(e => {
-        errorMessages('greska');
-      });
+      .catch(e => {});
   };
 
   const changePricePerApartmants = values => {
@@ -99,14 +95,14 @@ function ChanngePricePerSquare(propscenakvadrata) {
           ]}
         >
           <Select value={form.getFieldsValue().sprat} style={{ width: 120 }}>
-            <Option value="1.0">1</Option>
-            <Option value="2.0">2</Option>
-            <Option value="3.0">3</Option>
-            <Option value="4.0">4</Option>
-            <Option value="5.0">5</Option>
-            <Option value="6.0">6</Option>
-            <Option value="7.0">7</Option>
-            <Option value="PS">PS</Option>
+            <Select.Option value="1.0">1</Select.Option>
+            <Select.Option value="2.0">2</Select.Option>
+            <Select.Option value="3.0">3</Select.Option>
+            <Select.Option value="4.0">4</Select.Option>
+            <Select.Option value="5.0">5</Select.Option>
+            <Select.Option value="6.0">6</Select.Option>
+            <Select.Option value="7.0">7</Select.Option>
+            <Select.Option value="PS">PS</Select.Option>
           </Select>
         </FormItem>
         <FormItem
@@ -120,17 +116,17 @@ function ChanngePricePerSquare(propscenakvadrata) {
           ]}
         >
           <Select value={form.getFieldsValue().broj_soba} style={{ width: 120 }}>
-            <Option value="1.0">1</Option>
-            <Option value="1.5">1.5</Option>
-            <Option value="2.0">2</Option>
-            <Option value="2.5">2.5</Option>
-            <Option value="3.0">3</Option>
-            <Option value="3.5">3.5</Option>
-            <Option value="4.0">4</Option>
-            <Option value="4.5">4.5</Option>
-            <Option value="5.0">5</Option>
-            <Option value="5.5">5.5</Option>
-            <Option value="6.0">6</Option>
+            <Select.Option value="1.0">1</Select.Option>
+            <Select.Option value="1.5">1.5</Select.Option>
+            <Select.Option value="2.0">2</Select.Option>
+            <Select.Option value="2.5">2.5</Select.Option>
+            <Select.Option value="3.0">3</Select.Option>
+            <Select.Option value="3.5">3.5</Select.Option>
+            <Select.Option value="4.0">4</Select.Option>
+            <Select.Option value="4.5">4.5</Select.Option>
+            <Select.Option value="5.0">5</Select.Option>
+            <Select.Option value="5.5">5.5</Select.Option>
+            <Select.Option value="6.0">6</Select.Option>
           </Select>
         </FormItem>
         <FormItem
@@ -144,8 +140,8 @@ function ChanngePricePerSquare(propscenakvadrata) {
           ]}
         >
           <Select value={form.getFieldsValue().orijentisanost} style={{ width: 120 }}>
-            <Option value="Sever">Sever</Option>
-            <Option value="Jug">Jug</Option>
+            <Select.Option value="Sever">Sever</Select.Option>
+            <Select.Option value="Jug">Jug</Select.Option>
           </Select>
         </FormItem>
 
