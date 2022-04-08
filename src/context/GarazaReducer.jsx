@@ -2,7 +2,6 @@ export const initialState = {
   data: {},
   filter: {},
   pagination: { offset: null, limit: null, current: 1 },
-  // loader: false,
 };
 
 export default function reducer(state, action) {
@@ -22,11 +21,6 @@ export default function reducer(state, action) {
         ...state,
         filter: action.filters,
       };
-    // case 'set_loader':
-    //   return {
-    //     ...state,
-    //     loader: action.loader,
-    //   };
     case 'update_filters_pagination':
       return {
         ...state,

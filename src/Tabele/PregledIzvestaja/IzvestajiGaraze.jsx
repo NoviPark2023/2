@@ -10,7 +10,7 @@ import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, XAxis, YAxis
 
 const { Title } = Typography;
 
-function ReportsGaraze() {
+function ReportsGarages() {
   const [data, setData] = useState({});
   const [, setUsers] = useState([]);
 
@@ -428,4 +428,4 @@ function ReportsGaraze() {
   );
 }
 
-export default ReportsGaraze;
+export default ReportsGarages;

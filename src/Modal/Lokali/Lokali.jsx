@@ -2,10 +2,8 @@
 import React, { useEffect } from 'react';
 import { Input, Button, Form, Select, message } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
-import { Option } from 'antd/lib/mentions';
 import 'antd/dist/antd.css';
 import { api } from 'api/api';
-import { toast } from 'react-toastify';
 
 function Local(propslokala) {
   const [form] = Form.useForm();
@@ -19,7 +17,6 @@ function Local(propslokala) {
         broj_prostorija: propslokala.propslokala.broj_prostorija,
         orijentisanost_lokala: propslokala.propslokala.orijentisanost_lokala,
         cena_lokala: propslokala.propslokala.cena_lokala,
-        // status_prodaje_lokala: propslokala.propslokala.status_prodaje_lokala,
       });
     }
   }, [propslokala]);
@@ -32,25 +29,19 @@ function Local(propslokala) {
     propslokala.getData();
   };
 
-  const sucsessMessages = value => {
-    toast.success(value);
-  };
-
-  const errorMessages = value => {
-    toast.error(value);
-  };
-
   const editLocal = (id_lokala, values) => {
     const endpoint = `/lokali/izmeni-lokal/${id_lokala}/`;
     api
       .put(endpoint, values)
       .then(res => {
         succses();
-        sucsessMessages('uspesno');
+        message.success({
+          content: 'Uspešno izmenjeni podaci lokala !',
+          className: 'custom-class',
+          style: {},
+        });
       })
-      .catch(e => {
-        errorMessages('greska');
-      });
+      .catch(e => {});
   };
 
   const createLocal = values => {
@@ -59,7 +50,11 @@ function Local(propslokala) {
       .post(endpoint, values)
       .then(res => {
         succses();
-        sucsessMessages('uspesno');
+        message.success({
+          content: 'Uspešno ste kreirali novi lokal !',
+          className: 'custom-class',
+          style: {},
+        });
       })
       .catch(error => {
         if (error.data.lamela_lokala) {
@@ -136,17 +131,17 @@ function Local(propslokala) {
           ]}
         >
           <Select value={form.getFieldsValue().broj_prostorija} style={{ width: 120 }}>
-            <Option value="1.0">1</Option>
-            <Option value="1.5">1.5</Option>
-            <Option value="2.0">2</Option>
-            <Option value="2.5">2.5</Option>
-            <Option value="3.0">3</Option>
-            <Option value="3.5">3.5</Option>
-            <Option value="4.0">4</Option>
-            <Option value="4.5">4.5</Option>
-            <Option value="5.0">5</Option>
-            <Option value="5.5">5.5</Option>
-            <Option value="6.0">6</Option>
+            <Select.Option value="1.0">1</Select.Option>
+            <Select.Option value="1.5">1.5</Select.Option>
+            <Select.Option value="2.0">2</Select.Option>
+            <Select.Option value="2.5">2.5</Select.Option>
+            <Select.Option value="3.0">3</Select.Option>
+            <Select.Option value="3.5">3.5</Select.Option>
+            <Select.Option value="4.0">4</Select.Option>
+            <Select.Option value="4.5">4.5</Select.Option>
+            <Select.Option value="5.0">5</Select.Option>
+            <Select.Option value="5.5">5.5</Select.Option>
+            <Select.Option value="6.0">6</Select.Option>
           </Select>
         </FormItem>
         <FormItem
@@ -160,8 +155,8 @@ function Local(propslokala) {
           ]}
         >
           <Select value={form.getFieldsValue().orijentisanost_lokala} style={{ width: 120 }}>
-            <Option value="Sever">Sever</Option>
-            <Option value="Jug">Jug</Option>
+            <Select.Option value="Sever">Sever</Select.Option>
+            <Select.Option value="Jug">Jug</Select.Option>
           </Select>
         </FormItem>
         <FormItem
@@ -177,22 +172,6 @@ function Local(propslokala) {
           <Input size="default" placeholder="Cena lokala" />
         </FormItem>
 
-        {/* <FormItem
-          label="Status"
-          name="status_prodaje_lokala"
-          rules={[
-            {
-              required: true,
-              message: 'Unesite Status!',
-            },
-          ]}
-        >
-          <Select value={form.getFieldsValue().status_prodaje_lokala} style={{ width: 120 }}>
-            <Option value="dostupan">Dostupan</Option>
-            <Option value="rezervisan">Rezervisan</Option>
-            <Option value="prodat">Prodat</Option>
-          </Select>
-        </FormItem> */}
         <Form.Item>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button type="primary" htmlType="submit">

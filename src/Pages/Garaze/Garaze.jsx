@@ -1,7 +1,7 @@
 import React from 'react';
 import PregledGaraza from 'Tabele/PregledGaraza/PregledGaraza';
 
-function Garaze() {
+function Garages() {
   return (
     <div>
       <PregledGaraza />
@@ -9,4 +9,4 @@ function Garaze() {
   );
 }
 
-export default Garaze;
+export default Garages;

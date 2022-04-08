@@ -39,7 +39,6 @@ function DetailsLocal() {
   };
 
   const onUpdate = () => {
-    // const id = getId();
     setEditModal(false);
 
     if (x) {
@@ -86,9 +85,7 @@ function DetailsLocal() {
             >
               <Descriptions layout="horizontal">
                 <Descriptions.Item label="Lamela">{data.lamela_lokala}</Descriptions.Item>
-                <Descriptions.Item label="Adresa lokala" span={4}>
-                  {data.adresa_lokala}
-                </Descriptions.Item>
+                <Descriptions.Item label="Adresa lokala">{data.adresa_lokala}</Descriptions.Item>
                 <Descriptions.Item label="Broj prostorija">{data.broj_prostorija}</Descriptions.Item>
                 <Descriptions.Item label="Cena lokala">{data.cena_lokala}</Descriptions.Item>
                 <Descriptions.Item label="Kvadratura">{data.kvadratura_lokala}</Descriptions.Item>

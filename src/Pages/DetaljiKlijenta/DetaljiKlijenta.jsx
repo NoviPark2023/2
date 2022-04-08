@@ -11,7 +11,7 @@ import Scroll from 'components/Scroll/Scroll';
 import { Spin } from 'antd';
 import NotFound from 'Pages/NotFound/NotFound';
 
-function DetaljiKlijenta(props) {
+function DetailsClients() {
   const x = useParams().id;
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
@@ -126,4 +126,4 @@ function DetaljiKlijenta(props) {
   return null;
 }
 
-export default DetaljiKlijenta;
+export default DetailsClients;

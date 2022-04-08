@@ -339,13 +339,12 @@ function GarageReview() {
         </Button>
       </div>
       <Table
-        dataSource={data.results}
         columns={columns}
+        dataSource={data.results}
         onChange={handleChangePagination}
         pagination={{
           total: data.count,
           current: state.pagination.current,
-          // total count returned from backend
         }}
         scroll={{ y: 'calc(100vh - 265px)' }}
         rowKey="id_garaze"

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Popconfirm, Button, Upload, message } from 'antd';
-// import { authService } from 'auth/auth.service';
+import { Table, Popconfirm, Button, Upload } from 'antd';
 import { api } from 'api/api';
 import { Spin } from 'antd';
 import 'antd/dist/antd.css';
@@ -10,8 +9,6 @@ import getToken from 'utils/getToken';
 import { useParams } from 'react-router-dom';
 
 function DocumentationApartment() {
-  // const activeRole = authService.getRole();
-
   const [, setEditDoc] = useState(false);
   const [upload, setUpload] = useState(false);
 
@@ -41,11 +38,8 @@ function DocumentationApartment() {
       })
       .then(res => {
         setFile([]);
-        message.success('Uspešno!');
       })
-      .catch(() => {
-        message.error('Greška!');
-      })
+      .catch(() => {})
       .finally(() => {
         getData();
         setLoaderPage();
