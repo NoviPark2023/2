@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Table, Button, Modal, Popconfirm, Tag } from 'antd';
-import Ponuda from 'Modal/Ponuda/Ponuda';
+import DetaljiKlijentaPonuda from 'Modal/DetaljiKlijentaPonuda/DetaljiKlijentaPonuda';
 import { api } from 'api/api';
 import Klijenta from 'Modal/Klijenta/Klijenta';
 
@@ -51,13 +51,6 @@ const ClientOffersReview = props => {
       align: 'center',
       dataIndex: 'lamela_stana',
     },
-    // {
-    //   key: '2',
-    //   title: ' Kupac',
-    //   align: 'center',
-    //   dataIndex: 'ime_prezime', odraditi modal ovo polje se ne rednederuje kod izmene modala
-
-    // },
     {
       key: '3',
       title: 'Cena ponude stana',
@@ -89,7 +82,6 @@ const ClientOffersReview = props => {
       title: 'Nacin plaćanja',
       align: 'center',
       dataIndex: 'nacin_placanja',
-      // render: (text, record) => <span>{record.nacin_placanja}</span>,
     },
     {
       key: '8',
@@ -196,7 +188,7 @@ const ClientOffersReview = props => {
         footer={null}
       >
         {!!offers && (
-          <Ponuda
+          <DetaljiKlijentaPonuda
             edit
             idKlijenta={props.idKlijenta}
             onEdit={props.updateFunction}
