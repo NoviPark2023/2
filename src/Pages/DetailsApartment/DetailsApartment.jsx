@@ -1,0 +1,127 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react';
+import { Card, Descriptions, Button, Modal } from 'antd';
+import { api } from 'api/api';
+import Apartment from 'Modal/Apartment/Apartment';
+import styles from './DetailsApartment.module.css';
+import 'antd/dist/antd.css';
+import GraphApartments from 'components/GraphApartments/GraphApartments';
+import { useParams } from 'react-router-dom';
+import { authService } from 'auth/auth.service';
+import NotFound from 'Pages/NotFound/NotFound';
+import Documentation from 'Tabele/Documentation/Documentation';
+import Scroll from 'components/Scroll/Scroll';
+
+function DetailsApartments() {
+  const activeRole = authService.getRole();
+  const x = useParams().id;
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState(null);
+  const [error, setError] = useState('');
+  const [showEditModal, setEditModal] = useState(false);
+
+  const onFecthError = error => {
+    const errorMessage =
+      error.status === 404 ? (
+        <NotFound />
+      ) : (
+        'Doslo je do greske. Molimo Vas pokusajte ponovo ili kontaktirajte podrsku.'
+      );
+
+    setError(errorMessage);
+  };
+
+  const fetchData = id => {
+    setLoading(true);
+
+    api
+      .get(`/stanovi/detalji-stana/${id}`)
+      .then(response => {
+        setData(response.data);
+      })
+      .catch(onFecthError)
+      .finally(() => setLoading(false));
+  };
+
+  const onUpdate = () => {
+    // const id = getId();
+    setEditModal(false);
+
+    if (x) {
+      fetchData(x);
+    }
+  };
+
+  useEffect(() => {
+    if (x) {
+      fetchData(x);
+    }
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+
+  if (error) {
+    return (
+      <div>
+        <h3 style={{ color: 'red' }}>{error}</h3>
+      </div>
+    );
+  }
+
+  if (data) {
+    return (
+      <>
+        <Scroll>
+          <div className={styles['flat-details']}>
+            <Card
+              className={styles.textLabel}
+              title="Detalji stana"
+              extra={
+                <Button
+                  disabled={activeRole === 'Prodavac'}
+                  type="primary"
+                  onClick={() => {
+                    setEditModal(true);
+                  }}
+                >
+                  Izmeni
+                </Button>
+              }
+              style={{ width: '50%', margin: '15px' }}
+            >
+              <Descriptions layout="horizontal">
+                <Descriptions.Item label="Lamela">{data.lamela}</Descriptions.Item>
+                <Descriptions.Item label="Adresa">{data.adresa_stana}</Descriptions.Item>
+                <Descriptions.Item label="Broj soba">{data.broj_soba}</Descriptions.Item>
+                <Descriptions.Item label="Broj terasa">{data.broj_terasa}</Descriptions.Item>
+                <Descriptions.Item label="Cena stana">{data.cena_stana}</Descriptions.Item>
+                <Descriptions.Item label="Kvadratura">{data.kvadratura}</Descriptions.Item>
+                <Descriptions.Item label="Orijentisanost">{data.orijentisanost}</Descriptions.Item>
+                <Descriptions.Item label="Sprat">{data.sprat}</Descriptions.Item>
+                <Descriptions.Item label="Status prodaje">{data.status_prodaje}</Descriptions.Item>
+              </Descriptions>
+            </Card>
+
+            <Modal
+              title="Izmeni"
+              visible={showEditModal}
+              onOk={onUpdate}
+              onCancel={() => setEditModal(false)}
+              footer={null}
+            >
+              <Apartment getData={onUpdate} edit propsstan={data} closeModal={() => setEditModal(false)} />
+            </Modal>
+            <Card className={styles.textLabel} style={{ width: '50%', margin: '15px' }}>
+              <GraphApartments propsstan={data} />
+            </Card>
+          </div>
+          <Documentation propsstan={data} />
+        </Scroll>
+      </>
+    );
+  }
+
+  return null;
+}
+
+export default DetailsApartments;

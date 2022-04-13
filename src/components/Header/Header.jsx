@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Modal, Layout, Space, Menu } from 'antd';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { authService } from 'auth/auth.service';
-import logostanovi from 'assets/stanovi-logo-header.png';
+import logostanovi from 'assets/apartments-logo-header.png';
 import 'antd/dist/antd.css';
 
 const { Header } = Layout;

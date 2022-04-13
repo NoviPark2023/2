@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout } from 'antd';
-import logo from 'assets/stanovi-logo-footer.png';
+import logo from 'assets/apartments-logo-footer.png';
 import style from './Footer.module.css';
 const { Footer } = Layout;
 
