@@ -14,7 +14,7 @@ import Scroll from 'components/Scroll/Scroll';
 
 function DetailsApartments() {
   const activeRole = authService.getRole();
-  const x = useParams().id;
+  const id = useParams().id;
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
   const [error, setError] = useState('');
@@ -44,17 +44,16 @@ function DetailsApartments() {
   };
 
   const onUpdate = () => {
-    // const id = getId();
     setEditModal(false);
 
-    if (x) {
-      fetchData(x);
+    if (id) {
+      fetchData(id);
     }
   };
 
   useEffect(() => {
-    if (x) {
-      fetchData(x);
+    if (id) {
+      fetchData(id);
     }
   }, []);
 
