@@ -1,11 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Modal, Popconfirm, Tag } from 'antd';
+import { Table, Button, Modal, Popconfirm, Tag, Card, Descriptions } from 'antd';
 import Offers from 'Modal/Offers/Offers';
 import { useLocation } from 'react-router';
 import { api } from 'api/api';
 import { Spin } from 'antd';
 import { authService } from 'auth/auth.service';
+import styles from './ReviewOffters.module.css';
+import Apartment from 'Modal/Apartment/Apartment';
+import Scroll from 'components/Scroll/Scroll';
 
 const OffersReview = () => {
   const activeRole = authService.getRole();
@@ -19,6 +22,23 @@ const OffersReview = () => {
 
   ///loader
   const [loaderPage, setLoaderPage] = useState(false);
+  const [showEditModal, setEditModal] = useState(false);
+  const [data, setData] = useState(null);
+
+  ///detalji stana
+  const fetchData = id => {
+    api.get(`/stanovi/detalji-stana/${id}`).then(response => {
+      setData(response.data);
+    });
+  };
+
+  const onUpdate = () => {
+    setEditModal(false);
+
+    if (id) {
+      fetchData(id);
+    }
+  };
 
   ///ponude stana
   const getListOffers = (paramId = id) => {
@@ -69,100 +89,24 @@ const OffersReview = () => {
     setIsModalVisible(false);
   };
 
-  // ////hooks za search u tabeli
-  // const [searchText, setSearchText] = useState('');
-  // const [searchedColumn, setSearchedColumn] = useState('');
-
-  // ////funkcionanost za search u tabeli
-  // const handleSearch = (selectedKeys, confirm, dataIndex) => {
-  //   confirm();
-  //   setSearchText(selectedKeys[0]);
-  //   setSearchedColumn(dataIndex);
-  // };
-
-  // const handleReset = clearFilters => {
-  //   clearFilters();
-  // };
-
-  // let searchInput;
-
-  // const getColumnSearchProps = dataIndex => ({
-  //   filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-  //     <div style={{ padding: 8 }}>
-  //       <Input
-  //         ref={node => {
-  //           searchInput = node;
-  //         }}
-  //         placeholder={`Search ${dataIndex}`}
-  //         value={selectedKeys[0]}
-  //         onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-  //         onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-  //         style={{ marginBottom: 8, display: 'block' }}
-  //       />
-  //       <Space>
-  //         <Button
-  //           type="primary"
-  //           onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-  //           icon={<SearchOutlined />}
-  //           size="small"
-  //           style={{ width: 100 }}
-  //         >
-  //           Search
-  //         </Button>
-  //         <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 100 }}>
-  //           Reset
-  //         </Button>
-  //       </Space>
-  //     </div>
-  //   ),
-  //   filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
-  //   onFilter: (value, record) =>
-  //     record[dataIndex] ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()) : '',
-  //   onFilterDropdownVisibleChange: visible => {
-  //     if (visible) {
-  //       setTimeout(() => searchInput.select(), 100);
-  //     }
-  //   },
-  //   render: text =>
-  //     searchedColumn === dataIndex ? (
-  //       <Highlighter
-  //         highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-  //         searchWords={[searchText]}
-  //         autoEscape
-  //         textToHighlight={text ? text.toString() : ''}
-  //       />
-  //     ) : (
-  //       text
-  //     ),
-  // });
   const columns = [
-    // {
-    //   key: '1',
-    //   title: 'ID ponude',
-    //   align: 'center',
-    //   dataIndex: 'id_ponude',
-    //   ...getColumnSearchProps('id_ponude'),
-    // },
     {
       key: '2',
       title: 'Kupac',
       align: 'center',
       dataIndex: 'ime_kupca',
-      // ...getColumnSearchProps('kupac'),
     },
     {
       key: '3',
       title: 'Stan',
       align: 'center',
       dataIndex: 'stan',
-      // ...getColumnSearchProps('stan'),
     },
     {
       key: '4',
       title: 'Lamela stana',
       align: 'center',
       dataIndex: 'lamela_stana',
-      // ...getColumnSearchProps('lamela_stana'),
     },
     {
       key: '5',
@@ -170,7 +114,6 @@ const OffersReview = () => {
       align: 'center',
       dataIndex: 'cena_stana_za_kupca',
       sorter: (a, b) => a.cena_stana_za_kupca - b.cena_stana_za_kupca,
-      // ...getColumnSearchProps('cena_stana_za_kupca'),
     },
     {
       key: '6',
@@ -178,8 +121,6 @@ const OffersReview = () => {
       align: 'center',
       dataIndex: 'cena_stana',
       sorter: (a, b) => a.cena_stana - b.cena_stana,
-      // ...getColumnSearchProps('cena_stana'),
-      // render: () => <span>{price}</span>,
     },
 
     {
@@ -187,14 +128,12 @@ const OffersReview = () => {
       title: 'Broj ugovora',
       align: 'center',
       dataIndex: 'broj_ugovora',
-      // ...getColumnSearchProps('broj_ugovora'),
     },
     {
       key: '8',
       title: 'Datum',
       align: 'center',
       dataIndex: 'datum_ugovora',
-      // ...getColumnSearchProps('datum_ugovora'),
     },
     {
       key: '9',
@@ -202,25 +141,6 @@ const OffersReview = () => {
       align: 'center',
       dataIndex: 'nacin_placanja',
       render: (text, record) => <span>{record.nacin_placanja}</span>,
-      // filters: [
-      //   {
-      //     text: 'Ceo iznos',
-      //     value: 'Ceo iznos',
-      //   },
-      //   {
-      //     text: 'Kredit',
-      //     value: 'Kredit',
-      //   },
-      //   {
-      //     text: 'Na rate',
-      //     value: 'Na rate',
-      //   },
-      //   {
-      //     text: 'Ucešće',
-      //     value: 'Ucesce',
-      //   },
-      // ],
-      // onFilter: (value, record) => record.nacin_placanja.indexOf(value) === 0,
     },
     {
       key: '10',
@@ -242,21 +162,6 @@ const OffersReview = () => {
           </Tag>
         );
       },
-      // filters: [
-      //   {
-      //     text: 'potencijalan',
-      //     value: ['potencijalan'],
-      //   },
-      //   {
-      //     text: 'rezervisan',
-      //     value: ['rezervisan'],
-      //   },
-      //   {
-      //     text: 'kupljen',
-      //     value: ['kupljen'],
-      //   },
-      // ],
-      // onFilter: (value, record) => record.status_ponude.indexOf(value) === 0,
     },
     {
       key: '11',
@@ -328,66 +233,107 @@ const OffersReview = () => {
 
   useEffect(() => {
     getListOffers();
+    if (id) {
+      fetchData(id);
+    }
   }, []);
+  if (data) {
+    return (
+      <>
+        <Scroll>
+          <div className={styles['flat-details']}>
+            <Card
+              className={styles.textLabel}
+              title="Detalji stana"
+              extra={
+                <Button
+                  disabled={activeRole === 'Prodavac'}
+                  type="primary"
+                  onClick={() => {
+                    setEditModal(true);
+                  }}
+                >
+                  Izmeni
+                </Button>
+              }
+              style={{ width: '50%', margin: '15px' }}
+            >
+              <Descriptions layout="horizontal">
+                <Descriptions.Item label="Lamela">{data.lamela}</Descriptions.Item>
+                <Descriptions.Item label="Adresa">{data.adresa_stana}</Descriptions.Item>
+                <Descriptions.Item label="Broj soba">{data.broj_soba}</Descriptions.Item>
+                <Descriptions.Item label="Broj terasa">{data.broj_terasa}</Descriptions.Item>
+                <Descriptions.Item label="Cena stana">{data.cena_stana}</Descriptions.Item>
+                <Descriptions.Item label="Kvadratura">{data.kvadratura}</Descriptions.Item>
+                <Descriptions.Item label="Orijentisanost">{data.orijentisanost}</Descriptions.Item>
+                <Descriptions.Item label="Sprat">{data.sprat}</Descriptions.Item>
+                <Descriptions.Item label="Status prodaje">{data.status_prodaje}</Descriptions.Item>
+              </Descriptions>
+            </Card>
 
-  return (
-    <div>
-      <div style={{ margin: 20 }}>
-        <Button type="primary" onClick={() => setIsCreateModalVisible(true)}>
-          Dodaj novu ponudu
-        </Button>
-      </div>
-      <Table columns={columns} dataSource={setPonude} pagination={false} rowKey="id_ponude"></Table>
+            <Modal
+              title="Izmeni"
+              visible={showEditModal}
+              onOk={onUpdate}
+              onCancel={() => setEditModal(false)}
+              footer={null}
+            >
+              <Apartment getData={onUpdate} edit propsstan={data} closeModal={() => setEditModal(false)} />
+            </Modal>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            {loaderPage && <Spin tip="Loading page" size="large" />}
+          </div>
+          <div style={{ margin: 20 }}>
+            <Button type="primary" onClick={() => setIsCreateModalVisible(true)}>
+              Dodaj novu ponudu
+            </Button>
+          </div>
+          <Table columns={columns} dataSource={setPonude} pagination={false} rowKey="id_ponude"></Table>
 
-      {/* <Modal
-        title="Pregled Klijenta"
-        visible={isClientVisible && selectedBuyer}
-        onCancel={() => setIsClientVisible(false)}
-        footer={null}
-      >
-        <Klijenta preview propsklijenta={selectedBuyer} closeModal={() => setIsClientVisible(false)} />
-      </Modal> */}
+          <Modal
+            title="Izmeni"
+            visible={isModalVisible}
+            onOk={handleOkModal}
+            onCancel={() => setIsModalVisible(false)}
+            footer={null}
+          >
+            {!!offers && (
+              <Offers
+                edit
+                onEdit={getListOffers}
+                idKlijenta={offers.id_kupca}
+                propsponuda={offers}
+                getData={getListOffers}
+                closeModal={() => setIsModalVisible(false)}
+              />
+            )}
+          </Modal>
 
-      <Modal
-        title="Izmeni"
-        visible={isModalVisible}
-        onOk={handleOkModal}
-        onCancel={() => setIsModalVisible(false)}
-        footer={null}
-      >
-        {!!offers && (
-          <Offers
-            edit
-            onEdit={getListOffers}
-            idKlijenta={offers.id_kupca}
-            propsponuda={offers}
-            getData={getListOffers}
-            closeModal={() => setIsModalVisible(false)}
-          />
-        )}
-      </Modal>
-
-      <Modal
-        destroyOnClose={true}
-        title="Dodaj ponudu"
-        visible={isCreateModalVisible}
-        onOk={handleOkModal}
-        onCancel={() => setIsCreateModalVisible(false)}
-        footer={null}
-      >
-        {isCreateModalVisible && (
-          <Offers
-            propsponuda={{ stan: id }}
-            getData={getListOffers}
-            closeModal={() => setIsCreateModalVisible(false)}
-          />
-        )}
-      </Modal>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        {loaderPage && <Spin tip="Loading page" size="large"></Spin>}
-      </div>
-    </div>
-  );
+          <Modal
+            destroyOnClose={true}
+            title="Dodaj ponudu"
+            visible={isCreateModalVisible}
+            onOk={handleOkModal}
+            onCancel={() => setIsCreateModalVisible(false)}
+            footer={null}
+          >
+            {isCreateModalVisible && (
+              <Offers
+                propsponuda={{ stan: id }}
+                getData={getListOffers}
+                closeModal={() => setIsCreateModalVisible(false)}
+              />
+            )}
+          </Modal>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            {loaderPage && <Spin tip="Loading page" size="large"></Spin>}
+          </div>
+        </Scroll>
+      </>
+    );
+  }
+  return null;
 };
 
 export default OffersReview;
