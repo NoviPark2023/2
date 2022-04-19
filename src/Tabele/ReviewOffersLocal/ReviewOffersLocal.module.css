@@ -1,0 +1,22 @@
+.flat-details {
+  padding: 32px;
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+
+.images {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.textLabel {
+  font-weight: bold;
+  box-shadow: 10px 10px 10px grey;
+}
+
+.card {
+  width: 50%;
+  box-shadow: 10px 10px 10px grey;
+}
