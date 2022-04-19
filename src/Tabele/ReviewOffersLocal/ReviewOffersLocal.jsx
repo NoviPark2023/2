@@ -1,11 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Modal, Popconfirm, Tag } from 'antd';
+import { Table, Button, Modal, Popconfirm, Tag, Card, Descriptions } from 'antd';
 import { useLocation } from 'react-router';
 import { authService } from 'auth/auth.service';
 import { Spin } from 'antd';
 import { api } from 'api/api';
 import OffersLocal from 'Modal/OffersLocal/OffersLocal';
+import styles from './ReviewOffersLocal.module.css';
+import Local from 'Modal/Local/Local';
+import Scroll from 'components/Scroll/Scroll';
 
 function OverviewOfferLocal() {
   const activeRole = authService.getRole();
@@ -38,6 +41,23 @@ function OverviewOfferLocal() {
 
   ///loader
   const [loaderPage, setLoaderPage] = useState(false);
+  const [showEditModal, setEditModal] = useState(false);
+  const [data, setData] = useState(null);
+
+  //detalji lokala
+  const fetchData = id_lokala => {
+    api.get(`/lokali/detalji-lokala/${id_lokala}/`).then(response => {
+      setData(response.data);
+    });
+  };
+
+  const onUpdate = () => {
+    setEditModal(false);
+
+    if (id) {
+      fetchData(id);
+    }
+  };
 
   ///ponude lokala
   const getListOffers = (paramId = id) => {
@@ -69,101 +89,24 @@ function OverviewOfferLocal() {
     });
   };
 
-  // ////hooks za search u tabeli
-  // const [searchText, setSearchText] = useState('');
-  // const [searchedColumn, setSearchedColumn] = useState('');
-
-  // ////funkcionanost za search u tabeli
-  // const handleSearch = (selectedKeys, confirm, dataIndex) => {
-  //   confirm();
-  //   setSearchText(selectedKeys[0]);
-  //   setSearchedColumn(dataIndex);
-  // };
-
-  // const handleReset = clearFilters => {
-  //   clearFilters();
-  // };
-
-  // let searchInput;
-
-  // const getColumnSearchProps = dataIndex => ({
-  //   filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-  //     <div style={{ padding: 8 }}>
-  //       <Input
-  //         ref={node => {
-  //           searchInput = node;
-  //         }}
-  //         placeholder={`Search ${dataIndex}`}
-  //         value={selectedKeys[0]}
-  //         onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-  //         onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-  //         style={{ marginBottom: 8, display: 'block' }}
-  //       />
-  //       <Space>
-  //         <Button
-  //           type="primary"
-  //           onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-  //           icon={<SearchOutlined />}
-  //           size="small"
-  //           style={{ width: 100 }}
-  //         >
-  //           Search
-  //         </Button>
-  //         <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 100 }}>
-  //           Reset
-  //         </Button>
-  //       </Space>
-  //     </div>
-  //   ),
-  //   filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
-  //   onFilter: (value, record) =>
-  //     record[dataIndex] ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()) : '',
-  //   onFilterDropdownVisibleChange: visible => {
-  //     if (visible) {
-  //       setTimeout(() => searchInput.select(), 100);
-  //     }
-  //   },
-  //   render: text =>
-  //     searchedColumn === dataIndex ? (
-  //       <Highlighter
-  //         highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-  //         searchWords={[searchText]}
-  //         autoEscape
-  //         textToHighlight={text ? text.toString() : ''}
-  //       />
-  //     ) : (
-  //       text
-  //     ),
-  // });
-
   const columns = [
-    // {
-    //   key: '1',
-    //   title: 'ID ponude',
-    //   align: 'center',
-    //   dataIndex: 'id_ponude_lokala',
-    //   ...getColumnSearchProps('id_ponude_lokala'),
-    // },
     {
       key: '2',
       title: 'Kupac',
       align: 'center',
       dataIndex: 'ime_kupca_lokala',
-      // ...getColumnSearchProps('ime_kupca_lokala'),
     },
     {
       key: '3',
       title: 'Lokal',
       align: 'center',
       dataIndex: 'lokali',
-      // ...getColumnSearchProps('lokali'),
     },
     {
       key: '4',
       title: 'Lamela lokala',
       align: 'center',
       dataIndex: 'lamela_lokala',
-      // ...getColumnSearchProps('lamela_lokala'),
     },
     {
       key: '5',
@@ -171,8 +114,6 @@ function OverviewOfferLocal() {
       align: 'center',
       dataIndex: 'cena_lokala_za_kupca',
       sorter: (a, b) => a.cena_lokala_za_kupca - b.cena_lokala_za_kupca,
-
-      // ...getColumnSearchProps('cena_lokala_za_kupca'),
     },
     {
       key: '6',
@@ -180,7 +121,6 @@ function OverviewOfferLocal() {
       align: 'center',
       dataIndex: 'cena_lokala',
       sorter: (a, b) => a.cena_lokala - b.cena_lokala,
-      // ...getColumnSearchProps('cena_lokala'),
     },
 
     {
@@ -188,14 +128,12 @@ function OverviewOfferLocal() {
       title: 'Broj ugovora',
       align: 'center',
       dataIndex: 'broj_ugovora_lokala',
-      // ...getColumnSearchProps('broj_ugovora_lokala'),
     },
     {
       key: '8',
       title: 'Datum',
       align: 'center',
       dataIndex: 'datum_ugovora_lokala',
-      // ...getColumnSearchProps('datum_ugovora_lokala'),
     },
     {
       key: '9',
@@ -203,25 +141,6 @@ function OverviewOfferLocal() {
       align: 'center',
       dataIndex: 'nacin_placanja_lokala',
       render: (text, record) => <span>{record.nacin_placanja_lokala}</span>,
-      // filters: [
-      //   {
-      //     text: 'Ceo iznos',
-      //     value: 'Ceo iznos',
-      //   },
-      //   {
-      //     text: 'Kredit',
-      //     value: 'Kredit',
-      //   },
-      //   {
-      //     text: 'Na rate',
-      //     value: 'Na rate',
-      //   },
-      //   {
-      //     text: 'Ucešće',
-      //     value: 'Ucesce',
-      //   },
-      // ],
-      // onFilter: (value, record) => record.nacin_placanja_lokala.indexOf(value) === 0,
     },
     {
       key: '10',
@@ -243,21 +162,6 @@ function OverviewOfferLocal() {
           </Tag>
         );
       },
-      // filters: [
-      //   {
-      //     text: 'potencijalan',
-      //     value: ['potencijalan'],
-      //   },
-      //   {
-      //     text: 'rezervisan',
-      //     value: ['rezervisan'],
-      //   },
-      //   {
-      //     text: 'kupljen',
-      //     value: ['kupljen'],
-      //   },
-      // ],
-      // onFilter: (value, record) => record.status_ponude_lokala.indexOf(value) === 0,
     },
     {
       key: '11',
@@ -330,57 +234,105 @@ function OverviewOfferLocal() {
 
   useEffect(() => {
     getListOffers();
+    if (id) {
+      fetchData(id);
+    }
   }, []);
+  if (data) {
+    return (
+      <>
+        <Scroll>
+          <div className={styles['flat-details']}>
+            <Card
+              className={styles.textLabel}
+              title="Detalji Lokala"
+              extra={
+                <Button
+                  disabled={activeRole === 'Prodavac'}
+                  type="primary"
+                  onClick={() => {
+                    setEditModal(true);
+                  }}
+                >
+                  Izmeni
+                </Button>
+              }
+              style={{ width: '50%', margin: '15px' }}
+            >
+              <Descriptions layout="horizontal">
+                <Descriptions.Item label="Lamela">{data.lamela_lokala}</Descriptions.Item>
+                <Descriptions.Item label="Adresa lokala">{data.adresa_lokala}</Descriptions.Item>
+                <Descriptions.Item label="Broj prostorija">{data.broj_prostorija}</Descriptions.Item>
+                <Descriptions.Item label="Cena lokala">{data.cena_lokala}</Descriptions.Item>
+                <Descriptions.Item label="Kvadratura">{data.kvadratura_lokala}</Descriptions.Item>
+                <Descriptions.Item label="Orijentisanost">{data.orijentisanost_lokala}</Descriptions.Item>
+                <Descriptions.Item label="Status prodaje">{data.status_prodaje_lokala}</Descriptions.Item>
+              </Descriptions>
+            </Card>
 
-  return (
-    <div>
-      <div style={{ margin: 20 }}>
-        <Button type="primary" onClick={() => setIsCreateModalVisible(true)}>
-          Dodaj novu ponudu
-        </Button>
-      </div>
-      <Table columns={columns} dataSource={setPonude} pagination={false} rowKey="id_ponude_lokala"></Table>
+            <Modal
+              title="Izmeni"
+              visible={showEditModal}
+              onOk={onUpdate}
+              onCancel={() => setEditModal(false)}
+              footer={null}
+            >
+              <Local getData={onUpdate} edit propslokala={data} closeModal={() => setEditModal(false)} />
+            </Modal>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            {loaderPage && <Spin tip="Loading page" size="large" />}
+          </div>
+          <div style={{ margin: 20 }}>
+            <Button type="primary" onClick={() => setIsCreateModalVisible(true)}>
+              Dodaj novu ponudu
+            </Button>
+          </div>
+          <Table columns={columns} dataSource={setPonude} pagination={false} rowKey="id_ponude"></Table>
 
-      <Modal
-        title="Izmeni ponudu"
-        visible={isModalVisible}
-        onOk={handleOkModal}
-        onCancel={() => setIsModalVisible(false)}
-        footer={null}
-      >
-        {!!offers && (
-          <OffersLocal
-            edit
-            onEdit={getListOffers}
-            idKlijenta={offers.id_kupca}
-            propsponudalokala={offers}
-            getData={getListOffers}
-            closeModal={() => setIsModalVisible(false)}
-          />
-        )}
-      </Modal>
+          <Modal
+            title="Izmeni"
+            visible={isModalVisible}
+            onOk={handleOkModal}
+            onCancel={() => setIsModalVisible(false)}
+            footer={null}
+          >
+            {!!offers && (
+              <OffersLocal
+                edit
+                onEdit={getListOffers}
+                idKlijenta={offers.id_kupca}
+                propsponuda={offers}
+                getData={getListOffers}
+                closeModal={() => setIsModalVisible(false)}
+              />
+            )}
+          </Modal>
 
-      <Modal
-        destroyOnClose={true}
-        title="Dodaj ponudu lokala"
-        visible={isCreateModalVisible}
-        onOk={handleOkModal}
-        onCancel={() => setIsCreateModalVisible(false)}
-        footer={null}
-      >
-        {isCreateModalVisible && (
-          <OffersLocal
-            propsponudalokala={{ lokali: id }}
-            getData={getListOffers}
-            closeModal={() => setIsCreateModalVisible(false)}
-          />
-        )}
-      </Modal>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        {loaderPage && <Spin tip="Loading page" size="large"></Spin>}
-      </div>
-    </div>
-  );
+          <Modal
+            destroyOnClose={true}
+            title="Dodaj ponudu"
+            visible={isCreateModalVisible}
+            onOk={handleOkModal}
+            onCancel={() => setIsCreateModalVisible(false)}
+            footer={null}
+          >
+            {isCreateModalVisible && (
+              <OffersLocal
+                propsponuda={{ stan: id }}
+                getData={getListOffers}
+                closeModal={() => setIsCreateModalVisible(false)}
+              />
+            )}
+          </Modal>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            {loaderPage && <Spin tip="Loading page" size="large"></Spin>}
+          </div>
+        </Scroll>
+      </>
+    );
+  }
+  return null;
 }
 
 export default OverviewOfferLocal;

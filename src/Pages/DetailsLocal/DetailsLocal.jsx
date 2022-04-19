@@ -14,7 +14,7 @@ import DocumentationLocal from 'Tabele/DocumentationLocal/DocumentationLocal';
 
 function DetailsLocal() {
   const activeRole = authService.getRole();
-  const x = useParams().id;
+  const id = useParams().id;
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
   const [error, setError] = useState('');
@@ -41,14 +41,14 @@ function DetailsLocal() {
   const onUpdate = () => {
     setEditModal(false);
 
-    if (x) {
-      fetchData(x);
+    if (id) {
+      fetchData(id);
     }
   };
 
   useEffect(() => {
-    if (x) {
-      fetchData(x);
+    if (id) {
+      fetchData(id);
     }
   }, []);
 
