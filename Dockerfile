@@ -5,9 +5,9 @@ WORKDIR /app
 COPY . .
 RUN npm install
 RUN npm run build
+RUN ls -la
 
 FROM nginx:1.24.0
-RUN --from=build-stage ls -la
 COPY --from=build-stage app/dist/stanovi-front/ /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d
