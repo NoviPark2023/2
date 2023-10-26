@@ -7,8 +7,8 @@ RUN npm install
 RUN npm run build
 
 FROM nginx:1.24.0
-
-COPY --from=build-stage app/dist/stanovi-front /usr/share/nginx/html
+RUN --from=build-stage ls -la
+COPY --from=build-stage app/dist/stanovi-front/ /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d
 EXPOSE 3000
